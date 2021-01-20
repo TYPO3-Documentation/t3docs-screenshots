@@ -5,7 +5,7 @@ SIG Screenshots
 Call about Budget and Kick off
 ==============================
 
-Please see doodle `https://doodle.com/poll/6584ue7z5kck6kc7?utm_source=poll&utm_medium=link`__
+Friday, 22.01.2021, 10:00 CET Phone conferenz in Slack chat
 
 Links
 =====
