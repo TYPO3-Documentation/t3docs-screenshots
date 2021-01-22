@@ -81,5 +81,5 @@ Lina: Create a script which finds all non-automatically reproducable screenshots
 Contributors of this sheet
 --------------------------
 
-Alex: @Alexander Nitsche (Slack)
-Lina: @linawolf (Slack)
+* Alex: @Alexander Nitsche (Slack)
+* Lina: @linawolf (Slack)
