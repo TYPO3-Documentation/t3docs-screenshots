@@ -75,6 +75,14 @@ const puppeteer = require('puppeteer');
                 [
                     'input_1',
                     'input_30',
+                    'input_34',
+                    'inputdatetime_3',
+                    'input_28',
+                    'input_30',
+                    'input_33',
+                    'input_29',
+                    'none_1',
+                    'radio_1',
                     'checkbox_2',
                     "checkbox_3",
                     "checkbox_12",
@@ -83,6 +91,48 @@ const puppeteer = require('puppeteer');
                     "checkbox_18",
                     "checkbox_19",
                     "checkbox_21",
+                ]
+        },
+        {
+            table: 'tx_styleguide_elements_select',
+            path: 'Screenshots/Styleguide/',
+            uid: 1,
+            fields:
+                [
+                    'select_checkbox_3',
+                    'select_multiplesidebyside_5',
+                    'select_single_3',
+                    'select_single_12',
+                    'select_single_10',
+                    'select_singlebox_1',
+                    'select_tree_1',
+                ]
+        },
+        {
+            table: 'tx_styleguide_elements_rte',
+            path: 'Screenshots/Styleguide/',
+            uid: 1,
+            fields:
+                [
+                    'rte_1',
+                ]
+        },
+        {
+            table: 'tx_styleguide_elements_t3editor',
+            path: 'Screenshots/Styleguide/',
+            uid: 1,
+            fields:
+                [
+                    't3editor_1',
+                ]
+        },
+        {
+            table: 'tx_styleguide_elements_group',
+            path: 'Screenshots/Styleguide/',
+            uid: 1,
+            fields:
+                [
+                    'group_db_1',
                 ]
         },
         {
