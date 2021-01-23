@@ -19,8 +19,7 @@ const puppeteer = require('puppeteer');
     // Screenshot: Full page of Backend
     await page.screenshot({path: 'Screenshots/01_BE_Fullpage.png', fullPage: true});
 
-    // 2nd shot: Login-Box
-    // await page.waitForTimeout(250);
+    // Screenshot: Login-Box
     const loginWrap = await page.$('div.card.card-lg.card-login');
     await loginWrap.screenshot({
         path: 'Screenshots/02_card-login.png',
