@@ -52,7 +52,7 @@
 
     "extra": {
         "patches": {
-            "typo3/cms": {
+            "typo3/cms-core": {
                 "Dirty: disable form protection":"patches/DisableFormProtection.patch"
             }
         }
