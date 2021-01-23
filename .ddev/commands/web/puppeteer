@@ -1,0 +1,14 @@
+#!/bin/bash
+
+## Description: Run Puppeteer with specified file
+## Usage: puppeteer [args]
+
+if [ -z "$1" ]; then
+    echo "File not specified."
+    echo $USAGE
+    exit 0
+fi
+
+file=$(cat $1)
+
+node -e "$file" --unhandled-rejections=strict
