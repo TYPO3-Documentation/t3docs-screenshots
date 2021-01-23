@@ -3,7 +3,6 @@ return [
     'BE' => [
         'debug' => true,
         'explicitADmode' => 'explicitAllow',
-        'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$eVFXV01RLkYwa1UuUm13Qg$PI6959+33LhRSIWas3mveBo9o17nVlZTB5QHOW3XLE0',
         'loginSecurityLevel' => 'normal',
         'passwordHashing' => [
             'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
@@ -15,14 +14,6 @@ return [
             'Default' => [
                 'charset' => 'utf8',
                 'driver' => 'mysqli',
-            ],
-        ],
-    ],
-    'EXTCONF' => [
-        'lang' => [
-            'availableLanguages' => [
-                'de',
-                'ja',
             ],
         ],
     ],
@@ -38,48 +29,6 @@ return [
         'extensionmanager' => [
             'automaticInstallation' => '1',
             'offlineMode' => '0',
-        ],
-        'styleguide' => [
-            'boolean_1' => '0',
-            'boolean_2' => '1',
-            'boolean_3' => '',
-            'color_1' => 'black',
-            'color_2' => '#000000',
-            'color_3' => '000000',
-            'color_4' => '',
-            'compat_default_1' => 'value',
-            'compat_default_2' => '',
-            'compat_input_1' => 'value',
-            'compat_input_2' => '',
-            'int_1' => '1',
-            'int_2' => '',
-            'integer_1' => '1',
-            'integer_2' => '',
-            'intplus_1' => '1',
-            'intplus_2' => '',
-            'intplus_3' => '-100',
-            'nested' => [
-                'input_1' => 'aDefault',
-                'input_2' => '',
-            ],
-            'offset_1' => 'x,y',
-            'offset_2' => 'x',
-            'offset_3' => ',y',
-            'offset_4' => '',
-            'options_1' => 'default',
-            'options_2' => 'option_2',
-            'options_3' => '',
-            'predefined' => [
-                'boolean_1' => '1',
-                'int_1' => '42',
-            ],
-            'small_1' => 'value',
-            'small_2' => '',
-            'string_1' => 'value',
-            'string_2' => '',
-            'user_1' => '0',
-            'wrap_1' => 'value',
-            'wrap_2' => '',
         ],
     ],
     'FE' => [
@@ -156,14 +105,11 @@ return [
         ],
         'devIPmask' => '*',
         'displayErrors' => 1,
-        'encryptionKey' => '0656e116d925732c8757185b0b1f18d5b1632e7bbc23badf6a536a27474b72bbc945a64c25b2bbf7b079de2464aa7f67',
+        'encryptionKey' => '6a440e7dc1da7bd3084885e2c66aef7284fe95bdf2d253b3bde2eeb7cef4eb500b3287a64c5c17cceca669e2e378b02c',
         'exceptionalErrors' => 12290,
         'features' => [
             'unifiedPageTranslationHandling' => true,
         ],
-        'sitename' => 'TYPO3 Root',
-        'systemMaintainers' => [
-            1,
-        ],
+        'sitename' => 'New TYPO3 site',
     ],
 ];

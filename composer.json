@@ -9,6 +9,7 @@
         "sort-packages": true
     },
     "require": {
+        "cweagans/composer-patches": "^1.7",
         "helhum/typo3-console": "^6.4.0",
         "t3docs/examples": "dev-master",
         "t3docs/store-inventory": "^11.0",
@@ -47,6 +48,14 @@
         "post-autoload-dump": [
             "@typo3-cms-scripts"
         ]
+    },
+
+    "extra": {
+        "patches": {
+            "typo3/cms": {
+                "Dirty: disable form protection":"patches/DisableFormProtection.patch"
+            }
+        }
     },
     "require-dev": {
         "bk2k/extension-helper": "^1.0",
