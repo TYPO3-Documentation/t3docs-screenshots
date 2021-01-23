@@ -65,15 +65,6 @@ const puppeteer = require('puppeteer');
     ]);
     await page.screenshot({path: 'Screenshots/06_Fullpage_after_login.png', fullPage: true});
     await page.waitForTimeout(1000);
-    await page.screenshot({path: 'Screenshots/07_Fullpage_after_login_waited_1000ms.png', fullPage: true});
-
-    const listModule = await page.$('#web_list');
-    listModule.click();
-    await page.waitForTimeout(1000);
-    await page.screenshot({path: 'Screenshots/08_ListModule.png', fullPage: true});
-
-    // https://sig-screenshots.ddev.site/typo3/record/edit?token=9b3353c91c64fcab3c591ef82a3278558a6ff650&edit%5Btx_styleguide_inline_11%5D%5B1%5D=edit
-
 
     await page.goto('http://localhost/typo3/record/edit?token=9b3353c91c64fcab3c591ef82a3278558a6ff650&edit%5Btx_styleguide_inline_11%5D%5B1%5D=edit', {waitUntil: 'networkidle2'});
     await page.screenshot({path: 'Screenshots/Screen09.png', fullPage: true});
