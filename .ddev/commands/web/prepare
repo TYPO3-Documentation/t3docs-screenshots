@@ -3,6 +3,15 @@
 ## Description: Run Puppeteer with specified file
 ## Usage: prepare
 
-echo importing database
+composer install
+npm install
+
+echo "Installing TYPO3"
+./vendor/bin/typo3cms install:setup --no-interaction --admin-user-name admin --admin-password demo.typo3
+
+echo "importing database"
 ./vendor/bin/typo3cms database:import <INSTALL/dump.sql
-echo Done
+
+echo
+echo "All done!"
+echo "try running \"ddev puppeteer puppeteer-testscript.js\" and watch folder \"Screenshots/\""
