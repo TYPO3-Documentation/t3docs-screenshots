@@ -63,13 +63,13 @@ const puppeteer = require('puppeteer');
         page.waitForNavigation(),
         loginFormSubmitButton.click()
     ]);
-    await page.screenshot({path: 'Screenshots/06_Fullpage_after_login.png', fullPage: true});
-    await page.waitForTimeout(1000);
+
+    // creating the needed directories
+
 
     let tcaFields = [
         {
             table: 'tx_styleguide_elements_basic',
-            path: 'Screenshots/Styleguide/',
             uid: 7,
             fields:
                 [
@@ -85,6 +85,7 @@ const puppeteer = require('puppeteer');
                     'radio_1',
                     'checkbox_2',
                     "checkbox_3",
+                    "checkbox_7",
                     "checkbox_12",
                     "checkbox_16",
                     "checkbox_17",
@@ -94,8 +95,16 @@ const puppeteer = require('puppeteer');
                 ]
         },
         {
+            table: 'tx_styleguide_elements_basic',
+            uid: 3,
+            prefix: 'translated_',
+            fields:
+                [
+                    "text_2",
+                ]
+        },
+        {
             table: 'tx_styleguide_elements_select',
-            path: 'Screenshots/Styleguide/',
             uid: 1,
             fields:
                 [
@@ -109,8 +118,17 @@ const puppeteer = require('puppeteer');
                 ]
         },
         {
+            table: 'tx_styleguide_elements_select',
+            uid: 3,
+            prefix: 'translated_',
+            fields:
+                [
+                    'select_single_8',
+                    'select_single_13',
+                ]
+        },
+        {
             table: 'tx_styleguide_elements_rte',
-            path: 'Screenshots/Styleguide/',
             uid: 1,
             fields:
                 [
@@ -119,7 +137,6 @@ const puppeteer = require('puppeteer');
         },
         {
             table: 'tx_styleguide_elements_t3editor',
-            path: 'Screenshots/Styleguide/',
             uid: 1,
             fields:
                 [
@@ -128,7 +145,6 @@ const puppeteer = require('puppeteer');
         },
         {
             table: 'tx_styleguide_elements_group',
-            path: 'Screenshots/Styleguide/',
             uid: 1,
             fields:
                 [
@@ -137,7 +153,7 @@ const puppeteer = require('puppeteer');
         },
         {
             table: 'tx_styleguide_inline_1n',
-            path: 'Screenshots/Styleguide/Inline1n',
+            prefix: 'inline_1n_',
             uid: 1,
             fields:
                 [
@@ -146,7 +162,7 @@ const puppeteer = require('puppeteer');
         },
         {
             table: 'tx_styleguide_inline_1n1n',
-            path: 'Screenshots/Styleguide/Inline1n1n',
+            prefix: 'inline_1n1n_',
             uid: 1,
             fields:
                 [
@@ -155,7 +171,7 @@ const puppeteer = require('puppeteer');
         },
         {
             table: 'tx_styleguide_inline_fal',
-            path: 'Screenshots/Styleguide/InlineFal',
+            prefix: 'inline_fal_',
             uid: 1,
             fields:
                 [
@@ -164,7 +180,25 @@ const puppeteer = require('puppeteer');
         },
         {
             table: 'tx_styleguide_inline_mn',
-            path: 'Screenshots/Styleguide/InlineMn',
+            prefix: 'inline_mn_',
+            uid: 1,
+            fields:
+                [
+                    'inline_1',
+                ]
+        },
+        {
+            table: 'tx_styleguide_inline_mn_child',
+            prefix: 'inline_mn_child_',
+            uid: 1,
+            fields:
+                [
+                    'parents',
+                ]
+        },
+        {
+            table: 'tx_styleguide_inline_mnsymmetric',
+            prefix: 'inline_mn_symetric_',
             uid: 1,
             fields:
                 [
@@ -173,25 +207,107 @@ const puppeteer = require('puppeteer');
         },
         {
             table: 'tx_styleguide_inline_mnsymmetric',
-            path: 'Screenshots/Styleguide/InlineMnSymmetric',
+            prefix: 'inline_mn_symetric_',
             uid: 11,
             fields:
                 [
                     'branches',
                 ]
         },
+        {
+            table: 'tx_styleguide_inline_usecombination',
+            prefix: 'inline_usecombinationc_',
+            uid: 1,
+            fields:
+                [
+                    'inline_1',
+                ]
+        },
+        {
+            table: 'tx_styleguide_elements_t3editor',
+            uid: 1,
+            fields:
+                [
+                    't3editor_1',
+                ]
+        },
     ];
+
+    let extensionPath = 'Styleguide/';
+    let absoluteImagePath = 'Output/TYPO3CMS-Reference-TCA/Examples/Images/' + extensionPath + 'AutomaticScreenshots/';
+    let relativeImagePath = '/Examples/Images/' + extensionPath + 'AutomaticScreenshots/';
+    let imageIncludesPath = 'Output/TYPO3CMS-Reference-TCA/Examples/Images/' + extensionPath + "RstIncludes/";
+    let snippetsIncludePath = 'Output/TYPO3CMS-Reference-TCA/Examples/Snippets/' + extensionPath + "RstIncludes/";
+
+    let fs = require('fs');
+    if (!fs.existsSync(absoluteImagePath)){
+        fs.mkdirSync(absoluteImagePath, { recursive: true });
+    }
+    if (!fs.existsSync(imageIncludesPath)){
+        fs.mkdirSync(imageIncludesPath, { recursive: true });
+    }
+    if (!fs.existsSync(snippetsIncludePath)){
+        fs.mkdirSync(snippetsIncludePath, { recursive: true });
+    }
+
 
     for (let i = 0; i < tcaFields.length; i++) {
         for (let j = 0; j < tcaFields[i]['fields'].length; j++) {
+            // Create the Screenshots
             let field = tcaFields[i]['fields'][j];
-            let filename =  toCamelCase(field);
-            await shootTCA(tcaFields[i]['table'], tcaFields[i]['uid'], field,
-                tcaFields[i]['path'] + filename + '.png');
+            let table = tcaFields[i]['table'];
+            let prefix = '';
+            if(typeof tcaFields[i]['prefix'] == 'string') {
+                prefix = tcaFields[i]['prefix'];
+            }
+            let filename =  toCamelCase(prefix + field);
+            let imageFileName = filename + '.png';
+
+            await createTCAScreenshot(table, tcaFields[i]['uid'], field, absoluteImagePath + imageFileName);
+
+            let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
+            createIncludeRst(includeRstFilename, relativeImagePath + imageFileName, prefix,  table, field);
+
+            let includeSnippetFilename = snippetsIncludePath + filename + '.rst.txt';
+            createSnippetIncludeRst(includeSnippetFilename, prefix,  table, field);
+
         }
     }
 
-    async function shootTCA(table, uid, field, path) {
+
+    function createSnippetIncludeRst(includeSnippetFilename, prefix, table, field) {
+        let includeRst =
+            ".. This include has been automatically generated by the SIG-Screenshot tool. See README\r\n" +
+            "\r\n" +
+            ".. literalinclude:: /Examples/Snippets/Styleguide/" + table + ".php\r\n" +
+            "   :language: php\r\n" +
+            "   :start-at: start " + field + "\r\n" +
+            "   :end-before: end " + field + "\r\n" +
+            "   :lines: 2- \r\n" +
+            "\r\n";
+        fs.writeFile(includeSnippetFilename, includeRst, function (err) {
+            if (err) throw err;
+            console.log('Saved ' + includeSnippetFilename);
+        });
+    }
+
+    function createIncludeRst(includeRstFilename, imageFileName, prefix, table, field) {
+        // Create the file for including the Screenshots
+        let includeRst =
+            ".. This include has been automatically generated by the SIG-Screenshot tool. See README\r\n" +
+            "\r\n" +
+            ".. figure:: " + imageFileName + "\r\n" +
+            "   :alt: Screenshot of  field " + field + ", table " + table + "\r\n" +
+            "   :class: with-shadow\r\n" +
+            "\r\n" +
+            "   :ref:`Screenshot of  field " + field + ", table " + table + " <tca_example_" + prefix + field + ">`\r\n"
+        fs.writeFile(includeRstFilename, includeRst, function (err) {
+            if (err) throw err;
+            console.log('Saved ' + includeRstFilename);
+        });
+    }
+
+    async function createTCAScreenshot(table, uid, field, path) {
         await page.goto('http://localhost/typo3/record/edit?token=9&edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field, {waitUntil: 'networkidle2'});
         const formSection = await page.$('.form-section');
 
@@ -209,10 +325,5 @@ const puppeteer = require('puppeteer');
         return splitStr.join('');
     }
 
-    /*
-    const tree2 = await page.$(".identifier-0_8");
-    await tree2.click();
-    await page.screenshot({path: 'Screenshots/Screen10.png', fullPage: true});
-*/
     await browser.close();
 })()
