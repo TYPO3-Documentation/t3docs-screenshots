@@ -1,0 +1,8 @@
+#!/bin/bash
+
+## Description: Run Puppeteer with specified file
+## Usage: prepare
+
+echo importing database
+./vendor/bin/typo3cms database:import <INSTALL/dump.sql
+echo Done
