@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "948a6f4cae43a35c9d29fa04b13b372c",
+    "content-hash": "d2b68dae273cc598aa031b1c58c8e5aa",
     "packages": [
         {
             "name": "cogpowered/finediff",
@@ -8832,15 +8832,15 @@
         },
         {
             "name": "typo3/cms-styleguide",
-            "version": "11.0.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/TYPO3/styleguide.git",
+                "url": "https://github.com/TYPO3-Documentation/styleguide.git",
                 "reference": "04bfc2fac4e85a143b13526e56fc21091a7dcc8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/styleguide/zipball/04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
                 "reference": "04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
                 "shasum": ""
             },
@@ -8856,6 +8856,7 @@
                 "typo3/coding-standards": "^0.2.0",
                 "typo3/testing-framework": "^6.5.0"
             },
+            "default-branch": true,
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
@@ -8869,20 +8870,29 @@
                     "TYPO3\\CMS\\Styleguide\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "TYPO3\\CMS\\Styleguide\\Tests\\": "Tests"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+                ]
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
             "authors": [
                 {
                     "name": "TYPO3 CMS Core Team",
-                    "homepage": "https://forge.typo3.org/projects/typo3cms-core",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://forge.typo3.org/projects/typo3cms-core"
                 },
                 {
                     "name": "The TYPO3 Community",
-                    "homepage": "https://typo3.org/community/",
-                    "role": "Contributor"
+                    "role": "Contributor",
+                    "homepage": "https://typo3.org/community/"
                 }
             ],
             "description": "TYPO3 CMS Extension to test everything in the TYPO3 Backend",
@@ -8894,7 +8904,7 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/styleguide/issues",
-                "source": "https://github.com/TYPO3/styleguide/tree/11.0.2"
+                "source": "https://github.com/TYPO3-Documentation/styleguide/tree/11.0.2"
             },
             "time": "2020-12-21T20:25:13+00:00"
         }
@@ -8902,7 +8912,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "t3docs/examples": 20
+        "t3docs/examples": 20,
+        "typo3/cms-styleguide": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

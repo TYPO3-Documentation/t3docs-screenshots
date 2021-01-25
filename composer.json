@@ -8,6 +8,12 @@
         },
         "sort-packages": true
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/TYPO3-Documentation/styleguide"
+        }
+    ],
     "require": {
         "cweagans/composer-patches": "^1.7",
         "helhum/typo3-console": "^6.4.0",
@@ -60,8 +66,8 @@
     "require-dev": {
         "bk2k/extension-helper": "^1.0",
         "codeception/codeception": "^4.1",
-        "typo3/cms-styleguide": "^11.0",
+        "codeception/module-asserts": "^1.0.0",
         "codeception/module-phpbrowser": "^1.0.0",
-        "codeception/module-asserts": "^1.0.0"
+        "typo3/cms-styleguide": "dev-master"
     }
 }
