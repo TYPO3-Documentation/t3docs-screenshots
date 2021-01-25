@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6eaa47145e3c578e02ecc2ea8a690587",
+    "content-hash": "d2b68dae273cc598aa031b1c58c8e5aa",
     "packages": [
         {
             "name": "cogpowered/finediff",
@@ -60,6 +60,54 @@
                 "source": "https://github.com/cogpowered/FineDiff/tree/master"
             },
             "time": "2014-05-19T10:25:02+00:00"
+        },
+        {
+            "name": "cweagans/composer-patches",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cweagans/composer-patches.git",
+                "reference": "ae02121445ad75f4eaff800cc532b5e6233e2ddf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/ae02121445ad75f4eaff800cc532b5e6233e2ddf",
+                "reference": "ae02121445ad75f4eaff800cc532b5e6233e2ddf",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0 || ~2.0",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cweagans\\Composer\\Patches"
+            },
+            "autoload": {
+                "psr-4": {
+                    "cweagans\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Cameron Eagans",
+                    "email": "me@cweagans.net"
+                }
+            ],
+            "description": "Provides a way to patch Composer packages.",
+            "support": {
+                "issues": "https://github.com/cweagans/composer-patches/issues",
+                "source": "https://github.com/cweagans/composer-patches/tree/1.7.0"
+            },
+            "time": "2020-09-30T17:56:20+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -6319,12 +6367,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
@@ -6362,8 +6410,8 @@
                 "validate"
             ],
             "support": {
-                "issues": "https://github.com/webmozart/assert/issues",
-                "source": "https://github.com/webmozart/assert/tree/master"
+                "issues": "https://github.com/webmozarts/assert/issues",
+                "source": "https://github.com/webmozarts/assert/tree/1.9.1"
             },
             "time": "2020-07-08T17:02:28+00:00"
         }
@@ -8784,15 +8832,15 @@
         },
         {
             "name": "typo3/cms-styleguide",
-            "version": "11.0.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/TYPO3/styleguide.git",
+                "url": "https://github.com/TYPO3-Documentation/styleguide.git",
                 "reference": "04bfc2fac4e85a143b13526e56fc21091a7dcc8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/styleguide/zipball/04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
                 "reference": "04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
                 "shasum": ""
             },
@@ -8808,6 +8856,7 @@
                 "typo3/coding-standards": "^0.2.0",
                 "typo3/testing-framework": "^6.5.0"
             },
+            "default-branch": true,
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
@@ -8821,20 +8870,29 @@
                     "TYPO3\\CMS\\Styleguide\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "TYPO3\\CMS\\Styleguide\\Tests\\": "Tests"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+                ]
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
             "authors": [
                 {
                     "name": "TYPO3 CMS Core Team",
-                    "homepage": "https://forge.typo3.org/projects/typo3cms-core",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://forge.typo3.org/projects/typo3cms-core"
                 },
                 {
                     "name": "The TYPO3 Community",
-                    "homepage": "https://typo3.org/community/",
-                    "role": "Contributor"
+                    "role": "Contributor",
+                    "homepage": "https://typo3.org/community/"
                 }
             ],
             "description": "TYPO3 CMS Extension to test everything in the TYPO3 Backend",
@@ -8846,7 +8904,7 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/styleguide/issues",
-                "source": "https://github.com/TYPO3/styleguide/tree/11.0.2"
+                "source": "https://github.com/TYPO3-Documentation/styleguide/tree/11.0.2"
             },
             "time": "2020-12-21T20:25:13+00:00"
         }
@@ -8854,7 +8912,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "t3docs/examples": 20
+        "t3docs/examples": 20,
+        "typo3/cms-styleguide": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
