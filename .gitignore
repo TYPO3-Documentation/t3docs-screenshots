@@ -6,9 +6,16 @@ nbproject
 /vendor
 /public/*
 !/public/.htaccess
+!/public/scripts
 !/public/typo3conf
 /public/typo3conf/*
 !/public/typo3conf/LocalConfiguration.php
 !/public/typo3conf/AdditionalConfiguration.php
+!/public/OriginalManual
+/public/OriginalManual/*
+!/public/OriginalManual/.gitkeep
+!/public/Output
+/public/Output/*
+!/public/Output/.gitkeep
 /node_modules
 /Screenshots

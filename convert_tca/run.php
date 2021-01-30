@@ -17,6 +17,14 @@ $files = [
     'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_mn_mm.php',
 ];
 
+$outputPath = 'public/Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/';
+
+if (!is_dir($outputPath)) {
+    if (!mkdir($outputPath, 0777, true) && !is_dir($outputPath)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $outputPath));
+    }
+}
+
 
 foreach ($files as $file) {
     $tca = include ($file);
@@ -27,8 +35,8 @@ foreach ($files as $file) {
     $table = $table[0];
     parseTca($tca, '   ', $lines, [], '// Example from extension "styleguide", table "' . $table . '"');
     $lines[] = '];';
-    echo 'output: ' . $output;
-    file_put_contents ( $output , implode("\n", $lines));
+    echo 'output: ' . $output . "\r\n";
+    file_put_contents ($outputPath.$output , implode("\n", $lines));
 }
 
 function parseTca($array, $indentation, &$lines, $position, $comment) {
