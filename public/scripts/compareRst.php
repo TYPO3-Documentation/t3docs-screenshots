@@ -12,9 +12,10 @@ $diffFiles = [];
 foreach($copyPath as $copy) {
     $originalFiles = scandir($copy['to']);
     $outputFiles = scandir($copy['from']);
+    echo 'copy from '.$copy['from'].': '.count($outputFiles).'<br>';
     foreach ($outputFiles as $file) {
         $type = getFileType($file);
-        if ($type === 'rst' || $type === 'rst.txt') {
+        if ($type === 'rst' || $type === 'rst.txt' || $type === 'php') {
             $diffFiles[$copy['from'] . $file] = [
                 'pathFrom' => $copy['from'],
                 'pathTo' => $copy['to'],
@@ -36,9 +37,22 @@ foreach($copyPath as $copy) {
             $diffFiles[$out]['line'] = $line;
             fclose($f);
             $diffFiles[$out]['orgFirstLine'] = $line;
-            if (strpos($line, '.. Automatic screenshot: ') === false) {
-                $diffFiles[$out]['status'] = 'writeProtected';
-                $writeProtected++;
+            if (isFilesEqual($copy['from'].$file, $copy['to'].$file)) {
+                $changed --;
+                $diffFiles[$out]['status'] = 'equal';
+            } else {
+                if (($type === 'rst' || $type === 'rst.txt') &&
+                    strpos($line, '.. Automatic screenshot: ') === false) {
+                    $diffFiles[$out]['status'] = 'writeProtected';
+                    $writeProtected++;
+                    $changed--;
+                }
+                if (($type === 'php') &&
+                    strpos($line, ' Automatic screenshot: ') === false) {
+                    $diffFiles[$out]['status'] = 'writeProtected';
+                    $writeProtected++;
+                    $changed--;
+                }
             }
         }
 
@@ -184,4 +198,5 @@ echo $result[0];
 
 */
 
+echo '<p><a href="index.php" class="btn btn-primary">Back to index</a></p>';
 include 'footer.php';

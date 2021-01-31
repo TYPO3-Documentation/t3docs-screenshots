@@ -1,6 +1,8 @@
 <?php
 
+include 'header.php';
 include 'include.php';
+$threshold = 0.0002;
 
 if (!is_dir($diffPath)) {
     if (!mkdir($diffPath, 0777, true) && !is_dir($diffPath)) {
@@ -15,7 +17,7 @@ $fileDiffs = [];
 
 foreach ($originalFiles as $file) {
     $type = getFileType($file);
-    if ($type) {
+    if ($type === 'png') {
         $fileDiffs[$file] = [
             'original' => $file,
             'type' => $type,
@@ -25,7 +27,7 @@ foreach ($originalFiles as $file) {
 
 foreach ($outputFiles as $file) {
     $type = getFileType($file);
-    if ($type) {
+    if ($type === 'png') {
         if (isset($fileDiffs[$file])) {
             $fileDiffs[$file]['output'] = $file;
         } else {
@@ -56,7 +58,7 @@ foreach ($fileDiffs as &$diff) {
         $image2 = new imagick($outputPath.$diff['output']);
         $diffImage = $image1->compareImages($image2, Imagick::METRIC_MEANABSOLUTEERROR);
         $diff['difference'] =  $diffImage[1];
-        if ($diffImage[1] == 0) {
+        if ($diffImage[1] <= $threshold) {
             $unchanged++;
             $diff['status'] = 'unchanged';
         } else {
@@ -75,7 +77,7 @@ echo 'changed: '.$changed.' <br>';
 echo 'unchanged: '.$unchanged.' <br>';
 
 echo '
-<form action="copy.php" method="post">
+<form action="copyImages.php" method="post">
     <input type="submit" value="Copy checked images" />
 ';
 if ($changed > 0) {
@@ -172,3 +174,7 @@ header("Content-Type: image/png");
 echo $result[0];
 
 */
+
+
+echo '<p><a href="index.php" class="btn btn-primary">Back to index</a></p>';
+include 'footer.php';

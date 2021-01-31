@@ -2,9 +2,10 @@
 include 'header.php';
 include 'include.php';
 
+$added = 0;
+$copied = 0;
+
 foreach ($_POST as $action) {
-    $added = 0;
-    $copied = 0;
     $splitAction = explode('|', $action);
     switch ($splitAction[0]) {
         case 'add':
@@ -20,7 +21,8 @@ foreach ($_POST as $action) {
 
 echo "
 $added files added<br>
-$copied f
+$copied files copied
 ";
 
+echo '<p><a href="index.php" class="btn btn-primary">Back to index</a></p>';
 include 'footer.php';

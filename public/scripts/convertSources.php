@@ -1,23 +1,31 @@
 <?php
 
+include 'header.php';
+include 'include.php';
+
+$comment = '// Automatic screenshot: Remove this comment if you wand to manually change this file';
+
+$publicPath = '../';
+$styleguidePath = 'typo3conf/ext/styleguide/Configuration/TCA/';
+
 $files = [
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_elements_basic.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_elements_group.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_elements_select.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_elements_rte.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_elements_t3editor.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_flex.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_1n.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_1n1n.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_usecombination.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_mnsymmetric.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_mnsymmetric_mm.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_mn.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_mn_child.php',
-    'public/typo3conf/ext/styleguide/Configuration/TCA/tx_styleguide_inline_mn_mm.php',
+    'tx_styleguide_elements_basic.php',
+    'tx_styleguide_elements_group.php',
+    'tx_styleguide_elements_select.php',
+    'tx_styleguide_elements_rte.php',
+    'tx_styleguide_elements_t3editor.php',
+    'tx_styleguide_flex.php',
+    'tx_styleguide_inline_1n.php',
+    'tx_styleguide_inline_1n1n.php',
+    'tx_styleguide_inline_usecombination.php',
+    'tx_styleguide_inline_mnsymmetric.php',
+    'tx_styleguide_inline_mnsymmetric_mm.php',
+    'tx_styleguide_inline_mn.php',
+    'tx_styleguide_inline_mn_child.php',
+    'tx_styleguide_inline_mn_mm.php',
 ];
 
-$outputPath = 'public/Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/';
+$outputPath = $publicPath.'/Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/';
 
 if (!is_dir($outputPath)) {
     if (!mkdir($outputPath, 0777, true) && !is_dir($outputPath)) {
@@ -26,17 +34,16 @@ if (!is_dir($outputPath)) {
 }
 
 
-foreach ($files as $file) {
+foreach ($files as $fileName) {
+    $file = $publicPath.$styleguidePath.$fileName;
     $tca = include ($file);
-    $lines = ['<?php', '', 'return ['];
-    $output = explode('/', $file);
-    $output = $output[count($output) - 1];
-    $table = explode('.', $output);
+    $lines = ['<?php '.$comment, '', 'return ['];
+    $table = explode('.', $fileName);
     $table = $table[0];
     parseTca($tca, '   ', $lines, [], '// Example from extension "styleguide", table "' . $table . '"');
     $lines[] = '];';
-    echo 'output: ' . $output . "\r\n";
-    file_put_contents ($outputPath.$output , implode("\n", $lines));
+    echo 'output: ' . $fileName . "<br>";
+    file_put_contents ($outputPath.$fileName , implode("\n", $lines));
 }
 
 function parseTca($array, $indentation, &$lines, $position, $comment) {
@@ -71,3 +78,7 @@ function parseTca($array, $indentation, &$lines, $position, $comment) {
         }
     }
 }
+
+echo '<p><a href="index.php" class="btn btn-primary">Back to index</a></p>';
+
+include 'footer.php';

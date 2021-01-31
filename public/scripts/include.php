@@ -13,10 +13,17 @@ $copyPath = [
         'to' => '../OriginalManual/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/RstIncludes/',
     ],
     [
-        'from' => '../Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/RstIncludes/',
-        'to' => '../OriginalManual/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/RstIncludes/',
+        'from' => '../Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/',
+        'to' => '../OriginalManual/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/',
     ],
 ];
+
+function isFilesEqual($file1, $file2): bool
+{
+    return (filesize($file1) === filesize($file2)
+        && md5_file($file1) === md5_file($file2)
+    );
+}
 
 
 /**
@@ -27,18 +34,7 @@ function getFileType($file): string
 {
     $type = '';
     $split = explode('.', $file, 2);
-    switch (strtolower($split[1])) {
-        case 'png':
-            $type = 'png';
-            break;
-        case 'rst':
-            $type = 'rst';
-            break;
-        case 'rst.txt':
-            $type = 'rst.txt';
-            break;
-    }
-    return $type;
+    return strtolower($split[1]);
 }
 
 function makeAccordion($title, $content, $id, $parent) {
