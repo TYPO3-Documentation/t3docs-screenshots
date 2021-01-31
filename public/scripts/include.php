@@ -3,16 +3,28 @@ $publicPath = '../';
 $manualPath = 'TYPO3CMS-Reference-TCA/';
 $jsonConfig = file_get_contents($publicPath.'OriginalManual/'.$manualPath.'Scripts/GenerateScreenshots/Config.json');
 $config = json_decode($jsonConfig, true);
-
+/*
 echo '<pre>';
 var_dump($config['extensions']['styleguide']['paths']);
 echo '</pre>';
+*/
+$tables = [];
+foreach ($config['extensions']['styleguide']['tables'] as $tableConfig) {
+    $tables[] = [
+        'table' => $tableConfig['table'],
+        'tableConvert' => isset($tableConfig['tableConvert'])?$tableConfig['tableConvert']:'',
+    ];
+}
+//$tables = array_unique($tables);
 
 
 $imageSource = $manualPath.$config['extensions']['styleguide']['paths']['imageSource'];
 $imageRst = $manualPath.$config['extensions']['styleguide']['paths']['imageRst'];
 $codeSource = $manualPath.$config['extensions']['styleguide']['paths']['codeSource'];
 $codeRst = $manualPath.$config['extensions']['styleguide']['paths']['codeRst'];
+$sourcePath = $config['extensions']['styleguide']['paths']['source'];
+
+$outputSourcePath = $publicPath.'Output/'.$codeSource;
 
 $originalPath = $publicPath.'OriginalManual/'.$imageSource;
 $outputPath = $publicPath.'Output/'.$imageSource;

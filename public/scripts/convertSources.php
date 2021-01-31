@@ -5,37 +5,32 @@ include 'include.php';
 
 $comment = '// Automatic screenshot: Remove this comment if you wand to manually change this file';
 
-$publicPath = '../';
-$styleguidePath = 'typo3conf/ext/styleguide/Configuration/TCA/';
 
-$files = [
-    'tx_styleguide_elements_basic.php',
-    'tx_styleguide_elements_group.php',
-    'tx_styleguide_elements_select.php',
-    'tx_styleguide_elements_rte.php',
-    'tx_styleguide_elements_t3editor.php',
-    'tx_styleguide_flex.php',
-    'tx_styleguide_inline_1n.php',
-    'tx_styleguide_inline_1n1n.php',
-    'tx_styleguide_inline_usecombination.php',
-    'tx_styleguide_inline_mnsymmetric.php',
-    'tx_styleguide_inline_mnsymmetric_mm.php',
-    'tx_styleguide_inline_mn.php',
-    'tx_styleguide_inline_mn_child.php',
-    'tx_styleguide_inline_mn_mm.php',
-];
+$files = [];
 
-$outputPath = $publicPath.'/Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/';
+foreach ($tables as $tableConfig) {
+    $filename = $tableConfig['table'].'.php';
+    $file =  $publicPath.$sourcePath.$filename;
+    if ($tableConfig['tableConvert'] !== 'ignore') {
+        if (file_exists($file)) {
+            $files[] = $filename;
+        } else {
+            echo '<div class="alert alert-warning" role="alert">
+              File ' . $filename . ' not found. Ignored
+            </div>';
+        }
+    }
+}
 
-if (!is_dir($outputPath)) {
-    if (!mkdir($outputPath, 0777, true) && !is_dir($outputPath)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $outputPath));
+if (!is_dir($outputSourcePath)) {
+    if (!mkdir($outputSourcePath, 0777, true) && !is_dir($outputSourcePath)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $outputSourcePath));
     }
 }
 
 
 foreach ($files as $fileName) {
-    $file = $publicPath.$styleguidePath.$fileName;
+    $file = $publicPath.$sourcePath.$fileName;
     $tca = include ($file);
     $lines = ['<?php '.$comment, '', 'return ['];
     $table = explode('.', $fileName);
@@ -43,7 +38,7 @@ foreach ($files as $fileName) {
     parseTca($tca, '   ', $lines, [], '// Example from extension "styleguide", table "' . $table . '"');
     $lines[] = '];';
     echo 'output: ' . $fileName . "<br>";
-    file_put_contents ($outputPath.$fileName , implode("\n", $lines));
+    file_put_contents ($outputSourcePath.$fileName , implode("\n", $lines));
 }
 
 function parseTca($array, $indentation, &$lines, $position, $comment) {
