@@ -1,20 +1,35 @@
 <?php
-$originalPath = '../OriginalManual/TYPO3CMS-Reference-TCA/Documentation/Examples/Images/Styleguide/AutomaticScreenshots/';
-$outputPath = '../Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Images/Styleguide/AutomaticScreenshots/';
-$diffPath = '../Output/Diff/TYPO3CMS-Reference-TCA/Documentation/Examples/Images/Styleguide/AutomaticScreenshots/';
+$publicPath = '../';
+$manualPath = 'TYPO3CMS-Reference-TCA/';
+$jsonConfig = file_get_contents($publicPath.'OriginalManual/'.$manualPath.'Scripts/GenerateScreenshots/Config.json');
+$config = json_decode($jsonConfig, true);
+
+echo '<pre>';
+var_dump($config['extensions']['styleguide']['paths']);
+echo '</pre>';
+
+
+$imageSource = $manualPath.$config['extensions']['styleguide']['paths']['imageSource'];
+$imageRst = $manualPath.$config['extensions']['styleguide']['paths']['imageRst'];
+$codeSource = $manualPath.$config['extensions']['styleguide']['paths']['codeSource'];
+$codeRst = $manualPath.$config['extensions']['styleguide']['paths']['codeRst'];
+
+$originalPath = $publicPath.'OriginalManual/'.$imageSource;
+$outputPath = $publicPath.'Output/'.$imageSource;
+$diffPath = $publicPath.'Output/Diff/'.$manualPath.$imageSource;
 
 $copyPath = [
     [
-        'from' => '../Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Images/Styleguide/RstIncludes/',
-        'to' => '../OriginalManual/TYPO3CMS-Reference-TCA/Documentation/Examples/Images/Styleguide/RstIncludes/',
+        'from' => $publicPath.'Output/'.$imageRst,
+        'to' => $publicPath.'OriginalManual/'.$imageRst,
     ],
     [
-        'from' => '../Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/RstIncludes/',
-        'to' => '../OriginalManual/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/RstIncludes/',
+        'from' => $publicPath.'Output/'.$codeRst,
+        'to' => $publicPath.'OriginalManual/'.$codeRst,
     ],
     [
-        'from' => '../Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/',
-        'to' => '../OriginalManual/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/Styleguide/Sources/',
+        'from' => $publicPath.'Output/'.$codeSource,
+        'to' => $publicPath.'OriginalManual/'.$codeSource,
     ],
 ];
 

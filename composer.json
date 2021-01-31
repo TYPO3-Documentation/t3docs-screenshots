@@ -45,7 +45,8 @@
         "typo3/cms-sys-note": "^11.0",
         "typo3/cms-t3editor": "^11.0",
         "typo3/cms-tstemplate": "^11.0",
-        "typo3/cms-viewpage": "^11.0"
+        "typo3/cms-viewpage": "^11.0",
+      "ext-json": "*"
     },
     "scripts": {
         "typo3-cms-scripts": [
