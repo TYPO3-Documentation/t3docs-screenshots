@@ -8,51 +8,68 @@ $comment = '// Automatic screenshot: Remove this comment if you wand to manually
 
 $files = [];
 
-foreach ($tables as $tableConfig) {
-    $filename = $tableConfig['table'].'.php';
-    $file =  $publicPath.$sourcePath.$filename;
-    if ($tableConfig['tableConvert'] !== 'ignore') {
-        if (file_exists($file)) {
-            $files[] = $filename;
+//var_dump($config);
+
+foreach ($config['extensions'] as $key => $extensionConfig) {
+    foreach ($extensionConfig['tables'] as $tableConfig) {
+        $filename = $tableConfig['table'].'.php';
+        $file =  $publicPath.$extensionConfig['sourcePath'].$filename;
+        if ($tableConfig['tableConvert'] !== 'ignore') {
+            if (file_exists($file)) {
+                $files[] = [
+                    'filename' => $filename,
+                    'filepath' =>$file,
+                    'tableConvert' => $tableConfig['tableConvert'],
+                    ];
+            } else {
+                echo '<div class="alert alert-warning" role="alert">
+                  File ' . $filename . ' not found. Ignored <br>
+                  Path: '.$publicPath.$extensionConfig['sourcePath'].$filename.'
+                </div>';
+            }
+        }
+    }
+
+    createDirIfNotExists($extensionConfig['outputSourcePath']);
+
+
+    foreach ($files as $fileConfig) {
+        $fileName = $fileConfig['filename'];
+        $file = $fileConfig['filepath'];
+        if ($fileConfig['tableConvert'] === 'parse-as-text') {
+            $lines = file($file, FILE_IGNORE_NEW_LINES);
         } else {
-            echo '<div class="alert alert-warning" role="alert">
-              File ' . $filename . ' not found. Ignored
-            </div>';
+            $tca = include($file);
+            $lines = ['<?php ' . $comment, '', 'return ['];
+            $table = explode('.', $fileName);
+            $table = $table[0];
+            $showComments = $fileConfig['tableConvert'] !== 'no-comments';
+            $comment = '// Example from extension "styleguide", table "' . $table . '"';
+            parseTca($tca, '   ', $lines, '', $comment, $showComments);
+            $lines[] = '];';
+        }
+        if ($lines) {
+            echo 'output: ' . $fileName . "<br>";
+            echo 'path: ' . $fileName . "<br>";
+            file_put_contents($extensionConfig['outputSourcePath'] . $fileName, implode("\n", $lines));
         }
     }
 }
 
-if (!is_dir($outputSourcePath)) {
-    if (!mkdir($outputSourcePath, 0777, true) && !is_dir($outputSourcePath)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $outputSourcePath));
-    }
-}
-
-
-foreach ($files as $fileName) {
-    $file = $publicPath.$sourcePath.$fileName;
-    $tca = include ($file);
-    $lines = ['<?php '.$comment, '', 'return ['];
-    $table = explode('.', $fileName);
-    $table = $table[0];
-    parseTca($tca, '   ', $lines, [], '// Example from extension "styleguide", table "' . $table . '"');
-    $lines[] = '];';
-    echo 'output: ' . $fileName . "<br>";
-    file_put_contents ($outputSourcePath.$fileName , implode("\n", $lines));
-}
-
-function parseTca($array, $indentation, &$lines, $position, $comment) {
+function parseTca($array, $indentation, &$lines, $position, $comment, $showComments=true) {
     foreach ($array as $key => $item) {
         if (is_array($item)) {
-            if ($position === 'columns') {
+            if ($showComments && ($position === '' || $position === 'columns')) {
                 $lines[] = $indentation . '// [start ' . $key . ']';
             }
             $lines[] = $indentation . '\'' . $key . '\' => [ ';
-            parseTca($item, $indentation . '   ', $lines, $key, $comment);
+            parseTca($item, $indentation . '   ', $lines, $key, $comment, $showComments);
             $lines[] = $indentation . '],';
 
-            if ($position === 'columns') {
+            if ($showComments && $position === 'columns') {
                 $lines[] = $indentation . $comment;
+            }
+            if ($showComments && ($position === '' || $position === 'columns')) {
                 $lines[] = $indentation . '// [end ' . $key . ']';
             }
         } else if (is_string($item)) {

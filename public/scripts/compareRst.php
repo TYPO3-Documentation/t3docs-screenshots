@@ -9,53 +9,59 @@ $writeProtected = 0;
 $changed = 0;
 $diffFiles = [];
 
-foreach($copyPath as $copy) {
-    $originalFiles = scandir($copy['to']);
-    $outputFiles = scandir($copy['from']);
-    echo 'copy from '.$copy['from'].': '.count($outputFiles).'<br>';
-    foreach ($outputFiles as $file) {
-        $type = getFileType($file);
-        if ($type === 'rst' || $type === 'rst.txt' || $type === 'php') {
-            $diffFiles[$copy['from'] . $file] = [
-                'pathFrom' => $copy['from'],
-                'pathTo' => $copy['to'],
-                'file' => $file,
-                'type' => $type,
-                'status' => 'added'
-            ];
-            $added++;
-        }
-    }
-    foreach ($originalFiles as $file) {
-        $out = $copy['from'].$file;
-        if (isset($diffFiles[$out])){
-            $changed ++;
-            $added--;
-            $diffFiles[$out]['status'] = 'changed';
-            $f = fopen($copy['to'].$file, 'r');
-            $line = fgets($f);
-            $diffFiles[$out]['line'] = $line;
-            fclose($f);
-            $diffFiles[$out]['orgFirstLine'] = $line;
-            if (isFilesEqual($copy['from'].$file, $copy['to'].$file)) {
-                $changed --;
-                $diffFiles[$out]['status'] = 'equal';
-            } else {
-                if (($type === 'rst' || $type === 'rst.txt') &&
-                    strpos($line, '.. Automatic screenshot: ') === false) {
-                    $diffFiles[$out]['status'] = 'writeProtected';
-                    $writeProtected++;
-                    $changed--;
-                }
-                if (($type === 'php') &&
-                    strpos($line, ' Automatic screenshot: ') === false) {
-                    $diffFiles[$out]['status'] = 'writeProtected';
-                    $writeProtected++;
-                    $changed--;
+foreach ($config['extensions'] as $key => $extensionConfig) {
+    $copyPath = $extensionConfig['copyPath'];
+    foreach ($copyPath as $copy) {
+        if (is_dir($copy['from'])) {
+            createDirIfNotExists($copy['to']);
+            $originalFiles = scandir($copy['to']);
+            $outputFiles = scandir($copy['from']);
+            echo 'copy from ' . $copy['from'] . ': ' . count($outputFiles) . '<br>';
+            foreach ($outputFiles as $file) {
+                $type = getFileType($file);
+                if ($type === 'rst' || $type === 'rst.txt' || $type === 'php') {
+                    $diffFiles[$copy['from'] . $file] = [
+                        'pathFrom' => $copy['from'],
+                        'pathTo' => $copy['to'],
+                        'file' => $file,
+                        'type' => $type,
+                        'status' => 'added'
+                    ];
+                    $added++;
                 }
             }
-        }
+            foreach ($originalFiles as $file) {
+                $out = $copy['from'] . $file;
+                if (isset($diffFiles[$out])) {
+                    $changed++;
+                    $added--;
+                    $diffFiles[$out]['status'] = 'changed';
+                    $f = fopen($copy['to'] . $file, 'r');
+                    $line = fgets($f);
+                    $diffFiles[$out]['line'] = $line;
+                    fclose($f);
+                    $diffFiles[$out]['orgFirstLine'] = $line;
+                    if (isFilesEqual($copy['from'] . $file, $copy['to'] . $file)) {
+                        $changed--;
+                        $diffFiles[$out]['status'] = 'equal';
+                    } else {
+                        if (($type === 'rst' || $type === 'rst.txt') &&
+                            strpos($line, '.. Automatic screenshot: ') === false) {
+                            $diffFiles[$out]['status'] = 'writeProtected';
+                            $writeProtected++;
+                            $changed--;
+                        }
+                        if (($type === 'php') &&
+                            strpos($line, ' Automatic screenshot: ') === false) {
+                            $diffFiles[$out]['status'] = 'writeProtected';
+                            $writeProtected++;
+                            $changed--;
+                        }
+                    }
+                }
 
+            }
+        }
     }
 }
 
@@ -65,7 +71,7 @@ echo 'changed: '.$changed.' <br>';
 echo 'writeProtected: '.$writeProtected.' <br>';
 
 echo '
-<form action="copyRst.php" method="post">
+<form action="copy.php" method="post">
     <input type="submit" value="Copy checked images" />
 ';
 

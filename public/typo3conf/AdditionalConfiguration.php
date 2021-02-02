@@ -4,6 +4,9 @@ if (getenv('IS_DDEV_PROJECT') == 'true') {
     $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive(
         $GLOBALS['TYPO3_CONF_VARS'],
         [
+            'BE' => [
+                'installToolPassword' => 'xyz',
+            ],
             'DB' => [
                 'Connections' => [
                     'Default' => [

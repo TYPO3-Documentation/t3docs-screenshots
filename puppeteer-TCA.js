@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 (async () => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
-    const firstLine = ".. Automatic screenshot: Remove this line if you wand to manually change this file\r\n"
 
     // Set size of "browser window" - cannot click outside this area.
     await page.setViewport({width: 640, height: 640});
@@ -67,47 +66,93 @@ const puppeteer = require('puppeteer');
 
     // creating the needed directories
 
-    let tcaFields = require('./styleguideTca.json');
+    const config = require('./public/OriginalManual/TYPO3CMS-Reference-TCA/Scripts/GenerateScreenshots/Config.json');
 
-    let extensionPath = 'Styleguide/';
-    let absoluteImagePath = 'public/Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Images/' + extensionPath + 'AutomaticScreenshots/';
-    let relativeImagePath = '/Examples/Images/' + extensionPath + 'AutomaticScreenshots/';
-    let imageIncludesPath = 'public/Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Images/' + extensionPath + "RstIncludes/";
-    let snippetsIncludePath = 'public/Output/TYPO3CMS-Reference-TCA/Documentation/Examples/Snippets/' + extensionPath + "RstIncludes/";
+    const firstLine = config['comments']['rst.txt'] + "\r\n";
 
-    let fs = require('fs');
-    if (!fs.existsSync(absoluteImagePath)){
-        fs.mkdirSync(absoluteImagePath, { recursive: true });
-    }
-    if (!fs.existsSync(imageIncludesPath)){
-        fs.mkdirSync(imageIncludesPath, { recursive: true });
-    }
-    if (!fs.existsSync(snippetsIncludePath)){
-        fs.mkdirSync(snippetsIncludePath, { recursive: true });
-    }
+    const outputPath = 'public/Output/TYPO3CMS-Reference-TCA/';
+    for(var key in config['extensions']){
+        let extensionConfig = config['extensions'][key];
 
+        let absoluteImagePath = outputPath + extensionConfig['paths']['imageSource'];
+        let relativeImagePath = extensionConfig['paths']['relativeImagePath'];
+        let imageIncludesPath = outputPath + extensionConfig['paths']['imageRst'];
+        let snippetsIncludePath = outputPath + extensionConfig['paths']['codeRst'];
 
-    for (let i = 0; i < tcaFields.length; i++) {
-        for (let j = 0; j < tcaFields[i]['fields'].length; j++) {
-            // Create the Screenshots
-            let field = tcaFields[i]['fields'][j];
-            let table = tcaFields[i]['table'];
-            let prefix = '';
-            if(typeof tcaFields[i]['prefix'] == 'string') {
-                prefix = tcaFields[i]['prefix'];
-            }
-            let filename =  toCamelCase(prefix + field);
-            let imageFileName = filename + '.png';
-
-            await createTCAScreenshot(table, tcaFields[i]['uid'], field, absoluteImagePath + imageFileName);
-
-            let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-            createIncludeRst(includeRstFilename, relativeImagePath + imageFileName, prefix,  table, field);
-
-            let includeSnippetFilename = snippetsIncludePath + filename + '.rst.txt';
-            createSnippetIncludeRst(includeSnippetFilename, prefix,  table, field);
-
+        let fs = require('fs');
+        if (!fs.existsSync(absoluteImagePath)){
+            fs.mkdirSync(absoluteImagePath, { recursive: true });
         }
+        if (!fs.existsSync(imageIncludesPath)){
+            fs.mkdirSync(imageIncludesPath, { recursive: true });
+        }
+        if (!fs.existsSync(snippetsIncludePath)){
+            fs.mkdirSync(snippetsIncludePath, { recursive: true });
+        }
+
+        let tableConfig = config['extensions'][key]['tables'];
+        for (let i = 0; i < tableConfig.length; i++) {
+            for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
+
+                let table = tableConfig[i]['table'];
+                let prefix = strFromConfig(tableConfig[i]['prefix']);
+                if (tableConfig[i]['screens'][k]['view'] === 'table') {
+
+                    let caption = strFromConfig(tableConfig[i]['screens'][k]['caption']);
+                    console.log(caption);
+                    let pid = tableConfig[i]['screens'][k]['pid'];
+                    let filename = toCamelCase(prefix + table) ;
+                    let selector = tableConfig[i]['screens'][k]['selector']
+                    console.log('Take Screenshot of  ' + table + ' ' + pid);
+                    await createTableScreenshot(table, pid,
+                        absoluteImagePath + filename + '.png',
+                        selector);
+                    let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
+                    createIncludeRst(includeRstFilename,
+                        relativeImagePath + filename + '.png',
+                        prefix, table, '', caption);
+                }
+                if (tableConfig[i]['screens'][k]['view'] === 'fields') {
+                    for (let j = 0; j < tableConfig[i]['fields'].length; j++) {
+                        // Create the Screenshots
+                        let fieldConfig = tableConfig[i]['fields'][j];
+                        let field = '';
+                        let caption = '';
+                        if (typeof fieldConfig == 'string') {
+                            field = fieldConfig;
+                        } else {
+                            field = fieldConfig['field'];
+                            caption = fieldConfig['caption'];
+                        }
+                        let filename = toCamelCase(prefix + field);
+                        let imageFileName = filename + '.png';
+
+                        await createTCAScreenshot(table,
+                            tableConfig[i]['screens'][k]['uid'], field,
+                            absoluteImagePath + imageFileName);
+
+                        let includeRstFilename = imageIncludesPath +
+                            filename + '.rst.txt';
+                        createIncludeRst(includeRstFilename,
+                            relativeImagePath + imageFileName,
+                            prefix, table, field, caption);
+
+                        let includeSnippetFilename = snippetsIncludePath
+                            + filename + '.rst.txt';
+                        createSnippetIncludeRst(includeSnippetFilename, prefix,
+                            table, field);
+                    }
+                }
+            }
+        }
+    }
+
+    function strFromConfig(config) {
+        let ret = '';
+        if (typeof config == 'string') {
+            ret = config;
+        }
+        return ret;
     }
 
 
@@ -127,16 +172,32 @@ const puppeteer = require('puppeteer');
         });
     }
 
-    function createIncludeRst(includeRstFilename, imageFileName, prefix, table, field) {
+    function createIncludeRst(includeRstFilename, imageFileName,
+                              prefix, table, field='',
+                              caption='') {
+
+        let imageText = "Screenshot of  table " + table;
+        if (field) {
+            imageText = "Screenshot of  field " + field + ", table " + table ;
+        }
+        if (caption) {
+            imageText = caption;
+        }
+        let alt = imageText;
+        let description = imageText;
+        if (field) {
+            description = ":ref:`"+ imageText +
+                " <tca_example_" + prefix + field + ">`";
+        }
         // Create the file for including the Screenshots
         let includeRst =
             firstLine +
             "\r\n" +
             ".. figure:: " + imageFileName + "\r\n" +
-            "   :alt: Screenshot of  field " + field + ", table " + table + "\r\n" +
+            "   :alt: " + alt + "\r\n" +
             "   :class: with-shadow\r\n" +
             "\r\n" +
-            "   :ref:`Screenshot of  field " + field + ", table " + table + " <tca_example_" + prefix + field + ">`\r\n"
+            "   " + description + "\r\n"
         fs.writeFile(includeRstFilename, includeRst, function (err) {
             if (err) throw err;
             console.log('Saved ' + includeRstFilename);
@@ -146,6 +207,18 @@ const puppeteer = require('puppeteer');
     async function createTCAScreenshot(table, uid, field, path) {
         await page.goto('http://localhost/typo3/record/edit?token=9&edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field, {waitUntil: 'networkidle2'});
         const formSection = await page.$('.form-section');
+
+        console.log('Capturing: ' + path);
+        await formSection.screenshot({
+            path: path,
+        });
+    }
+
+    async function createTableScreenshot(table, pid, path, selector) {
+        await page.goto('http://localhost/typo3/module/web/list?token=c&id=137&table=='+table, {waitUntil: 'networkidle2'});
+
+        await page.waitForSelector(selector);
+        const formSection = await page.$(selector);
 
         console.log('Capturing: ' + path);
         await formSection.screenshot({
