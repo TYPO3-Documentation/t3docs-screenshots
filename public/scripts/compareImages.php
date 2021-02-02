@@ -14,8 +14,8 @@ foreach ($config['extensions'] as $key => $extensionConfig) {
         createDirIfNotExists($diffPath);
         createDirIfNotExists($outputPath);
         $copyPaths[] = [
-            'from' => $originalPath,
-            'to' => $outputPath,
+            'from' => $outputPath,
+            'to' => $originalPath,
             'diff' => $diffPath
         ];
     }
@@ -31,7 +31,7 @@ echo '
 ';
 
 echo displayImageAccordion($fileTypes['changed'], 'changed', 'move');
-echo displayImageAccordion($fileTypes['added'], 'added', 'move');
+echo displayImageAccordion($fileTypes['added'], 'added', 'add');
 echo displayImageAccordion($fileTypes['deleted'], 'deleted', 'delete');
 echo '
     <input type="submit" value="Copy checked images" />
@@ -62,7 +62,6 @@ function displayImageAccordion(array $changed, string $action, string $fileActio
 {
     $ret = '';
     if (count($changed) > 0) {
-        $title = 'Changed files (' . count($changed) . ')';
         $content = '';
         $i = 0;
         foreach ($changed as $diff) {
@@ -72,23 +71,25 @@ function displayImageAccordion(array $changed, string $action, string $fileActio
             $checked = true;
             switch ($action) {
                 case 'changed' :
+                    $title = 'Changed files (' . count($changed) . ')';
                     $imgHeader = 'Override ' . $diff['file'] . ' Difference: ' .
                         number_format($diff['difference'] * 100, 5);
                     $label = 'Override '. $diff['file'];
                     break;
                 case 'added':
+                    $title = 'Added files (' . count($changed) . ')';
                     $imgHeader = 'Add ' . $diff['file'];
                     $label = $imgHeader;
                     break;
                 case 'deleted':
+                    $title = 'Deleted files (' . count($changed) . ')';
+                    var_dump($diff);
                     $imgHeader = 'Delete ' . $diff['file'];
                     $checked = false;
                     $label = $imgHeader;
                     break;
 
             }
-            $label = $diff['file'] . ' Difference: ' .
-                number_format($diff['difference'] * 100, 5);
             $contentInner = '';
             $contentInner .= makeCheckbox($action . '-' . $i, $value, $label,
                 $action, $checked);
@@ -109,7 +110,7 @@ function displayImageAccordion(array $changed, string $action, string $fileActio
             }
             $content .=  makeAccordion($imgHeader, $contentInner, 'changed-tab-' . $i, '');
         }
-        $ret .= makeAccordion($title, $content, 'changed', '', 'my-2');
+        $ret .= makeAccordion($title, $content, $action, '', 'my-2');
     }
     return $ret;
 }

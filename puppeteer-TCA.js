@@ -92,55 +92,72 @@ const puppeteer = require('puppeteer');
 
         let tableConfig = config['extensions'][key]['tables'];
         for (let i = 0; i < tableConfig.length; i++) {
-            for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
-
-                let table = tableConfig[i]['table'];
-                let prefix = strFromConfig(tableConfig[i]['prefix']);
-                if (tableConfig[i]['screens'][k]['view'] === 'table') {
+            let table = tableConfig[i]['table'];
+            let prefix = strFromConfig(tableConfig[i]['prefix']);
+            if (table === 'tt_content') {
+                for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
 
                     let caption = strFromConfig(tableConfig[i]['screens'][k]['caption']);
-                    console.log(caption);
-                    let pid = tableConfig[i]['screens'][k]['pid'];
-                    let filename = toCamelCase(prefix + table) ;
-                    let selector = tableConfig[i]['screens'][k]['selector']
-                    console.log('Take Screenshot of  ' + table + ' ' + pid);
-                    await createTableScreenshot(table, pid,
-                        absoluteImagePath + filename + '.png',
-                        selector);
-                    let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-                    createIncludeRst(includeRstFilename,
-                        relativeImagePath + filename + '.png',
-                        prefix, table, '', caption);
-                }
-                if (tableConfig[i]['screens'][k]['view'] === 'fields') {
-                    for (let j = 0; j < tableConfig[i]['fields'].length; j++) {
-                        // Create the Screenshots
-                        let fieldConfig = tableConfig[i]['fields'][j];
-                        let field = '';
-                        let caption = '';
-                        if (typeof fieldConfig == 'string') {
-                            field = fieldConfig;
-                        } else {
-                            field = fieldConfig['field'];
-                            caption = fieldConfig['caption'];
-                        }
-                        let filename = toCamelCase(prefix + field);
-                        let imageFileName = filename + '.png';
+                    let name = strFromConfig(tableConfig[i]['screens'][k]['name']);
+                    let filename = name ? name : toCamelCase(prefix + table);
+                    let selector = strFromConfig(tableConfig[i]['screens'][k]['selector']);
+                    let actions = arrayFromConfig(tableConfig[i]['screens'][k]['actions']);
 
-                        await createTCAScreenshot(table,
-                            tableConfig[i]['screens'][k]['uid'], field,
-                            absoluteImagePath + imageFileName);
+                    console.log('Actions:' + actions.length);
+                    if (tableConfig[i]['screens'][k]['view'] === 'table') {
 
-                        let includeRstFilename = imageIncludesPath +
-                            filename + '.rst.txt';
+                        let pid = tableConfig[i]['screens'][k]['pid'];
+                        console.log('Take Screenshot of  ' + table + ' ' + pid);
+                        await createTableScreenshot(table, pid,
+                            absoluteImagePath + filename + '.png',
+                            selector, actions);
+                        let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
                         createIncludeRst(includeRstFilename,
-                            relativeImagePath + imageFileName,
-                            prefix, table, field, caption);
+                            relativeImagePath + filename + '.png',
+                            prefix, table, '', caption);
+                    }
+                    if (tableConfig[i]['screens'][k]['view'] === 'record') {
 
-                        let includeSnippetFilename = snippetsIncludePath
-                            + filename + '.rst.txt';
-                        createSnippetIncludeRst(includeSnippetFilename, prefix,
-                            table, field);
+                        let uid = tableConfig[i]['screens'][k]['uid'];
+                        console.log('Take Screenshot of record ' + table + ' uid ' + uid);
+                        await createRecordScreenshot(table, uid,
+                            absoluteImagePath + filename + '.png',
+                            selector, actions);
+                        let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
+                        createIncludeRst(includeRstFilename,
+                            relativeImagePath + filename + '.png',
+                            prefix, table, '', caption);
+                    }
+                    if (tableConfig[i]['screens'][k]['view'] === 'fields') {
+                        for (let j = 0; j < tableConfig[i]['fields'].length; j++) {
+                            // Create the Screenshots
+                            let fieldConfig = tableConfig[i]['fields'][j];
+                            let field = '';
+                            let caption = '';
+                            if (typeof fieldConfig == 'string') {
+                                field = fieldConfig;
+                            } else {
+                                field = fieldConfig['field'];
+                                caption = fieldConfig['caption'];
+                            }
+                            let filename = toCamelCase(prefix + field);
+                            let imageFileName = filename + '.png';
+
+                            await createTCAScreenshot(table,
+                                tableConfig[i]['screens'][k]['uid'], field,
+                                absoluteImagePath + imageFileName);
+
+                            let includeRstFilename = imageIncludesPath +
+                                filename + '.rst.txt';
+                            createIncludeRst(includeRstFilename,
+                                relativeImagePath + imageFileName,
+                                prefix, table, field, caption);
+
+                            let includeSnippetFilename = snippetsIncludePath
+                                + filename + '.rst.txt';
+                            createSnippetIncludeRst(includeSnippetFilename, prefix,
+                                table, field);
+                        }
                     }
                 }
             }
@@ -150,6 +167,14 @@ const puppeteer = require('puppeteer');
     function strFromConfig(config) {
         let ret = '';
         if (typeof config == 'string') {
+            ret = config;
+        }
+        return ret;
+    }
+
+    function arrayFromConfig(config) {
+        let ret = [];
+        if (typeof config == 'object') {
             ret = config;
         }
         return ret;
@@ -205,21 +230,42 @@ const puppeteer = require('puppeteer');
     }
 
     async function createTCAScreenshot(table, uid, field, path) {
-        await page.goto('http://localhost/typo3/record/edit?token=9&edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field, {waitUntil: 'networkidle2'});
-        const formSection = await page.$('.form-section');
-
-        console.log('Capturing: ' + path);
-        await formSection.screenshot({
-            path: path,
-        });
+        let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field;
+        let bePath = 'record/edit';
+        await createScreenshot(table, uid, path, '.form-section', command, bePath);
     }
 
     async function createTableScreenshot(table, pid, path, selector) {
-        await page.goto('http://localhost/typo3/module/web/list?token=c&id=137&table=='+table, {waitUntil: 'networkidle2'});
-
-        await page.waitForSelector(selector);
+        let command = 'table=='+table;
+        let bePath = 'module/web/list';
+        await createScreenshot(table, pid, path, selector, command, bePath);
+    }
+    async function createRecordScreenshot(table, uid, path, selector, actions) {
+        let command = 'edit['+table+']['+uid+']=edit';
+        let bePath = 'record/edit';
+        await createScreenshot(table, uid, path, selector, command, bePath, actions);
+    }
+    async function createScreenshot(table, uid, path, selector, command, bePath, actions) {
+        await page.goto('http://localhost/typo3/'+bePath+'?token=1&'+command,
+            {waitUntil: 'networkidle2'});
+        if (actions) {
+            for (var i = 0; i < actions.length; i++) {
+                if (actions[i]['action'] === 'click') {
+                    if (actions[i]['tab']) {
+                        const [link] = await page.$x("//a[contains(., '"+actions[i]['tab']+"')]");
+                        if (link) {
+                            await link.click();
+                        }
+                    }
+                    if (actions[i]['select']) {
+                        const selector = "select[name=\"data[" +table+"]["+
+                            uid+"]["+actions[i]['select']+"]\"]";
+                        await page.select(selector, "text");
+                    }
+                }
+            }
+        }
         const formSection = await page.$(selector);
-
         console.log('Capturing: ' + path);
         await formSection.screenshot({
             path: path,
