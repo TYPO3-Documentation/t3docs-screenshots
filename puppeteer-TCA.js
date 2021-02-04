@@ -1,7 +1,10 @@
 const puppeteer = require('puppeteer');
+
+
 (async () => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
+    const limitToTable = 'tx_styleguide_elements_select';
 
     // Set size of "browser window" - cannot click outside this area.
     await page.setViewport({width: 640, height: 640});
@@ -94,7 +97,7 @@ const puppeteer = require('puppeteer');
         for (let i = 0; i < tableConfig.length; i++) {
             let table = tableConfig[i]['table'];
             let prefix = strFromConfig(tableConfig[i]['prefix']);
-            if (table === 'tt_content') {
+            if (!limitToTable || table === limitToTable) {
                 for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
 
                     let caption = strFromConfig(tableConfig[i]['screens'][k]['caption']);
@@ -249,27 +252,20 @@ const puppeteer = require('puppeteer');
         await page.goto('http://localhost/typo3/'+bePath+'?token=1&'+command,
             {waitUntil: 'networkidle2'});
         if (actions) {
-            for (var i = 0; i < actions.length; i++) {
-                if (actions[i]['action'] === 'click') {
-                    if (actions[i]['tab']) {
-                        const [link] = await page.$x("//a[contains(., '"+actions[i]['tab']+"')]");
-                        if (link) {
-                            await link.click();
-                        }
-                    }
-                    if (actions[i]['select']) {
-                        const selector = "select[name=\"data[" +table+"]["+
-                            uid+"]["+actions[i]['select']+"]\"]";
-                        await page.select(selector, "text");
-                    }
-                }
-            }
+            await executeActions(actions, page, table, uid);
         }
-        const formSection = await page.$(selector);
         console.log('Capturing: ' + path);
-        await formSection.screenshot({
-            path: path,
-        });
+        if (selector === '') {
+            // whole page screenshot
+            await page.screenshot({
+                path: path,
+            });
+        } else {
+            const formSection = await page.$(selector);
+            await formSection.screenshot({
+                path: path,
+            });
+        }
     }
 
     function toCamelCase(string) {
@@ -282,3 +278,71 @@ const puppeteer = require('puppeteer');
 
     await browser.close();
 })()
+
+
+
+async function executeActions(actions, page, table, uid) {
+    for (var i = 0; i < actions.length; i++) {
+        if (actions[i]['action'] === 'click') {
+            await clickAction(actions, i, page, table, uid);
+        }
+        else if (actions[i]['action'] === 'change') {
+            await changeAction(actions, i, page, table, uid);
+        }
+        else if (actions[i]['action'] === 'wait') {
+            await waitAction(actions, i, page, table, uid);
+        }
+    }
+}
+
+async function clickAction(actions, i, page, table, uid) {
+    if (actions[i]['tab']) {
+        console.log('Switching to tab ' + actions[i]['tab']);
+        const [link] = await page.$x("//a[contains(., '" + actions[i]['tab'] + "')]");
+        if (link) {
+            await link.click();
+        } else {
+            await logNotFound('Tab not found: ' + actions[i]['tab']);
+        }
+    } else if (actions[i]['select']) {
+        console.log('Opening selctor ' + actions[i]['select']);
+        const selector = "select[name=\"data[" + table + "][" +
+            uid + "][" + actions[i]['select'] + "]\"]";
+        await page.focus(selector);
+        page.keyboard.type(' ');
+    } else if (actions[i]['button']) {
+        console.log('Clicking button ' + actions[i]['button']);
+        const [link] = await page.$x("//button[contains(., '" + actions[i]['button'] + "')]");
+        if (link) {
+            await link.click();
+        } else {
+            await logNotFound('Button not found: ' + actions[i]['button']);
+        }
+    }
+}
+
+async function logNotFound(text) {
+
+    console.log('########################################');
+    console.log('## ' + text);
+    console.log('########################################');
+}
+
+async function waitAction(actions, i, page, table, uid) {
+    if (actions[i]['selector']) {
+        console.log('Waiting for selector ' + actions[i]['selector']);
+        await page.waitForSelector(actions[i]['selector'],  actions[i]['options']);
+    }
+    else if (actions[i]['timeout']) {
+        await page.waitForTimeout(actions[i]['timeout']);
+    }
+}
+
+async function changeAction(actions, i, page, table, uid) {
+    if (actions[i]['select']) {
+        const selector = "select[name=\"data[" + table + "][" +
+            uid + "][" + actions[i]['select'] + "]\"]";
+        console.log('Selecting ' + selector + 'with value ' + actions[i]['value']);
+        await page.select(selector, actions[i]['value']);
+    }
+}

@@ -10,9 +10,9 @@ foreach ($config['extensions'] as $key => $extensionConfig) {
     $diffPath = $extensionConfig['diffPath'];
     $originalPath = $extensionConfig['originalPath'];
     $outputPath = $extensionConfig['outputPath'];
-    if (is_dir($originalPath)) {
+    if (is_dir($outputPath)) {
         createDirIfNotExists($diffPath);
-        createDirIfNotExists($outputPath);
+        createDirIfNotExists($originalPath);
         $copyPaths[] = [
             'from' => $outputPath,
             'to' => $originalPath,
@@ -83,7 +83,6 @@ function displayImageAccordion(array $changed, string $action, string $fileActio
                     break;
                 case 'deleted':
                     $title = 'Deleted files (' . count($changed) . ')';
-                    var_dump($diff);
                     $imgHeader = 'Delete ' . $diff['file'];
                     $checked = false;
                     $label = $imgHeader;
@@ -120,6 +119,6 @@ function displayImage($filename, $path='', $label=''): string {
     if ($label) {
         $ret .= '<h5>' . $label . '</h5>';
     }
-    $ret .= '<div><img src="' . $path . $filename . '" /></div>';
+    $ret .= '<div><img src="' . $path . $filename . '?time='.time().'" /></div>';
     return $ret;
 }
