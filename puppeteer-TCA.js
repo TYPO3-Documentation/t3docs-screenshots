@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 (async () => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
-    const limitToTable = 'tx_styleguide_elements_select';
+    const limitToTable = 'tx_styleguide_type_foreign';
 
     // Set size of "browser window" - cannot click outside this area.
     await page.setViewport({width: 640, height: 640});
@@ -137,13 +137,16 @@ const puppeteer = require('puppeteer');
                             let fieldConfig = tableConfig[i]['fields'][j];
                             let field = '';
                             let caption = '';
+                            let filename = '';
                             if (typeof fieldConfig == 'string') {
                                 field = fieldConfig;
                             } else {
                                 field = fieldConfig['field'];
                                 caption = fieldConfig['caption'];
+                                filename = fieldConfig['name'];
                             }
-                            let filename = toCamelCase(prefix + field);
+                            caption = caption?caption:'Screenshot of field '+field+', table '+table;
+                            filename = filename?filename:toCamelCase(prefix + field);
                             let imageFileName = filename + '.png';
 
                             await createTCAScreenshot(table,
