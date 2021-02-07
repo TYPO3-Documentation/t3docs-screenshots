@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 (async () => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
-    const limitToTable = 'tx_styleguide_type_foreign';
+    const limitToTable = 'tt_content';
 
     // Set size of "browser window" - cannot click outside this area.
     await page.setViewport({width: 640, height: 640});
@@ -81,6 +81,7 @@ const puppeteer = require('puppeteer');
         let relativeImagePath = extensionConfig['paths']['relativeImagePath'];
         let imageIncludesPath = outputPath + extensionConfig['paths']['imageRst'];
         let snippetsIncludePath = outputPath + extensionConfig['paths']['codeRst'];
+        let relativeCodeSource = extensionConfig['paths']['relativeCodeSource'];
 
         let fs = require('fs');
         if (!fs.existsSync(absoluteImagePath)){
@@ -138,20 +139,27 @@ const puppeteer = require('puppeteer');
                             let field = '';
                             let caption = '';
                             let filename = '';
+                            let fieldActions = actions;
                             if (typeof fieldConfig == 'string') {
                                 field = fieldConfig;
                             } else {
                                 field = fieldConfig['field'];
                                 caption = fieldConfig['caption'];
                                 filename = fieldConfig['name'];
+                                if (typeof fieldConfig['actions'] === 'object'){
+                                    fieldActions = fieldConfig['actions'];
+                                }
                             }
                             caption = caption?caption:'Screenshot of field '+field+', table '+table;
                             filename = filename?filename:toCamelCase(prefix + field);
                             let imageFileName = filename + '.png';
 
+                            console.log(fieldActions);
+
                             await createTCAScreenshot(table,
                                 tableConfig[i]['screens'][k]['uid'], field,
-                                absoluteImagePath + imageFileName);
+                                absoluteImagePath + imageFileName,
+                                fieldActions);
 
                             let includeRstFilename = imageIncludesPath +
                                 filename + '.rst.txt';
@@ -161,8 +169,8 @@ const puppeteer = require('puppeteer');
 
                             let includeSnippetFilename = snippetsIncludePath
                                 + filename + '.rst.txt';
-                            createSnippetIncludeRst(includeSnippetFilename, prefix,
-                                table, field);
+                            createSnippetIncludeRst(includeSnippetFilename,
+                                relativeCodeSource, prefix, table, field);
                         }
                     }
                 }
@@ -187,11 +195,12 @@ const puppeteer = require('puppeteer');
     }
 
 
-    function createSnippetIncludeRst(includeSnippetFilename, prefix, table, field) {
+    function createSnippetIncludeRst(includeSnippetFilename, relativeCodeSource,
+                                     prefix, table, field) {
         let includeRst =
             firstLine +
             "\r\n" +
-            ".. literalinclude:: /Examples/Snippets/Styleguide/Sources/" + table + ".php\r\n" +
+            ".. literalinclude:: " + relativeCodeSource + table + ".php\r\n" +
             "   :language: php\r\n" +
             "   :start-at: start " + field + "\r\n" +
             "   :end-before: end " + field + "\r\n" +
@@ -235,16 +244,18 @@ const puppeteer = require('puppeteer');
         });
     }
 
-    async function createTCAScreenshot(table, uid, field, path) {
-        let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field;
+    async function createTCAScreenshot(table, uid, field, path, actions) {
+        let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' +
+            field;
         let bePath = 'record/edit';
-        await createScreenshot(table, uid, path, '.form-section', command, bePath);
+        await createScreenshot(table, uid, path, '.form-section',
+            command, bePath, actions);
     }
 
-    async function createTableScreenshot(table, pid, path, selector) {
+    async function createTableScreenshot(table, pid, path, selector, actions) {
         let command = 'table=='+table;
         let bePath = 'module/web/list';
-        await createScreenshot(table, pid, path, selector, command, bePath);
+        await createScreenshot(table, pid, path, selector, command, bePath, actions);
     }
     async function createRecordScreenshot(table, uid, path, selector, actions) {
         let command = 'edit['+table+']['+uid+']=edit';
@@ -286,14 +297,26 @@ const puppeteer = require('puppeteer');
 
 async function executeActions(actions, page, table, uid) {
     for (var i = 0; i < actions.length; i++) {
-        if (actions[i]['action'] === 'click') {
-            await clickAction(actions, i, page, table, uid);
+        let executeAction = true;
+        if (typeof actions[i]['if'] === 'object'){
+            for (var j = 0; j < actions[i]['if'].length; j++) {
+                if (typeof actions[i]['if'][j]['exists'] === 'string') {
+                    console.log('if selctor ' + actions[i]['if'][j]['exists']);
+                    if (await page.$(actions[i]['if'][j]['exists']) === null) {
+                        console.log('selector not found ');
+                        executeAction = false;
+                    }
+                }
+            }
         }
-        else if (actions[i]['action'] === 'change') {
-            await changeAction(actions, i, page, table, uid);
-        }
-        else if (actions[i]['action'] === 'wait') {
-            await waitAction(actions, i, page, table, uid);
+        if (executeAction) {
+            if (actions[i]['action'] === 'click') {
+                await clickAction(actions, i, page, table, uid);
+            } else if (actions[i]['action'] === 'change') {
+                await changeAction(actions, i, page, table, uid);
+            } else if (actions[i]['action'] === 'wait') {
+                await waitAction(actions, i, page, table, uid);
+            }
         }
     }
 }
@@ -321,6 +344,9 @@ async function clickAction(actions, i, page, table, uid) {
         } else {
             await logNotFound('Button not found: ' + actions[i]['button']);
         }
+    } else if (actions[i]['buttonSelector']) {
+        const selector = actions[i]['buttonSelector'];
+        page.click(selector);
     }
 }
 
