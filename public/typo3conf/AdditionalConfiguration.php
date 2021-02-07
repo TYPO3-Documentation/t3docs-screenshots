@@ -5,7 +5,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true') {
         $GLOBALS['TYPO3_CONF_VARS'],
         [
             'BE' => [
-                'installToolPassword' => 'xyz',
+                'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$czVJNGJVRm05RVVNOEJRRg$iFY5HqHDkg9ie4NIAI55hxWpJJtgYlMTXZLzQqgMXMY',
             ],
             'DB' => [
                 'Connections' => [
