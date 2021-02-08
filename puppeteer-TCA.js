@@ -94,6 +94,23 @@ const puppeteer = require('puppeteer');
             fs.mkdirSync(snippetsIncludePath, { recursive: true });
         }
 
+        let moduleConfig = config['extensions'][key]['modules'];
+        for (let i = 0; i < moduleConfig.length; i++) {
+            for (let j = 0; j < moduleConfig[i]['screens'].length; j++) {
+                let filename = moduleConfig[i]['screens'][j]['filename'];
+                let caption = strFromConfig(moduleConfig[i]['screens'][j]['caption']);
+                await createModuleScreenshot(
+                    filename,
+                    moduleConfig[i]['module'],
+                    moduleConfig[i]['screens'][j]
+                );
+                let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
+                createIncludeRst(includeRstFilename,
+                    relativeImagePath + filename + '.png',
+                    '', '', '', caption);
+            }
+        }
+
         let tableConfig = config['extensions'][key]['tables'];
         for (let i = 0; i < tableConfig.length; i++) {
             let table = tableConfig[i]['table'];
@@ -280,6 +297,26 @@ const puppeteer = require('puppeteer');
                 path: path,
             });
         }
+    }
+
+    async function createModuleScreenshot(
+        filename,
+        moduleConfig,
+        screensConfig
+    ) {
+        let url = 'http://localhost/typo3/'+moduleConfig['module'];
+        let parameters = '';
+        for (let i = 0; i < screensConfig['parameters']; i++) {
+            if (parameters !== '') {
+                parameters += '&';
+            }
+            parameters += screensConfig['parameters'][i]['key'] + '=' +
+                screensConfig['parameters'][i]['value'];
+        }
+        if (parameters !== '') {
+            url += '?' + parameters;
+        }
+        await page.goto(url,{waitUntil: 'networkidle2'});
     }
 
     function toCamelCase(string) {
