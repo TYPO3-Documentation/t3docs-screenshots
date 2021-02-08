@@ -1,4 +1,4 @@
-base: 'https://sig-screenshots.ddev.site/'
+base: /
 errorHandling:
   -
     errorCode: 404
