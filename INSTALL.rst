@@ -1,7 +1,7 @@
 Installation
 ============
 
-#. Clone [Git project](https://github.com/TYPO3-Documentation/SIG-Screenshots)
+#. Clone the `Git project <https://github.com/TYPO3-Documentation/SIG-Screenshots>`_
 
 #. *Optional:* Consider defining different ports like so in file
    `.ddev/config.NOT_VERSIONED.yaml`:
