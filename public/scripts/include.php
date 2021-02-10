@@ -1,13 +1,15 @@
 <?php
 $publicPath = '../';
-$manualPath = 'TYPO3CMS-Reference-TCA/';
+$manualPath = 'TYPO3CMS-Reference-Typoscript/';
 $jsonConfig = file_get_contents($publicPath.'OriginalManual/'.$manualPath.'Scripts/GenerateScreenshots/Config.json');
 $config = json_decode($jsonConfig, true);
 
 foreach ($config['extensions'] as $key => $value) {
-    foreach ($config['extensions'][$key]['tables'] as $key2 => $value2) {
-        $config['extensions'][$key]['tables'][$key2]['tableConvert'] = 
-            $config['extensions'][$key]['tables'][$key2]['tableConvert'] ?? '';
+    if ($config['extensions'][$key]['tables']) {
+        foreach ($config['extensions'][$key]['tables'] as $key2 => $value2) {
+            $config['extensions'][$key]['tables'][$key2]['tableConvert'] =
+                $config['extensions'][$key]['tables'][$key2]['tableConvert'] ?? '';
+        }
     }
     unset($tableConfig);
 //$tables = array_unique($tables);
