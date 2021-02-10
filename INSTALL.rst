@@ -15,7 +15,7 @@ Installation
 
 #. :code:`ddev puppeteer puppeteer-testscript.js`
 
-#. Find the screenshots in `Screenshots/`
+#. Find the screenshots in ``Screenshots/``
 
 #. Log into the backend: https://sig-screenshots.ddev.site/typo3/
    with username and password: ``admin``, ``demo.typo3``
