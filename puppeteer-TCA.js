@@ -14,62 +14,8 @@ const viewPort = {width: 640, height: 640};
     // Set size of "browser window" - cannot click outside this area.
     await page.setViewport(viewPort);
 
-    await page.goto(baseUrl);
-    await page.waitForSelector('body');
-
-    // Screenshot: Full page of Frontend
-    await page.screenshot({path: 'Screenshots/00_FE_Fullpage.png', fullPage: true});
-
-    // Switch to backend
-    await page.goto(baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
-    await page.waitForSelector('#loginCopyright');
-
-    // Screenshot: Full page of Backend
-    await page.screenshot({path: 'Screenshots/01_BE_Fullpage.png', fullPage: true});
-
-    // 2nd shot: Login-Box
-    // await page.waitForTimeout(250);
-    const loginWrap = await page.$('div.card.card-lg.card-login');
-    await loginWrap.screenshot({
-        path: 'Screenshots/02_card-login.png',
-    });
-
-    // Screenshot: Add + 25px space around Login-Box
-    const loginWrapBounds = await loginWrap.boundingBox();
-    await loginWrap.screenshot({
-        path: 'Screenshots/03_card_login_plus25.png',
-        clip: {
-            x: loginWrapBounds.x - 25,
-            y: loginWrapBounds.y - 25,
-            width: loginWrapBounds.width + 25 * 2,
-            height: loginWrapBounds.height + 25 * 2
-        }
-    });
-
-    // // 4th shot: Form-closeup after filling username
-    const loginForm = await page.$('.typo3-login-form');
-    const loginFormSubmitButton = await page.$('#t3-login-submit');
-    await page.type('#t3-username', 'pptr_admin');
-    await page.type('#t3-password', 'pptr_admin');
-
-    await loginForm.screenshot({
-        path: 'Screenshots/04_login_form.png'
-    });
-    const loginFormBounds = await loginForm.boundingBox();
-
-    await loginForm.screenshot({
-        path: 'Screenshots/05_login_form_plus50.png',
-        clip: {
-            x: loginFormBounds.x - 50,
-            y: loginFormBounds.y - 50,
-            width: loginFormBounds.width + 50 * 2,
-            height: loginFormBounds.height + 50 * 2
-        }
-    });
-
-    loginFormSubmitButton.click();
-    await page.waitForNavigation();
-
+    await goToTypo3Frontend(page);
+    await goToTypo3Backend(page);
     await processSuite(page);
 
     await browser.close();
@@ -97,6 +43,61 @@ function toCamelCase(string) {
         splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
     }
     return splitStr.join('');
+}
+
+async function goToTypo3Frontend(page) {
+    await page.goto(baseUrl);
+    await page.waitForSelector('body');
+
+    // Screenshot: Frontend page
+    await page.screenshot({path: 'Screenshots/00_FE_Fullpage.png', fullPage: true});
+}
+
+async function goToTypo3Backend(page) {
+    await page.goto(baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
+    await page.waitForSelector('#loginCopyright');
+
+    // Screenshot: Login page of Backend
+    await page.screenshot({path: 'Screenshots/01_BE_Fullpage.png', fullPage: true});
+
+    // Screenshot: Login box of Backend
+    // await page.waitForTimeout(250);
+    const loginBox = await page.$('div.card.card-lg.card-login');
+    await loginBox.screenshot({path: 'Screenshots/02_card-login.png'});
+
+    // Screenshot: Login box with 25px space around
+    const loginBoxBounds = await loginBox.boundingBox();
+    await loginBox.screenshot({
+        path: 'Screenshots/03_card_login_plus25.png',
+        clip: {
+            x: loginBoxBounds.x - 25,
+            y: loginBoxBounds.y - 25,
+            width: loginBoxBounds.width + 25 * 2,
+            height: loginBoxBounds.height + 25 * 2
+        }
+    });
+
+    // Screenshot: Filled login box
+    const loginForm = await page.$('.typo3-login-form');
+    const loginFormSubmitButton = await page.$('#t3-login-submit');
+    await page.type('#t3-username', 'pptr_admin');
+    await page.type('#t3-password', 'pptr_admin');
+    await loginForm.screenshot({path: 'Screenshots/04_login_form.png'});
+
+    // Screenshot: Filled login box with 25px space around
+    const loginFormBounds = await loginForm.boundingBox();
+    await loginForm.screenshot({
+        path: 'Screenshots/05_login_form_plus50.png',
+        clip: {
+            x: loginFormBounds.x - 50,
+            y: loginFormBounds.y - 50,
+            width: loginFormBounds.width + 50 * 2,
+            height: loginFormBounds.height + 50 * 2
+        }
+    });
+
+    await loginFormSubmitButton.click();
+    await page.waitForNavigation();
 }
 
 async function processSuite(page) {
