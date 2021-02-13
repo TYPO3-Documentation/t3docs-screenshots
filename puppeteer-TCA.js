@@ -114,11 +114,11 @@ const limitToTable = 'tt_content';
 
                         let pid = tableConfig[i]['screens'][k]['pid'];
                         console.log('Take Screenshot of  ' + table + ' ' + pid);
-                        await createTableScreenshot(table, pid,
+                        await createTableScreenshot(page, table, pid,
                             absoluteImagePath + filename + '.png',
                             selector, actions);
                         let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-                        createIncludeRst(includeRstFilename,
+                        createIncludeRst(includeRstFilename, firstLine,
                             relativeImagePath + filename + '.png',
                             prefix, table, '', caption);
                     }
@@ -126,11 +126,11 @@ const limitToTable = 'tt_content';
 
                         let uid = tableConfig[i]['screens'][k]['uid'];
                         console.log('Take Screenshot of record ' + table + ' uid ' + uid);
-                        await createRecordScreenshot(table, uid,
+                        await createRecordScreenshot(page, table, uid,
                             absoluteImagePath + filename + '.png',
                             selector, actions);
                         let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-                        createIncludeRst(includeRstFilename,
+                        createIncludeRst(includeRstFilename, firstLine,
                             relativeImagePath + filename + '.png',
                             prefix, table, '', caption);
                     }
@@ -158,20 +158,20 @@ const limitToTable = 'tt_content';
 
                             console.log(fieldActions);
 
-                            await createTCAScreenshot(table,
+                            await createTCAScreenshot(page, table,
                                 tableConfig[i]['screens'][k]['uid'], field,
                                 absoluteImagePath + imageFileName,
                                 fieldActions);
 
                             let includeRstFilename = imageIncludesPath +
                                 filename + '.rst.txt';
-                            createIncludeRst(includeRstFilename,
+                            createIncludeRst(includeRstFilename, firstLine,
                                 relativeImagePath + imageFileName,
                                 prefix, table, field, caption);
 
                             let includeSnippetFilename = snippetsIncludePath
                                 + filename + '.rst.txt';
-                            createSnippetIncludeRst(includeSnippetFilename,
+                            createSnippetIncludeRst(includeSnippetFilename, firstLine,
                                 relativeCodeSource, prefix, table, field);
                         }
                     }
@@ -180,91 +180,24 @@ const limitToTable = 'tt_content';
         }
     }
 
-    function strFromConfig(config) {
-        let ret = '';
-        if (typeof config == 'string') {
-            ret = config;
-        }
-        return ret;
-    }
-
-    function arrayFromConfig(config) {
-        let ret = [];
-        if (typeof config == 'object') {
-            ret = config;
-        }
-        return ret;
-    }
-
-
-    function createSnippetIncludeRst(includeSnippetFilename, relativeCodeSource,
-                                     prefix, table, field) {
-        let includeRst =
-            firstLine +
-            "\r\n" +
-            ".. literalinclude:: " + relativeCodeSource + table + ".php\r\n" +
-            "   :language: php\r\n" +
-            "   :start-at: start " + field + "\r\n" +
-            "   :end-before: end " + field + "\r\n" +
-            "   :lines: 2- \r\n" +
-            "\r\n";
-        fs.writeFile(includeSnippetFilename, includeRst, function (err) {
-            if (err) throw err;
-            console.log('Saved ' + includeSnippetFilename);
-        });
-    }
-
-    function createIncludeRst(includeRstFilename, imageFileName,
-                              prefix, table, field='',
-                              caption='') {
-
-        let imageText = "Screenshot of  table " + table;
-        if (field) {
-            imageText = "Screenshot of  field " + field + ", table " + table ;
-        }
-        if (caption) {
-            imageText = caption;
-        }
-        let alt = imageText;
-        let description = imageText;
-        if (field) {
-            description = ":ref:`"+ imageText +
-                " <tca_example_" + prefix + field + ">`";
-        }
-        // Create the file for including the Screenshots
-        let includeRst =
-            firstLine +
-            "\r\n" +
-            ".. figure:: " + imageFileName + "\r\n" +
-            "   :alt: " + alt + "\r\n" +
-            "   :class: with-shadow\r\n" +
-            "\r\n" +
-            "   " + description + "\r\n"
-        fs.writeFile(includeRstFilename, includeRst, function (err) {
-            if (err) throw err;
-            console.log('Saved ' + includeRstFilename);
-        });
-    }
-
-    async function createTCAScreenshot(table, uid, field, path, actions) {
-        let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field;
-        let bePath = 'record/edit';
-        await createScreenshot(page, table, uid, path, '.form-section', command, bePath, actions);
-    }
-
-    async function createTableScreenshot(table, pid, path, selector, actions) {
-        let command = 'table=='+table;
-        let bePath = 'module/web/list';
-        await createScreenshot(page, table, pid, path, selector, command, bePath, actions);
-    }
-    async function createRecordScreenshot(table, uid, path, selector, actions) {
-        let command = 'edit['+table+']['+uid+']=edit';
-        let bePath = 'record/edit';
-        await createScreenshot(page, table, uid, path, selector, command, bePath, actions);
-    }
-
     await browser.close();
 })()
+
+function strFromConfig(config) {
+    let ret = '';
+    if (typeof config == 'string') {
+        ret = config;
+    }
+    return ret;
+}
+
+function arrayFromConfig(config) {
+    let ret = [];
+    if (typeof config == 'object') {
+        ret = config;
+    }
+    return ret;
+}
 
 function toCamelCase(string) {
     var splitStr = string.toLowerCase().split('_');
@@ -272,6 +205,69 @@ function toCamelCase(string) {
         splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
     }
     return splitStr.join('');
+}
+
+function createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field) {
+    let includeRst =
+        firstLine +
+        "\r\n" +
+        ".. literalinclude:: " + relativeCodeSource + table + ".php\r\n" +
+        "   :language: php\r\n" +
+        "   :start-at: start " + field + "\r\n" +
+        "   :end-before: end " + field + "\r\n" +
+        "   :lines: 2- \r\n" +
+        "\r\n";
+    fs.writeFile(includeSnippetFilename, includeRst, function (err) {
+        if (err) throw err;
+        console.log('Saved ' + includeSnippetFilename);
+    });
+}
+
+function createIncludeRst(includeRstFilename, firstLine, imageFileName, prefix, table, field='', caption='') {
+    let imageText = "Screenshot of  table " + table;
+    if (field) {
+        imageText = "Screenshot of  field " + field + ", table " + table ;
+    }
+    if (caption) {
+        imageText = caption;
+    }
+    let alt = imageText;
+    let description = imageText;
+    if (field) {
+        description = ":ref:`"+ imageText +
+            " <tca_example_" + prefix + field + ">`";
+    }
+    // Create the file for including the Screenshots
+    let includeRst =
+        firstLine +
+        "\r\n" +
+        ".. figure:: " + imageFileName + "\r\n" +
+        "   :alt: " + alt + "\r\n" +
+        "   :class: with-shadow\r\n" +
+        "\r\n" +
+        "   " + description + "\r\n"
+    fs.writeFile(includeRstFilename, includeRst, function (err) {
+        if (err) throw err;
+        console.log('Saved ' + includeRstFilename);
+    });
+}
+
+async function createTCAScreenshot(page, table, uid, field, path, actions) {
+    let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field;
+    let bePath = 'record/edit';
+    await createScreenshot(page, table, uid, path, '.form-section', command, bePath, actions);
+}
+
+async function createTableScreenshot(page, table, pid, path, selector, actions) {
+    let command = 'table=='+table;
+    let bePath = 'module/web/list';
+    await createScreenshot(page, table, pid, path, selector, command, bePath, actions);
+}
+
+async function createRecordScreenshot(page, table, uid, path, selector, actions) {
+    let command = 'edit['+table+']['+uid+']=edit';
+    let bePath = 'record/edit';
+    await createScreenshot(page, table, uid, path, selector, command, bePath, actions);
 }
 
 async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
@@ -350,7 +346,6 @@ async function clickAction(actions, i, page, table, uid) {
 }
 
 async function logNotFound(text) {
-
     console.log('########################################');
     console.log('## ' + text);
     console.log('########################################');
