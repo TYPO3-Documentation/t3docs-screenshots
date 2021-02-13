@@ -2,10 +2,15 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const minimist = require('minimist');
 
-const baseUrl = 'http://localhost';
-const limitToTable = 'tt_content';
-const viewPort = {width: 640, height: 640};
-var suite = 'TYPO3CMS-Reference-TCA';
+var settings = {
+    baseUrl: 'http://localhost',
+    suite: 'TYPO3CMS-Reference-TCA',
+    viewPort: {
+        width: 640,
+        height: 640
+    },
+    limitToTable: 'tt_content'
+};
 
 (async () => {
     fetchSettingsFromCli();
@@ -14,7 +19,7 @@ var suite = 'TYPO3CMS-Reference-TCA';
     const page = await browser.newPage();
 
     // Set size of "browser window" - cannot click outside this area.
-    await page.setViewport(viewPort);
+    await page.setViewport(settings.viewPort);
 
     await goToTypo3Frontend(page);
     await goToTypo3Backend(page);
@@ -26,16 +31,16 @@ var suite = 'TYPO3CMS-Reference-TCA';
 function fetchSettingsFromCli() {
     const args = minimist(process.argv.slice(2))
     if (args['suite']) {
-        suite = args['suite'];
+        settings.suite = args['suite'];
     }
 }
 
 function getSuitePath() {
-    return './public/OriginalManual/' + suite + '/Scripts/GenerateScreenshots/Config.json';
+    return './public/OriginalManual/' + settings.suite + '/Scripts/GenerateScreenshots/Config.json';
 }
 
 function getOutputPath() {
-    return 'public/Output/' + suite + '/';
+    return 'public/Output/' + settings.suite + '/';
 }
 
 function strFromConfig(config) {
@@ -63,7 +68,7 @@ function toCamelCase(string) {
 }
 
 async function goToTypo3Frontend(page) {
-    await page.goto(baseUrl);
+    await page.goto(settings.baseUrl);
     await page.waitForSelector('body');
 
     // Screenshot: Frontend page
@@ -71,7 +76,7 @@ async function goToTypo3Frontend(page) {
 }
 
 async function goToTypo3Backend(page) {
-    await page.goto(baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
+    await page.goto(settings.baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
     await page.waitForSelector('#loginCopyright');
 
     // Screenshot: Login page of Backend
@@ -145,7 +150,7 @@ async function processSuite(page) {
         for (let i = 0; i < tableConfig.length; i++) {
             let table = tableConfig[i]['table'];
             let prefix = strFromConfig(tableConfig[i]['prefix']);
-            if (!limitToTable || table === limitToTable) {
+            if (!settings.limitToTable || table === settings.limitToTable) {
                 for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
                     let caption = strFromConfig(tableConfig[i]['screens'][k]['caption']);
                     let name = strFromConfig(tableConfig[i]['screens'][k]['name']);
@@ -273,7 +278,7 @@ async function createRecordScreenshot(page, table, uid, path, selector, actions)
 }
 
 async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
-    await page.goto(baseUrl+'/typo3/'+bePath+'?token=1&'+command,
+    await page.goto(settings.baseUrl+'/typo3/'+bePath+'?token=1&'+command,
         {waitUntil: 'networkidle2'});
     if (actions) {
         await executeActions(actions, page, table, uid);
