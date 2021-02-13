@@ -301,7 +301,7 @@ async function executeActions(actions, page, table, uid) {
         if (typeof actions[i]['if'] === 'object'){
             for (var j = 0; j < actions[i]['if'].length; j++) {
                 if (typeof actions[i]['if'][j]['exists'] === 'string') {
-                    console.log('if selctor ' + actions[i]['if'][j]['exists']);
+                    console.log('if selector ' + actions[i]['if'][j]['exists']);
                     if (await page.$(actions[i]['if'][j]['exists']) === null) {
                         console.log('selector not found ');
                         executeAction = false;
@@ -331,7 +331,7 @@ async function clickAction(actions, i, page, table, uid) {
             await logNotFound('Tab not found: ' + actions[i]['tab']);
         }
     } else if (actions[i]['select']) {
-        console.log('Opening selctor ' + actions[i]['select']);
+        console.log('Opening selector ' + actions[i]['select']);
         const selector = "select[name=\"data[" + table + "][" +
             uid + "][" + actions[i]['select'] + "]\"]";
         await page.focus(selector);
