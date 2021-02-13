@@ -3,6 +3,8 @@ const fs = require('fs');
 
 const baseUrl = 'http://localhost';
 const limitToTable = 'tt_content';
+const suitePath = './public/OriginalManual/TYPO3CMS-Reference-TCA/Scripts/GenerateScreenshots/Config.json';
+const outputPath = 'public/Output/TYPO3CMS-Reference-TCA/';
 
 (async () => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
@@ -69,13 +71,40 @@ const limitToTable = 'tt_content';
         loginFormSubmitButton.click()
     ]);
 
-    // creating the needed directories
+    await processSuite(page);
 
-    const config = require('./public/OriginalManual/TYPO3CMS-Reference-TCA/Scripts/GenerateScreenshots/Config.json');
+    await browser.close();
+})()
+
+function strFromConfig(config) {
+    let ret = '';
+    if (typeof config == 'string') {
+        ret = config;
+    }
+    return ret;
+}
+
+function arrayFromConfig(config) {
+    let ret = [];
+    if (typeof config == 'object') {
+        ret = config;
+    }
+    return ret;
+}
+
+function toCamelCase(string) {
+    var splitStr = string.toLowerCase().split('_');
+    for (var k = 0; k < splitStr.length; k++) {
+        splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
+    }
+    return splitStr.join('');
+}
+
+async function processSuite(page) {
+    const config = require(suitePath);
 
     const firstLine = config['comments']['rst.txt'] + "\r\n";
 
-    const outputPath = 'public/Output/TYPO3CMS-Reference-TCA/';
     for(var key in config['extensions']){
         let extensionConfig = config['extensions'][key];
 
@@ -178,32 +207,6 @@ const limitToTable = 'tt_content';
             }
         }
     }
-
-    await browser.close();
-})()
-
-function strFromConfig(config) {
-    let ret = '';
-    if (typeof config == 'string') {
-        ret = config;
-    }
-    return ret;
-}
-
-function arrayFromConfig(config) {
-    let ret = [];
-    if (typeof config == 'object') {
-        ret = config;
-    }
-    return ret;
-}
-
-function toCamelCase(string) {
-    var splitStr = string.toLowerCase().split('_');
-    for (var k = 0; k < splitStr.length; k++) {
-        splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
-    }
-    return splitStr.join('');
 }
 
 function createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field) {
