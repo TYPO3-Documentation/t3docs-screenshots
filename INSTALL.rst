@@ -16,5 +16,5 @@ Installation
 *  Clone the manual you want to work on into ``public/OriginalManual`` of this
    project. This currently only works with the master branch of the
    `TCA reference <https://github.com/TYPO3-Documentation/TYPO3CMS-Reference-TCA>`_
-*  Run :code:`ddev puppeteer puppeteer-TCA.js`
+*  Run :code:`ddev puppeteer typo3.js`
 *  Open http://sig-screenshots.ddev.site/scripts/index.php
