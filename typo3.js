@@ -2,6 +2,9 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const minimist = require('minimist');
 
+// *************************************
+// Configuration
+// *************************************
 var settings = {
     baseUrl: 'http://localhost',
     suite: 'TYPO3CMS-Reference-TCA',
@@ -12,6 +15,9 @@ var settings = {
     limitToTable: 'tt_content'
 };
 
+// *************************************
+// Main process
+// *************************************
 (async () => {
     fetchSettingsFromCli();
 
@@ -28,6 +34,9 @@ var settings = {
     await browser.close();
 })()
 
+// *************************************
+// Library
+// *************************************
 function fetchSettingsFromCli() {
     const args = minimist(process.argv.slice(2))
     if (args['suite']) {
