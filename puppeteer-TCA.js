@@ -247,55 +247,52 @@ const limitToTable = 'tt_content';
     }
 
     async function createTCAScreenshot(table, uid, field, path, actions) {
-        let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' +
-            field;
+        let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field;
         let bePath = 'record/edit';
-        await createScreenshot(table, uid, path, '.form-section',
-            command, bePath, actions);
+        await createScreenshot(page, table, uid, path, '.form-section', command, bePath, actions);
     }
 
     async function createTableScreenshot(table, pid, path, selector, actions) {
         let command = 'table=='+table;
         let bePath = 'module/web/list';
-        await createScreenshot(table, pid, path, selector, command, bePath, actions);
+        await createScreenshot(page, table, pid, path, selector, command, bePath, actions);
     }
     async function createRecordScreenshot(table, uid, path, selector, actions) {
         let command = 'edit['+table+']['+uid+']=edit';
         let bePath = 'record/edit';
-        await createScreenshot(table, uid, path, selector, command, bePath, actions);
-    }
-    async function createScreenshot(table, uid, path, selector, command, bePath, actions) {
-        await page.goto(baseUrl+'/typo3/'+bePath+'?token=1&'+command,
-            {waitUntil: 'networkidle2'});
-        if (actions) {
-            await executeActions(actions, page, table, uid);
-        }
-        console.log('Capturing: ' + path);
-        if (selector === '') {
-            // whole page screenshot
-            await page.screenshot({
-                path: path,
-            });
-        } else {
-            const formSection = await page.$(selector);
-            await formSection.screenshot({
-                path: path,
-            });
-        }
-    }
-
-    function toCamelCase(string) {
-        var splitStr = string.toLowerCase().split('_');
-        for (var k = 0; k < splitStr.length; k++) {
-            splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
-        }
-        return splitStr.join('');
+        await createScreenshot(page, table, uid, path, selector, command, bePath, actions);
     }
 
     await browser.close();
 })()
 
+function toCamelCase(string) {
+    var splitStr = string.toLowerCase().split('_');
+    for (var k = 0; k < splitStr.length; k++) {
+        splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
+    }
+    return splitStr.join('');
+}
 
+async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
+    await page.goto(baseUrl+'/typo3/'+bePath+'?token=1&'+command,
+        {waitUntil: 'networkidle2'});
+    if (actions) {
+        await executeActions(actions, page, table, uid);
+    }
+    console.log('Capturing: ' + path);
+    if (selector === '') {
+        // whole page screenshot
+        await page.screenshot({
+            path: path,
+        });
+    } else {
+        const formSection = await page.$(selector);
+        await formSection.screenshot({
+            path: path,
+        });
+    }
+}
 
 async function executeActions(actions, page, table, uid) {
     for (var i = 0; i < actions.length; i++) {
