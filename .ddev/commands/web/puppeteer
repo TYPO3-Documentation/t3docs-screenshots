@@ -11,4 +11,4 @@ fi
 
 file=$(cat $1)
 
-node -e "$file" --unhandled-rejections=strict
+node -e "$file" --unhandled-rejections=strict "${BASH_ARGV[*]}"
