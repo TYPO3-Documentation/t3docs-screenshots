@@ -105,7 +105,7 @@ async function processSuite(page) {
 
     const firstLine = config['comments']['rst.txt'] + "\r\n";
 
-    for(var key in config['extensions']){
+    for(let key in config['extensions']){
         let extensionConfig = config['extensions'][key];
 
         let absoluteImagePath = outputPath + extensionConfig['paths']['imageSource'];
@@ -130,41 +130,33 @@ async function processSuite(page) {
             let prefix = strFromConfig(tableConfig[i]['prefix']);
             if (!limitToTable || table === limitToTable) {
                 for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
-
                     let caption = strFromConfig(tableConfig[i]['screens'][k]['caption']);
                     let name = strFromConfig(tableConfig[i]['screens'][k]['name']);
                     let filename = name ? name : toCamelCase(prefix + table);
                     let selector = strFromConfig(tableConfig[i]['screens'][k]['selector']);
                     let actions = arrayFromConfig(tableConfig[i]['screens'][k]['actions']);
+                    let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
+                    let absoluteImageFilename = absoluteImagePath + filename + '.png';
+                    let relativeImageFilename = relativeImagePath + filename + '.png';
 
                     console.log('Actions:' + actions.length);
+
                     if (tableConfig[i]['screens'][k]['view'] === 'table') {
-
                         let pid = tableConfig[i]['screens'][k]['pid'];
-                        console.log('Take Screenshot of  ' + table + ' ' + pid);
-                        await createTableScreenshot(page, table, pid,
-                            absoluteImagePath + filename + '.png',
-                            selector, actions);
-                        let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-                        createIncludeRst(includeRstFilename, firstLine,
-                            relativeImagePath + filename + '.png',
-                            prefix, table, '', caption);
+                        console.log('Take Screenshot from table ' + table + ' of page ' + pid);
+                        await createTableScreenshot(page, table, pid, absoluteImageFilename, selector, actions);
+                        createIncludeRst(includeRstFilename, firstLine, relativeImageFilename, prefix, table, '', caption);
                     }
-                    if (tableConfig[i]['screens'][k]['view'] === 'record') {
 
+                    if (tableConfig[i]['screens'][k]['view'] === 'record') {
                         let uid = tableConfig[i]['screens'][k]['uid'];
-                        console.log('Take Screenshot of record ' + table + ' uid ' + uid);
-                        await createRecordScreenshot(page, table, uid,
-                            absoluteImagePath + filename + '.png',
-                            selector, actions);
-                        let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-                        createIncludeRst(includeRstFilename, firstLine,
-                            relativeImagePath + filename + '.png',
-                            prefix, table, '', caption);
+                        console.log('Take Screenshot of record ' + uid + ' from table ' + table);
+                        await createRecordScreenshot(page, table, uid, absoluteImageFilename, selector, actions);
+                        createIncludeRst(includeRstFilename, firstLine, relativeImageFilename, prefix, table, '', caption);
                     }
+
                     if (tableConfig[i]['screens'][k]['view'] === 'fields') {
                         for (let j = 0; j < tableConfig[i]['fields'].length; j++) {
-                            // Create the Screenshots
                             let fieldConfig = tableConfig[i]['fields'][j];
                             let field = '';
                             let caption = '';
@@ -180,27 +172,18 @@ async function processSuite(page) {
                                     fieldActions = fieldConfig['actions'];
                                 }
                             }
-                            caption = caption?caption:'Screenshot of field '+field+', table '+table;
-                            filename = filename?filename:toCamelCase(prefix + field);
-                            let imageFileName = filename + '.png';
+                            caption = caption ? caption : 'Screenshot of field '+table+ ':' + field;
+                            filename = filename ? filename : toCamelCase(prefix + field);
+                            let absoluteImageFilename = absoluteImagePath + filename + '.png';
+                            let relativeImageFilename = relativeImagePath + filename + '.png';
+                            let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
+                            let includeSnippetFilename = snippetsIncludePath + filename + '.rst.txt';
 
                             console.log(fieldActions);
 
-                            await createTCAScreenshot(page, table,
-                                tableConfig[i]['screens'][k]['uid'], field,
-                                absoluteImagePath + imageFileName,
-                                fieldActions);
-
-                            let includeRstFilename = imageIncludesPath +
-                                filename + '.rst.txt';
-                            createIncludeRst(includeRstFilename, firstLine,
-                                relativeImagePath + imageFileName,
-                                prefix, table, field, caption);
-
-                            let includeSnippetFilename = snippetsIncludePath
-                                + filename + '.rst.txt';
-                            createSnippetIncludeRst(includeSnippetFilename, firstLine,
-                                relativeCodeSource, prefix, table, field);
+                            await createTCAScreenshot(page, table, tableConfig[i]['screens'][k]['uid'], field, absoluteImageFilename, fieldActions);
+                            createIncludeRst(includeRstFilename, firstLine, relativeImageFilename, prefix, table, field, caption);
+                            createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field);
                         }
                     }
                 }
