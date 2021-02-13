@@ -85,7 +85,6 @@ const limitToTable = 'tt_content';
         let snippetsIncludePath = outputPath + extensionConfig['paths']['codeRst'];
         let relativeCodeSource = extensionConfig['paths']['relativeCodeSource'];
 
-        let fs = require('fs');
         if (!fs.existsSync(absoluteImagePath)){
             fs.mkdirSync(absoluteImagePath, { recursive: true });
         }
