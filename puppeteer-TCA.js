@@ -12,7 +12,7 @@ const viewPort = {width: 640, height: 640};
     const page = await browser.newPage();
 
     // Set size of "browser window" - cannot click outside this area.
-    await page.setViewport({width: 640, height: 640});
+    await page.setViewport(viewPort);
 
     await page.goto(baseUrl);
     await page.waitForSelector('body');
