@@ -305,12 +305,6 @@ async function clickAction(actions, i, page, table, uid) {
     }
 }
 
-async function logNotFound(text) {
-    console.log('########################################');
-    console.log('## ' + text);
-    console.log('########################################');
-}
-
 async function waitAction(actions, i, page, table, uid) {
     if (actions[i]['selector']) {
         console.log('Waiting for selector ' + actions[i]['selector']);
@@ -373,4 +367,10 @@ function createIncludeRst(includeRstFilename, firstLine, imageFileName, prefix, 
         if (err) throw err;
         console.log('Saved ' + includeRstFilename);
     });
+}
+
+async function logNotFound(text) {
+    console.log('########################################');
+    console.log('## ' + text);
+    console.log('########################################');
 }
