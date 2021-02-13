@@ -1,23 +1,24 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
+const baseUrl = 'http://localhost';
+const limitToTable = 'tt_content';
 
 (async () => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
-    const limitToTable = 'tt_content';
 
     // Set size of "browser window" - cannot click outside this area.
     await page.setViewport({width: 640, height: 640});
 
-    await page.goto('http://localhost');
+    await page.goto(baseUrl);
     await page.waitForSelector('body');
 
     // Screenshot: Full page of Frontend
     await page.screenshot({path: 'Screenshots/00_FE_Fullpage.png', fullPage: true});
 
     // Switch to backend
-    await page.goto('http://localhost/typo3/login', {waitUntil: 'networkidle2'});
+    await page.goto(baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
     await page.waitForSelector('#loginCopyright');
 
     // Screenshot: Full page of Backend
@@ -264,7 +265,7 @@ const fs = require('fs');
         await createScreenshot(table, uid, path, selector, command, bePath, actions);
     }
     async function createScreenshot(table, uid, path, selector, command, bePath, actions) {
-        await page.goto('http://localhost/typo3/'+bePath+'?token=1&'+command,
+        await page.goto(baseUrl+'/typo3/'+bePath+'?token=1&'+command,
             {waitUntil: 'networkidle2'});
         if (actions) {
             await executeActions(actions, page, table, uid);
