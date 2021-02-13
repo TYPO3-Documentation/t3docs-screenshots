@@ -1,6 +1,6 @@
 *  Install ddev in a version on which the latest TYPO3 Version is running (currently v1.16.5) (https://docs.typo3.org/m/typo3/guide-contributionworkflow/master/en-us/Appendix/SettingUpTypo3Ddev.html#configure-ddev)
 *  Clone Git project
-*  Install `ddev <https://ddev.readthedocs.io>`_ >= 1.16.5
+*  Install `ddev <https://ddev.readthedocs.io>`_ >= 1.16.6
 *  :code:`ddev start`
 *  :code:`ddev prepare`
 *  :code:`ddev puppeteer puppeteer-testscript.js`
