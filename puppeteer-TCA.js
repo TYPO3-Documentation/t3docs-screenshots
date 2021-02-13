@@ -43,20 +43,18 @@ function getOutputPath() {
     return 'public/Output/' + settings.suite + '/';
 }
 
-function strFromConfig(config) {
-    let ret = '';
-    if (typeof config == 'string') {
-        ret = config;
+function getString(value) {
+    if (typeof value == 'string') {
+        return value;
     }
-    return ret;
+    return '';
 }
 
-function arrayFromConfig(config) {
-    let ret = [];
-    if (typeof config == 'object') {
-        ret = config;
+function getArray(value) {
+    if (typeof value == 'object') {
+        return value;
     }
-    return ret;
+    return [];
 }
 
 function toCamelCase(string) {
@@ -149,14 +147,14 @@ async function processSuite(page) {
         let tableConfig = config['extensions'][key]['tables'];
         for (let i = 0; i < tableConfig.length; i++) {
             let table = tableConfig[i]['table'];
-            let prefix = strFromConfig(tableConfig[i]['prefix']);
+            let prefix = getString(tableConfig[i]['prefix']);
             if (!settings.limitToTable || table === settings.limitToTable) {
                 for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
-                    let caption = strFromConfig(tableConfig[i]['screens'][k]['caption']);
-                    let name = strFromConfig(tableConfig[i]['screens'][k]['name']);
+                    let caption = getString(tableConfig[i]['screens'][k]['caption']);
+                    let name = getString(tableConfig[i]['screens'][k]['name']);
                     let filename = name ? name : toCamelCase(prefix + table);
-                    let selector = strFromConfig(tableConfig[i]['screens'][k]['selector']);
-                    let actions = arrayFromConfig(tableConfig[i]['screens'][k]['actions']);
+                    let selector = getString(tableConfig[i]['screens'][k]['selector']);
+                    let actions = getArray(tableConfig[i]['screens'][k]['actions']);
                     let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
                     let absoluteImageFilename = absoluteImagePath + filename + '.png';
                     let relativeImageFilename = relativeImagePath + filename + '.png';
