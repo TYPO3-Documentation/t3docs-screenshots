@@ -35,36 +35,6 @@ function fetchSettingsFromCli() {
     }
 }
 
-function getSuitePath() {
-    return './public/OriginalManual/' + settings.suite + '/Scripts/GenerateScreenshots/Config.json';
-}
-
-function getOutputPath() {
-    return 'public/Output/' + settings.suite + '/';
-}
-
-function getString(value) {
-    if (typeof value == 'string') {
-        return value;
-    }
-    return '';
-}
-
-function getArray(value) {
-    if (typeof value == 'object') {
-        return value;
-    }
-    return [];
-}
-
-function getCamelCase(string) {
-    var splitStr = string.toLowerCase().split('_');
-    for (var k = 0; k < splitStr.length; k++) {
-        splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
-    }
-    return splitStr.join('');
-}
-
 async function goToTypo3Frontend(page) {
     await page.goto(settings.baseUrl);
     await page.waitForSelector('body');
@@ -210,6 +180,36 @@ async function processSuite(page) {
             }
         }
     }
+}
+
+function getSuitePath() {
+    return './public/OriginalManual/' + settings.suite + '/Scripts/GenerateScreenshots/Config.json';
+}
+
+function getOutputPath() {
+    return 'public/Output/' + settings.suite + '/';
+}
+
+function getString(value) {
+    if (typeof value == 'string') {
+        return value;
+    }
+    return '';
+}
+
+function getArray(value) {
+    if (typeof value == 'object') {
+        return value;
+    }
+    return [];
+}
+
+function getCamelCase(string) {
+    var splitStr = string.toLowerCase().split('_');
+    for (var k = 0; k < splitStr.length; k++) {
+        splitStr[k] = splitStr[k].charAt(0).toUpperCase() + splitStr[k].substring(1);
+    }
+    return splitStr.join('');
 }
 
 function createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field) {
