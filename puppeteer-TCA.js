@@ -1,13 +1,15 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const minimist = require('minimist');
 
 const baseUrl = 'http://localhost';
 const limitToTable = 'tt_content';
-const suitePath = './public/OriginalManual/TYPO3CMS-Reference-TCA/Scripts/GenerateScreenshots/Config.json';
-const outputPath = 'public/Output/TYPO3CMS-Reference-TCA/';
 const viewPort = {width: 640, height: 640};
+var suite = 'TYPO3CMS-Reference-TCA';
 
 (async () => {
+    fetchSettingsFromCli();
+
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     const page = await browser.newPage();
 
@@ -20,6 +22,21 @@ const viewPort = {width: 640, height: 640};
 
     await browser.close();
 })()
+
+function fetchSettingsFromCli() {
+    const args = minimist(process.argv.slice(2))
+    if (args['suite']) {
+        suite = args['suite'];
+    }
+}
+
+function getSuitePath() {
+    return './public/OriginalManual/' + suite + '/Scripts/GenerateScreenshots/Config.json';
+}
+
+function getOutputPath() {
+    return 'public/Output/' + suite + '/';
+}
 
 function strFromConfig(config) {
     let ret = '';
@@ -101,17 +118,17 @@ async function goToTypo3Backend(page) {
 }
 
 async function processSuite(page) {
-    const config = require(suitePath);
+    const config = require(getSuitePath());
 
     const firstLine = config['comments']['rst.txt'] + "\r\n";
 
     for(let key in config['extensions']){
         let extensionConfig = config['extensions'][key];
 
-        let absoluteImagePath = outputPath + extensionConfig['paths']['imageSource'];
+        let absoluteImagePath = getOutputPath() + extensionConfig['paths']['imageSource'];
         let relativeImagePath = extensionConfig['paths']['relativeImagePath'];
-        let imageIncludesPath = outputPath + extensionConfig['paths']['imageRst'];
-        let snippetsIncludePath = outputPath + extensionConfig['paths']['codeRst'];
+        let imageIncludesPath = getOutputPath() + extensionConfig['paths']['imageRst'];
+        let snippetsIncludePath = getOutputPath() + extensionConfig['paths']['codeRst'];
         let relativeCodeSource = extensionConfig['paths']['relativeCodeSource'];
 
         if (!fs.existsSync(absoluteImagePath)){
