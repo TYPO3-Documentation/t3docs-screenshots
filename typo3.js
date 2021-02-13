@@ -212,51 +212,6 @@ function getCamelCase(string) {
     return splitStr.join('');
 }
 
-function createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field) {
-    let includeRst =
-        firstLine +
-        "\r\n" +
-        ".. literalinclude:: " + relativeCodeSource + table + ".php\r\n" +
-        "   :language: php\r\n" +
-        "   :start-at: start " + field + "\r\n" +
-        "   :end-before: end " + field + "\r\n" +
-        "   :lines: 2- \r\n" +
-        "\r\n";
-    fs.writeFile(includeSnippetFilename, includeRst, function (err) {
-        if (err) throw err;
-        console.log('Saved ' + includeSnippetFilename);
-    });
-}
-
-function createIncludeRst(includeRstFilename, firstLine, imageFileName, prefix, table, field='', caption='') {
-    let imageText = "Screenshot of  table " + table;
-    if (field) {
-        imageText = "Screenshot of  field " + field + ", table " + table ;
-    }
-    if (caption) {
-        imageText = caption;
-    }
-    let alt = imageText;
-    let description = imageText;
-    if (field) {
-        description = ":ref:`"+ imageText +
-            " <tca_example_" + prefix + field + ">`";
-    }
-    // Create the file for including the Screenshots
-    let includeRst =
-        firstLine +
-        "\r\n" +
-        ".. figure:: " + imageFileName + "\r\n" +
-        "   :alt: " + alt + "\r\n" +
-        "   :class: with-shadow\r\n" +
-        "\r\n" +
-        "   " + description + "\r\n"
-    fs.writeFile(includeRstFilename, includeRst, function (err) {
-        if (err) throw err;
-        console.log('Saved ' + includeRstFilename);
-    });
-}
-
 async function createTCAScreenshot(page, table, uid, field, path, actions) {
     let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field;
     let bePath = 'record/edit';
@@ -373,4 +328,49 @@ async function changeAction(actions, i, page, table, uid) {
         console.log('Selecting ' + selector + 'with value ' + actions[i]['value']);
         await page.select(selector, actions[i]['value']);
     }
+}
+
+function createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field) {
+    let includeRst =
+        firstLine +
+        "\r\n" +
+        ".. literalinclude:: " + relativeCodeSource + table + ".php\r\n" +
+        "   :language: php\r\n" +
+        "   :start-at: start " + field + "\r\n" +
+        "   :end-before: end " + field + "\r\n" +
+        "   :lines: 2- \r\n" +
+        "\r\n";
+    fs.writeFile(includeSnippetFilename, includeRst, function (err) {
+        if (err) throw err;
+        console.log('Saved ' + includeSnippetFilename);
+    });
+}
+
+function createIncludeRst(includeRstFilename, firstLine, imageFileName, prefix, table, field='', caption='') {
+    let imageText = "Screenshot of  table " + table;
+    if (field) {
+        imageText = "Screenshot of  field " + field + ", table " + table ;
+    }
+    if (caption) {
+        imageText = caption;
+    }
+    let alt = imageText;
+    let description = imageText;
+    if (field) {
+        description = ":ref:`"+ imageText +
+            " <tca_example_" + prefix + field + ">`";
+    }
+    // Create the file for including the Screenshots
+    let includeRst =
+        firstLine +
+        "\r\n" +
+        ".. figure:: " + imageFileName + "\r\n" +
+        "   :alt: " + alt + "\r\n" +
+        "   :class: with-shadow\r\n" +
+        "\r\n" +
+        "   " + description + "\r\n"
+    fs.writeFile(includeRstFilename, includeRst, function (err) {
+        if (err) throw err;
+        console.log('Saved ' + includeRstFilename);
+    });
 }
