@@ -12,7 +12,7 @@ var settings = {
         width: 640,
         height: 640
     },
-    limitToTable: 'tt_content'
+    limitToTable: ''
 };
 
 // *************************************
@@ -41,6 +41,9 @@ function fetchSettingsFromCli() {
     const args = minimist(process.argv.slice(2))
     if (args['suite']) {
         settings.suite = args['suite'];
+    }
+    if (args['limitToTable']) {
+        settings.limitToTable = args['limitToTable'];
     }
 }
 
