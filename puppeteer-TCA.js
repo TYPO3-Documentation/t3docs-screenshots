@@ -5,6 +5,7 @@ const baseUrl = 'http://localhost';
 const limitToTable = 'tt_content';
 const suitePath = './public/OriginalManual/TYPO3CMS-Reference-TCA/Scripts/GenerateScreenshots/Config.json';
 const outputPath = 'public/Output/TYPO3CMS-Reference-TCA/';
+const viewPort = {width: 640, height: 640};
 
 (async () => {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
@@ -66,10 +67,8 @@ const outputPath = 'public/Output/TYPO3CMS-Reference-TCA/';
         }
     });
 
-    await Promise.all([
-        page.waitForNavigation(),
-        loginFormSubmitButton.click()
-    ]);
+    loginFormSubmitButton.click();
+    await page.waitForNavigation();
 
     await processSuite(page);
 
