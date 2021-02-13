@@ -1,4 +1,4 @@
-*  Install ddev in a version on which the latest TYPO3 Version is running
+*  Install ddev in a version on which the latest TYPO3 Version is running (currently v1.16.5) (https://docs.typo3.org/m/typo3/guide-contributionworkflow/master/en-us/Appendix/SettingUpTypo3Ddev.html#configure-ddev)
 *  Clone Git project
 *  :code:`ddev start`
 *  :code:`ddev prepare`
