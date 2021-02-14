@@ -38,7 +38,6 @@ class RecordMappingCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->initCommand($input, $output);
-        $this->io->writeln('Writing pages mapping');
 
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
         $qb
