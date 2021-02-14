@@ -8,7 +8,7 @@ Installation
 *  Clone this Git project
 *  :code:`ddev start`
 *  :code:`ddev prepare`
-*  :code:`ddev puppeteer puppeteer-testscript.js`
+*  :code:`ddev exec node puppeteer-testscript.js`
 *  Find the Screenshots in ``Screenshots/``
 *  Log into the backend: https://sig-screenshots.ddev.site/typo3/
 *  Username: admin
@@ -16,5 +16,5 @@ Installation
 *  Clone the manual you want to work on into ``public/OriginalManual`` of this
    project. This currently only works with the master branch of the
    `TCA reference <https://github.com/TYPO3-Documentation/TYPO3CMS-Reference-TCA>`_
-*  Run :code:`ddev puppeteer typo3.js --suite=TYPO3CMS-Reference-TCA --limitToTable=tt_content`
+*  Run :code:`ddev exec node typo3.js --suite=TYPO3CMS-Reference-TCA --limitToTable=tt_content`
 *  Open http://sig-screenshots.ddev.site/scripts/index.php
