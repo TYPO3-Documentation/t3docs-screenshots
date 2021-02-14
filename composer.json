@@ -12,9 +12,19 @@
         {
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/styleguide"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/TYPO3-Documentation/introduction"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/TYPO3-Documentation/bootstrap_package"
         }
     ],
     "require": {
+        "ext-json": "*",
+        "bk2k/bootstrap-package": "dev-master",
         "calcinai/php-imagick": "^0.1.2",
         "cweagans/composer-patches": "^1.7",
         "helhum/typo3-console": "^6.4.0",
@@ -36,6 +46,7 @@
         "typo3/cms-impexp": "^11.0",
         "typo3/cms-info": "^11.0",
         "typo3/cms-install": "^11.0",
+        "typo3/cms-introduction": "dev-master",
         "typo3/cms-lowlevel": "^11.0",
         "typo3/cms-recordlist": "^11.0",
         "typo3/cms-reports": "^11.0",
@@ -45,8 +56,7 @@
         "typo3/cms-sys-note": "^11.0",
         "typo3/cms-t3editor": "^11.0",
         "typo3/cms-tstemplate": "^11.0",
-        "typo3/cms-viewpage": "^11.0",
-      "ext-json": "*"
+        "typo3/cms-viewpage": "^11.0"
     },
     "scripts": {
         "typo3-cms-scripts": [
