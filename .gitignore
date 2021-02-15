@@ -7,6 +7,9 @@ nbproject
 /vendor
 /public/*
 !/public/.htaccess
+!/public/fileadmin
+/public/fileadmin/_*
+/public/fileadmin/user_upload/_temp_
 !/public/scripts
 !/public/typo3conf
 /public/typo3conf/*

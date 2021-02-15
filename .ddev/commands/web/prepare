@@ -14,4 +14,4 @@ echo "importing database"
 
 echo
 echo "All done!"
-echo "try running \"ddev puppeteer puppeteer-testscript.js\" and watch folder \"Screenshots/\""
+echo "try running \"ddev exec node puppeteer-testscript.js\" and watch folder \"Screenshots/\""

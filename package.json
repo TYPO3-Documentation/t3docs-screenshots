@@ -2,6 +2,8 @@
   "devDependencies": {
     "puppeteer": "^5.5.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "minimist": "^1.2.5"
+  },
   "scripts": {}
 }
