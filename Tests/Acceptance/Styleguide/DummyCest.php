@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Backend;
+namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Styleguide;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -21,7 +21,7 @@ use TYPO3\CMS\Screenshots\Tests\Acceptance\Support\BackendTester;
 /**
  * Tests the screenshots backend module can be loaded
  */
-class ModuleCest
+class DummyCest
 {
     /**
      * @param BackendTester $I

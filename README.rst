@@ -20,7 +20,7 @@ Take screenshots of TYPO3 + EXT:styleguide
 
 .. code-block:: bash
 
-   Build/Scripts/runTests.sh -s acceptance
+   Build/Scripts/runTests.sh -s styleguide
 
 Check ``.Build/Web/typo3temp/var/tests/AcceptanceReports/debug`` for images.
 

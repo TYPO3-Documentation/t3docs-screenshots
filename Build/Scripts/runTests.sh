@@ -45,7 +45,7 @@ No arguments: Run all unit tests with PHP 7.2
 Options:
     -s <...>
         Specifies which test suite to run
-            - acceptance: backend acceptance tests
+            - styleguide: acceptance tests on typo3 with styleguide package
             - introduction: acceptance tests on typo3 with introduction package
             - cgl: cgl test and fix all php files
             - composerInstall: "composer install", handy if host has no PHP, uses composer cache of users home
@@ -70,7 +70,7 @@ Options:
             - 7.4: use PHP 7.4
 
     -e "<phpunit or codeception options>"
-        Only with -s acceptance|introduction|functional|unit
+        Only with -s styleguide|introduction|functional|unit
         Additional options to send to phpunit (unit & functional tests) or codeception (acceptance
         tests). For phpunit, options starting with "--" must be added after options starting with "-".
         Example -e "-v --filter canRetrieveValueWithGP" to enable verbose output AND filter tests
@@ -203,11 +203,11 @@ if [ -n "${1}" ]; then
     TEST_FILE="Web/typo3conf/ext/screenshots/${1}"
 else
     case ${TEST_SUITE} in
-        acceptance)
-            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance"
+        styleguide)
+            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance/Styleguide"
             ;;
         introduction)
-            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance"
+            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance/Introduction"
             ;;
         functional)
             TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Functional"
@@ -224,9 +224,9 @@ fi
 
 # Suite execution
 case ${TEST_SUITE} in
-    acceptance)
+    styleguide)
         setUpDockerComposeDotEnv
-        docker-compose run acceptance_backend_mariadb10
+        docker-compose run acceptance_styleguide_mariadb10
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;

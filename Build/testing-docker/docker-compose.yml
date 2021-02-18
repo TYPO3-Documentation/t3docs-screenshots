@@ -41,7 +41,7 @@ services:
       TYPO3_PATH_APP: ${ROOT_DIR}/.Build/Web/typo3temp/var/tests/acceptance
     command: php -n -c /etc/php/cli-no-xdebug/php.ini -S web:8000 -t ${ROOT_DIR}/.Build/Web
 
-  acceptance_backend_mariadb10:
+  acceptance_styleguide_mariadb10:
     image: typo3/core-testing-${DOCKER_PHP_IMAGE}:latest
     user: ${HOST_UID}
     links:
@@ -71,7 +71,7 @@ services:
         echo Database is up;
         php -v | grep '^PHP';
         mkdir -p Web/typo3temp/var/tests/ \
-          && vendor/codeception/codeception/codecept run Backend -d -c Web/typo3conf/ext/screenshots/Tests/codeception.yml ${TEST_FILE}
+          && vendor/codeception/codeception/codecept run Styleguide -d -c Web/typo3conf/ext/screenshots/Tests/codeception.yml ${TEST_FILE}
       "
 
   acceptance_introduction_mariadb10:
