@@ -1,0 +1,4 @@
+.Build/
+.idea/
+Build/testing-docker/.env
+Tests/Acceptance/Support/_generated/

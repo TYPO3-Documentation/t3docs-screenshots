@@ -1,0 +1,64 @@
+{
+  "name": "typo3/cms-screenshots",
+  "authors": [
+    {
+      "name": "TYPO3 CMS Documentation Team",
+      "role": "Developer",
+      "homepage": "https://typo3.org/community/teams/documentation"
+    },
+    {
+      "name": "The TYPO3 Community",
+      "role": "Contributor",
+      "homepage": "https://typo3.org/community/"
+    }
+  ],
+  "type": "typo3-cms-extension",
+  "description": "Provide tools and runner to take scripted screenshots of the TYPO3 CMS.",
+  "homepage": "https://github.com/TYPO3-Documentation/SIG-Screenshots",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "typo3",
+    "screenshot"
+  ],
+  "support": {
+    "issues": "https://github.com/TYPO3-Documentation/SIG-Screenshots/issues"
+  },
+  "autoload": {
+    "psr-4": {
+      "TYPO3\\CMS\\Screenshots\\": "Classes/"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "require-dev": {
+    "typo3/cms-core": "dev-master",
+    "typo3/cms-frontend": "dev-master",
+    "typo3/cms-install": "dev-master",
+    "typo3/cms-about": "dev-master",
+    "typo3/testing-framework": "^6.5.0",
+    "codeception/codeception": "^4.1",
+    "codeception/module-webdriver": "^1.1",
+    "codeception/module-asserts": "^1.2"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload-dev": {
+    "psr-4": {
+      "TYPO3\\CMS\\Screenshots\\Tests\\": "Tests"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+    ]
+  },
+  "extra": {
+    "typo3/cms": {
+      "app-dir": ".Build",
+      "web-dir": ".Build/Web",
+      "extension-key": "screenshots"
+    }
+  }
+}
