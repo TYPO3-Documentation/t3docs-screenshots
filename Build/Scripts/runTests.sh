@@ -40,7 +40,7 @@ Successfully tested with docker version 18.06.1-ce and docker-compose 1.21.2.
 
 Usage: $0 [options] [file]
 
-No arguments: Run all unit tests with PHP 7.4
+No arguments: Run all unit tests with PHP 7.2
 
 Options:
     -s <...>
@@ -62,9 +62,11 @@ Options:
             - postgres: use postgres
             - sqlite: use sqlite
 
-    -p <7.4>
+    -p <7.2|7.3|7.4>
         Specifies the PHP minor version to be used
-            - 7.4 (default): use PHP 7.4
+            - 7.2 (default): use PHP 7.2
+            - 7.3: use PHP 7.3
+            - 7.4: use PHP 7.4
 
     -e "<phpunit or codeception options>"
         Only with -s acceptance|functional|unit
@@ -100,8 +102,11 @@ Options:
         Show this help.
 
 Examples:
-    # Run unit tests using PHP 7.4
+    # Run unit tests using PHP 7.2
     ./Build/Scripts/runTests.sh
+
+    # Run unit tests using PHP 7.4
+    ./Build/Scripts/runTests.sh -p 7.4
 EOF
 
 # Test if docker-compose exists, else exit out with error
@@ -122,7 +127,7 @@ cd ../testing-docker || exit 1
 ROOT_DIR=`readlink -f ${PWD}/../../`
 TEST_SUITE="unit"
 DBMS="mariadb"
-PHP_VERSION="7.4"
+PHP_VERSION="7.2"
 PHP_XDEBUG_ON=0
 PHP_XDEBUG_PORT=9000
 EXTRA_TEST_OPTIONS=""
@@ -188,7 +193,7 @@ if [ ${#INVALID_OPTIONS[@]} -ne 0 ]; then
     exit 1
 fi
 
-# Move "7.4" to "php74", the latter is the docker container name
+# Move "7.2" to "php72", the latter is the docker container name
 DOCKER_PHP_IMAGE=`echo "php${PHP_VERSION}" | sed -e 's/\.//'`
 
 # Set $1 to first mass argument, this is the optional test file or test directory to execute

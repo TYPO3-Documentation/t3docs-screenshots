@@ -33,12 +33,12 @@
     "bin-dir": ".Build/bin"
   },
   "require-dev": {
-    "typo3/cms-core": "dev-master",
-    "typo3/cms-frontend": "dev-master",
-    "typo3/cms-install": "dev-master",
-    "typo3/cms-about": "dev-master",
-    "typo3/cms-styleguide": "dev-master",
-    "typo3/testing-framework": "^6.5.0",
+    "typo3/cms-core": "^10.4.0@dev",
+    "typo3/cms-frontend": "^10.4.0@dev",
+    "typo3/cms-install": "^10.4.0@dev",
+    "typo3/cms-about": "^10.4.0@dev",
+    "typo3/cms-styleguide": "^10.0.0@dev",
+    "typo3/testing-framework": "^6.6.2",
     "codeception/codeception": "^4.1",
     "codeception/module-webdriver": "^1.1",
     "codeception/module-asserts": "^1.2"
