@@ -36,6 +36,6 @@ class ModuleCest
      */
     public function screenshotOfTypo3Backend(BackendTester $I)
     {
-        $I->makeScreenshot('typo3_backend');
+        $I->makeScreenshot('typo3_backend_w_styleguide');
     }
 }

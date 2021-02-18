@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "87791b31d459e95b57d673d0aeec9931",
+    "content-hash": "d1ed0d04d20a4256aa994960fe3f3a6e",
     "packages": [],
     "packages-dev": [
         {
@@ -7065,6 +7065,76 @@
             "time": "2021-02-15T07:50:09+00:00"
         },
         {
+            "name": "typo3/cms-styleguide",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3/styleguide.git",
+                "reference": "bf6cf3b75323d54c36af51f874dfa194ae3df592"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/bf6cf3b75323d54c36af51f874dfa194ae3df592",
+                "reference": "bf6cf3b75323d54c36af51f874dfa194ae3df592",
+                "shasum": ""
+            },
+            "require-dev": {
+                "codeception/codeception": "^4.1",
+                "codeception/module-asserts": "^1.2",
+                "codeception/module-webdriver": "^1.1",
+                "phpstan/phpstan": "^0.12.37",
+                "typo3/cms-about": "dev-master",
+                "typo3/cms-core": "dev-master",
+                "typo3/cms-frontend": "dev-master",
+                "typo3/cms-install": "dev-master",
+                "typo3/coding-standards": "^0.2.0",
+                "typo3/tailor": "^1.2",
+                "typo3/testing-framework": "^6.5.0"
+            },
+            "default-branch": true,
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "app-dir": ".Build",
+                    "web-dir": ".Build/Web",
+                    "extension-key": "styleguide"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\CMS\\Styleguide\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "TYPO3 CMS Core Team",
+                    "homepage": "https://forge.typo3.org/projects/typo3cms-core",
+                    "role": "Developer"
+                },
+                {
+                    "name": "The TYPO3 Community",
+                    "homepage": "https://typo3.org/community/",
+                    "role": "Contributor"
+                }
+            ],
+            "description": "TYPO3 CMS Extension to test everything in the TYPO3 Backend",
+            "homepage": "https://github.com/TYPO3/styleguide",
+            "keywords": [
+                "style guide",
+                "typo3",
+                "typo3 backend"
+            ],
+            "support": {
+                "issues": "https://github.com/TYPO3/styleguide/issues",
+                "source": "https://github.com/TYPO3/styleguide/tree/master"
+            },
+            "time": "2021-02-14T20:07:07+00:00"
+        },
+        {
             "name": "typo3/phar-stream-wrapper",
             "version": "v3.1.6",
             "source": {
@@ -7331,7 +7401,8 @@
         "typo3/cms-core": 20,
         "typo3/cms-frontend": 20,
         "typo3/cms-install": 20,
-        "typo3/cms-about": 20
+        "typo3/cms-about": 20,
+        "typo3/cms-styleguide": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
