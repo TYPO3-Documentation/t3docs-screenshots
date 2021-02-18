@@ -15,12 +15,21 @@ Installation
       mkdir .Build
       Build/Scripts/runTests.sh -s composerInstall
 
-Take screenshots
-================
+Take screenshots of TYPO3 + EXT:styleguide
+==========================================
 
 .. code-block:: bash
 
    Build/Scripts/runTests.sh -s acceptance
+
+Check ``.Build/Web/typo3temp/var/tests/AcceptanceReports/debug`` for images.
+
+Take screenshots of TYPO3 + EXT:introduction
+============================================
+
+.. code-block:: bash
+
+   Build/Scripts/runTests.sh -s introduction
 
 Check ``.Build/Web/typo3temp/var/tests/AcceptanceReports/debug`` for images.
 

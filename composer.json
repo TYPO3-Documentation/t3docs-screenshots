@@ -38,6 +38,7 @@
     "typo3/cms-install": "^10.4.0@dev",
     "typo3/cms-about": "^10.4.0@dev",
     "typo3/cms-styleguide": "^10.0.0@dev",
+    "typo3/cms-introduction": "^4.2",
     "typo3/testing-framework": "^6.6.2",
     "codeception/codeception": "^4.1",
     "codeception/module-webdriver": "^1.1",

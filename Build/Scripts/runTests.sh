@@ -46,6 +46,7 @@ Options:
     -s <...>
         Specifies which test suite to run
             - acceptance: backend acceptance tests
+            - introduction: acceptance tests on typo3 with introduction package
             - cgl: cgl test and fix all php files
             - composerInstall: "composer install", handy if host has no PHP, uses composer cache of users home
             - composerValidate: "composer validate"
@@ -69,7 +70,7 @@ Options:
             - 7.4: use PHP 7.4
 
     -e "<phpunit or codeception options>"
-        Only with -s acceptance|functional|unit
+        Only with -s acceptance|introduction|functional|unit
         Additional options to send to phpunit (unit & functional tests) or codeception (acceptance
         tests). For phpunit, options starting with "--" must be added after options starting with "-".
         Example -e "-v --filter canRetrieveValueWithGP" to enable verbose output AND filter tests
@@ -205,6 +206,9 @@ else
         acceptance)
             TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance"
             ;;
+        introduction)
+            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance"
+            ;;
         functional)
             TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Functional"
             ;;
@@ -223,6 +227,12 @@ case ${TEST_SUITE} in
     acceptance)
         setUpDockerComposeDotEnv
         docker-compose run acceptance_backend_mariadb10
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    introduction)
+        setUpDockerComposeDotEnv
+        docker-compose run acceptance_introduction_mariadb10
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
