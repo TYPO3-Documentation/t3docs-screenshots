@@ -37,5 +37,7 @@ class DummyCest
     public function screenshotOfTypo3Backend(BackendTester $I)
     {
         $I->makeScreenshot('typo3_backend_w_styleguide');
+        $I->makeHtmlSnapshot('typo3_backend_w_styleguide');
+        $I->makeElementScreenshot('.topbar-header-site', 'typo3_backend_w_styleguide_toolbar');
     }
 }
