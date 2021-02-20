@@ -58,6 +58,7 @@
 		"typo3/cms-rte-ckeditor": "^11.0",
 		"typo3/cms-seo": "^11.0",
 		"typo3/cms-setup": "^11.0",
+		"typo3/cms-styleguide": "^11.0",
 		"typo3/cms-sys-note": "^11.0",
 		"typo3/cms-t3editor": "^11.0",
 		"typo3/cms-tstemplate": "^11.0",
@@ -84,7 +85,6 @@
 		"bk2k/extension-helper": "^1.0",
 		"codeception/codeception": "^4.1",
 		"codeception/module-asserts": "^1.0.0",
-		"codeception/module-phpbrowser": "^1.0.0",
-		"typo3/cms-styleguide": "dev-master"
+		"codeception/module-phpbrowser": "^1.0.0"
 	}
 }
