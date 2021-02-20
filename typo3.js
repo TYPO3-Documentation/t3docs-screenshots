@@ -12,7 +12,8 @@ var settings = {
     width: 640,
     height: 640
   },
-  limitToTable: ''
+  limitToTable: '',
+  stopOnFirstError: true
 };
 
 // *************************************
@@ -27,9 +28,23 @@ var settings = {
   // Set size of "browser window" - cannot click outside this area.
   await page.setViewport(settings.viewPort);
 
-  await goToTypo3Frontend(page);
-  await goToTypo3Backend(page);
-  await processSuite(page);
+  try {
+    try {
+      await goToTypo3Frontend(page);
+    } catch (e) {
+      log('TYPO3 Frontend doesn\'t work', 'error', e);
+    }
+    try {
+      await goToTypo3Backend(page);
+      await processBackendSuite(page);
+    } catch (e) {
+      log('TYPO3 Backend doesn\'t work', 'error', e);
+    }
+  } catch(e) {
+    if (settings['stopOnFirstError']) {
+      process.exit(1);
+    }
+  }
 
   await browser.close();
 })()
@@ -44,6 +59,9 @@ function fetchSettingsFromCli() {
   }
   if (args['limitToTable']) {
     settings.limitToTable = args['limitToTable'];
+  }
+  if (args['stopOnFirstError']) {
+    settings.stopOnFirstError = args['stopOnFirstError'] === 'true';
   }
 }
 
@@ -102,93 +120,166 @@ async function goToTypo3Backend(page) {
   await page.waitForNavigation();
 }
 
-async function processSuite(page) {
+function log(str, severity='debug', e = null) {
+  console.log(str);
+  if (e) {
+    log(e);
+    if (settings['stopOnFirstError']) {
+      process.exit(1);
+    }
+  }
+}
+
+function getExtensionSettings(extensionConfig) {
+  let extensionSettings = {
+    'absoluteImagePath': getOutputPath() + extensionConfig['paths']['imageSource'],
+    'imageIncludesPath': getOutputPath() + extensionConfig['paths']['imageRst'],
+  };
+  if (typeof extensionConfig['paths']['codeRst'] === 'string') {
+    extensionSettings['snippetsIncludePath'] =
+      getOutputPath() + extensionConfig['paths']['codeRst'];
+  }
+  for (const extensionSettingsKey in extensionSettings) {
+    const dir = extensionSettings[extensionSettingsKey];
+    if (typeof dir !== 'string') {
+      log(extensionSettingsKey + ' contains no string!');
+    } else if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, {recursive: true});
+    }
+  }
+
+  extensionSettings['relativeImagePath'] = extensionConfig['paths']['relativeImagePath'];
+  extensionSettings['relativeCodeSource'] = extensionConfig['paths']['relativeCodeSource'];
+  return extensionSettings;
+}
+
+async function processBackendSuite(page) {
   const config = require(getSuitePath());
 
   const firstLine = config['comments']['rst.txt'] + "\r\n";
 
   for (let key in config['extensions']) {
     let extensionConfig = config['extensions'][key];
-
-    let absoluteImagePath = getOutputPath() + extensionConfig['paths']['imageSource'];
-    let relativeImagePath = extensionConfig['paths']['relativeImagePath'];
-    let imageIncludesPath = getOutputPath() + extensionConfig['paths']['imageRst'];
-    let snippetsIncludePath = getOutputPath() + extensionConfig['paths']['codeRst'];
-    let relativeCodeSource = extensionConfig['paths']['relativeCodeSource'];
-
-    if (!fs.existsSync(absoluteImagePath)) {
-      fs.mkdirSync(absoluteImagePath, {recursive: true});
-    }
-    if (!fs.existsSync(imageIncludesPath)) {
-      fs.mkdirSync(imageIncludesPath, {recursive: true});
-    }
-    if (!fs.existsSync(snippetsIncludePath)) {
-      fs.mkdirSync(snippetsIncludePath, {recursive: true});
-    }
+    let extensionSettings = getExtensionSettings(extensionConfig);
 
     let tableConfig = config['extensions'][key]['tables'];
     for (let i = 0; i < tableConfig.length; i++) {
-      let table = tableConfig[i]['table'];
-      let prefix = getString(tableConfig[i]['prefix']);
-      if (!settings.limitToTable || table === settings.limitToTable) {
-        for (let k = 0; k < tableConfig[i]['screens'].length; k++) {
-          let caption = getString(tableConfig[i]['screens'][k]['caption']);
-          let name = getString(tableConfig[i]['screens'][k]['name']);
-          let filename = name ? name : getCamelCase(prefix + table);
-          let selector = getString(tableConfig[i]['screens'][k]['selector']);
-          let actions = getArray(tableConfig[i]['screens'][k]['actions']);
-          let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-          let absoluteImageFilename = absoluteImagePath + filename + '.png';
-          let relativeImageFilename = relativeImagePath + filename + '.png';
+      try {
+        await processTable(tableConfig[i], extensionSettings, page, firstLine);
+      } catch(e) {
+        log(
+          'Something went wrong processing table ' + tableConfig[i]['table'],
+          'error', e);
+      }
+    }
+  }
+}
 
-          console.log('Actions:' + actions.length);
+function getViewSettings(viewConfig, prefix, tableName, extensionSettings) {
+  let name = getString(viewConfig['name']);
+  let filename = name ? name : getCamelCase(prefix + tableName);
+  let viewSettings = {
+    'caption': getString(viewConfig['caption']),
+    'name': name,
+    'filename': filename,
+    'selector': getString(viewConfig['selector']),
+    'actions': getArray(viewConfig['actions']),
+    'prefix': prefix,
+    'includeRstFilename': extensionSettings['imageIncludesPath'] + filename + '.rst.txt',
+    'absoluteImageFilename': extensionSettings['absoluteImagePath'] + filename + '.png',
+    'relativeImageFilename': extensionSettings['relativeImagePath'] + filename + '.png'
+  }
+  return viewSettings;
+}
 
-          if (tableConfig[i]['screens'][k]['view'] === 'table') {
-            let pid = tableConfig[i]['screens'][k]['pid'];
-            console.log('Take Screenshot from table ' + table + ' of page ' + pid);
-            await createTableScreenshot(page, table, pid, absoluteImageFilename, selector, actions);
-            createIncludeRst(includeRstFilename, firstLine, relativeImageFilename, prefix, table, '', caption);
-          }
+async function processTableView(viewConfig, tableName, page, viewSettings, firstLine) {
+  if (viewConfig['view'] === 'table') {
+    let pid = viewConfig['pid'];
+    log('Take Screenshot from table ' + tableName + ' of page ' + pid);
+    await createTableScreenshot(page, tableName, pid, viewSettings);
+    createImageIncludeRst(viewSettings, firstLine, tableName, '');
+  }
+}
 
-          if (tableConfig[i]['screens'][k]['view'] === 'record') {
-            let uid = tableConfig[i]['screens'][k]['uid'];
-            console.log('Take Screenshot of record ' + uid + ' from table ' + table);
-            await createRecordScreenshot(page, table, uid, absoluteImageFilename, selector, actions);
-            createIncludeRst(includeRstFilename, firstLine, relativeImageFilename, prefix, table, '', caption);
-          }
+async function processRecordView(viewConfig, tableName, page, viewSettings, firstLine) {
+  if (viewConfig['view'] === 'record') {
+    let uid = viewConfig['uid'];
+    log('Take Screenshot of record ' + uid + ' from table ' + tableName);
+    await createRecordScreenshot(page, tableName, uid, viewSettings);
+    createImageIncludeRst(viewSettings, firstLine, tableName, '');
+  }
+}
 
-          if (tableConfig[i]['screens'][k]['view'] === 'fields') {
-            for (let j = 0; j < tableConfig[i]['fields'].length; j++) {
-              let fieldConfig = tableConfig[i]['fields'][j];
-              let field = '';
-              let caption = '';
-              let filename = '';
-              let fieldActions = actions;
-              if (typeof fieldConfig == 'string') {
-                field = fieldConfig;
-              } else {
-                field = fieldConfig['field'];
-                caption = fieldConfig['caption'];
-                filename = fieldConfig['name'];
-                if (typeof fieldConfig['actions'] === 'object') {
-                  fieldActions = fieldConfig['actions'];
-                }
-              }
-              caption = caption ? caption : 'Screenshot of field ' + table + ':' + field;
-              filename = filename ? filename : getCamelCase(prefix + field);
-              let absoluteImageFilename = absoluteImagePath + filename + '.png';
-              let relativeImageFilename = relativeImagePath + filename + '.png';
-              let includeRstFilename = imageIncludesPath + filename + '.rst.txt';
-              let includeSnippetFilename = snippetsIncludePath + filename + '.rst.txt';
-
-              console.log(fieldActions);
-
-              await createTCAScreenshot(page, table, tableConfig[i]['screens'][k]['uid'], field, absoluteImageFilename, fieldActions);
-              createIncludeRst(includeRstFilename, firstLine, relativeImageFilename, prefix, table, field, caption);
-              createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field);
-            }
-          }
+async function processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine) {
+  if (viewConfig['view'] === 'fields') {
+    for (let j = 0; j < tableConfig['fields'].length; j++) {
+      let fieldConfig = tableConfig['fields'][j];
+      let fieldSettings = {
+        'field': '',
+        'caption': '',
+        'filename': '',
+        'fieldActions': viewConfig['actions'],
+        'prefix': viewConfig['prefix'],
+      }
+      if (typeof fieldConfig == 'string') {
+        fieldSettings['field'] = fieldConfig;
+      } else {
+        fieldSettings['field'] = fieldConfig['field'];
+        fieldSettings['caption'] = fieldConfig['caption'];
+        fieldSettings['filename'] = fieldConfig['name'];
+        if (typeof fieldConfig['actions'] === 'object') {
+          fieldSettings['fieldActions'] = fieldConfig['actions'];
         }
+      }
+      fieldSettings['caption'] =
+        fieldSettings['caption'] ? fieldSettings['caption'] :
+          'Screenshot of field ' + tableName + ':' + fieldSettings['field'];
+      let filename = fieldSettings['filename'];
+      filename = filename ? filename :
+        getCamelCase(prefix + fieldSettings['field']);
+      fieldSettings['filename'] = filename;
+      fieldSettings['absoluteImageFilename'] = extensionSettings['absoluteImagePath'] + filename + '.png';
+      fieldSettings['relativeImageFilename'] = extensionSettings['relativeImagePath'] + filename + '.png';
+      fieldSettings['includeRstFilename'] = extensionSettings['imageIncludesPath'] + filename + '.rst.txt';
+      fieldSettings['includeSnippetFilename'] = extensionSettings['snippetsIncludePath'] + filename + '.rst.txt';
+
+      log(fieldSettings['fieldActions']);
+
+      try {
+        await createFieldScreenshot(page, tableName, viewConfig['uid'], fieldSettings);
+        createImageIncludeRst(
+          fieldSettings, firstLine,
+          tableName, fieldSettings['field']);
+        createSnippetIncludeRst(
+          firstLine, extensionSettings, fieldSettings,
+          tableName, fieldSettings['field']);
+      } catch(e) {
+        log(
+          'Something went wrong processing view "' + viewConfig['view'] +
+          '" of table "' + tableName + '" and field "' +
+          fieldSettings['field'] + '"',
+          'error', e);
+      }
+    }
+  }
+}
+
+async function processTable(tableConfig, extensionSettings, page, firstLine) {
+  let tableName = tableConfig['table'];
+  let prefix = getString(tableConfig['prefix']);
+  if (!settings.limitToTable || tableName === settings.limitToTable) {
+    for (let k = 0; k < tableConfig['screens'].length; k++) {
+      let viewConfig = tableConfig['screens'][k];
+      let viewSettings = getViewSettings(viewConfig, prefix, tableName, extensionSettings);
+      try {
+        await processTableView(viewConfig, tableName, page, viewSettings, firstLine);
+        await processRecordView(viewConfig, tableName, page, viewSettings, firstLine);
+        await processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine);
+      } catch(e) {
+        log(
+          'Something went wrong processing view "' + viewConfig['view'] +
+          '" of table "' + tableName + '"',
+          'error', e);
       }
     }
   }
@@ -224,22 +315,29 @@ function getCamelCase(string) {
   return splitStr.join('');
 }
 
-async function createTCAScreenshot(page, table, uid, field, path, actions) {
-  let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + field;
+async function createFieldScreenshot(page, table, uid, fieldSettings) {
+  let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + fieldSettings['field'];
   let bePath = 'record/edit';
-  await createScreenshot(page, table, uid, path, '.form-section', command, bePath, actions);
+  await createScreenshot(page, table, uid,
+    fieldSettings['absoluteImageFilename'],
+    '.form-section', command, bePath,
+    fieldSettings['actions']);
 }
 
-async function createTableScreenshot(page, table, pid, path, selector, actions) {
+async function createTableScreenshot(page, table, pid, viewSettings) {
   let command = 'table==' + table;
   let bePath = 'module/web/list';
-  await createScreenshot(page, table, pid, path, selector, command, bePath, actions);
+  await createScreenshot(
+    page, table, pid, viewSettings['absoluteImageFilename'],
+    viewSettings['selector'], command, bePath, viewSettings['actions']);
 }
 
-async function createRecordScreenshot(page, table, uid, path, selector, actions) {
+async function createRecordScreenshot(page, table, uid,viewSettings) {
   let command = 'edit[' + table + '][' + uid + ']=edit';
   let bePath = 'record/edit';
-  await createScreenshot(page, table, uid, path, selector, command, bePath, actions);
+  await createScreenshot(
+    page, table, uid, viewSettings['absoluteImageFilename'],
+    viewSettings['selector'], command, bePath, viewSettings['actions']);
 }
 
 async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
@@ -248,7 +346,7 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
   if (actions) {
     await executeActions(actions, page, table, uid);
   }
-  console.log('Capturing: ' + path);
+  log('Capturing: ' + path);
   if (selector === '') {
     // whole page screenshot
     await page.screenshot({
@@ -256,9 +354,13 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
     });
   } else {
     const formSection = await page.$(selector);
-    await formSection.screenshot({
-      path: path,
-    });
+    if (formSection) {
+      await formSection.screenshot({
+        path: path,
+      });
+    } else {
+      throw new Error('selector "' + selector + '" not found.');
+    }
   }
 }
 
@@ -268,9 +370,9 @@ async function executeActions(actions, page, table, uid) {
     if (typeof actions[i]['if'] === 'object') {
       for (var j = 0; j < actions[i]['if'].length; j++) {
         if (typeof actions[i]['if'][j]['exists'] === 'string') {
-          console.log('if selector ' + actions[i]['if'][j]['exists']);
+          log('if selector ' + actions[i]['if'][j]['exists']);
           if (await page.$(actions[i]['if'][j]['exists']) === null) {
-            console.log('selector not found ');
+            log('selector not found ');
             executeAction = false;
           }
         }
@@ -290,7 +392,7 @@ async function executeActions(actions, page, table, uid) {
 
 async function clickAction(actions, i, page, table, uid) {
   if (actions[i]['tab']) {
-    console.log('Switching to tab ' + actions[i]['tab']);
+    log('Switching to tab ' + actions[i]['tab']);
     const [link] = await page.$x("//a[contains(., '" + actions[i]['tab'] + "')]");
     if (link) {
       await link.click();
@@ -298,13 +400,13 @@ async function clickAction(actions, i, page, table, uid) {
       await logNotFound('Tab not found: ' + actions[i]['tab']);
     }
   } else if (actions[i]['select']) {
-    console.log('Opening selector ' + actions[i]['select']);
+    log('Opening selector ' + actions[i]['select']);
     const selector = "select[name=\"data[" + table + "][" +
       uid + "][" + actions[i]['select'] + "]\"]";
     await page.focus(selector);
     page.keyboard.type(' ');
   } else if (actions[i]['button']) {
-    console.log('Clicking button ' + actions[i]['button']);
+    log('Clicking button ' + actions[i]['button']);
     const [link] = await page.$x("//button[contains(., '" + actions[i]['button'] + "')]");
     if (link) {
       await link.click();
@@ -319,7 +421,7 @@ async function clickAction(actions, i, page, table, uid) {
 
 async function waitAction(actions, i, page, table, uid) {
   if (actions[i]['selector']) {
-    console.log('Waiting for selector ' + actions[i]['selector']);
+    log('Waiting for selector ' + actions[i]['selector']);
     await page.waitForSelector(actions[i]['selector'], actions[i]['options']);
   } else if (actions[i]['timeout']) {
     await page.waitForTimeout(actions[i]['timeout']);
@@ -330,58 +432,58 @@ async function changeAction(actions, i, page, table, uid) {
   if (actions[i]['select']) {
     const selector = "select[name=\"data[" + table + "][" +
       uid + "][" + actions[i]['select'] + "]\"]";
-    console.log('Selecting ' + selector + 'with value ' + actions[i]['value']);
+    log('Selecting ' + selector + 'with value ' + actions[i]['value']);
     await page.select(selector, actions[i]['value']);
   }
 }
 
-function createSnippetIncludeRst(includeSnippetFilename, firstLine, relativeCodeSource, prefix, table, field) {
+function createSnippetIncludeRst(firstLine, extensionSettings, fieldSettings, table, field) {
   let includeRst =
     firstLine +
     "\r\n" +
-    ".. literalinclude:: " + relativeCodeSource + table + ".php\r\n" +
+    ".. literalinclude:: " + extensionSettings['relativeCodeSource'] + table + ".php\r\n" +
     "   :language: php\r\n" +
     "   :start-at: start " + field + "\r\n" +
     "   :end-before: end " + field + "\r\n" +
     "   :lines: 2- \r\n" +
     "\r\n";
-  fs.writeFile(includeSnippetFilename, includeRst, function (err) {
+  fs.writeFile(fieldSettings['includeSnippetFilename'], includeRst, function (err) {
     if (err) throw err;
-    console.log('Saved ' + includeSnippetFilename);
+    log('Saved ' + fieldSettings['includeSnippetFilename']);
   });
 }
 
-function createIncludeRst(includeRstFilename, firstLine, imageFileName, prefix, table, field = '', caption = '') {
+function createImageIncludeRst(settings, firstLine, table, field = '') {
   let imageText = "Screenshot of  table " + table;
   if (field) {
     imageText = "Screenshot of  field " + field + ", table " + table;
   }
-  if (caption) {
-    imageText = caption;
+  if (settings['caption']) {
+    imageText = settings['caption'];
   }
   let alt = imageText;
   let description = imageText;
   if (field) {
     description = ":ref:`" + imageText +
-      " <tca_example_" + prefix + field + ">`";
+      " <tca_example_" + settings['prefix'] + field + ">`";
   }
   // Create the file for including the Screenshots
-  let includeRst =
+  let rstFileContent =
     firstLine +
     "\r\n" +
-    ".. figure:: " + imageFileName + "\r\n" +
+    ".. figure:: " + settings['imageFileName'] + "\r\n" +
     "   :alt: " + alt + "\r\n" +
     "   :class: with-shadow\r\n" +
     "\r\n" +
     "   " + description + "\r\n"
-  fs.writeFile(includeRstFilename, includeRst, function (err) {
+  fs.writeFile(settings['includeRstFilename'], rstFileContent, function (err) {
     if (err) throw err;
-    console.log('Saved ' + includeRstFilename);
+    log('Saved ' + settings['includeRstFilename']);
   });
 }
 
 async function logNotFound(text) {
-  console.log('########################################');
-  console.log('## ' + text);
-  console.log('########################################');
+  log('########################################');
+  log('## ' + text);
+  log('########################################');
 }
