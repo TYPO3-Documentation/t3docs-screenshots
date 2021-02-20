@@ -332,10 +332,12 @@ async function createTableScreenshot(page, table, pid, viewSettings) {
     viewSettings['selector'], command, bePath, viewSettings['actions']);
 }
 
-async function createRecordScreenshot(page, table, uid, path, selector, actions) {
+async function createRecordScreenshot(page, table, uid,viewSettings) {
   let command = 'edit[' + table + '][' + uid + ']=edit';
   let bePath = 'record/edit';
-  await createScreenshot(page, table, uid, path, selector, command, bePath, actions);
+  await createScreenshot(
+    page, table, uid, viewSettings['absoluteImageFilename'],
+    viewSettings['selector'], command, bePath, viewSettings['actions']);
 }
 
 async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
@@ -344,7 +346,7 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
   if (actions) {
     await executeActions(actions, page, table, uid);
   }
-  console.log('Capturing: ' + path);
+  log('Capturing: ' + path);
   if (selector === '') {
     // whole page screenshot
     await page.screenshot({
@@ -352,9 +354,13 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
     });
   } else {
     const formSection = await page.$(selector);
-    await formSection.screenshot({
-      path: path,
-    });
+    if (formSection) {
+      await formSection.screenshot({
+        path: path,
+      });
+    } else {
+      throw new Error('selector "' + selector + '" not found.');
+    }
   }
   await page.goto(settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command,
     {waitUntil: 'networkidle2'});
