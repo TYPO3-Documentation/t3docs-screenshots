@@ -12,6 +12,7 @@ var settings = {
     width: 640,
     height: 640
   },
+  errorPath: 'public/Output/Errors/',
   limitToTable: '',
   stopOnFirstError: true
 };
@@ -260,26 +261,31 @@ async function processFieldScreenshot(fieldSettings, page, tableName, viewConfig
 }
 
 function processFieldSnippet(firstLine, extensionSettings, fieldSettings, tableName, viewConfig) {
-  try {
-    createSnippetIncludeRst(
-      firstLine, extensionSettings, fieldSettings,
-      tableName, fieldSettings['field']);
-  } catch (e) {
-    log(
-      'Something went wrong processing view "' + viewConfig['view'] +
-      '" of table "' + tableName + '" and field "' +
-      fieldSettings['field'] + '"',
-      'error', e);
+  if (fieldSettings['snippet'] !== 'ignore') {
+    try {
+      createSnippetIncludeRst(
+        firstLine, extensionSettings, fieldSettings,
+        tableName, fieldSettings['field']);
+    } catch (e) {
+      log(
+        'Something went wrong processing view "' + viewConfig['view'] +
+        '" of table "' + tableName + '" and field "' +
+        fieldSettings['field'] + '"',
+        'error', e);
+    }
   }
 }
 
 async function processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine) {
   if (viewConfig['view'] === 'fields') {
     for (let j = 0; j < tableConfig['fields'].length; j++) {
-      let fieldSettings = getFieldSettings(viewConfig, tableConfig['fields'][j], tableName, prefix, extensionSettings);
-      console.log (fieldSettings);
-      await processFieldScreenshot(fieldSettings, page, tableName, viewConfig, firstLine);
-      processFieldSnippet(firstLine, extensionSettings, fieldSettings, tableName, viewConfig);
+      let fieldSettings = getFieldSettings(
+        viewConfig, tableConfig['fields'][j], tableName, prefix,
+        extensionSettings);
+      await processFieldScreenshot(
+        fieldSettings, page, tableName, viewConfig, firstLine);
+      processFieldSnippet(
+        firstLine, extensionSettings, fieldSettings, tableName, viewConfig);
     }
   }
 }
@@ -361,8 +367,8 @@ async function createRecordScreenshot(page, table, uid,viewSettings) {
 }
 
 async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
-  await page.goto(settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command,
-    {waitUntil: 'networkidle2'});
+  const backendUrl = settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command;
+  await page.goto(backendUrl, {waitUntil: 'networkidle2'});
   if (actions) {
     await executeActions(actions, page, table, uid);
   }
@@ -379,7 +385,14 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
         path: path,
       });
     } else {
-      throw new Error('selector "' + selector + '" not found.');
+      const errorImagePath =  settings.errorPath + getCamelCase(table + '_' + uid) + '.png';
+      await page.screenshot({
+        path: errorImagePath,
+      });
+      let errorMessage = 'Selector "' + selector + '" not found.\r\n';
+      errorMessage += 'See error screenshot ' + errorImagePath + '\r\n';
+      errorMessage += 'Url called: ' + backendUrl + '\r\n';
+        throw new Error(errorMessage);
     }
   }
   await page.goto(settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command,
