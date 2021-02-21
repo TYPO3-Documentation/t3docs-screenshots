@@ -11,10 +11,6 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/TYPO3-Documentation/styleguide"
-		},
-		{
-			"type": "vcs",
 			"url": "https://github.com/TYPO3-Documentation/introduction"
 		},
 		{
