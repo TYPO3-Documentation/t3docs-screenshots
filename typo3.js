@@ -131,25 +131,25 @@ function log(str, severity='debug', e = null) {
 }
 
 function getExtensionSettings(extensionConfig) {
-  let extensionSettings = {
+  let outputPathConfig = {
     'absoluteImagePath': getOutputPath() + extensionConfig['paths']['imageSource'],
     'imageIncludesPath': getOutputPath() + extensionConfig['paths']['imageRst'],
   };
   if (typeof extensionConfig['paths']['codeRst'] === 'string') {
-    extensionSettings['snippetsIncludePath'] =
+    outputPathConfig['snippetsIncludePath'] =
       getOutputPath() + extensionConfig['paths']['codeRst'];
   }
-  for (const extensionSettingsKey in extensionSettings) {
-    const dir = extensionSettings[extensionSettingsKey];
+  for (const outputPathKey in outputPathConfig) {
+    const dir = outputPathConfig[outputPathKey];
     if (typeof dir !== 'string') {
-      log(extensionSettingsKey + ' contains no string!');
+      log(outputPathKey + ' contains no string!');
     } else if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, {recursive: true});
     }
   }
-
-  extensionSettings['relativeImagePath'] = extensionConfig['paths']['relativeImagePath'];
-  extensionSettings['relativeCodeSource'] = extensionConfig['paths']['relativeCodeSource'];
+  let extensionSettings = Object.assign(extensionConfig, outputPathConfig);
+  extensionSettings['relativeImagePath'] = extensionSettings['paths']['relativeImagePath'];
+  extensionSettings['relativeCodeSource'] = extensionSettings['paths']['relativeCodeSource'];
   return extensionSettings;
 }
 
@@ -176,19 +176,22 @@ async function processBackendSuite(page) {
 }
 
 function getViewSettings(viewConfig, prefix, tableName, extensionSettings) {
-  let name = getString(viewConfig['name']);
+  let name = getString(viewConfig['filename']);
   let filename = name ? name : getCamelCase(prefix + tableName);
-  let viewSettings = {
-    'caption': getString(viewConfig['caption']),
-    'name': name,
-    'filename': filename,
-    'selector': getString(viewConfig['selector']),
-    'actions': getArray(viewConfig['actions']),
-    'prefix': prefix,
-    'includeRstFilename': extensionSettings['imageIncludesPath'] + filename + '.rst.txt',
-    'absoluteImageFilename': extensionSettings['absoluteImagePath'] + filename + '.png',
-    'relativeImageFilename': extensionSettings['relativeImagePath'] + filename + '.png'
-  }
+
+  let viewSettings = Object.assign(viewConfig,
+    {
+      'caption': getString(viewConfig['caption']),
+      'name': name,
+      'filename': filename,
+      'selector': getString(viewConfig['selector']),
+      'actions': getArray(viewConfig['actions']),
+      'prefix': prefix,
+      'includeRstFilename': extensionSettings['imageIncludesPath'] + filename + '.rst.txt',
+      'absoluteImageFilename': extensionSettings['absoluteImagePath'] + filename + '.png',
+      'relativeImageFilename': extensionSettings['relativeImagePath'] + filename + '.png'
+    }
+  );
   return viewSettings;
 }
 
@@ -210,56 +213,73 @@ async function processRecordView(viewConfig, tableName, page, viewSettings, firs
   }
 }
 
-async function processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine) {
-  if (viewConfig['view'] === 'fields') {
-    for (let j = 0; j < tableConfig['fields'].length; j++) {
-      let fieldConfig = tableConfig['fields'][j];
-      let fieldSettings = {
-        'field': '',
-        'caption': '',
-        'filename': '',
-        'fieldActions': viewConfig['actions'],
-        'prefix': viewConfig['prefix'],
-      }
-      if (typeof fieldConfig == 'string') {
-        fieldSettings['field'] = fieldConfig;
-      } else {
-        fieldSettings['field'] = fieldConfig['field'];
-        fieldSettings['caption'] = fieldConfig['caption'];
-        fieldSettings['filename'] = fieldConfig['name'];
-        if (typeof fieldConfig['actions'] === 'object') {
-          fieldSettings['fieldActions'] = fieldConfig['actions'];
-        }
-      }
-      fieldSettings['caption'] =
-        fieldSettings['caption'] ? fieldSettings['caption'] :
-          'Screenshot of field ' + tableName + ':' + fieldSettings['field'];
-      let filename = fieldSettings['filename'];
-      filename = filename ? filename :
-        getCamelCase(prefix + fieldSettings['field']);
-      fieldSettings['filename'] = filename;
-      fieldSettings['absoluteImageFilename'] = extensionSettings['absoluteImagePath'] + filename + '.png';
-      fieldSettings['relativeImageFilename'] = extensionSettings['relativeImagePath'] + filename + '.png';
-      fieldSettings['includeRstFilename'] = extensionSettings['imageIncludesPath'] + filename + '.rst.txt';
-      fieldSettings['includeSnippetFilename'] = extensionSettings['snippetsIncludePath'] + filename + '.rst.txt';
+function getFieldSettings(viewConfig, fieldConfig, tableName, prefix, extensionSettings) {
+  let fieldname = '';
+  if (typeof fieldConfig == 'string') {
+    fieldname = fieldConfig;
+  } else {
+    fieldname = fieldConfig['field'];
+  }
+  let fieldSettings = {
+    'field': '',
+    'screenshot': '',
+    'snippet': '',
+    'caption': 'Screenshot of field ' + tableName + ':' + fieldname,
+    'filename': getCamelCase(prefix + fieldname),
+    'fieldActions': viewConfig['actions'],
+    'prefix': viewConfig['prefix'],
+  }
+  if (typeof fieldConfig == 'object') {
+    fieldSettings = Object.assign(fieldSettings, fieldConfig);
+  }
+  let filename = fieldSettings['filename'];
+  fieldSettings['absoluteImageFilename'] = extensionSettings['absoluteImagePath'] + filename + '.png';
+  fieldSettings['relativeImageFilename'] = extensionSettings['relativeImagePath'] + filename + '.png';
+  fieldSettings['includeRstFilename'] = extensionSettings['imageIncludesPath'] + filename + '.rst.txt';
+  fieldSettings['includeSnippetFilename'] = extensionSettings['snippetsIncludePath'] + filename + '.rst.txt';
+  return fieldSettings;
+}
 
-      log(fieldSettings['fieldActions']);
-
-      try {
-        await createFieldScreenshot(page, tableName, viewConfig['uid'], fieldSettings);
-        createImageIncludeRst(
-          fieldSettings, firstLine,
-          tableName, fieldSettings['field']);
-        createSnippetIncludeRst(
-          firstLine, extensionSettings, fieldSettings,
-          tableName, fieldSettings['field']);
-      } catch(e) {
+async function processFieldScreenshot(fieldSettings, page, tableName, viewConfig, firstLine) {
+  if (fieldSettings['screenshot'] !== 'ignore') {
+    try {
+      await createFieldScreenshot(page, tableName, viewConfig['uid'], fieldSettings);
+      createImageIncludeRst(
+        fieldSettings, firstLine,
+        tableName, fieldSettings['field']);
+    } catch (e) {
+      if (fieldSettings['screenshot'] !== 'ignoreOnError') {
         log(
           'Something went wrong processing view "' + viewConfig['view'] +
           '" of table "' + tableName + '" and field "' +
           fieldSettings['field'] + '"',
           'error', e);
       }
+    }
+  }
+}
+
+function processFieldSnippet(firstLine, extensionSettings, fieldSettings, tableName, viewConfig) {
+  try {
+    createSnippetIncludeRst(
+      firstLine, extensionSettings, fieldSettings,
+      tableName, fieldSettings['field']);
+  } catch (e) {
+    log(
+      'Something went wrong processing view "' + viewConfig['view'] +
+      '" of table "' + tableName + '" and field "' +
+      fieldSettings['field'] + '"',
+      'error', e);
+  }
+}
+
+async function processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine) {
+  if (viewConfig['view'] === 'fields') {
+    for (let j = 0; j < tableConfig['fields'].length; j++) {
+      let fieldSettings = getFieldSettings(viewConfig, tableConfig['fields'][j], tableName, prefix, extensionSettings);
+      console.log (fieldSettings);
+      await processFieldScreenshot(fieldSettings, page, tableName, viewConfig, firstLine);
+      processFieldSnippet(firstLine, extensionSettings, fieldSettings, tableName, viewConfig);
     }
   }
 }
