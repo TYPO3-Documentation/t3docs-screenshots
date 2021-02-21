@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b3bc45715f3f4e751bd87c2224ae757",
+    "content-hash": "40fb073ac7845463fef0b69268285532",
     "packages": [
         {
             "name": "bk2k/bootstrap-package",
@@ -6360,16 +6360,16 @@
         },
         {
             "name": "typo3/cms-styleguide",
-            "version": "11.0.2",
+            "version": "11.0.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/TYPO3-Documentation/styleguide.git",
-                "reference": "04bfc2fac4e85a143b13526e56fc21091a7dcc8c"
+                "url": "https://github.com/TYPO3/styleguide.git",
+                "reference": "72fb50bdb764409a88ffcadf2c3a17e6fbde4796"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/styleguide/zipball/04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
-                "reference": "04bfc2fac4e85a143b13526e56fc21091a7dcc8c",
+                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/72fb50bdb764409a88ffcadf2c3a17e6fbde4796",
+                "reference": "72fb50bdb764409a88ffcadf2c3a17e6fbde4796",
                 "shasum": ""
             },
             "require-dev": {
@@ -6377,11 +6377,12 @@
                 "codeception/module-asserts": "^1.2",
                 "codeception/module-webdriver": "^1.1",
                 "phpstan/phpstan": "^0.12.37",
-                "typo3/cms-about": "11.*.*@dev",
-                "typo3/cms-core": "11.*.*@dev",
-                "typo3/cms-frontend": "11.*.*@dev",
-                "typo3/cms-install": "11.*.*@dev",
+                "typo3/cms-about": "dev-master",
+                "typo3/cms-core": "dev-master",
+                "typo3/cms-frontend": "dev-master",
+                "typo3/cms-install": "dev-master",
                 "typo3/coding-standards": "^0.2.0",
+                "typo3/tailor": "^1.2",
                 "typo3/testing-framework": "^6.5.0"
             },
             "type": "typo3-cms-extension",
@@ -6397,29 +6398,20 @@
                     "TYPO3\\CMS\\Styleguide\\": "Classes/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "TYPO3\\CMS\\Styleguide\\Tests\\": "Tests"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
             "authors": [
                 {
                     "name": "TYPO3 CMS Core Team",
-                    "role": "Developer",
-                    "homepage": "https://forge.typo3.org/projects/typo3cms-core"
+                    "homepage": "https://forge.typo3.org/projects/typo3cms-core",
+                    "role": "Developer"
                 },
                 {
                     "name": "The TYPO3 Community",
-                    "role": "Contributor",
-                    "homepage": "https://typo3.org/community/"
+                    "homepage": "https://typo3.org/community/",
+                    "role": "Contributor"
                 }
             ],
             "description": "TYPO3 CMS Extension to test everything in the TYPO3 Backend",
@@ -6431,9 +6423,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/styleguide/issues",
-                "source": "https://github.com/TYPO3-Documentation/styleguide/tree/11.0.2"
+                "source": "https://github.com/TYPO3/styleguide/tree/11.0.4"
             },
-            "time": "2020-12-21T20:25:13+00:00"
+            "time": "2021-02-14T19:21:31+00:00"
         },
         {
             "name": "typo3/cms-sys-note",
