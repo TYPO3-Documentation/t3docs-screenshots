@@ -9,6 +9,7 @@ Installation
 
 *  *Optional:* Consider defining different ports like so in file
    ``.ddev/config.NOT_VERSIONED.yaml``:
+   
    .. image:: Documentation/Images/installation-config-local.png
       :alt: Example file .ddev/config.NOT_VERSIONED.yaml
 
