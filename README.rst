@@ -2,6 +2,8 @@
 SIG Screenshots
 ===============
 
+Find documentation at https://typo3-documentation.github.io/SIG-Screenshots/
+
 Call about Budget and Kick off
 ==============================
 
