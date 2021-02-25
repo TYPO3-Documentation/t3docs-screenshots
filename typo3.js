@@ -13,12 +13,25 @@ var settings = {
     height: 640
   },
   errorPath: 'public/Output/Errors/',
+  mappingsPath: './public/Output/json/',
   limitToTable: '',
   stopOnFirstError: true
+};
+let mappings = {
 };
 
 // *************************************
 // Main process
+function loadMapping(table) {
+  if (typeof mappings[table] !== 'object') {
+    try {
+      mappings[table] = require(settings.mappingsPath + table + '.json');
+    } catch (e) {
+      mappings[table] = [];
+    }
+  }
+}
+
 // *************************************
 (async () => {
   fetchSettingsFromCli();
@@ -28,7 +41,7 @@ var settings = {
 
   // Set size of "browser window" - cannot click outside this area.
   await page.setViewport(settings.viewPort);
-
+  loadMapping('pages');
   try {
     try {
       await goToTypo3Frontend(page);
@@ -198,16 +211,65 @@ function getViewSettings(viewConfig, prefix, tableName, extensionSettings) {
 
 async function processTableView(viewConfig, tableName, page, viewSettings, firstLine) {
   if (viewConfig['view'] === 'table') {
-    let pid = viewConfig['pid'];
+    let pid = getUid(viewConfig['selectRecord'], 'pages', viewConfig['pid']);
     log('Take Screenshot from table ' + tableName + ' of page ' + pid);
     await createTableScreenshot(page, tableName, pid, viewSettings);
     createImageIncludeRst(viewSettings, firstLine, tableName, '');
   }
 }
 
+function getUid(selectRecord, tableName, id) {
+  let ret = id;
+  let map = mappings[tableName];
+  if (typeof map === 'object') {
+    if (typeof ret !== "undefined" && ret > 0) {
+      let found = false;
+      for (let i = 0; i < map.length; i++) {
+        if (ret === map[i]['uid']) {
+          found = 1;
+        }
+      }
+      if (!found) {
+        throw new Error("Record with uid " + id + " not found in table "+tableName);
+      }
+    } else {
+      let map = mappings[tableName];
+      if (typeof selectRecord === 'object') {
+        let by = selectRecord['by'];
+        if (by.startsWith("@")) {
+          switch (by) {
+            case "@first":
+              if (map.length > 0) {
+                ret = map[0]['uid'];
+              }
+              break;
+            default:
+              throw new Error("Select by " + by + " not defined");
+          }
+        } else {
+          let value = selectRecord[by];
+          if (typeof value == "object") {
+            value = getUid(value, value['table'], 0);
+          }
+          for (let i = 0; i < map.length; i++) {
+            if (map[i][by] === value) {
+              ret = map[i]['uid'];
+              console.log("uid found " + ret);
+            }
+          }
+        }
+      }
+    }
+  }
+  if (typeof ret === "undefined" || ret < 1) {
+    throw new Error("Record of table " + tableName + " with selector " + JSON.stringify(selectRecord) + "not found");
+  }
+  return ret;
+}
+
 async function processRecordView(viewConfig, tableName, page, viewSettings, firstLine) {
-  if (viewConfig['view'] === 'record') {
-    let uid = viewConfig['uid'];
+  if (viewConfig['view'] === 'record' && viewConfig['screenshot'] !== 'ignore') {
+    let uid = getUid(viewConfig['selectRecord'], tableName, viewConfig['uid']);
     log('Take Screenshot of record ' + uid + ' from table ' + tableName);
     await createRecordScreenshot(page, tableName, uid, viewSettings);
     createImageIncludeRst(viewSettings, firstLine, tableName, '');
@@ -222,7 +284,7 @@ function getFieldSettings(viewConfig, fieldConfig, tableName, prefix, extensionS
     fieldname = fieldConfig['field'];
   }
   let fieldSettings = {
-    'field': '',
+    'field': fieldname,
     'screenshot': '',
     'snippet': '',
     'caption': 'Screenshot of field ' + tableName + ':' + fieldname,
@@ -244,7 +306,9 @@ function getFieldSettings(viewConfig, fieldConfig, tableName, prefix, extensionS
 async function processFieldScreenshot(fieldSettings, page, tableName, viewConfig, firstLine) {
   if (fieldSettings['screenshot'] !== 'ignore') {
     try {
-      await createFieldScreenshot(page, tableName, viewConfig['uid'], fieldSettings);
+
+      let uid = getUid(viewConfig['selectRecord'], tableName, viewConfig['uid']);
+      await createFieldScreenshot(page, tableName, uid, fieldSettings);
       createImageIncludeRst(
         fieldSettings, firstLine,
         tableName, fieldSettings['field']);
@@ -292,6 +356,7 @@ async function processFieldsView(viewConfig, tableConfig, tableName, prefix, ext
 
 async function processTable(tableConfig, extensionSettings, page, firstLine) {
   let tableName = tableConfig['table'];
+  loadMapping(tableName);
   let prefix = getString(tableConfig['prefix']);
   if (!settings.limitToTable || tableName === settings.limitToTable) {
     for (let k = 0; k < tableConfig['screens'].length; k++) {
@@ -342,7 +407,8 @@ function getCamelCase(string) {
 }
 
 async function createFieldScreenshot(page, table, uid, fieldSettings) {
-  let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + fieldSettings['field'];
+  let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' +
+    fieldSettings['field'];
   let bePath = 'record/edit';
   await createScreenshot(page, table, uid,
     fieldSettings['absoluteImageFilename'],
