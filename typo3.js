@@ -97,7 +97,7 @@ async function goToTypo3Backend(page) {
 
   // Screenshot: Login box of Backend
   // await page.waitForTimeout(250);
-  const loginBox = await page.$('div.card.card-lg.card-login');
+  const loginBox = await page.$('div.card-login');
   await loginBox.screenshot({path: 'Screenshots/02_card-login.png'});
 
   // Screenshot: Login box with 25px space around
