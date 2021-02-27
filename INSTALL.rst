@@ -31,6 +31,8 @@ Installation
    project. This currently only works with the master branch of the
    `TCA reference <https://github.com/TYPO3-Documentation/TYPO3CMS-Reference-TCA>`_
 
+*  Run :code:`ddev exec ./public/OriginalManual/TYPO3CMS-Reference-TCA/Scripts/GenerateScreenshots/CreateMappings.sh`
+
 *  Run :code:`ddev exec node typo3.js --suite=TYPO3CMS-Reference-TCA --limitToTable=tt_content` --stopOnFirstError=false
 
 *  Open http://sig-screenshots.ddev.site/scripts/index.php

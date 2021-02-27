@@ -12,12 +12,27 @@ var settings = {
     width: 640,
     height: 640
   },
+  errorPath: 'public/Output/Errors/',
+  mappingsPath: './public/Output/json/',
   limitToTable: '',
-  stopOnFirstError: true
+  stopOnFirstError: true,
+  standardTimeoutTime: 500
+};
+let mappings = {
 };
 
 // *************************************
 // Main process
+function loadMapping(table) {
+  if (typeof mappings[table] !== 'object') {
+    try {
+      mappings[table] = require(settings.mappingsPath + table + '.json');
+    } catch (e) {
+      mappings[table] = [];
+    }
+  }
+}
+
 // *************************************
 (async () => {
   fetchSettingsFromCli();
@@ -27,7 +42,7 @@ var settings = {
 
   // Set size of "browser window" - cannot click outside this area.
   await page.setViewport(settings.viewPort);
-
+  loadMapping('pages');
   try {
     try {
       await goToTypo3Frontend(page);
@@ -131,25 +146,25 @@ function log(str, severity='debug', e = null) {
 }
 
 function getExtensionSettings(extensionConfig) {
-  let extensionSettings = {
+  let outputPathConfig = {
     'absoluteImagePath': getOutputPath() + extensionConfig['paths']['imageSource'],
     'imageIncludesPath': getOutputPath() + extensionConfig['paths']['imageRst'],
   };
   if (typeof extensionConfig['paths']['codeRst'] === 'string') {
-    extensionSettings['snippetsIncludePath'] =
+    outputPathConfig['snippetsIncludePath'] =
       getOutputPath() + extensionConfig['paths']['codeRst'];
   }
-  for (const extensionSettingsKey in extensionSettings) {
-    const dir = extensionSettings[extensionSettingsKey];
+  for (const outputPathKey in outputPathConfig) {
+    const dir = outputPathConfig[outputPathKey];
     if (typeof dir !== 'string') {
-      log(extensionSettingsKey + ' contains no string!');
+      log(outputPathKey + ' contains no string!');
     } else if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, {recursive: true});
     }
   }
-
-  extensionSettings['relativeImagePath'] = extensionConfig['paths']['relativeImagePath'];
-  extensionSettings['relativeCodeSource'] = extensionConfig['paths']['relativeCodeSource'];
+  let extensionSettings = Object.assign(extensionConfig, outputPathConfig);
+  extensionSettings['relativeImagePath'] = extensionSettings['paths']['relativeImagePath'];
+  extensionSettings['relativeCodeSource'] = extensionSettings['paths']['relativeCodeSource'];
   return extensionSettings;
 }
 
@@ -176,84 +191,131 @@ async function processBackendSuite(page) {
 }
 
 function getViewSettings(viewConfig, prefix, tableName, extensionSettings) {
-  let name = getString(viewConfig['name']);
+  let name = getString(viewConfig['filename']);
   let filename = name ? name : getCamelCase(prefix + tableName);
-  let viewSettings = {
-    'caption': getString(viewConfig['caption']),
-    'name': name,
-    'filename': filename,
-    'selector': getString(viewConfig['selector']),
-    'actions': getArray(viewConfig['actions']),
-    'prefix': prefix,
-    'includeRstFilename': extensionSettings['imageIncludesPath'] + filename + '.rst.txt',
-    'absoluteImageFilename': extensionSettings['absoluteImagePath'] + filename + '.png',
-    'relativeImageFilename': extensionSettings['relativeImagePath'] + filename + '.png'
-  }
+
+  let viewSettings = Object.assign(viewConfig,
+    {
+      'caption': getString(viewConfig['caption']),
+      'name': name,
+      'filename': filename,
+      'selector': getString(viewConfig['selector']),
+      'actions': getArray(viewConfig['actions']),
+      'prefix': prefix,
+      'includeRstFilename': extensionSettings['imageIncludesPath'] + filename + '.rst.txt',
+      'absoluteImageFilename': extensionSettings['absoluteImagePath'] + filename + '.png',
+      'relativeImageFilename': extensionSettings['relativeImagePath'] + filename + '.png'
+    }
+  );
   return viewSettings;
 }
 
 async function processTableView(viewConfig, tableName, page, viewSettings, firstLine) {
   if (viewConfig['view'] === 'table') {
-    let pid = viewConfig['pid'];
+    let pid = getUid(viewConfig['selectRecord'], 'pages', viewConfig['pid']);
     log('Take Screenshot from table ' + tableName + ' of page ' + pid);
     await createTableScreenshot(page, tableName, pid, viewSettings);
     createImageIncludeRst(viewSettings, firstLine, tableName, '');
   }
 }
 
+function getUid(selectRecord, tableName, id) {
+  let ret = id;
+  let map = mappings[tableName];
+  if (typeof map === 'object') {
+    if (typeof ret !== "undefined" && ret > 0) {
+      let found = false;
+      for (let i = 0; i < map.length; i++) {
+        if (ret === map[i]['uid']) {
+          found = 1;
+        }
+      }
+      if (!found) {
+        throw new Error("Record with uid " + id + " not found in table "+tableName);
+      }
+    } else {
+      let map = mappings[tableName];
+      if (typeof selectRecord === 'object') {
+        let by = selectRecord['by'];
+        if (by.startsWith("@")) {
+          switch (by) {
+            case "@first":
+              if (map.length > 0) {
+                ret = map[0]['uid'];
+              }
+              break;
+            default:
+              throw new Error("Select by " + by + " not defined");
+          }
+        } else {
+          let value = selectRecord[by];
+          if (typeof value == "object") {
+            value = getUid(value, value['table'], 0);
+          }
+          for (let i = 0; i < map.length; i++) {
+            if (map[i][by] === value) {
+              ret = map[i]['uid'];
+              console.log("uid found " + ret);
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  if (typeof ret === "undefined" || ret < 1) {
+    throw new Error("Record of table " + tableName + " with selector " + JSON.stringify(selectRecord) + "not found");
+  }
+  return ret;
+}
+
 async function processRecordView(viewConfig, tableName, page, viewSettings, firstLine) {
-  if (viewConfig['view'] === 'record') {
-    let uid = viewConfig['uid'];
+  if (viewConfig['view'] === 'record' && viewConfig['screenshot'] !== 'ignore') {
+    let uid = getUid(viewConfig['selectRecord'], tableName, viewConfig['uid']);
     log('Take Screenshot of record ' + uid + ' from table ' + tableName);
     await createRecordScreenshot(page, tableName, uid, viewSettings);
     createImageIncludeRst(viewSettings, firstLine, tableName, '');
   }
 }
 
-async function processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine) {
-  if (viewConfig['view'] === 'fields') {
-    for (let j = 0; j < tableConfig['fields'].length; j++) {
-      let fieldConfig = tableConfig['fields'][j];
-      let fieldSettings = {
-        'field': '',
-        'caption': '',
-        'filename': '',
-        'fieldActions': viewConfig['actions'],
-        'prefix': viewConfig['prefix'],
-      }
-      if (typeof fieldConfig == 'string') {
-        fieldSettings['field'] = fieldConfig;
-      } else {
-        fieldSettings['field'] = fieldConfig['field'];
-        fieldSettings['caption'] = fieldConfig['caption'];
-        fieldSettings['filename'] = fieldConfig['name'];
-        if (typeof fieldConfig['actions'] === 'object') {
-          fieldSettings['fieldActions'] = fieldConfig['actions'];
-        }
-      }
-      fieldSettings['caption'] =
-        fieldSettings['caption'] ? fieldSettings['caption'] :
-          'Screenshot of field ' + tableName + ':' + fieldSettings['field'];
-      let filename = fieldSettings['filename'];
-      filename = filename ? filename :
-        getCamelCase(prefix + fieldSettings['field']);
-      fieldSettings['filename'] = filename;
-      fieldSettings['absoluteImageFilename'] = extensionSettings['absoluteImagePath'] + filename + '.png';
-      fieldSettings['relativeImageFilename'] = extensionSettings['relativeImagePath'] + filename + '.png';
-      fieldSettings['includeRstFilename'] = extensionSettings['imageIncludesPath'] + filename + '.rst.txt';
-      fieldSettings['includeSnippetFilename'] = extensionSettings['snippetsIncludePath'] + filename + '.rst.txt';
+function getFieldSettings(viewConfig, fieldConfig, tableName, prefix, extensionSettings) {
+  let fieldname = '';
+  if (typeof fieldConfig == 'string') {
+    fieldname = fieldConfig;
+  } else {
+    fieldname = fieldConfig['field'];
+  }
+  let fieldSettings = {
+    'field': fieldname,
+    'screenshot': '',
+    'snippet': '',
+    'caption': 'Screenshot of field ' + tableName + ':' + fieldname,
+    'filename': getCamelCase(prefix + fieldname),
+    'actions': viewConfig['actions'],
+    'prefix': viewConfig['prefix'],
+  }
+  if (typeof fieldConfig == 'object') {
+    fieldSettings = Object.assign(fieldSettings, fieldConfig);
+  }
+  let filename = fieldSettings['filename'];
+  fieldSettings['absoluteImageFilename'] = extensionSettings['absoluteImagePath'] + filename + '.png';
+  fieldSettings['relativeImageFilename'] = extensionSettings['relativeImagePath'] + filename + '.png';
+  fieldSettings['includeRstFilename'] = extensionSettings['imageIncludesPath'] + filename + '.rst.txt';
+  fieldSettings['includeSnippetFilename'] = extensionSettings['snippetsIncludePath'] + filename + '.rst.txt';
+  return fieldSettings;
+}
 
-      log(fieldSettings['fieldActions']);
+async function processFieldScreenshot(fieldSettings, page, tableName, viewConfig, firstLine) {
+  if (fieldSettings['screenshot'] !== 'ignore') {
+    try {
 
-      try {
-        await createFieldScreenshot(page, tableName, viewConfig['uid'], fieldSettings);
-        createImageIncludeRst(
-          fieldSettings, firstLine,
-          tableName, fieldSettings['field']);
-        createSnippetIncludeRst(
-          firstLine, extensionSettings, fieldSettings,
-          tableName, fieldSettings['field']);
-      } catch(e) {
+      let uid = getUid(viewConfig['selectRecord'], tableName, viewConfig['uid']);
+      await createFieldScreenshot(page, tableName, uid, fieldSettings);
+      createImageIncludeRst(
+        fieldSettings, firstLine,
+        tableName, fieldSettings['field']);
+    } catch (e) {
+      if (fieldSettings['screenshot'] !== 'ignoreOnError') {
         log(
           'Something went wrong processing view "' + viewConfig['view'] +
           '" of table "' + tableName + '" and field "' +
@@ -264,8 +326,39 @@ async function processFieldsView(viewConfig, tableConfig, tableName, prefix, ext
   }
 }
 
+function processFieldSnippet(firstLine, extensionSettings, fieldSettings, tableName, viewConfig) {
+  if (fieldSettings['snippet'] !== 'ignore') {
+    try {
+      createSnippetIncludeRst(
+        firstLine, extensionSettings, fieldSettings,
+        tableName, fieldSettings['field']);
+    } catch (e) {
+      log(
+        'Something went wrong processing view "' + viewConfig['view'] +
+        '" of table "' + tableName + '" and field "' +
+        fieldSettings['field'] + '"',
+        'error', e);
+    }
+  }
+}
+
+async function processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine) {
+  if (viewConfig['view'] === 'fields') {
+    for (let j = 0; j < tableConfig['fields'].length; j++) {
+      let fieldSettings = getFieldSettings(
+        viewConfig, tableConfig['fields'][j], tableName, prefix,
+        extensionSettings);
+      await processFieldScreenshot(
+        fieldSettings, page, tableName, viewConfig, firstLine);
+      processFieldSnippet(
+        firstLine, extensionSettings, fieldSettings, tableName, viewConfig);
+    }
+  }
+}
+
 async function processTable(tableConfig, extensionSettings, page, firstLine) {
   let tableName = tableConfig['table'];
+  loadMapping(tableName);
   let prefix = getString(tableConfig['prefix']);
   if (!settings.limitToTable || tableName === settings.limitToTable) {
     for (let k = 0; k < tableConfig['screens'].length; k++) {
@@ -316,7 +409,8 @@ function getCamelCase(string) {
 }
 
 async function createFieldScreenshot(page, table, uid, fieldSettings) {
-  let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' + fieldSettings['field'];
+  let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' +
+    fieldSettings['field'];
   let bePath = 'record/edit';
   await createScreenshot(page, table, uid,
     fieldSettings['absoluteImageFilename'],
@@ -341,6 +435,34 @@ async function createRecordScreenshot(page, table, uid,viewSettings) {
 }
 
 async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
+  const backendUrl = settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command;
+  await page.goto(backendUrl, {waitUntil: 'networkidle2'});
+  if (actions) {
+    await executeActions(actions, page, table, uid);
+  }
+  log('Capturing: ' + path);
+  if (selector === '') {
+    // whole page screenshot
+    await page.screenshot({
+      path: path,
+    });
+  } else {
+    const formSection = await page.$(selector);
+    if (formSection) {
+      await formSection.screenshot({
+        path: path,
+      });
+    } else {
+      const errorImagePath =  settings.errorPath + getCamelCase(table + '_' + uid) + '.png';
+      await page.screenshot({
+        path: errorImagePath,
+      });
+      let errorMessage = 'Selector "' + selector + '" not found.\r\n';
+      errorMessage += 'See error screenshot ' + errorImagePath + '\r\n';
+      errorMessage += 'Url called: ' + backendUrl + '\r\n';
+        throw new Error(errorMessage);
+    }
+  }
   await page.goto(settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command,
     {waitUntil: 'networkidle2'});
   if (actions) {
@@ -365,13 +487,15 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
 }
 
 async function executeActions(actions, page, table, uid) {
+
   for (var i = 0; i < actions.length; i++) {
     let executeAction = true;
     if (typeof actions[i]['if'] === 'object') {
       for (var j = 0; j < actions[i]['if'].length; j++) {
         if (typeof actions[i]['if'][j]['exists'] === 'string') {
-          log('if selector ' + actions[i]['if'][j]['exists']);
-          if (await page.$(actions[i]['if'][j]['exists']) === null) {
+          let selector = actions[i]['if'][j]['exists'];
+          log('if selector ' + selector);
+          if (await page.$(selector) === null) {
             log('selector not found ');
             executeAction = false;
           }
@@ -385,7 +509,27 @@ async function executeActions(actions, page, table, uid) {
         await changeAction(actions, i, page, table, uid);
       } else if (actions[i]['action'] === 'wait') {
         await waitAction(actions, i, page, table, uid);
+      } else if (actions[i]['action'] === 'open') {
+        await openAction(actions[i], page, table, uid);
       }
+    }
+  }
+}
+
+
+async function openAction(action, page, table, uid) {
+  if (action['accordion']) {
+    let selector = ".form-irre-header-button";
+    if (action['accordion'].startsWith("@")) {
+      selector = '.form-irre-header-button';
+    } else {
+      selector = action['accordion'];
+    }
+    const attr = await page.$$eval(selector,
+        el => el.map(x => x.getAttribute("aria-expanded")));
+    if (typeof attr === 'object' && attr.length > 0 && attr[0] !== 'true') {
+      page.click(selector);
+      await page.waitForTimeout(settings.standardTimeoutTime);
     }
   }
 }
@@ -453,32 +597,32 @@ function createSnippetIncludeRst(firstLine, extensionSettings, fieldSettings, ta
   });
 }
 
-function createImageIncludeRst(settings, firstLine, table, field = '') {
+function createImageIncludeRst(rstSettings, firstLine, table, field = '') {
   let imageText = "Screenshot of  table " + table;
   if (field) {
     imageText = "Screenshot of  field " + field + ", table " + table;
   }
-  if (settings['caption']) {
-    imageText = settings['caption'];
+  if (rstSettings['caption']) {
+    imageText = rstSettings['caption'];
   }
   let alt = imageText;
   let description = imageText;
   if (field) {
     description = ":ref:`" + imageText +
-      " <tca_example_" + settings['prefix'] + field + ">`";
+      " <tca_example_" + rstSettings['prefix'] + field + ">`";
   }
   // Create the file for including the Screenshots
   let rstFileContent =
     firstLine +
     "\r\n" +
-    ".. figure:: " + settings['imageFileName'] + "\r\n" +
+    ".. figure:: " + rstSettings['relativeImageFilename'] + "\r\n" +
     "   :alt: " + alt + "\r\n" +
     "   :class: with-shadow\r\n" +
     "\r\n" +
     "   " + description + "\r\n"
-  fs.writeFile(settings['includeRstFilename'], rstFileContent, function (err) {
+  fs.writeFile(rstSettings['includeRstFilename'], rstFileContent, function (err) {
     if (err) throw err;
-    log('Saved ' + settings['includeRstFilename']);
+    log('Saved ' + rstSettings['includeRstFilename']);
   });
 }
 
