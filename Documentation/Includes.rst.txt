@@ -12,6 +12,7 @@
 .. role:: aspect(emphasis)
 .. role:: html(code)
 .. role:: js(code)
+.. role:: json(code)
 .. role:: php(code)
 .. role:: pn(emphasis)
 .. role:: rst(code)

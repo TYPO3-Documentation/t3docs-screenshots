@@ -4,6 +4,7 @@
 nbproject
 /var/*
 !/var/labels
+/Documentation-GENERATED-temp
 /vendor
 /public/*
 !/public/.htaccess
