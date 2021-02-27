@@ -15,7 +15,8 @@ var settings = {
   errorPath: 'public/Output/Errors/',
   mappingsPath: './public/Output/json/',
   limitToTable: '',
-  stopOnFirstError: true
+  stopOnFirstError: true,
+  standardTimeoutTime: 500
 };
 let mappings = {
 };
@@ -255,6 +256,7 @@ function getUid(selectRecord, tableName, id) {
             if (map[i][by] === value) {
               ret = map[i]['uid'];
               console.log("uid found " + ret);
+              break;
             }
           }
         }
@@ -289,7 +291,7 @@ function getFieldSettings(viewConfig, fieldConfig, tableName, prefix, extensionS
     'snippet': '',
     'caption': 'Screenshot of field ' + tableName + ':' + fieldname,
     'filename': getCamelCase(prefix + fieldname),
-    'fieldActions': viewConfig['actions'],
+    'actions': viewConfig['actions'],
     'prefix': viewConfig['prefix'],
   }
   if (typeof fieldConfig == 'object') {
@@ -491,8 +493,9 @@ async function executeActions(actions, page, table, uid) {
     if (typeof actions[i]['if'] === 'object') {
       for (var j = 0; j < actions[i]['if'].length; j++) {
         if (typeof actions[i]['if'][j]['exists'] === 'string') {
-          log('if selector ' + actions[i]['if'][j]['exists']);
-          if (await page.$(actions[i]['if'][j]['exists']) === null) {
+          let selector = actions[i]['if'][j]['exists'];
+          log('if selector ' + selector);
+          if (await page.$(selector) === null) {
             log('selector not found ');
             executeAction = false;
           }
@@ -506,7 +509,27 @@ async function executeActions(actions, page, table, uid) {
         await changeAction(actions, i, page, table, uid);
       } else if (actions[i]['action'] === 'wait') {
         await waitAction(actions, i, page, table, uid);
+      } else if (actions[i]['action'] === 'open') {
+        await openAction(actions[i], page, table, uid);
       }
+    }
+  }
+}
+
+
+async function openAction(action, page, table, uid) {
+  if (action['accordion']) {
+    let selector = ".form-irre-header-button";
+    if (action['accordion'].startsWith("@")) {
+      selector = '.form-irre-header-button';
+    } else {
+      selector = action['accordion'];
+    }
+    const attr = await page.$$eval(selector,
+        el => el.map(x => x.getAttribute("aria-expanded")));
+    if (typeof attr === 'object' && attr.length > 0 && attr[0] !== 'true') {
+      page.click(selector);
+      await page.waitForTimeout(settings.standardTimeoutTime);
     }
   }
 }
@@ -574,32 +597,32 @@ function createSnippetIncludeRst(firstLine, extensionSettings, fieldSettings, ta
   });
 }
 
-function createImageIncludeRst(settings, firstLine, table, field = '') {
+function createImageIncludeRst(rstSettings, firstLine, table, field = '') {
   let imageText = "Screenshot of  table " + table;
   if (field) {
     imageText = "Screenshot of  field " + field + ", table " + table;
   }
-  if (settings['caption']) {
-    imageText = settings['caption'];
+  if (rstSettings['caption']) {
+    imageText = rstSettings['caption'];
   }
   let alt = imageText;
   let description = imageText;
   if (field) {
     description = ":ref:`" + imageText +
-      " <tca_example_" + settings['prefix'] + field + ">`";
+      " <tca_example_" + rstSettings['prefix'] + field + ">`";
   }
   // Create the file for including the Screenshots
   let rstFileContent =
     firstLine +
     "\r\n" +
-    ".. figure:: " + settings['imageFileName'] + "\r\n" +
+    ".. figure:: " + rstSettings['relativeImageFilename'] + "\r\n" +
     "   :alt: " + alt + "\r\n" +
     "   :class: with-shadow\r\n" +
     "\r\n" +
     "   " + description + "\r\n"
-  fs.writeFile(settings['includeRstFilename'], rstFileContent, function (err) {
+  fs.writeFile(rstSettings['includeRstFilename'], rstFileContent, function (err) {
     if (err) throw err;
-    log('Saved ' + settings['includeRstFilename']);
+    log('Saved ' + rstSettings['includeRstFilename']);
   });
 }
 
