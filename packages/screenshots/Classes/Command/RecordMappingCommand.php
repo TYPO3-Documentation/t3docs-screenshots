@@ -30,6 +30,8 @@ class RecordMappingCommand extends Command
             'file.json');
         $this->addOption('table', null, InputArgument::OPTIONAL, 'tablename (defaults to pages))',
             'pages');
+        $this->addOption('checkDeleted', null, InputArgument::OPTIONAL, 'should the deleted field be checked?',
+            'true');
         $this->addOption('additional-fields', null, InputOption::VALUE_OPTIONAL,
             'additional fields to fetch ("field1,field2,field3")',
             '');
@@ -43,11 +45,13 @@ class RecordMappingCommand extends Command
         $qb
             ->select('uid')
             ->addSelect(...$this->getAdditionalFields($input))
-            ->from($input->getOption('table'))
-            ->where(
+            ->from($input->getOption('table'));
+
+        if ($input->getOption('checkDeleted') === 'true') {
+            $qb->where(
                 $qb->expr()->eq('deleted', 0)
             );
-
+        }
         $resultJson = json_encode($qb->execute()->fetchAllAssociative());
         $file = fopen(
             sprintf(
