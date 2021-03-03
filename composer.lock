@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b2c577c838d94116e4997d1077bb364",
+    "content-hash": "58075077e41f33435cd6ed08f1e5ae94",
     "packages": [
         {
             "name": "bk2k/bootstrap-package",
@@ -4272,21 +4272,21 @@
         },
         {
             "name": "typo3/cms-composer-installers",
-            "version": "v3.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/CmsComposerInstallers.git",
-                "reference": "cde93ec5dbfb115e4d47c5f9b6d8822adeeac290"
+                "reference": "f307b64bd6f1309367c58cabb2fc84040b908ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/CmsComposerInstallers/zipball/cde93ec5dbfb115e4d47c5f9b6d8822adeeac290",
-                "reference": "cde93ec5dbfb115e4d47c5f9b6d8822adeeac290",
+                "url": "https://api.github.com/repos/TYPO3/CmsComposerInstallers/zipball/f307b64bd6f1309367c58cabb2fc84040b908ab5",
+                "reference": "f307b64bd6f1309367c58cabb2fc84040b908ab5",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0.0 || ^2.0.0",
-                "php": ">=7.0.0 <7.5"
+                "php": "^7.2 || ^8.0"
             },
             "conflict": {
                 "composer/installers": "<1.0.24 || >1.0.24"
@@ -4296,7 +4296,9 @@
                 "netresearch/composer-installers": "*"
             },
             "require-dev": {
-                "composer/composer": "1.2.*@dev || 2.0.*@dev"
+                "composer/composer": "1.2.*@dev || 2.0.*@dev",
+                "overtrue/phplint": "^2.0",
+                "phpunit/phpunit": "^8.5"
             },
             "type": "composer-plugin",
             "extra": {
@@ -4335,7 +4337,7 @@
                 "installer",
                 "typo3"
             ],
-            "time": "2020-05-04T18:03:13+00:00"
+            "time": "2021-03-02T09:26:00+00:00"
         },
         {
             "name": "typo3/cms-core",
@@ -5462,16 +5464,16 @@
         },
         {
             "name": "typo3/cms-styleguide",
-            "version": "10.x-dev",
+            "version": "10.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/styleguide.git",
-                "reference": "f1df90c807f26b7b702b2bdf8fab86b5b387e5c5"
+                "reference": "421ed12817cdc4e479e34ca0fc7cc7788925e54f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/f1df90c807f26b7b702b2bdf8fab86b5b387e5c5",
-                "reference": "f1df90c807f26b7b702b2bdf8fab86b5b387e5c5",
+                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/421ed12817cdc4e479e34ca0fc7cc7788925e54f",
+                "reference": "421ed12817cdc4e479e34ca0fc7cc7788925e54f",
                 "shasum": ""
             },
             "require-dev": {
@@ -5523,7 +5525,7 @@
                 "typo3",
                 "typo3 backend"
             ],
-            "time": "2021-02-27T23:58:40+00:00"
+            "time": "2021-02-12T22:08:23+00:00"
         },
         {
             "name": "typo3/cms-sys-note",
