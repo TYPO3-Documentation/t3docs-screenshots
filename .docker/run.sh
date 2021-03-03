@@ -47,13 +47,13 @@ Options:
         Specifies which test suite to run
             - styleguide: acceptance tests on typo3 with styleguide package
             - introduction: acceptance tests on typo3 with introduction package
-            - cgl: cgl test and fix all php files
+            - functional: functional tests
+            - unit (default): PHP unit tests
             - composerInstall: "composer install", handy if host has no PHP, uses composer cache of users home
             - composerValidate: "composer validate"
-            - functional: functional tests
+            - cgl: cgl test and fix all php files
             - lint: PHP linting
             - phpstan: phpstan analyze
-            - unit (default): PHP unit tests
 
     -d <mariadb|mssql|postgres|sqlite>
         Only with -s functional
@@ -223,23 +223,25 @@ fi
 case ${TEST_SUITE} in
     styleguide)
         setUpDockerComposeDotEnv
-        docker-compose run acceptance_styleguide_mariadb10
+        docker-compose run acceptance_styleguide
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
     introduction)
         setUpDockerComposeDotEnv
-        docker-compose run acceptance_introduction_mariadb10
+        docker-compose run acceptance_introduction
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
-    cgl)
-        # Active dry-run for cgl needs not "-n" but specific options
-        if [[ ! -z ${CGLCHECK_DRY_RUN} ]]; then
-            CGLCHECK_DRY_RUN="--dry-run --diff --diff-format udiff"
-        fi
+    functional)
         setUpDockerComposeDotEnv
-        docker-compose run cgl
+        docker-compose run functional
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    unit)
+        setUpDockerComposeDotEnv
+        docker-compose run unit
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
@@ -255,31 +257,14 @@ case ${TEST_SUITE} in
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
-    functional)
+    cgl)
+        # Active dry-run for cgl needs not "-n" but specific options
+        if [[ ! -z ${CGLCHECK_DRY_RUN} ]]; then
+            CGLCHECK_DRY_RUN="--dry-run --diff --diff-format udiff"
+        fi
         setUpDockerComposeDotEnv
-        case ${DBMS} in
-            mariadb)
-                docker-compose run functional_mariadb10
-                SUITE_EXIT_CODE=$?
-                ;;
-            mssql)
-                docker-compose run functional_mssql2019latest
-                SUITE_EXIT_CODE=$?
-                ;;
-            postgres)
-                docker-compose run functional_postgres10
-                SUITE_EXIT_CODE=$?
-                ;;
-            sqlite)
-                docker-compose run functional_sqlite
-                SUITE_EXIT_CODE=$?
-                ;;
-            *)
-                echo "Invalid -d option argument ${DBMS}" >&2
-                echo >&2
-                echo "${HELP}" >&2
-                exit 1
-        esac
+        docker-compose run cgl
+        SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
     lint)
@@ -291,12 +276,6 @@ case ${TEST_SUITE} in
     phpstan)
         setUpDockerComposeDotEnv
         docker-compose run phpstan
-        SUITE_EXIT_CODE=$?
-        docker-compose down
-        ;;
-    unit)
-        setUpDockerComposeDotEnv
-        docker-compose run unit
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
