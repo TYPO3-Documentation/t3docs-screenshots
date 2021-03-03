@@ -12,26 +12,25 @@ Installation
 
    .. code-block:: bash
 
-      mkdir .Build
-      Build/Scripts/runTests.sh -s composerInstall
+      .docker/run.sh -s composerInstall
 
 Take screenshots of TYPO3 + EXT:styleguide
 ==========================================
 
 .. code-block:: bash
 
-   Build/Scripts/runTests.sh -s styleguide
+   .docker/run.sh -s styleguide
 
-Check ``.Build/Web/typo3temp/var/tests/AcceptanceReports/debug`` for images.
+Check ``public/typo3temp/var/tests/AcceptanceReports/debug`` for images.
 
 Take screenshots of TYPO3 + EXT:introduction
 ============================================
 
 .. code-block:: bash
 
-   Build/Scripts/runTests.sh -s introduction
+   .docker/run.sh -s introduction
 
-Check ``.Build/Web/typo3temp/var/tests/AcceptanceReports/debug`` for images.
+Check ``public/typo3temp/var/tests/AcceptanceReports/debug`` for images.
 
 Uninstallation
 ==============
