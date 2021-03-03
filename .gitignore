@@ -2,6 +2,8 @@
 .idea
 nbproject
 
+.docker/.env
+
 /var/*
 !/var/labels
 /vendor
@@ -11,5 +13,3 @@ nbproject
 /public/typo3conf/*
 !/public/typo3conf/LocalConfiguration.php
 !/public/typo3conf/AdditionalConfiguration.php
-
-

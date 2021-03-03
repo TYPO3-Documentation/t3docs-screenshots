@@ -104,10 +104,10 @@ Options:
 
 Examples:
     # Run unit tests using PHP 7.2
-    ./Build/Scripts/runTests.sh
+    .docker/run.sh
 
     # Run unit tests using PHP 7.4
-    ./Build/Scripts/runTests.sh -p 7.4
+    .docker/run.sh -p 7.4
 EOF
 
 # Test if docker-compose exists, else exit out with error
@@ -121,14 +121,8 @@ fi
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd "$THIS_SCRIPT_DIR" || exit 1
 
-# Create the working directory with the current user
-mkdir -p ../../.Build || exit 1
-
-# Go to directory that contains the local docker-compose.yml file
-cd ../testing-docker || exit 1
-
 # Option defaults
-ROOT_DIR=`readlink -f ${PWD}/../../`
+ROOT_DIR=`readlink -f ${PWD}/../`
 TEST_SUITE="unit"
 DBMS="mariadb"
 PHP_VERSION="7.2"
@@ -203,20 +197,20 @@ DOCKER_PHP_IMAGE=`echo "php${PHP_VERSION}" | sed -e 's/\.//'`
 # Set $1 to first mass argument, this is the optional test file or test directory to execute
 shift $((OPTIND - 1))
 if [ -n "${1}" ]; then
-    TEST_FILE="Web/typo3conf/ext/screenshots/${1}"
+    TEST_FILE="public/typo3conf/ext/screenshots/${1}"
 else
     case ${TEST_SUITE} in
         styleguide)
-            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance/Styleguide"
+            TEST_FILE="public/typo3conf/ext/screenshots/Tests/Acceptance/Styleguide"
             ;;
         introduction)
-            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Acceptance/Introduction"
+            TEST_FILE="public/typo3conf/ext/screenshots/Tests/Acceptance/Introduction"
             ;;
         functional)
-            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Functional"
+            TEST_FILE="public/typo3conf/ext/screenshots/Tests/Functional"
             ;;
         unit)
-            TEST_FILE="Web/typo3conf/ext/screenshots/Tests/Unit"
+            TEST_FILE="public/typo3conf/ext/screenshots/Tests/Unit"
             ;;
     esac
 fi
