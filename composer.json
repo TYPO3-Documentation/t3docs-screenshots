@@ -1,66 +1,65 @@
 {
-  "name": "typo3/cms-screenshots",
-  "authors": [
-    {
-      "name": "TYPO3 CMS Documentation Team",
-      "role": "Developer",
-      "homepage": "https://typo3.org/community/teams/documentation"
-    },
-    {
-      "name": "The TYPO3 Community",
-      "role": "Contributor",
-      "homepage": "https://typo3.org/community/"
-    }
-  ],
-  "type": "typo3-cms-extension",
-  "description": "Provide tools and runner to take scripted screenshots of the TYPO3 CMS.",
-  "homepage": "https://github.com/TYPO3-Documentation/SIG-Screenshots",
-  "license": "GPL-2.0-or-later",
-  "keywords": [
-    "typo3",
-    "screenshot"
-  ],
-  "support": {
-    "issues": "https://github.com/TYPO3-Documentation/SIG-Screenshots/issues"
-  },
-  "autoload": {
-    "psr-4": {
-      "TYPO3\\CMS\\Screenshots\\": "Classes/"
-    }
-  },
-  "config": {
-    "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
-  },
-  "require-dev": {
-    "typo3/cms-core": "^10.4.0@dev",
-    "typo3/cms-frontend": "^10.4.0@dev",
-    "typo3/cms-install": "^10.4.0@dev",
-    "typo3/cms-about": "^10.4.0@dev",
-    "typo3/cms-styleguide": "^10.0.0@dev",
-    "typo3/cms-introduction": "^4.2",
-    "typo3/testing-framework": "^6.6.2",
-    "codeception/codeception": "^4.1",
-    "codeception/module-webdriver": "^1.1",
-    "codeception/module-asserts": "^1.2"
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload-dev": {
-    "psr-4": {
-      "TYPO3\\CMS\\Screenshots\\Tests\\": "Tests"
-    }
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-    ]
-  },
-  "extra": {
-    "typo3/cms": {
-      "app-dir": ".Build",
-      "web-dir": ".Build/Web",
-      "extension-key": "screenshots"
-    }
-  }
+	"name": "typo3/t3docs-screenshots",
+	"description" : "TYPO3 CMS Screenshots",
+	"license": "GPL-2.0-or-later",
+	"config": {
+		"platform": {
+			"php": "7.2"
+		},
+		"sort-packages": true
+	},
+	"repositories": {
+		"local": {
+			"type": "path",
+			"url": "./packages/*"
+		}
+	},
+	"require": {
+		"helhum/typo3-console": "^6.0.0",
+		"typo3/cms-about": "^10.4",
+		"typo3/cms-backend": "^10.4",
+		"typo3/cms-belog": "^10.4",
+		"typo3/cms-beuser": "^10.4",
+		"typo3/cms-core": "^10.4",
+		"typo3/cms-dashboard": "^10.4",
+		"typo3/cms-extbase": "^10.4",
+		"typo3/cms-extensionmanager": "^10.4",
+		"typo3/cms-felogin": "^10.4",
+		"typo3/cms-filelist": "^10.4",
+		"typo3/cms-fluid": "^10.4",
+		"typo3/cms-fluid-styled-content": "^10.4",
+		"typo3/cms-form": "^10.4",
+		"typo3/cms-frontend": "^10.4",
+		"typo3/cms-impexp": "^10.4",
+		"typo3/cms-info": "^10.4",
+		"typo3/cms-install": "^10.4",
+		"typo3/cms-introduction": "^4.2",
+		"typo3/cms-recordlist": "^10.4",
+		"typo3/cms-rte-ckeditor": "^10.4",
+		"typo3/cms-seo": "^10.4",
+		"typo3/cms-setup": "^10.4",
+		"typo3/cms-styleguide": "^10.0.0@dev",
+		"typo3/cms-sys-note": "^10.4",
+		"typo3/cms-t3editor": "^10.4",
+		"typo3/cms-tstemplate": "^10.4",
+		"typo3/cms-viewpage": "^10.4",
+		"typo3/screenshots": "@dev"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require-dev": {
+		"codeception/codeception": "^4.1",
+		"codeception/module-asserts": "^1.2",
+		"codeception/module-webdriver": "^1.1",
+		"typo3/testing-framework": "^6.6.2"
+	},
+	"scripts":{
+		"typo3-cms-scripts": [
+			"typo3cms install:fixfolderstructure",
+			"typo3cms install:generatepackagestates"
+		],
+		"post-autoload-dump": [
+			"@typo3-cms-scripts"
+		]
+	}
 }

@@ -21,7 +21,7 @@ use TYPO3\CMS\Screenshots\Tests\Acceptance\Support\BackendTester;
 /**
  * Tests the screenshots backend module can be loaded
  */
-class DummyCest
+class Typo3CmsReferenceTcaCest
 {
     /**
      * @param BackendTester $I
@@ -36,8 +36,14 @@ class DummyCest
      */
     public function screenshotOfTypo3Backend(BackendTester $I)
     {
-        $I->makeScreenshot('typo3_backend_w_styleguide');
-        $I->makeHtmlSnapshot('typo3_backend_w_styleguide');
-        $I->makeElementScreenshot('.topbar-header-site', 'typo3_backend_w_styleguide_toolbar');
+//        $I->makeScreenshot('typo3_backend_w_styleguide');
+//        $I->makeHtmlSnapshot('typo3_backend_w_styleguide');
+//        $I->makeElementScreenshot('.topbar-header-site', 'typo3_backend_w_styleguide_toolbar');
+        $I->amOnPage(sprintf('/typo3/module/web/list?token=1&table==%s', 'tt_content'));
+        $I->wait(5);
+        $I->switchToContentFrame();
+        $I->makeScreenshot('page');
+        $I->makeHtmlSnapshot('page');
+        $I->makeElementScreenshot('.recordlist', 'tt_content');
     }
 }
