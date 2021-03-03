@@ -121,6 +121,9 @@ fi
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd "$THIS_SCRIPT_DIR" || exit 1
 
+# Create the working directory with the current user
+mkdir -p ../../.Build || exit 1
+
 # Go to directory that contains the local docker-compose.yml file
 cd ../testing-docker || exit 1
 
