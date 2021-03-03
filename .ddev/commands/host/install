@@ -1,0 +1,51 @@
+#!/bin/bash
+
+## Description: (Re-)install the project
+## Usage: install [flags]
+## Example: ddev install\nddev install --reset-only\nddev install --force
+## Flags: [{"Name":"reset-only","Shorthand":"","Usage":"Clean up TYPO3 instance only"}, {"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"}]
+
+# Initialize local variables
+FORCE=""
+CHOICE=""
+
+# Functions
+reset_project () {
+    rm -rf config
+    rm -rf public
+    rm -rf var
+    rm -rf vendor
+    ddev delete -Oy
+}
+
+install_project () {
+    reset_project
+    ddev start
+    ddev composer install --no-interaction
+    ddev config --project-type=typo3 --docroot=public
+    ddev exec touch public/FIRST_INSTALL
+}
+
+
+# Parse options and arguments
+while :; do
+    case ${1:-} in
+        -f|--force)
+            FORCE=true
+            ;;
+        *) # Default case: No more options, so break out of the loop.
+            break
+    esac
+
+    shift
+done
+
+# Set user confirmation if force option not set
+if [ ! "${FORCE}" = "true" ] ; then
+    printf "Warning, this will reset the project and remove all changes. Continue [yes/no]? "
+    read CHOICE
+fi
+
+if [ "${CHOICE}" = "yes" ] || [ "${FORCE}" = "true" ] ; then
+    install_project
+fi
