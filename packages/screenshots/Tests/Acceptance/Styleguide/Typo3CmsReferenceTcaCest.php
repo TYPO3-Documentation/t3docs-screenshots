@@ -36,14 +36,11 @@ class Typo3CmsReferenceTcaCest
      */
     public function screenshotOfTypo3Backend(BackendTester $I)
     {
-//        $I->makeScreenshot('typo3_backend_w_styleguide');
-//        $I->makeHtmlSnapshot('typo3_backend_w_styleguide');
-//        $I->makeElementScreenshot('.topbar-header-site', 'typo3_backend_w_styleguide_toolbar');
-        $I->amOnPage(sprintf('/typo3/module/web/list?token=1&table==%s', 'tt_content'));
-        $I->wait(5);
-        $I->switchToContentFrame();
-        $I->makeScreenshot('page');
-        $I->makeHtmlSnapshot('page');
-        $I->makeElementScreenshot('.recordlist', 'tt_content');
+        $I->makeScreenshotOfTable(0, 'pages', 'table');
+        $I->makeScreenshotOfTable(0, 'pages', 'table_element', '.recordlist');
+        $I->makeScreenshotOfRecord('pages', 1, 'record');
+        $I->makeScreenshotOfRecord('pages', 1, 'record_element', 'div[role="tabpanel"]');
+        $I->makeScreenshotOfField('pages', 1, 'title', 'fields');
+        $I->makeScreenshotOfField('pages', 1, 'title', 'fields_element', 'fieldset.form-section');
     }
 }

@@ -11,3 +11,6 @@ extensions:
   enabled:
     - Codeception\Extension\RunFailed
     - Codeception\Extension\Recorder
+modules:
+  enabled:
+    - TYPO3\CMS\Screenshots\Tests\Acceptance\Support\Helper\Screenshots
