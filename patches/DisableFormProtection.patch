@@ -1,0 +1,26 @@
+Index: public/typo3/sysext/core/Classes/FormProtection/AbstractFormProtection.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- a/typo3/sysext/core/Classes/FormProtection/AbstractFormProtection.php	(date 1614874171549)
++++ b/typo3/sysext/core/Classes/FormProtection/AbstractFormProtection.php	(date 1614874171549)
+@@ -104,6 +104,9 @@
+      */
+     public function validateToken($tokenId, $formName, $action = '', $formInstanceName = '')
+     {
++        /**
++         * Disabled via composer patch for TYPO3 screenshots
++         *
+         $validTokenId = GeneralUtility::hmac(((string)$formName . (string)$action) . (string)$formInstanceName . $this->getSessionToken());
+         if (hash_equals($validTokenId, (string)$tokenId)) {
+             $isValid = true;
+@@ -114,6 +117,8 @@
+             $this->createValidationErrorMessage();
+         }
+         return $isValid;
++        */
++        return true;
+     }
+
+     /**
