@@ -14,14 +14,14 @@
   ],
   "type": "typo3-cms-extension",
   "description": "Provide tools and runner to take scripted screenshots of the TYPO3 CMS.",
-  "homepage": "https://github.com/TYPO3-Documentation/SIG-Screenshots",
+  "homepage": "https://github.com/TYPO3-Documentation/t3docs-screenshots",
   "license": "GPL-2.0-or-later",
   "keywords": [
     "typo3",
     "screenshot"
   ],
   "support": {
-    "issues": "https://github.com/TYPO3-Documentation/SIG-Screenshots/issues"
+    "issues": "https://github.com/TYPO3-Documentation/t3docs-screenshots/issues"
   },
   "autoload": {
     "psr-4": {
