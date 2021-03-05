@@ -9,27 +9,41 @@ Next, the click path gets forged to a code block.
 Last, all code blocks get executed by the screenshot runner which produces the screenshots.
 
 
+Prerequisites
+=============
+
+Install
+
+1.  `Docker <https://docs.docker.com/get-docker/>`_
+2.  `Docker-Compose <https://docs.docker.com/compose/install/>`_
+3.  `DDEV <https://ddev.readthedocs.io/en/stable/>`_
+
+
 Browsable TYPO3 instance
 ========================
 
 Installation
 ------------
 
-1. Install `Docker <https://docs.docker.com/get-docker/>`_, `Docker-Compose <https://docs.docker.com/compose/install/>`_
-   and `DDEV <https://ddev.readthedocs.io/en/stable/>`_.
-2. Build the environment by
+1. Build the environment by
 
    .. code-block:: bash
 
       ddev install
 
-3. Navigate in your browser to the website and complete the installation:
+2. Navigate in your browser to the website and complete the installation:
 
    .. code-block:: bash
 
       ddev launch
 
-4. Log into the TYPO3 backend and activate the page tree of ``EXT:styleguide`` or ``EXT:introduction``.
+3. Log into the TYPO3 backend and activate the page tree of ``EXT:styleguide`` or ``EXT:introduction``.
+
+Re-Installation
+---------------
+
+You might want to setup the TYPO3 instance from scratch to initialize it with a distinct page tree. This can be easily
+achieved by running the steps of the installation section again.
 
 Stop
 ----
@@ -48,12 +62,6 @@ Start the TYPO3 instance by
 .. code-block:: bash
 
    ddev start
-
-Re-Installation
----------------
-
-You might want to setup the TYPO3 instance from scratch to initialize it with a distinct page tree. Run steps (2) and
-(3) of the installation again and activate the page tree of ``EXT:styleguide`` or ``EXT:introduction``.
 
 Uninstallation
 --------------
