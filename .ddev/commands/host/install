@@ -2,8 +2,8 @@
 
 ## Description: (Re-)install the project
 ## Usage: install [flags]
-## Example: ddev install\nddev install --reset-only\nddev install --force
-## Flags: [{"Name":"reset-only","Shorthand":"","Usage":"Clean up TYPO3 instance only"}, {"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"}]
+## Example: ddev install\nddev install --force
+## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"}]
 
 # Initialize local variables
 FORCE=""
