@@ -16,7 +16,8 @@ var settings = {
   mappingsPath: './public/Output/json/',
   limitToTable: '',
   stopOnFirstError: true,
-  standardTimeoutTime: 500
+  standardTimeoutTime: 500,
+  snippet: 'include'
 };
 let mappings = {
 };
@@ -44,14 +45,18 @@ function loadMapping(table) {
   await page.setViewport(settings.viewPort);
   loadMapping('pages');
   try {
+    const config = require(getSuitePath());
+    if (typeof config['settings'] === 'object') {
+      settings = Object.assign(settings, config['settings']);
+    }
     try {
-      await goToTypo3Frontend(page);
+      await goToTypo3Frontend(page, config);
     } catch (e) {
       log('TYPO3 Frontend doesn\'t work', 'error', e);
     }
     try {
-      await goToTypo3Backend(page);
-      await processBackendSuite(page);
+      await goToTypo3Backend(page, config);
+      await processBackendSuite(page, config);
     } catch (e) {
       log('TYPO3 Backend doesn\'t work', 'error', e);
     }
@@ -91,7 +96,7 @@ async function goToTypo3Frontend(page) {
 async function goToTypo3Backend(page) {
   await page.goto(settings.baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
   await page.waitForSelector('#loginCopyright');
-
+/*
   // Screenshot: Login page of Backend
   await page.screenshot({path: 'Screenshots/01_BE_Fullpage.png', fullPage: true});
 
@@ -114,11 +119,14 @@ async function goToTypo3Backend(page) {
 
   // Screenshot: Filled login box
   const loginForm = await page.$('.typo3-login-form');
+
+ */
   const loginFormSubmitButton = await page.$('#t3-login-submit');
+
   await page.type('#t3-username', 'pptr_admin');
   await page.type('#t3-password', 'pptr_admin');
-  await loginForm.screenshot({path: 'Screenshots/04_login_form.png'});
-
+ // await loginForm.screenshot({path: 'Screenshots/04_login_form.png'});
+/*
   // Screenshot: Filled login box with 25px space around
   const loginFormBounds = await loginForm.boundingBox();
   await loginForm.screenshot({
@@ -130,7 +138,7 @@ async function goToTypo3Backend(page) {
       height: loginFormBounds.height + 50 * 2
     }
   });
-
+*/
   await loginFormSubmitButton.click();
   await page.waitForNavigation();
 }
@@ -168,8 +176,7 @@ function getExtensionSettings(extensionConfig) {
   return extensionSettings;
 }
 
-async function processBackendSuite(page) {
-  const config = require(getSuitePath());
+async function processBackendSuite(page, config) {
 
   const firstLine = config['comments']['rst.txt'] + "\r\n";
 
@@ -327,7 +334,7 @@ async function processFieldScreenshot(fieldSettings, page, tableName, viewConfig
 }
 
 function processFieldSnippet(firstLine, extensionSettings, fieldSettings, tableName, viewConfig) {
-  if (fieldSettings['snippet'] !== 'ignore') {
+  if (settings['snippet'] !== 'ignore' && fieldSettings['snippet'] !== 'ignore') {
     try {
       createSnippetIncludeRst(
         firstLine, extensionSettings, fieldSettings,
@@ -415,7 +422,7 @@ async function createFieldScreenshot(page, table, uid, fieldSettings) {
   await createScreenshot(page, table, uid,
     fieldSettings['absoluteImageFilename'],
     '.form-section', command, bePath,
-    fieldSettings['actions']);
+    fieldSettings['actions'], fieldSettings['clip']);
 }
 
 async function createTableScreenshot(page, table, pid, viewSettings) {
@@ -423,7 +430,7 @@ async function createTableScreenshot(page, table, pid, viewSettings) {
   let bePath = 'module/web/list';
   await createScreenshot(
     page, table, pid, viewSettings['absoluteImageFilename'],
-    viewSettings['selector'], command, bePath, viewSettings['actions']);
+    viewSettings['selector'], command, bePath, viewSettings['actions'], viewSettings['clip']);
 }
 
 async function createRecordScreenshot(page, table, uid,viewSettings) {
@@ -431,16 +438,18 @@ async function createRecordScreenshot(page, table, uid,viewSettings) {
   let bePath = 'record/edit';
   await createScreenshot(
     page, table, uid, viewSettings['absoluteImageFilename'],
-    viewSettings['selector'], command, bePath, viewSettings['actions']);
+    viewSettings['selector'], command, bePath, viewSettings['actions'], viewSettings['clip']);
 }
 
-async function createScreenshot(page, table, uid, path, selector, command, bePath, actions) {
+async function createScreenshot(page, table, uid, path, selector, command, bePath, actions, clip) {
   const backendUrl = settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command;
   await page.goto(backendUrl, {waitUntil: 'networkidle2'});
+  await page.addScriptTag({ url: 'https://code.jquery.com/jquery-3.2.1.min.js' });
   if (actions) {
     await executeActions(actions, page, table, uid);
   }
   log('Capturing: ' + path);
+  log('At url: ' + backendUrl + ', Selector: ' + selector);
   if (selector === '') {
     // whole page screenshot
     await page.screenshot({
@@ -449,9 +458,32 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
   } else {
     const formSection = await page.$(selector);
     if (formSection) {
-      await formSection.screenshot({
-        path: path,
-      });
+      if (typeof clip !== 'object') {
+        await formSection.screenshot({
+          path: path
+        });
+      } else {
+        const formBounds = await formSection.boundingBox();
+        let height = formBounds.height + formBounds.y;
+        let width = formBounds.width + formBounds.x;
+        if (typeof clip === 'object') {
+          if (typeof clip['height'] === 'number') {
+            height = clip['height'];
+          }
+          if (typeof clip['width'] === 'number') {
+            width = clip['width'];
+          }
+        }
+        await formSection.screenshot({
+          path: path,
+          clip: {
+            x: 0,
+            y: 0,
+            width: width,
+            height: height
+          }
+        });
+      }
     } else {
       const errorImagePath =  settings.errorPath + getCamelCase(table + '_' + uid) + '.png';
       await page.screenshot({
@@ -463,26 +495,14 @@ async function createScreenshot(page, table, uid, path, selector, command, bePat
         throw new Error(errorMessage);
     }
   }
-  await page.goto(settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command,
-    {waitUntil: 'networkidle2'});
-  if (actions) {
-    await executeActions(actions, page, table, uid);
-  }
-  log('Capturing: ' + path);
-  if (selector === '') {
-    // whole page screenshot
-    await page.screenshot({
-      path: path,
-    });
-  } else {
-    const formSection = await page.$(selector);
-    if (formSection) {
-      await formSection.screenshot({
-        path: path,
-      });
-    } else {
-      throw new Error('selector "' + selector + '" not found.');
-    }
+}
+
+async function hideAction(page, action) {
+  if (action['selector']) {
+    await page.evaluate((action) => {
+      const $ = window.$;
+      $(action['selector']).hide();
+    }, action);
   }
 }
 
@@ -511,6 +531,8 @@ async function executeActions(actions, page, table, uid) {
         await waitAction(actions, i, page, table, uid);
       } else if (actions[i]['action'] === 'open') {
         await openAction(actions[i], page, table, uid);
+      } else if(actions[i]['action'] === 'hide') {
+        await hideAction(page, actions[i]);
       }
     }
   }
