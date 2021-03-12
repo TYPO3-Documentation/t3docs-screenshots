@@ -230,7 +230,9 @@ function getUid(selectRecord, tableName, id) {
   let ret = id;
   let map = mappings[tableName];
   if (typeof map === 'object') {
-    if (typeof ret !== "undefined" && ret > 0) {
+    if (ret === 0 && tableName === 'pages') {
+
+    } else if (typeof ret !== "undefined" && ret > 0) {
       let found = false;
       for (let i = 0; i < map.length; i++) {
         if (ret === map[i]['uid']) {
@@ -262,7 +264,6 @@ function getUid(selectRecord, tableName, id) {
           for (let i = 0; i < map.length; i++) {
             if (map[i][by] === value) {
               ret = map[i]['uid'];
-              console.log("uid found " + ret);
               break;
             }
           }
@@ -270,8 +271,8 @@ function getUid(selectRecord, tableName, id) {
       }
     }
   }
-  if (typeof ret === "undefined" || ret < 1) {
-    throw new Error("Record of table " + tableName + " with selector " + JSON.stringify(selectRecord) + "not found");
+  if (typeof ret === "undefined" || ret < 0) {
+    throw new Error("Record of table " + tableName + " with selector " + JSON.stringify(selectRecord) + " not found");
   }
   return ret;
 }
@@ -279,7 +280,6 @@ function getUid(selectRecord, tableName, id) {
 async function processRecordView(viewConfig, tableName, page, viewSettings, firstLine) {
   if (viewConfig['view'] === 'record' && viewConfig['screenshot'] !== 'ignore') {
     let uid = getUid(viewConfig['selectRecord'], tableName, viewConfig['uid']);
-    log('Take Screenshot of record ' + uid + ' from table ' + tableName);
     await createRecordScreenshot(page, tableName, uid, viewSettings);
     createImageIncludeRst(viewSettings, firstLine, tableName, '');
   }
@@ -426,7 +426,7 @@ async function createFieldScreenshot(page, table, uid, fieldSettings) {
 }
 
 async function createTableScreenshot(page, table, pid, viewSettings) {
-  let command = 'table==' + table;
+  let command = 'table=' + table;
   let bePath = 'module/web/list';
   await createScreenshot(
     page, table, pid, viewSettings['absoluteImageFilename'],
@@ -558,7 +558,6 @@ async function openAction(action, page, table, uid) {
 
 async function clickAction(actions, i, page, table, uid) {
   if (actions[i]['tab']) {
-    log('Switching to tab ' + actions[i]['tab']);
     const [link] = await page.$x("//a[contains(., '" + actions[i]['tab'] + "')]");
     if (link) {
       await link.click();
@@ -566,13 +565,11 @@ async function clickAction(actions, i, page, table, uid) {
       await logNotFound('Tab not found: ' + actions[i]['tab']);
     }
   } else if (actions[i]['select']) {
-    log('Opening selector ' + actions[i]['select']);
     const selector = "select[name=\"data[" + table + "][" +
       uid + "][" + actions[i]['select'] + "]\"]";
     await page.focus(selector);
     page.keyboard.type(' ');
   } else if (actions[i]['button']) {
-    log('Clicking button ' + actions[i]['button']);
     const [link] = await page.$x("//button[contains(., '" + actions[i]['button'] + "')]");
     if (link) {
       await link.click();
@@ -587,7 +584,6 @@ async function clickAction(actions, i, page, table, uid) {
 
 async function waitAction(actions, i, page, table, uid) {
   if (actions[i]['selector']) {
-    log('Waiting for selector ' + actions[i]['selector']);
     await page.waitForSelector(actions[i]['selector'], actions[i]['options']);
   } else if (actions[i]['timeout']) {
     await page.waitForTimeout(actions[i]['timeout']);
@@ -598,7 +594,6 @@ async function changeAction(actions, i, page, table, uid) {
   if (actions[i]['select']) {
     const selector = "select[name=\"data[" + table + "][" +
       uid + "][" + actions[i]['select'] + "]\"]";
-    log('Selecting ' + selector + 'with value ' + actions[i]['value']);
     await page.select(selector, actions[i]['value']);
   }
 }
@@ -615,7 +610,6 @@ function createSnippetIncludeRst(firstLine, extensionSettings, fieldSettings, ta
     "\r\n";
   fs.writeFile(fieldSettings['includeSnippetFilename'], includeRst, function (err) {
     if (err) throw err;
-    log('Saved ' + fieldSettings['includeSnippetFilename']);
   });
 }
 
@@ -644,7 +638,6 @@ function createImageIncludeRst(rstSettings, firstLine, table, field = '') {
     "   " + description + "\r\n"
   fs.writeFile(rstSettings['includeRstFilename'], rstFileContent, function (err) {
     if (err) throw err;
-    log('Saved ' + rstSettings['includeRstFilename']);
   });
 }
 
