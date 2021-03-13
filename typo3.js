@@ -17,7 +17,8 @@ var settings = {
   limitToTable: '',
   stopOnFirstError: true,
   standardTimeoutTime: 500,
-  snippet: 'include'
+  snippet: 'include',
+  isTca: true
 };
 let mappings = {
 };
@@ -657,7 +658,7 @@ function createImageIncludeRst(rstSettings, firstLine, table, field = '') {
   }
   let alt = imageText;
   let description = imageText;
-  if (field) {
+  if (field && settings.isTca) {
     description = ":ref:`" + imageText +
       " <tca_example_" + rstSettings['prefix'] + field + ">`";
   }
