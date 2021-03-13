@@ -419,9 +419,12 @@ async function createFieldScreenshot(page, table, uid, fieldSettings) {
   let command = 'edit[' + table + '][' + uid + ']=edit&columnsOnly=' +
     fieldSettings['field'];
   let bePath = 'record/edit';
+  let selector = '.form-section';
+  if (typeof fieldSettings['selector'] === 'string' && fieldSettings['selector'] !== '')
+    selector = fieldSettings['selector'];
   await createScreenshot(page, table, uid,
     fieldSettings['absoluteImageFilename'],
-    '.form-section', command, bePath,
+    selector, command, bePath,
     fieldSettings['actions'], fieldSettings['clip']);
 }
 

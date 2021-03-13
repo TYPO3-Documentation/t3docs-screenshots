@@ -1,12 +1,19 @@
 <?php
 $publicPath = '../';
-$manualPath = 'TYPO3CMS-Reference-TCA/';
+$manualPath = 'TYPO3CMS-Reference-TCA';
+if (isset($_GET['manual'])) {
+    $manualPath = $_GET['manual'];
+    setcookie ( 'manual' , $_GET['manual'] , time()+60*60*24*30);
+} else if (isset($_COOKIE['manual'])) {
+    $manualPath = $_COOKIE['manual'];
+}
+$manualPath .= '/';
 $jsonConfig = file_get_contents($publicPath.'OriginalManual/'.$manualPath.'Scripts/GenerateScreenshots/Config.json');
 $config = json_decode($jsonConfig, true);
 
 foreach ($config['extensions'] as $key => $value) {
     foreach ($config['extensions'][$key]['tables'] as $key2 => $value2) {
-        $config['extensions'][$key]['tables'][$key2]['tableConvert'] = 
+        $config['extensions'][$key]['tables'][$key2]['tableConvert'] =
             $config['extensions'][$key]['tables'][$key2]['tableConvert'] ?? '';
     }
     unset($tableConfig);
@@ -15,11 +22,13 @@ foreach ($config['extensions'] as $key => $value) {
 
     $config['extensions'][$key]['imageSource'] = $manualPath . $config['extensions'][$key]['paths']['imageSource'];
     $config['extensions'][$key]['imageRst'] = $manualPath . $config['extensions'][$key]['paths']['imageRst'];
-    $config['extensions'][$key]['codeSource'] = $manualPath . $config['extensions'][$key]['paths']['codeSource'];
-    $config['extensions'][$key]['codeRst'] = $manualPath . $config['extensions'][$key]['paths']['codeRst'];
-    $config['extensions'][$key]['sourcePath'] = $config['extensions'][$key]['paths']['source'];
 
-    $config['extensions'][$key]['outputSourcePath'] = $publicPath . 'Output/' . $config['extensions'][$key]['codeSource'];
+    if (isset($config['extensions'][$key]['paths']['source'])) {
+        $config['extensions'][$key]['sourcePath'] = $config['extensions'][$key]['paths']['source'];
+        $config['extensions'][$key]['codeSource'] = $manualPath . $config['extensions'][$key]['paths']['codeSource'];
+        $config['extensions'][$key]['codeRst'] = $manualPath . $config['extensions'][$key]['paths']['codeRst'];
+        $config['extensions'][$key]['outputSourcePath'] = $publicPath . 'Output/' . $config['extensions'][$key]['codeSource'];
+    }
 
     $config['extensions'][$key]['originalPath'] = $publicPath . 'OriginalManual/' . $config['extensions'][$key]['imageSource'];
     $config['extensions'][$key]['outputPath'] = $publicPath . 'Output/' . $config['extensions'][$key]['imageSource'];
@@ -30,15 +39,18 @@ foreach ($config['extensions'] as $key => $value) {
             'from' => $publicPath.'Output/'.$config['extensions'][$key]['imageRst'],
             'to' => $publicPath.'OriginalManual/'.$config['extensions'][$key]['imageRst'],
         ],
-        [
+    ];
+
+    if (isset($config['extensions'][$key]['paths']['source'])) {
+        $config['extensions'][$key]['copyPath'][] = [
             'from' => $publicPath.'Output/'.$config['extensions'][$key]['codeRst'],
             'to' => $publicPath.'OriginalManual/'.$config['extensions'][$key]['codeRst'],
-        ],
-        [
+        ];
+        $config['extensions'][$key]['copyPath'][] = [
             'from' => $publicPath.'Output/'. $config['extensions'][$key]['codeSource'],
             'to' => $publicPath.'OriginalManual/'. $config['extensions'][$key]['codeSource'],
-        ],
-    ];
+        ];
+    }
 }
 
 function isFilesEqual($file1, $file2): bool
@@ -72,7 +84,7 @@ function makeAccordion($title, $content, $id, $parent, $class='my-5') {
                 </button>
             </h2>
         </div>
-    
+
         <div id="collapse'.$id.'" class="collapse " aria-labelledby="heading'.$id.'" data-parent="'.$parent.'">
             <div class="card-body">
                 '.$content.'
@@ -89,7 +101,7 @@ function makeCheckbox($id, $value, $label, $class, $isChecked = false, $content 
     }
     return '
         <div>
-            <input type="checkbox" '.$checked.' name="'.$id.'" class="'.$class.'" 
+            <input type="checkbox" '.$checked.' name="'.$id.'" class="'.$class.'"
                 value="'.$value.'">
             <label for="'.$id.'">'.$label.'</label>
             '.$content.'
