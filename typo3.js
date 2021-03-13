@@ -506,6 +506,22 @@ async function hideAction(page, action) {
   }
 }
 
+async function drawAction(page, action) {
+  if (action['selector'] && action['item']) {
+    await page.evaluate((action) => {
+      const $ = window.$;
+      if (action['item'] === 'box') {
+        $(action['selector']).css(
+          {
+            "border-color":"#F49700",
+            "border-width":"2px",
+            "border-radius":"2px"
+          });
+      }
+    }, action);
+  }
+}
+
 async function executeActions(actions, page, table, uid) {
 
   for (var i = 0; i < actions.length; i++) {
@@ -533,6 +549,8 @@ async function executeActions(actions, page, table, uid) {
         await openAction(actions[i], page, table, uid);
       } else if(actions[i]['action'] === 'hide') {
         await hideAction(page, actions[i]);
+      } else if(actions[i]['action'] === 'draw') {
+        await drawAction(page, actions[i]);
       }
     }
   }
