@@ -518,6 +518,19 @@ async function drawAction(page, action) {
             "border-radius":"2px"
           });
       }
+      if (action['item'] === 'arrow') {
+        const element = $(action['selector']);
+        element.prepend('' +
+          '<img id="t3docsArrow" ' +
+          ' src="/fileadmin/images/icon-collections/primary-orange-design-team/icons/arrow.svg" ' +
+          ' style="' +
+          '    position: absolute;' +
+          '    z-index: 1000;' +
+          '    top: -40px;' +
+          '    left: '+element.width()+'px;' +
+          '    transform: rotate(-20deg);' +
+          '"/>')
+      }
     }, action);
   }
 }
