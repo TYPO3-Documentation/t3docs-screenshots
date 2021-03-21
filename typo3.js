@@ -708,21 +708,25 @@ async function drawAction(page, action) {
           });
       }
       else if (action['item'] === 'arrow') {
-        let css = '    position: relative;' +
+        element.css(
+          {
+            "position":"relative"
+          });
+        let css = '    position: absolute;' +
           '    z-index: 1000;' +
           '    top: -40px;' +
           '    left: '+element.width()+'px;' +
           '    transform: rotate(-20deg);' ;
         if (typeof action['position'] == 'string') {
           if (action['position'] === 'left') {
-            css = '    position: relative;' +
+            css = '    position: absolute;' +
               '    z-index: 1000;' +
               '    top: -65px;' +
-              '    left: 0;' +
-              '    transform: rotate(-45deg);' ;
+              '    left: -100px;' +
+              '    transform: rotate(-135deg);' ;
           }
           else if (action['position'] === 'center') {
-            css = '    position: relative;' +
+            css = '    position: absolute;' +
               '    z-index: 1000;' +
               '    top: -65px;' +
               '    left: 50%;' +
