@@ -15,6 +15,7 @@ var settings = {
   errorPath: 'public/Output/Errors/',
   mappingsPath: './public/Output/json/',
   limitToTable: '',
+  limitToImage: '',
   stopOnFirstError: true,
   standardTimeoutTime: 500,
   snippet: 'include',
@@ -41,6 +42,7 @@ function loadMapping(table) {
 
   const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
   const page = await browser.newPage();
+  page.on('console', consoleObj => console.log(consoleObj.text()));
 
   // Set size of "browser window" - cannot click outside this area.
   await page.setViewport(settings.viewPort);
@@ -49,6 +51,14 @@ function loadMapping(table) {
     const config = require(getSuitePath());
     if (typeof config['settings'] === 'object') {
       settings = Object.assign(settings, config['settings']);
+    }
+    try {
+      let dir = settings.errorPath;
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, {recursive: true});
+      }
+    } catch (e) {
+      log('Error creating error path.', 'error', e);
     }
     try {
       await goToTypo3Frontend(page, config);
@@ -81,6 +91,9 @@ function fetchSettingsFromCli() {
   if (args['limitToTable']) {
     settings.limitToTable = args['limitToTable'];
   }
+  if (args['limitToImage']) {
+    settings.limitToImage = args['limitToImage'];
+  }
   if (args['stopOnFirstError']) {
     settings.stopOnFirstError = args['stopOnFirstError'] === 'true';
   }
@@ -97,49 +110,11 @@ async function goToTypo3Frontend(page) {
 async function goToTypo3Backend(page) {
   await page.goto(settings.baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
   await page.waitForSelector('#loginCopyright');
-/*
-  // Screenshot: Login page of Backend
-  await page.screenshot({path: 'Screenshots/01_BE_Fullpage.png', fullPage: true});
 
-  // Screenshot: Login box of Backend
-  // await page.waitForTimeout(250);
-  const loginBox = await page.$('div.card.card-lg.card-login');
-  await loginBox.screenshot({path: 'Screenshots/02_card-login.png'});
-
-  // Screenshot: Login box with 25px space around
-  const loginBoxBounds = await loginBox.boundingBox();
-  await loginBox.screenshot({
-    path: 'Screenshots/03_card_login_plus25.png',
-    clip: {
-      x: loginBoxBounds.x - 25,
-      y: loginBoxBounds.y - 25,
-      width: loginBoxBounds.width + 25 * 2,
-      height: loginBoxBounds.height + 25 * 2
-    }
-  });
-
-  // Screenshot: Filled login box
-  const loginForm = await page.$('.typo3-login-form');
-
- */
   const loginFormSubmitButton = await page.$('#t3-login-submit');
 
   await page.type('#t3-username', 'pptr_admin');
   await page.type('#t3-password', 'pptr_admin');
- // await loginForm.screenshot({path: 'Screenshots/04_login_form.png'});
-/*
-  // Screenshot: Filled login box with 25px space around
-  const loginFormBounds = await loginForm.boundingBox();
-  await loginForm.screenshot({
-    path: 'Screenshots/05_login_form_plus50.png',
-    clip: {
-      x: loginFormBounds.x - 50,
-      y: loginFormBounds.y - 50,
-      width: loginFormBounds.width + 50 * 2,
-      height: loginFormBounds.height + 50 * 2
-    }
-  });
-*/
   await loginFormSubmitButton.click();
   await page.waitForNavigation();
 }
@@ -184,6 +159,12 @@ async function processBackendSuite(page, config) {
   for (let key in config['extensions']) {
     let extensionConfig = config['extensions'][key];
     let extensionSettings = getExtensionSettings(extensionConfig);
+
+    let overviewConfig = config['extensions'][key]['overview'];
+    await overviewScreenshots(overviewConfig, extensionSettings, page, firstLine);
+
+    let moduleConfig = config['extensions'][key]['modules'];
+    await moduleScreenshots(moduleConfig, extensionSettings, page, firstLine);
 
     let tableConfig = config['extensions'][key]['tables'];
     for (let i = 0; i < tableConfig.length; i++) {
@@ -356,12 +337,183 @@ async function processFieldsView(viewConfig, tableConfig, tableName, prefix, ext
       let fieldSettings = getFieldSettings(
         viewConfig, tableConfig['fields'][j], tableName, prefix,
         extensionSettings);
-      await processFieldScreenshot(
-        fieldSettings, page, tableName, viewConfig, firstLine);
-      processFieldSnippet(
-        firstLine, extensionSettings, fieldSettings, tableName, viewConfig);
+
+      if (settings.limitToImage === '' ||
+          settings.limitToImage === fieldSettings['filename']) {
+        await processFieldScreenshot(
+          fieldSettings, page, tableName, viewConfig, firstLine);
+        processFieldSnippet(
+          firstLine, extensionSettings, fieldSettings, tableName, viewConfig);
+      }
     }
   }
+}
+
+async function overviewScreenshots(overviewConfig, extensionSettings, page, firstLine) {
+  console.log('Overview Screenshot List');
+  if (typeof overviewConfig === 'object') {
+    for (let i = 0; i < overviewConfig.length; i++) {
+
+      let moduleSettings = getModuleSettings(overviewConfig[i], extensionSettings);
+      for (let j = 0; j < overviewConfig[i]['screens'].length; j++) {
+        let viewConfig = overviewConfig[i]['screens'][j];
+        let viewSettings = getModuleViewSettings(viewConfig, extensionSettings);
+        try {
+          if (settings.limitToImage === '' || settings.limitToImage === viewSettings['filename']) {
+            await createOverviewScreenshot(page, moduleSettings, viewSettings);
+            createImageIncludeRst(viewSettings, firstLine, '', '');
+          }
+        } catch(e) {
+          log(
+            'Something went wrong processing the module "' + overviewConfig['module'],
+            'error', e);
+        }
+      }
+    }
+  }
+}
+
+async function createOverviewScreenshot(
+  page, overviewSettings, viewSettings
+) {
+  let filename = viewSettings['filename'];
+  let selector = viewSettings['selector'];
+  console.log('Overview Screenshot: '+filename);
+  let url = 'http://localhost/typo3/main';
+  console.log('Goto: ' + url);
+  let path = viewSettings['absoluteImageFilename'];
+  await page.goto(url,{waitUntil: 'networkidle2'});
+  if (viewSettings['actions']) {
+    console.log(viewSettings['actions']);
+    await executeActions(viewSettings['actions'], page, 'module', 0);
+  }
+  console.log('Capturing: ' + path);
+  if (typeof viewSettings['viewport'] === 'object') {
+    await page.setViewport(viewSettings['viewport']);
+  }
+  if (selector === '') {
+    // whole page screenshot
+    await page.screenshot({
+      path: path,
+    });
+  } else {
+    const formSection = await page.$(selector);
+    await formSection.screenshot({
+      path: path,
+    });
+  }
+  if (typeof viewSettings['viewport'] === 'object') {
+    await page.setViewport(settings.viewPort);
+  }
+}
+
+
+async function moduleScreenshots(moduleConfig, extensionSettings, page, firstLine) {
+  console.log('Module Screenshot List');
+  if (typeof moduleConfig === 'object') {
+    for (let i = 0; i < moduleConfig.length; i++) {
+
+      let moduleSettings = getModuleSettings(moduleConfig[i], extensionSettings);
+      for (let j = 0; j < moduleConfig[i]['screens'].length; j++) {
+        let viewConfig = moduleConfig[i]['screens'][j];
+        let viewSettings = getModuleViewSettings(viewConfig, extensionSettings);
+
+        try {
+          if (settings.limitToImage === '' || settings.limitToImage === viewSettings['filename']) {
+            await createModuleScreenshot(page, moduleSettings, viewSettings);
+            createImageIncludeRst(viewSettings, firstLine, '', '');
+          }
+        } catch(e) {
+          log(
+            'Something went wrong processing the module "' + moduleConfig['module'],
+            'error', e);
+        }
+      }
+    }
+  }
+}
+
+
+async function createModuleScreenshot(
+  page, moduleSettings, viewSettings
+) {
+  let filename = viewSettings['filename'];
+  let selector = viewSettings['selector'];
+  console.log('Module Screenshot: '+filename);
+  let url = 'http://localhost/typo3/index.php?route='+moduleSettings['module'];
+  let parameters = '';
+  let paramConfig = viewSettings['parameters'];
+  if(typeof paramConfig == 'object')
+    for (let j = 0; j < paramConfig.length; j++) {
+      if (parameters !== '') {
+        parameters += '&';
+      }
+      parameters += paramConfig[j]['key'] + '=' +
+        paramConfig[j]['value'];
+    }
+  if (parameters !== '') {
+    url += '&' + parameters;
+  }
+  url += '&token=x';
+  console.log('Goto: ' + url);
+  let path = viewSettings['absoluteImageFilename'];
+  await page.goto(url,{waitUntil: 'networkidle2'});
+  if (viewSettings['actions']) {
+    console.log(viewSettings['actions']);
+    await executeActions(viewSettings['actions'], page, 'module', 0);
+  }
+  console.log('Capturing: ' + path);
+  if (typeof viewSettings['viewport'] === 'object') {
+    console.log(viewSettings['viewport']);
+    await page.setViewport(viewSettings['viewport']);
+  }
+  if (selector === '') {
+    // whole page screenshot
+    await page.screenshot({
+      path: path,
+    });
+  } else {
+    const formSection = await page.$(selector);
+    await formSection.screenshot({
+      path: path,
+    });
+  }
+  if (typeof viewSettings['viewport'] === 'object') {
+    await page.setViewport(settings.viewPort);
+  }
+}
+
+function getModuleSettings(moduleConfig, extensionSettings) {
+  let filename = getString(moduleConfig['filename']);
+  let viewSettings = Object.assign(moduleConfig,
+    {
+      'caption': getString(moduleConfig['caption']),
+      'filename': filename,
+      'selector': getString(moduleConfig['selector']),
+      'actions': getArray(moduleConfig['actions']),
+      'includeRstFilename': extensionSettings['imageIncludesPath'] + filename + '.rst.txt',
+      'absoluteImageFilename': extensionSettings['absoluteImagePath'] + filename + '.png',
+      'relativeImageFilename': extensionSettings['relativeImagePath'] + filename + '.png'
+    }
+  );
+  return viewSettings;
+}
+
+function getModuleViewSettings(viewConfig, extensionSettings) {
+  let filename = getString(viewConfig['filename']);
+
+  let viewSettings = Object.assign(viewConfig,
+    {
+      'caption': getString(viewConfig['caption']),
+      'filename': filename,
+      'selector': getString(viewConfig['selector']),
+      'actions': getArray(viewConfig['actions']),
+      'includeRstFilename': extensionSettings['imageIncludesPath'] + filename + '.rst.txt',
+      'absoluteImageFilename': extensionSettings['absoluteImagePath'] + filename + '.png',
+      'relativeImageFilename': extensionSettings['relativeImagePath'] + filename + '.png'
+    }
+  );
+  return viewSettings;
 }
 
 async function processTable(tableConfig, extensionSettings, page, firstLine) {
@@ -373,9 +525,14 @@ async function processTable(tableConfig, extensionSettings, page, firstLine) {
       let viewConfig = tableConfig['screens'][k];
       let viewSettings = getViewSettings(viewConfig, prefix, tableName, extensionSettings);
       try {
-        await processTableView(viewConfig, tableName, page, viewSettings, firstLine);
-        await processRecordView(viewConfig, tableName, page, viewSettings, firstLine);
-        await processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine);
+        if (settings.limitToImage === '' ||
+            settings.limitToImage === viewSettings['filename']
+            || viewConfig['view'] === 'fields') {
+          await processTableView(viewConfig, tableName, page, viewSettings, firstLine);
+          await processRecordView(viewConfig, tableName, page, viewSettings, firstLine);
+          await processInfoView(viewConfig, tableName, page, viewSettings, firstLine);
+          await processFieldsView(viewConfig, tableConfig, tableName, prefix, extensionSettings, page, firstLine);
+        }
       } catch(e) {
         log(
           'Something went wrong processing view "' + viewConfig['view'] +
@@ -384,6 +541,23 @@ async function processTable(tableConfig, extensionSettings, page, firstLine) {
       }
     }
   }
+}
+
+async function processInfoView(viewConfig, tableName, page, viewSettings, firstLine) {
+  if (viewConfig['view'] === 'info' && viewConfig['screenshot'] !== 'ignore') {
+    let uid = getUid(viewConfig['selectRecord'], tableName, viewConfig['uid']);
+    await createInfoScreenshot(page, tableName, uid, viewSettings);
+    createImageIncludeRst(viewSettings, firstLine, tableName, '');
+  }
+}
+
+
+async function createInfoScreenshot(page, table, uid,viewSettings) {
+  let command = 'table=' + table + '&uid=' + uid + '';
+  let bePath = 'record/info';
+  await createScreenshot(
+    page, table, uid, viewSettings['absoluteImageFilename'],
+    viewSettings['selector'], command, bePath, viewSettings['actions'], viewSettings['clip']);
 }
 
 function getSuitePath() {
@@ -514,26 +688,77 @@ async function drawAction(page, action) {
   if (action['selector'] && action['item']) {
     await page.evaluate((action) => {
       const $ = window.$;
+      let element = $(action['selector']);
+      console.log("draw action");
+      if (typeof action['iframe'] === 'string' && action['iframe'] !== '') {
+        const iframe = $(action['iframe']);
+        if (iframe) {
+          element = iframe.contents().find(action['selector']);
+        } else {
+          console.log("iframe not found:" + action['iframe']);
+        }
+      }
       if (action['item'] === 'box') {
-        $(action['selector']).css(
+        element.css(
           {
+            "border-style":"solid",
             "border-color":"#F49700",
             "border-width":"2px",
             "border-radius":"2px"
           });
       }
-      if (action['item'] === 'arrow') {
-        const element = $(action['selector']);
+      else if (action['item'] === 'arrow') {
+        let css = '    position: relative;' +
+          '    z-index: 1000;' +
+          '    top: -40px;' +
+          '    left: '+element.width()+'px;' +
+          '    transform: rotate(-20deg);' ;
+        if (typeof action['position'] == 'string') {
+          if (action['position'] === 'left') {
+            css = '    position: relative;' +
+              '    z-index: 1000;' +
+              '    top: -65px;' +
+              '    left: 0;' +
+              '    transform: rotate(-45deg);' ;
+          }
+          else if (action['position'] === 'center') {
+            css = '    position: relative;' +
+              '    z-index: 1000;' +
+              '    top: -65px;' +
+              '    left: 50%;' +
+              '    transform: rotate(-45deg);' ;
+          }
+        }
         element.prepend('' +
           '<img id="t3docsArrow" ' +
           ' src="/fileadmin/images/icon-collections/primary-orange-design-team/icons/arrow.svg" ' +
           ' style="' +
-          '    position: absolute;' +
-          '    z-index: 1000;' +
-          '    top: -40px;' +
-          '    left: '+element.width()+'px;' +
-          '    transform: rotate(-20deg);' +
+          css +
           '"/>')
+      }
+      else if (action['item'] === 'label') {
+        element.css(
+          {
+            "position":"relative"
+          });
+        let css = '    position: absolute;' +
+          '    z-index: 1000;' +
+          '    top: 0;' +
+          '    right: 0;' +
+          '    background: #F49700;' +
+          '    color: black; font-size: 20px; font-weight: bold;' +
+          '    height: 30px; width: 30px;' +
+          '    border-radius: 5px;' +
+          '    text-align:center;' +
+          '    line-height:30px;' ;
+        let innerCss = '' ;
+        element.prepend('' +
+          '<div id="t3docsLabel" ' +
+          ' style="' +
+          css +
+          '"><div style="' +
+          innerCss +
+          '"></div>' + action['content'] + '</div></div>')
       }
     }, action);
   }
@@ -568,8 +793,20 @@ async function executeActions(actions, page, table, uid) {
         await hideAction(page, actions[i]);
       } else if(actions[i]['action'] === 'draw') {
         await drawAction(page, actions[i]);
+      } else if(actions[i]['action'] === 'setCss') {
+        await setCssAction(page, actions[i]);
       }
     }
+  }
+}
+
+
+async function setCssAction(page, action) {
+  if (typeof action['selector'] == 'string' && typeof action['css'] == 'object') {
+    await page.evaluate((action) => {
+      const $ = window.$;
+      $(action['selector']).css(action['css']);
+    }, action);
   }
 }
 
@@ -600,8 +837,13 @@ async function clickAction(actions, i, page, table, uid) {
       await logNotFound('Tab not found: ' + actions[i]['tab']);
     }
   } else if (actions[i]['select']) {
-    const selector = "select[name=\"data[" + table + "][" +
-      uid + "][" + actions[i]['select'] + "]\"]";
+    let selector = 'select';
+    if (typeof actions[i]['selector'] === 'string'){
+      selector = actions[i]['selector'];
+    } else {
+      selector = "select[name=\"data[" + table + "][" +
+        uid + "][" + actions[i]['select'] + "]\"]";
+    }
     await page.focus(selector);
     page.keyboard.type(' ');
   } else if (actions[i]['button']) {
