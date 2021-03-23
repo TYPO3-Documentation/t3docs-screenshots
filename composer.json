@@ -44,7 +44,8 @@
 		"typo3/cms-t3editor": "^10.4",
 		"typo3/cms-tstemplate": "^10.4",
 		"typo3/cms-viewpage": "^10.4",
-		"typo3/screenshots": "@dev"
+		"typo3/screenshots": "@dev",
+		"ext-imagick": "^3.4"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
