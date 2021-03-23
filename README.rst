@@ -6,7 +6,8 @@ This project provides a way to take screenshots of the TYPO3 CMS in a scripted w
 
 First, the user browses a TYPO3 instance to take notes of a click path for a new screenshot.
 Next, the click path gets forged to a code block.
-Last, all code blocks get executed by the screenshot runner which produces the screenshots.
+Next, all code blocks get executed by the screenshot runner which produces the screenshots.
+Last, the actual screenshots get compared to the original screenshots and copied over if approved by the user.
 
 
 Prerequisites
@@ -102,3 +103,13 @@ Remove the screenshot runner by
 .. code-block:: bash
 
    cd .docker && docker-compose down -v && cd -
+
+
+Screenshots manager
+===================
+
+To manage the created screenshots the TYPO3 instance backend provides a module "Screenshots" which can be found in the
+module menu at Admin Tools > Screenshots. It provides two functions: Comparing actual and original screenshots and
+copying screenshots from the actual path to the original path.
+
+.. image:: docs/typo3_screenshots_module.png

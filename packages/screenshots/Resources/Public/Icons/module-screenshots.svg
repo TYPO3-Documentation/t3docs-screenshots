@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor" id="svg6" version="1.1" viewBox="0 0 64 64" class="bi bi-camera-fill" height="64" width="64">
+  <metadata id="metadata12">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs10" />
+  <g id="layer1">
+    <rect y="3.3146973e-06" x="5e-07" height="63.999996" width="64" id="rect4755" style="fill:#439b92;fill-opacity:1;stroke:#ffffff;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g id="layer2">
+    <path id="path2" d="m 37.624999,33.125 a 5.6250005,5.6250005 0 1 1 -11.25,0 5.6250005,5.6250005 0 0 1 11.25,0 z" style="fill:currentColor;stroke-width:1" />
+    <path id="path4" d="m 18.500001,22.999999 a 4.5,4.5 0 0 0 -4.5,4.500001 v 13.499999 a 4.5,4.5 0 0 0 4.5,4.500001 H 45.5 A 4.5,4.5 0 0 0 50,40.999999 V 27.5 a 4.5,4.5 0 0 0 -4.5,-4.500001 h -2.637001 a 4.5,4.5 0 0 1 -3.1815,-1.3185 l -1.862999,-1.863 A 4.5,4.5 0 0 0 34.637,18.5 h -5.274001 a 4.5,4.5 0 0 0 -3.181501,1.318499 l -1.863,1.863 A 4.5,4.5 0 0 1 21.137,22.999999 Z M 19.625,27.5 a 1.125,1.125 0 1 1 0,-2.25 1.125,1.125 0 0 1 0,2.25 z m 20.249999,5.625 a 7.8750003,7.8750003 0 1 1 -15.75,0 7.8750003,7.8750003 0 0 1 15.75,0 z" style="fill:currentColor;stroke-width:1" />
+  </g>
+</svg>
