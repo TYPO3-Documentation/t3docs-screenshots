@@ -2,8 +2,6 @@
 .idea
 nbproject
 
-.docker/.env
-
 /var/*
 !/var/labels
 /vendor

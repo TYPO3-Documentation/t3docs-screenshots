@@ -82,7 +82,7 @@ Take screenshots of TYPO3 + EXT:styleguide
 
 .. code-block:: bash
 
-   .docker/run.sh -s styleguide
+   ddev make-screenshots Styleguide
 
 Check ``public/typo3temp/var/tests/AcceptanceReports/debug`` for images.
 
@@ -91,18 +91,9 @@ Take screenshots of TYPO3 + EXT:introduction
 
 .. code-block:: bash
 
-   .docker/run.sh -s introduction
+   ddev make-screenshots Introduction
 
 Check ``public/typo3temp/var/tests/AcceptanceReports/debug`` for images.
-
-Uninstallation
---------------
-
-Remove the screenshot runner by
-
-.. code-block:: bash
-
-   cd .docker && docker-compose down -v && cd -
 
 
 Screenshots manager
