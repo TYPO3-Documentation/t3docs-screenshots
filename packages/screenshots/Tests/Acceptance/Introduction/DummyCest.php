@@ -36,6 +36,8 @@ class DummyCest
      */
     public function screenshotOfTypo3Backend(BackendTester $I)
     {
-        $I->makeScreenshot('typo3_backend_w_introduction');
+        $I->setScreenshotsBasePath('/var/www/html/public/t3docs-generated/actual/TYPO3CMS-Reference-TCA');
+
+        $I->makeScreenshotOfWindow('Documentation/Images/typo3_backend_w_introduction');
     }
 }
