@@ -26,7 +26,7 @@ class Typo3CmsReferenceTcaCest
     /**
      * @param BackendTester $I
      */
-    public function _before(BackendTester $I)
+    public function _before(BackendTester $I): void
     {
         $I->useExistingSession('admin');
     }
@@ -34,13 +34,15 @@ class Typo3CmsReferenceTcaCest
     /**
      * @param BackendTester $I
      */
-    public function screenshotOfTypo3Backend(BackendTester $I)
+    public function screenshotOfTypo3Backend(BackendTester $I): void
     {
-        $I->makeScreenshotOfTable(0, 'pages', 'table');
-        $I->makeScreenshotOfTable(0, 'pages', 'table_element', '.recordlist');
-        $I->makeScreenshotOfRecord('pages', 1, 'record');
-        $I->makeScreenshotOfRecord('pages', 1, 'record_element', 'div[role="tabpanel"]');
-        $I->makeScreenshotOfField('pages', 1, 'title', 'fields');
-        $I->makeScreenshotOfField('pages', 1, 'title', 'fields_element', 'fieldset.form-section');
+        $I->setScreenshotsBasePath('/var/www/html/public/t3docs-generated/actual/TYPO3CMS-Reference-TCA');
+
+        $I->makeScreenshotOfTable(0, 'pages', 'Documentation/Images/table');
+        $I->makeScreenshotOfTable(0, 'pages', 'Documentation/Images/table_element', '.recordlist');
+        $I->makeScreenshotOfRecord('pages', 1, 'Documentation/Images/record');
+        $I->makeScreenshotOfRecord('pages', 1, 'Documentation/Images/record_element', 'div[role="tabpanel"]');
+        $I->makeScreenshotOfField('pages', 1, 'title', 'Documentation/Images/fields');
+        $I->makeScreenshotOfField('pages', 1, 'title', 'Documentation/Images/fields_element', 'fieldset.form-section');
     }
 }

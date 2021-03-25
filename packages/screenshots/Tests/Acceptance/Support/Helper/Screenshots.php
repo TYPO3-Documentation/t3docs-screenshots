@@ -24,10 +24,24 @@ use Codeception\Module;
  */
 class Screenshots extends Module
 {
-    public function makeScreenshotOfTable(int $pid, string $table, string $name, string $selector = ''):void
+    protected $config = [
+        'basePath' => ''
+    ];
+
+    public function setScreenshotsBasePath(string $basePath): void
+    {
+        $this->_reconfigure(['basePath' => $basePath]);
+    }
+
+    public function makeScreenshotOfWindow(string $path): void
+    {
+        $this->makeScreenshotOfElement($path);
+    }
+
+    public function makeScreenshotOfTable(int $pid, string $table, string $path, string $selector = ''):void
     {
         $this->goToTable($pid, $table);
-        $this->makeScreenshotOfElement($name, $selector);
+        $this->makeScreenshotOfElement($path, $selector);
     }
 
     public function goToTable(int $pid, string $table):void
@@ -38,10 +52,10 @@ class Screenshots extends Module
         );
     }
 
-    public function makeScreenshotOfRecord(string $table, int $uid, string $name, string $selector = ''):void
+    public function makeScreenshotOfRecord(string $table, int $uid, string $path, string $selector = ''):void
     {
         $this->goToRecord($table, $uid);
-        $this->makeScreenshotOfElement($name, $selector);
+        $this->makeScreenshotOfElement($path, $selector);
     }
 
     public function goToRecord(string $table, int $uid):void
@@ -52,10 +66,10 @@ class Screenshots extends Module
         ));
     }
 
-    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $name, string $selector = ''):void
+    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $path, string $selector = ''):void
     {
         $this->goToField($table, $uid, $fields);
-        $this->makeScreenshotOfElement($name, $selector);
+        $this->makeScreenshotOfElement($path, $selector);
     }
 
     public function goToField(string $table, int $uid, string $fields):void
@@ -66,12 +80,35 @@ class Screenshots extends Module
         ));
     }
 
-    protected function makeScreenshotOfElement(string $name, string $selector = ''):void
+    protected function makeScreenshotOfElement(string $path, string $selector = ''):void
     {
+        $tmpFileName = $this->getTemporaryFileName($path);
+        $tmpFilePath = $this->getTemporaryPath($tmpFileName);
+        $actualFilePath = $this->getActualPath($path);
+
         if (!empty($selector)) {
-            $this->getModule('WebDriver')->makeElementScreenshot($selector, $name);
+            $this->getModule('WebDriver')->makeElementScreenshot($selector, $tmpFileName);
         } else {
-            $this->getModule('WebDriver')->makeScreenshot($name);
+            $this->getModule('WebDriver')->makeScreenshot($tmpFileName);
         }
+
+        copy($tmpFilePath, $actualFilePath);
+    }
+
+    protected function getTemporaryFileName(string $path): string
+    {
+        $pathInfo = pathinfo($path);
+        return $pathInfo['filename'] . '_' . substr(md5($path), 0, 8);
+    }
+
+    protected function getTemporaryPath(string $fileName): string
+    {
+        $path = codecept_log_dir() . 'debug';
+        return $path . DIRECTORY_SEPARATOR . $fileName . '.png';
+    }
+
+    protected function getActualPath(string $relativePath): string
+    {
+        return $this->config['basePath'] . DIRECTORY_SEPARATOR . $relativePath . '.png';
     }
 }
