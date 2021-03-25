@@ -15,8 +15,10 @@
 		}
 	},
 	"require": {
+		"ext-imagick": "^3.4",
 		"cweagans/composer-patches": "^1.7",
 		"helhum/typo3-console": "^6.0.0",
+		"sensiolabs/ansi-to-html": "^1.2",
 		"typo3/cms-about": "^10.4",
 		"typo3/cms-backend": "^10.4",
 		"typo3/cms-belog": "^10.4",
@@ -44,8 +46,7 @@
 		"typo3/cms-t3editor": "^10.4",
 		"typo3/cms-tstemplate": "^10.4",
 		"typo3/cms-viewpage": "^10.4",
-		"typo3/screenshots": "@dev",
-		"ext-imagick": "^3.4"
+		"typo3/screenshots": "@dev"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,

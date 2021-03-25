@@ -3,8 +3,8 @@
 declare(strict_types=1);
 namespace TYPO3\CMS\Screenshots\Controller;
 
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
@@ -25,14 +25,7 @@ class ImageCopyController extends ActionController
      */
     protected $view;
 
-    /**
-     * @var int Current page id
-     */
-    protected $pageUid = 0;
-
     protected $threshold = 0.0002;
-
-    protected $images = [];
 
     /**
      * Set up the doc header properly here
@@ -47,39 +40,33 @@ class ImageCopyController extends ActionController
         }
     }
 
-    /**
-     * Function will be called before every other action
-     */
-    public function initializeAction()
+    public function indexAction()
     {
-        $this->pageUid = (int)GeneralUtility::_GET('id');
-
-        parent::initializeAction();
     }
 
-    public function indexAction(bool $compare = false, bool $copy = false)
+    public function makeAction():void
     {
-        if ($compare) {
-            $this->compare();
-        }
+        $command = 'typo3DatabaseName=func_test typo3DatabaseUsername=root typo3DatabasePassword=root typo3DatabaseHost=db ' .
+            '/var/www/html/vendor/bin/codecept run -d -c /var/www/html/public/typo3conf/ext/screenshots/Tests/codeception.yml';
 
-        if ($copy) {
-            $this->copy();
-        }
+        $output = sprintf('$ %s', $command) . "\n";
+        exec($command . " 2>&1", $outputArray, $resultCode);
+        $output .= implode("\n", $outputArray);
 
-        $this->view->assignMultiple([
-            'pageUid' => $this->pageUid,
-            'images' => $this->images
-        ]);
+        $converter = new AnsiToHtmlConverter();
+        $outputHtml = $converter->convert($output);
+
+        $this->view->assign('outputHtml', $outputHtml);
+        $this->view->assign('resultCode', $resultCode);
     }
 
-    protected function compare():void
+    public function compareAction():void
     {
         $folderOriginal = 't3docs';
         $folderActual = 't3docs-generated/actual';
         $folderDiff = 't3docs-generated/diff';
 
-        $this->images = [];
+        $images = [];
 
         GeneralUtility::rmdir(GeneralUtility::getFileAbsFileName($folderDiff), true);
         $files = GeneralUtility::getAllFilesAndFoldersInPath([], GeneralUtility::getFileAbsFileName($folderActual) . '/');
@@ -106,22 +93,22 @@ class ImageCopyController extends ActionController
             if ($diff[1] > $this->threshold) {
                 GeneralUtility::mkdir_deep(dirname($paths['diff']));
                 GeneralUtility::writeFile($paths['diff'], $diff[0]);
-                $this->images[] = [
+                $images[] = [
                     'difference' => $diff[1],
                     'paths' => $paths,
                     'urls' => $urls
                 ];
             }
         }
+
+        $this->view->assign('images', $images);
     }
 
-    protected function copy():void
+    public function copyAction():void
     {
         $folderOriginal = 't3docs';
         $folderActual = 't3docs-generated/actual';
         $folderDiff = 't3docs-generated/diff';
-
-        $this->images = [];
 
         $files = GeneralUtility::getAllFilesAndFoldersInPath([], GeneralUtility::getFileAbsFileName($folderActual) . '/');
 
@@ -137,23 +124,7 @@ class ImageCopyController extends ActionController
 
             copy($paths['actual'], $paths['original']);
         }
-    }
 
-    public function compareAction():void
-    {
-        $this->forward('index', null, null, ['compare' => true]);
-    }
-
-    public function copyAction():void
-    {
-        $this->forward('index', null, null, ['copy' => true]);
-    }
-
-    /**
-     * @return BackendUserAuthentication
-     */
-    protected function getBackendUserAuthentication()
-    {
-        return $GLOBALS['BE_USER'];
+        $this->view->assign('files', $files);
     }
 }
