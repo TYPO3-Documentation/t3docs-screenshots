@@ -1,0 +1,30 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Screenshots" />
+<f:section name="Content">
+    <div>
+        <f:form>
+            <f:link.action action="make" class="btn btn-warning">Make screenshots</f:link.action>
+            <f:link.action action="compare" class="btn btn-primary">Compare screenshots</f:link.action>
+            <f:link.action action="copy" class="btn btn-success">Copy screenshots</f:link.action>
+        </f:form>
+    </div>
+    <h2>Result</h2>
+    <f:if condition="{resultCode} == 0">
+        <f:then>
+            <f:be.infobox state="0">
+                Successfully created screenshots. You will probably compare them with the original ones
+                <f:link.action action="compare">next</f:link.action>.
+            </f:be.infobox>
+        </f:then>
+        <f:else>
+            <f:be.infobox state="2">
+                Creating screenshots has failed. Please find the details below.
+            </f:be.infobox>
+        </f:else>
+    </f:if>
+    <h3>Details</h3>
+    <div>
+        <pre style="background-color: black;"><f:format.htmlentitiesDecode>{outputHtml}</f:format.htmlentitiesDecode></pre>
+    </div>
+</f:section>
+</html>

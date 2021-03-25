@@ -8,7 +8,7 @@ defined('TYPO3_MODE') or die();
     'screenshots',
     '',
     [
-        \TYPO3\CMS\Screenshots\Controller\ImageCopyController::class => 'index, compare, copy',
+        \TYPO3\CMS\Screenshots\Controller\ImageCopyController::class => 'index, make, compare, copy',
     ],
     [
         'access' => 'user,group',

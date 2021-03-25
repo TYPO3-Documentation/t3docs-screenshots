@@ -1,0 +1,43 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Screenshots" />
+<f:section name="Content">
+    <div>
+        <f:form>
+            <f:link.action action="make" class="btn btn-warning">Make screenshots</f:link.action>
+            <f:link.action action="compare" class="btn btn-primary">Compare screenshots</f:link.action>
+            <f:link.action action="copy" class="btn btn-success">Copy screenshots</f:link.action>
+        </f:form>
+    </div>
+    <h2>Results</h2>
+    <f:if condition="{images}">
+        <f:then>
+            <f:for each="{images}" as="image" iteration="iteration">
+                <f:be.infobox title="#{iteration.cycle}: {image.paths.relative}" state="-1" disableIcon="TRUE">
+                    <b>Difference:</b> {image.difference}
+                </f:be.infobox>
+                <div class="panel panel-default">
+                    <div class="table-fit">
+                        <table class="table table-striped table-hover">
+                            <tr>
+                                <th>Actual</th>
+                                <th>Diff</th>
+                                <th>Original</th>
+                            </tr>
+                            <tr>
+                                <td><f:image src="{image.urls.actual}" /></td>
+                                <td><f:image src="{image.urls.diff}" /></td>
+                                <td><f:image src="{image.urls.original}" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </f:for>
+        </f:then>
+        <f:else>
+            <f:be.infobox state="-1">
+                All generated images match with the original images.
+            </f:be.infobox>
+        </f:else>
+    </f:if>
+</f:section>
+</html>
