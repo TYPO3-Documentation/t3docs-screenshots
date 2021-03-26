@@ -604,7 +604,7 @@ async function createFieldScreenshot(page, table, uid, fieldSettings) {
 }
 
 async function createTableScreenshot(page, table, pid, viewSettings) {
-  let command = 'table=' + table;
+  let command = 'table=' + table + "&id=" + pid;
   let bePath = 'module/web/list';
   await createScreenshot(
     page, table, pid, viewSettings['absoluteImageFilename'],
