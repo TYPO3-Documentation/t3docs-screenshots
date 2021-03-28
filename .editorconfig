@@ -15,6 +15,7 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
+max_line_length = 80
 
 # TS/JS-Files
 [*.{ts, js}]
@@ -25,8 +26,8 @@ indent_size = 2
 indent_style = tab
 
 # ReST-Files
-[*.rst]
-indent_size = 3
+[*.{rst,*.rst.txt}]
+max_line_length = 80
 
 # YAML-Files
 [*.{yaml, yml}]
@@ -53,3 +54,4 @@ indent_size = 2
 # .htaccess
 [{_.htaccess, .htaccess}]
 indent_style = tab
+

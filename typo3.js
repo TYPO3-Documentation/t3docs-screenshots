@@ -557,7 +557,7 @@ async function createInfoScreenshot(page, table, uid,viewSettings) {
   let bePath = 'record/info';
   await createScreenshot(
     page, table, uid, viewSettings['absoluteImageFilename'],
-    viewSettings['selector'], command, bePath, viewSettings['actions'], viewSettings['clip']);
+    viewSettings['selector'], command, bePath, viewSettings);
 }
 
 function getSuitePath() {
@@ -600,7 +600,7 @@ async function createFieldScreenshot(page, table, uid, fieldSettings) {
   await createScreenshot(page, table, uid,
     fieldSettings['absoluteImageFilename'],
     selector, command, bePath,
-    fieldSettings['actions'], fieldSettings['clip']);
+    fieldSettings);
 }
 
 async function createTableScreenshot(page, table, pid, viewSettings) {
@@ -608,7 +608,7 @@ async function createTableScreenshot(page, table, pid, viewSettings) {
   let bePath = 'module/web/list';
   await createScreenshot(
     page, table, pid, viewSettings['absoluteImageFilename'],
-    viewSettings['selector'], command, bePath, viewSettings['actions'], viewSettings['clip']);
+    viewSettings['selector'], command, bePath, viewSettings);
 }
 
 async function createRecordScreenshot(page, table, uid,viewSettings) {
@@ -616,10 +616,12 @@ async function createRecordScreenshot(page, table, uid,viewSettings) {
   let bePath = 'record/edit';
   await createScreenshot(
     page, table, uid, viewSettings['absoluteImageFilename'],
-    viewSettings['selector'], command, bePath, viewSettings['actions'], viewSettings['clip']);
+    viewSettings['selector'], command, bePath, viewSettings);
 }
 
-async function createScreenshot(page, table, uid, path, selector, command, bePath, actions, clip) {
+async function createScreenshot(page, table, uid, path, selector, command, bePath, viewSettings) {
+  const actions = viewSettings['actions'];
+  const clip= viewSettings['clip'];
   const backendUrl = settings.baseUrl + '/typo3/' + bePath + '?token=1&' + command;
   await page.goto(backendUrl, {waitUntil: 'networkidle2'});
   await page.addScriptTag({ url: 'https://code.jquery.com/jquery-3.2.1.min.js' });
@@ -767,6 +769,7 @@ async function drawAction(page, action) {
     }, action);
   }
 }
+
 
 async function executeActions(actions, page, table, uid) {
 
