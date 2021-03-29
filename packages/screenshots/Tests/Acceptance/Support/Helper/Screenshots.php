@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Support\Helper;
 
 use Codeception\Module;
+use TYPO3\CMS\Screenshots\Acceptance\Configuration;
 
 /**
  * Helper to provide screenshots of TYPO3 specific backend elements.
@@ -27,6 +28,13 @@ class Screenshots extends Module
     protected $config = [
         'basePath' => ''
     ];
+
+    public function loadScreenshotsConfiguration(string $filePath): Configuration
+    {
+        $configuration = new Configuration($filePath);
+        $configuration->read();
+        return $configuration;
+    }
 
     public function setScreenshotsBasePath(string $basePath): void
     {
