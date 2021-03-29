@@ -39,6 +39,7 @@ abstract class AbstractBaseCest
             if (is_file($configPath)) {
                 $actualDirectory = $actualPath . DIRECTORY_SEPARATOR . basename($originalDirectory);
                 $I->setScreenshotsBasePath($actualDirectory);
+                $I->cleanupScreenshotsBasePath();
 
                 $configuration = $I->loadScreenshotsConfiguration($configPath);
                 $config = $configuration->getConfig();
