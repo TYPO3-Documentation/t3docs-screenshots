@@ -100,6 +100,7 @@ class Screenshots extends Module
             $this->getModule('WebDriver')->makeScreenshot($tmpFileName);
         }
 
+        @mkdir(dirname($actualFilePath), 0777, true);
         copy($tmpFilePath, $actualFilePath);
     }
 
