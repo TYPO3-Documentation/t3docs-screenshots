@@ -41,6 +41,11 @@ class Screenshots extends Module
         $this->_reconfigure(['basePath' => $basePath]);
     }
 
+    public function cleanUpScreenshotsBasePath(): void
+    {
+        $this->cleanUpPath($this->config['basePath']);
+    }
+
     public function makeScreenshotOfWindow(string $path): void
     {
         $this->makeScreenshotOfElement($path);
@@ -119,5 +124,21 @@ class Screenshots extends Module
     protected function getActualPath(string $relativePath): string
     {
         return $this->config['basePath'] . DIRECTORY_SEPARATOR . $relativePath . '.png';
+    }
+
+    protected function cleanUpPath(string $path): void
+    {
+        if (is_dir($path)) {
+            $subPaths = glob($path . '/*');
+            foreach ($subPaths as $subPath) {
+                if (is_file($subPath)) {
+                    unlink($subPath);
+                }
+                if (is_dir($subPath)) {
+                    $this->cleanUpPath($subPath);
+                }
+            }
+            rmdir($path);
+        }
     }
 }
