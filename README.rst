@@ -5,8 +5,8 @@ TYPO3 CMS Screenshots
 This project provides a way to take screenshots of the TYPO3 CMS in a scripted way.
 
 First, the user browses a TYPO3 instance to take notes of a click path for a new screenshot.
-Next, the click path gets forged to a code block.
-Next, all code blocks get executed by the screenshot runner which produces the screenshots.
+Next, the click path gets forged to a ``screenshots.json`` file.
+Next, all ``screenshots.json`` files get executed by the screenshot runner which produces the screenshots.
 Last, the actual screenshots get compared to the original screenshots and copied over if approved by the user.
 
 
@@ -77,30 +77,73 @@ Remove the TYPO3 instance by
 Screenshot runner
 =================
 
-Take screenshots of TYPO3 + EXT:styleguide
+The runner scans the sub folders of ``public/t3docs``, processes the ``public/t3docs/*/screenshots.json`` files and
+creates the screenshots in ``public/t3docs-generated/actual/*/`` where they get further processed by the Screenshots
+Manager.
+
+File ``screenshots.json``
+-------------------------
+
+The runner configuration file ``screenshots.json`` defines in the first level the TYPO3 environment (e.g. "Styleguide",
+"Introduction", etc.) where the screenshots are taken, and in the second level it lists blocks of actions where each
+block ends with a captured screenshot. Each action is an array, where the first value is the action name and the
+remaining values are the action parameters. All codeception actions are supported, see
+``packages/screenshots/Tests/Acceptance/Support/_generated/BackendTesterActions.php``. Additional actions can be added
+to ``packages/screenshots/Tests/Acceptance/Support/Helper/Screenshots.php``.
+
+This is a small runner configuration which takes screenshots of two TYPO3 environments:
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Introduction": {
+            "screenshots": [
+               [
+                  ["makeScreenshotOfWindow", "Documentation/Images/introduction_dashboard"]
+               ]
+            ]
+         },
+         "Styleguide": {
+            "screenshots": [
+               [
+                  ["makeScreenshotOfTable", 0, "pages", "Documentation/Images/styleguide_root_page"]
+               ],
+               [
+                  ["makeScreenshotOfRecord", "pages", 1, "Documentation/Images/styleguide_first_page_record"]
+               ]
+            ]
+         }
+      }
+   }
+
+Make all screenshots
+--------------------
+
+.. code-block:: bash
+
+   ddev make-screenshots
+
+Make screenshots of TYPO3 + EXT:styleguide
 ------------------------------------------
 
 .. code-block:: bash
 
    ddev make-screenshots Styleguide
 
-Check ``public/typo3temp/var/tests/AcceptanceReports/debug`` for images.
-
-Take screenshots of TYPO3 + EXT:introduction
+Make screenshots of TYPO3 + EXT:introduction
 --------------------------------------------
 
 .. code-block:: bash
 
    ddev make-screenshots Introduction
 
-Check ``public/typo3temp/var/tests/AcceptanceReports/debug`` for images.
-
 
 Screenshots manager
 ===================
 
 To manage the created screenshots the TYPO3 instance backend provides a module "Screenshots" which can be found in the
-module menu at Admin Tools > Screenshots. It provides two functions: Comparing actual and original screenshots and
-copying screenshots from the actual path to the original path.
+module menu at Admin Tools > Screenshots. It provides three functions: Starting the screenshot runner, comparing actual
+and original screenshots and copying screenshots from the actual path to the original path.
 
 .. image:: docs/typo3_screenshots_module.png

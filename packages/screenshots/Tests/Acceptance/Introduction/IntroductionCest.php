@@ -16,17 +16,18 @@ namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Introduction;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Screenshots\Tests\Acceptance\AbstractBaseCest;
 use TYPO3\CMS\Screenshots\Tests\Acceptance\Support\BackendTester;
 
 /**
  * Tests the screenshots backend module can be loaded
  */
-class DummyCest
+class IntroductionCest extends AbstractBaseCest
 {
     /**
      * @param BackendTester $I
      */
-    public function _before(BackendTester $I)
+    public function _before(BackendTester $I): void
     {
         $I->useExistingSession('admin');
     }
@@ -34,10 +35,8 @@ class DummyCest
     /**
      * @param BackendTester $I
      */
-    public function screenshotOfTypo3Backend(BackendTester $I)
+    public function makeScreenshots(BackendTester $I): void
     {
-        $I->setScreenshotsBasePath('/var/www/html/public/t3docs-generated/actual/TYPO3CMS-Reference-TCA');
-
-        $I->makeScreenshotOfWindow('Documentation/Images/typo3_backend_w_introduction');
+        parent::makeScreenshotsOfSuite($I, 'Introduction');
     }
 }
