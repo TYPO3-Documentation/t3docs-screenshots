@@ -16,12 +16,13 @@ namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Styleguide;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Screenshots\Tests\Acceptance\AbstractBaseCest;
 use TYPO3\CMS\Screenshots\Tests\Acceptance\Support\BackendTester;
 
 /**
  * Tests the screenshots backend module can be loaded
  */
-class Typo3CmsReferenceTcaCest
+class StyleguideCest extends AbstractBaseCest
 {
     /**
      * @param BackendTester $I
@@ -34,15 +35,8 @@ class Typo3CmsReferenceTcaCest
     /**
      * @param BackendTester $I
      */
-    public function screenshotOfTypo3Backend(BackendTester $I): void
+    public function makeScreenshots(BackendTester $I): void
     {
-        $I->setScreenshotsBasePath('/var/www/html/public/t3docs-generated/actual/TYPO3CMS-Reference-TCA');
-
-        $I->makeScreenshotOfTable(0, 'pages', 'Documentation/Images/table');
-        $I->makeScreenshotOfTable(0, 'pages', 'Documentation/Images/table_element', '.recordlist');
-        $I->makeScreenshotOfRecord('pages', 1, 'Documentation/Images/record');
-        $I->makeScreenshotOfRecord('pages', 1, 'Documentation/Images/record_element', 'div[role="tabpanel"]');
-        $I->makeScreenshotOfField('pages', 1, 'title', 'Documentation/Images/fields');
-        $I->makeScreenshotOfField('pages', 1, 'title', 'Documentation/Images/fields_element', 'fieldset.form-section');
+        parent::makeScreenshotsOfSuite($I, 'Styleguide');
     }
 }

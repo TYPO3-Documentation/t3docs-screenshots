@@ -25,7 +25,8 @@
   },
   "autoload": {
     "psr-4": {
-      "TYPO3\\CMS\\Screenshots\\": "Classes/"
+      "TYPO3\\CMS\\Screenshots\\": "Classes/",
+      "TYPO3\\CMS\\Screenshots\\Tests\\": "Tests/"
     }
   },
   "config": {
@@ -50,11 +51,6 @@
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
-  "autoload-dev": {
-    "psr-4": {
-      "TYPO3\\CMS\\Screenshots\\Tests\\": "Tests"
-    }
-  },
   "scripts": {
     "post-autoload-dump": [
       "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
