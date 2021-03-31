@@ -45,6 +45,7 @@ class StyleguideEnvironment extends BackendEnvironment
             'recordlist',
         ],
         'testExtensionsToLoad' => [
+            'typo3conf/ext/screenshots',
             'typo3conf/ext/styleguide'
         ],
         'xmlDatabaseFixtures' => [
@@ -64,7 +65,7 @@ class StyleguideEnvironment extends BackendEnvironment
         parent::bootstrapTypo3Environment($suiteEvent);
 
         Environment::initialize(
-            new ApplicationContext('Production'),
+            new ApplicationContext('Testing'),
             Environment::isCli(),
             Environment::isComposerMode(),
             Environment::getProjectPath(),

@@ -51,6 +51,7 @@ class IntroductionEnvironment extends BackendEnvironment
         'testExtensionsToLoad' => [
             'typo3conf/ext/introduction',
             'typo3conf/ext/bootstrap_package',
+            'typo3conf/ext/screenshots',
         ],
         'xmlDatabaseFixtures' => [
             'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_users.xml',
@@ -69,7 +70,7 @@ class IntroductionEnvironment extends BackendEnvironment
         parent::bootstrapTypo3Environment($suiteEvent);
 
         Environment::initialize(
-            new ApplicationContext('Production'),
+            new ApplicationContext('Testing'),
             Environment::isCli(),
             Environment::isComposerMode(),
             Environment::getProjectPath(),
