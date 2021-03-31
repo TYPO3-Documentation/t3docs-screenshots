@@ -47,13 +47,25 @@ abstract class AbstractBaseCest
                 if (!empty($config['suites'][$suite]['screenshots'])) {
                     foreach ($config['suites'][$suite]['screenshots'] as $actions) {
                         foreach ($actions as $action) {
-                            $name = array_shift($action);
-                            $params = $action;
-                            call_user_func_array([$I, $name], $params);
+                            $this->runAction($I, $action);
                         }
                     }
                 }
             }
         }
+    }
+
+    protected function runAction(BackendTester $I, array $action)
+    {
+        $name = array_shift($action);
+        $params = $action;
+
+        foreach ($params as &$param) {
+            if (is_array($param)) {
+                $param = $this->runAction($I, $param);
+            }
+        }
+
+        return call_user_func_array([$I, $name], $params);
     }
 }
