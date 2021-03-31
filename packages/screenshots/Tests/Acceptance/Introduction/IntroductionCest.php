@@ -27,16 +27,9 @@ class IntroductionCest extends AbstractBaseCest
     /**
      * @param BackendTester $I
      */
-    public function _before(BackendTester $I): void
-    {
-        $I->useExistingSession('admin');
-    }
-
-    /**
-     * @param BackendTester $I
-     */
     public function makeScreenshots(BackendTester $I): void
     {
+        $I->useExistingSession('admin');
         parent::makeScreenshotsOfSuite($I, 'Introduction');
     }
 }
