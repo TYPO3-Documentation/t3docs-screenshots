@@ -23,7 +23,7 @@ use TYPO3\CMS\Screenshots\Acceptance\Configuration;
 /**
  * Helper to provide screenshots of TYPO3 specific backend elements.
  */
-class Screenshots extends Module
+class Typo3Screenshots extends Module
 {
     protected $config = [
         'basePath' => ''

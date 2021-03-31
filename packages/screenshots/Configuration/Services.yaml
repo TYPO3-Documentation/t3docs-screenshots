@@ -1,0 +1,5 @@
+services:
+  TYPO3\CMS\Screenshots\Command\MappingsCommand:
+    tags:
+      - name: 'console.command'
+        command: 'screenshots:mappings'
