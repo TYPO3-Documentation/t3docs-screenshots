@@ -87,9 +87,7 @@ File ``screenshots.json``
 The runner configuration file ``screenshots.json`` defines in the first level the TYPO3 environment (e.g. "Styleguide",
 "Introduction", etc.) where the screenshots are taken, and in the second level it lists blocks of actions where each
 block ends with a captured screenshot. Each action is an array, where the first value is the action name and the
-remaining values are the action parameters. All codeception actions are supported, see
-``packages/screenshots/Tests/Acceptance/Support/_generated/BackendTesterActions.php``. Additional actions can be added
-to ``packages/screenshots/Tests/Acceptance/Support/Helper/Screenshots.php``.
+remaining values are the action parameters.
 
 This is a small runner configuration which takes screenshots of two TYPO3 environments:
 
@@ -116,6 +114,44 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
          }
       }
    }
+
+Actions can be nested to use the return value of the inner action by the outer, e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Styleguide": {
+            "screenshots": [
+               [
+                  [
+                     "makeScreenshotOfTable",
+                     ["getUidByField", "pages", "title", "elements rte"],
+                     "pages",
+                     "Documentation/Images/styleguide_root_page"
+                  ]
+               ]
+            ]
+         }
+      }
+   }
+
+which executes the action ``getUidByField()`` and uses the return value as first argument of action
+``makeScreenshotOfTable()``.
+
+Available Actions
+-----------------
+
+As action all codeception actions are supported including the actions of the packages ``typo3/testing-framework`` and
+``typo3/screenshots``. All available actions get compiled into
+``packages/screenshots/Tests/Acceptance/Support/_generated/BackendTesterActions.php`` - ready for lookup.
+
+A new action should be added to the files of ``packages/screenshots/Tests/Acceptance/Support/Helper`` and then be
+compiled into the ``BackendTesterActions.php`` by
+
+.. code-block:: bash
+
+   ddev exec vendor/bin/codecept build -c public/typo3conf/ext/screenshots/Tests/codeception.yml
 
 Make all screenshots
 --------------------
