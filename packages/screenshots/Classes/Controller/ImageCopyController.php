@@ -5,6 +5,7 @@ namespace TYPO3\CMS\Screenshots\Controller;
 
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
@@ -38,6 +39,13 @@ class ImageCopyController extends ActionController
             parent::initializeView($view);
             $this->view->getModuleTemplate()->setFlashMessageQueue($this->controllerContext->getFlashMessageQueue());
         }
+    }
+
+    protected function initializeAction(): void
+    {
+        /** @var PageRenderer $pageRenderer */
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->addCssFile('EXT:screenshots/Resources/Public/Css/screenshots-manager.css');
     }
 
     public function indexAction()
@@ -86,18 +94,33 @@ class ImageCopyController extends ActionController
                 'diff' => $folderDiff . $pathRelative
             ];
 
-            $imageOriginal = new \Imagick($paths['original']);
-            $imageActual = new \Imagick($paths['actual']);
-            $diff = $imageActual->compareImages($imageOriginal, \Imagick::METRIC_MEANABSOLUTEERROR);
+            if (is_file($paths['original']) === false) {
+                $imageActual = new \Imagick($paths['actual']);
+                $paths['original'] = $paths['diff'] = '';
+                $urls['original'] = $urls['diff'] = '';
 
-            if ($diff[1] > $this->threshold) {
                 GeneralUtility::mkdir_deep(dirname($paths['diff']));
-                GeneralUtility::writeFile($paths['diff'], $diff[0]);
                 $images[] = [
-                    'difference' => $diff[1],
+                    'difference' => 1,
+                    'maxHeight' => $imageActual->getImageHeight(),
                     'paths' => $paths,
                     'urls' => $urls
                 ];
+            } else {
+                $imageActual = new \Imagick($paths['actual']);
+                $imageOriginal = new \Imagick($paths['original']);
+                $diff = $imageActual->compareImages($imageOriginal, \Imagick::METRIC_MEANABSOLUTEERROR);
+
+                if ($diff[1] > $this->threshold) {
+                    GeneralUtility::mkdir_deep(dirname($paths['diff']));
+                    GeneralUtility::writeFile($paths['diff'], $diff[0]);
+                    $images[] = [
+                        'difference' => $diff[1],
+                        'maxHeight' => max($imageActual->getImageHeight(), $imageOriginal->getImageHeight()),
+                        'paths' => $paths,
+                        'urls' => $urls
+                    ];
+                }
             }
         }
 
@@ -122,6 +145,7 @@ class ImageCopyController extends ActionController
                 'diff' => GeneralUtility::getFileAbsFileName($folderDiff . $pathRelative)
             ];
 
+            GeneralUtility::mkdir_deep(dirname($paths['original']));
             copy($paths['actual'], $paths['original']);
         }
 
