@@ -1,4 +1,6 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:screenshots="http://typo3.org/ns/TYPO3/CMS/Screenshots/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 <f:layout name="Screenshots" />
 <f:section name="Content">
     <div>
@@ -25,8 +27,30 @@
                             </tr>
                             <tr>
                                 <td><f:image src="{image.urls.actual}" /></td>
-                                <td><f:image src="{image.urls.diff}" /></td>
-                                <td><f:image src="{image.urls.original}" /></td>
+                                <td>
+                                    <f:if condition="{image.urls.diff}">
+                                        <f:then>
+                                            <f:image src="{image.urls.diff}" />
+                                        </f:then>
+                                        <f:else>
+                                            <screenshots:placeholder width="200px" height="{image.maxHeight}px">
+                                                Nothing to compare.
+                                            </screenshots:placeholder>
+                                        </f:else>
+                                    </f:if>
+                                </td>
+                                <td>
+                                    <f:if condition="{image.urls.original}">
+                                        <f:then>
+                                            <f:image src="{image.urls.original}" />
+                                        </f:then>
+                                        <f:else>
+                                            <screenshots:placeholder width="200px" height="{image.maxHeight}px">
+                                                Does not exist yet.
+                                            </screenshots:placeholder>
+                                        </f:else>
+                                    </f:if>
+                                </td>
                             </tr>
                         </table>
                     </div>
