@@ -17,6 +17,8 @@
 	"require": {
 		"ext-imagick": "^3.4",
 		"ext-json": "*",
+		"codeception/codeception": "^4.1",
+		"codeception/module-webdriver": "^1.1",
 		"cweagans/composer-patches": "^1.7",
 		"helhum/typo3-console": "^6.0.0",
 		"sensiolabs/ansi-to-html": "^1.2",
@@ -47,16 +49,11 @@
 		"typo3/cms-t3editor": "^10.4",
 		"typo3/cms-tstemplate": "^10.4",
 		"typo3/cms-viewpage": "^10.4",
-		"typo3/screenshots": "@dev"
+		"typo3/screenshots": "@dev",
+		"typo3/testing-framework": "^6.6.2"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
-	"require-dev": {
-		"codeception/codeception": "^4.1",
-		"codeception/module-asserts": "^1.2",
-		"codeception/module-webdriver": "^1.1",
-		"typo3/testing-framework": "^6.6.2"
-	},
 	"scripts":{
 		"typo3-cms-scripts": [
 			"typo3cms install:fixfolderstructure",
