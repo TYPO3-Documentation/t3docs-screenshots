@@ -1,8 +1,8 @@
-namespace: TYPO3\CMS\Screenshots\Tests\Acceptance\Support
+namespace: TYPO3\CMS\Screenshots\Runner\Acceptance\Support
 paths:
   tests: Acceptance
   data: .
-  log: ../../../public/typo3temp/var/tests/AcceptanceReports
+  log: ../../../../public/typo3temp/var/tests/AcceptanceReports
   support: Acceptance/Support
 settings:
   colors: true
@@ -13,5 +13,5 @@ extensions:
     - Codeception\Extension\Recorder
 modules:
   enabled:
-    - TYPO3\CMS\Screenshots\Tests\Acceptance\Support\Helper\Typo3Cli
-    - TYPO3\CMS\Screenshots\Tests\Acceptance\Support\Helper\Typo3Screenshots
+    - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Helper\Typo3Cli
+    - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Helper\Typo3Screenshots

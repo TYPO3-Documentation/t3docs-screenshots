@@ -144,14 +144,14 @@ Available Actions
 
 As action all codeception actions are supported including the actions of the packages ``typo3/testing-framework`` and
 ``typo3/screenshots``. All available actions get compiled into
-``packages/screenshots/Tests/Acceptance/Support/_generated/BackendTesterActions.php`` - ready for lookup.
+``packages/screenshots/Classes/Runner/Acceptance/Support/_generated/BackendTesterActions.php`` - ready for lookup.
 
-A new action should be added to the files of ``packages/screenshots/Tests/Acceptance/Support/Helper`` and then be
+A new action should be added to the files of ``packages/screenshots/Classes/Runner/Acceptance/Support/Helper`` and then be
 compiled into the ``BackendTesterActions.php`` by
 
 .. code-block:: bash
 
-   ddev exec vendor/bin/codecept build -c public/typo3conf/ext/screenshots/Tests/codeception.yml
+   ddev exec vendor/bin/codecept build -c public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml
 
 Make all screenshots
 --------------------
