@@ -3,20 +3,20 @@ suites:
     actor: BackendTester
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Extension\IntroductionEnvironment
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\IntroductionEnvironment
   Styleguide:
     actor: BackendTester
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Extension\StyleguideEnvironment
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\StyleguideEnvironment
 
-namespace: TYPO3\CMS\Screenshots\Runner\Acceptance\Support
+namespace: TYPO3\CMS\Screenshots\Runner\Codeception\Support
 
 paths:
-  tests: Acceptance
-  data: Acceptance/Data
-  support: Acceptance/Support
-  envs: Acceptance/Envs
+  tests: Codeception
+  data: Codeception/Data
+  support: Codeception/Support
+  envs: Codeception/Envs
   output: ../../../../public/typo3temp/var/tests/AcceptanceReports
 
 settings:
@@ -38,5 +38,5 @@ modules:
           editor: ff83dfd81e20b34c27d3e97771a4525a
           admin: 886526ce72b86870739cc41991144ec1
     - TYPO3\TestingFramework\Core\Acceptance\Helper\Acceptance
-    - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Helper\Typo3Cli
-    - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Helper\Typo3Screenshots
+    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Cli
+    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots

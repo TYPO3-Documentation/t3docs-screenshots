@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Runner\Acceptance\Introduction;
+namespace TYPO3\CMS\Screenshots\Runner\Codeception\Styleguide;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,13 +16,13 @@ namespace TYPO3\CMS\Screenshots\Runner\Acceptance\Introduction;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Screenshots\Runner\Acceptance\AbstractBaseCest;
-use TYPO3\CMS\Screenshots\Runner\Acceptance\Support\BackendTester;
+use TYPO3\CMS\Screenshots\Runner\Codeception\AbstractBaseCest;
+use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
 
 /**
  * Tests the screenshots backend module can be loaded
  */
-class IntroductionCest extends AbstractBaseCest
+class StyleguideCest extends AbstractBaseCest
 {
     /**
      * @param BackendTester $I
@@ -30,6 +30,6 @@ class IntroductionCest extends AbstractBaseCest
     public function makeScreenshots(BackendTester $I): void
     {
         $I->useExistingSession('admin');
-        parent::runSuite($I, 'Introduction');
+        parent::runSuite($I, 'Styleguide');
     }
 }
