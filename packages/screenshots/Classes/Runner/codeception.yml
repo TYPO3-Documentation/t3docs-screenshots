@@ -17,7 +17,7 @@ paths:
   data: Codeception/Data
   support: Codeception/Support
   envs: Codeception/Envs
-  output: ../../../../public/typo3temp/var/tests/AcceptanceReports
+  output: ../../../../public/typo3temp/var/tests/ScreenshotsReports
 
 settings:
   lint: true
