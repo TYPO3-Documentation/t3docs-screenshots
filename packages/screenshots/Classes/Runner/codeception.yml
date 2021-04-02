@@ -1,12 +1,30 @@
+suites:
+  Introduction:
+    actor: BackendTester
+    extensions:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Extension\IntroductionEnvironment
+  Styleguide:
+    actor: BackendTester
+    extensions:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Extension\StyleguideEnvironment
+
 namespace: TYPO3\CMS\Screenshots\Runner\Acceptance\Support
+
 paths:
   tests: Acceptance
-  data: .
-  log: ../../../../public/typo3temp/var/tests/AcceptanceReports
+  data: Acceptance/Data
   support: Acceptance/Support
+  envs: Acceptance/Envs
+  output: ../../../../public/typo3temp/var/tests/AcceptanceReports
+
 settings:
+  lint: true
+  shuffle: false
   colors: true
   memory_limit: 1024M
+
 modules:
   enabled:
     - WebDriver:
