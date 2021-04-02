@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18fc08f196bddc0cfb79b3165d892810",
+    "content-hash": "ecef57bf13380518edf4fe1ceabd9e42",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6517,16 +6517,16 @@
         },
         {
             "name": "typo3/cms-styleguide",
-            "version": "11.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/TYPO3/styleguide.git",
-                "reference": "6f20217458bc06753a74e40b11c1f5ec22fb53c9"
+                "url": "https://github.com/TYPO3-Documentation/styleguide.git",
+                "reference": "a1d569913339a62b6e21fdeeb780356cf5c148a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/6f20217458bc06753a74e40b11c1f5ec22fb53c9",
-                "reference": "6f20217458bc06753a74e40b11c1f5ec22fb53c9",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/styleguide/zipball/a1d569913339a62b6e21fdeeb780356cf5c148a6",
+                "reference": "a1d569913339a62b6e21fdeeb780356cf5c148a6",
                 "shasum": ""
             },
             "require-dev": {
@@ -6542,6 +6542,7 @@
                 "typo3/tailor": "^1.2",
                 "typo3/testing-framework": "^6.5.0"
             },
+            "default-branch": true,
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
@@ -6555,20 +6556,29 @@
                     "TYPO3\\CMS\\Styleguide\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "TYPO3\\CMS\\Styleguide\\Tests\\": "Tests"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+                ]
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
             "authors": [
                 {
                     "name": "TYPO3 CMS Core Team",
-                    "homepage": "https://forge.typo3.org/projects/typo3cms-core",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "https://forge.typo3.org/projects/typo3cms-core"
                 },
                 {
                     "name": "The TYPO3 Community",
-                    "homepage": "https://typo3.org/community/",
-                    "role": "Contributor"
+                    "role": "Contributor",
+                    "homepage": "https://typo3.org/community/"
                 }
             ],
             "description": "TYPO3 CMS Extension to test everything in the TYPO3 Backend",
@@ -6580,9 +6590,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/styleguide/issues",
-                "source": "https://github.com/TYPO3/styleguide/tree/11.1.0"
+                "source": "https://github.com/TYPO3-Documentation/styleguide/tree/master"
             },
-            "time": "2021-03-07T16:10:47+00:00"
+            "time": "2021-03-21T14:56:29+00:00"
         },
         {
             "name": "typo3/cms-sys-note",
@@ -9440,7 +9450,8 @@
         "helhum/typo3-console": 20,
         "t3/screenshots": 20,
         "t3docs/examples": 20,
-        "typo3/cms-introduction": 20
+        "typo3/cms-introduction": 20,
+        "typo3/cms-styleguide": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

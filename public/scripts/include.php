@@ -51,6 +51,21 @@ foreach ($config['extensions'] as $key => $value) {
             'to' => $publicPath.'OriginalManual/'. $config['extensions'][$key]['codeSource'],
         ];
     }
+    if (isset($config['extensions'][$key]['sourceFiles'])) {
+        foreach ($config['extensions'][$key]['sourceFiles'] as $sourceConfig) {
+            $config['extensions'][$key]['copyPath'][] = [
+                'from' => getOutputPath($sourceConfig['paths']['codeSource']),
+                'to' => getManualPath($sourceConfig['paths']['codeSource']),
+            ];
+        }
+    }
+}
+
+function getOutputPath($path) {
+    return $GLOBALS['publicPath'] . 'Output/' . $GLOBALS['manualPath'] . $path;
+}
+function getManualPath($path) {
+    return $GLOBALS['publicPath'] . 'OriginalManual/' . $GLOBALS['manualPath'] . $path;
 }
 
 function isFilesEqual($file1, $file2): bool
