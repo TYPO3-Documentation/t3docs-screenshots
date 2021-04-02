@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Runner\Acceptance;
+namespace TYPO3\CMS\Screenshots\Runner\Codeception;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,7 +16,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Acceptance;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Screenshots\Runner\Acceptance\Support\BackendTester;
+use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
 
 /**
  * Tests the screenshots backend module can be loaded
