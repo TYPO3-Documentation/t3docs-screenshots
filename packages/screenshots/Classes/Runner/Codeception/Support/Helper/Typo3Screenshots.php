@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Module;
-use TYPO3\CMS\Screenshots\Acceptance\Configuration;
+use TYPO3\CMS\Screenshots\Runner\Configuration\Configuration;
 
 /**
  * Helper to provide screenshots of TYPO3 specific backend elements.
