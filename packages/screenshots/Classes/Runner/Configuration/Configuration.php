@@ -15,7 +15,7 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace TYPO3\CMS\Screenshots\Acceptance;
+namespace TYPO3\CMS\Screenshots\Runner\Configuration;
 
 /**
  * Handle screenshots related configuration files "screenshots.json"
