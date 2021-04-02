@@ -27,7 +27,7 @@ abstract class AbstractBaseCest
      * @param BackendTester $I
      * @param string $suite
      */
-    protected function makeScreenshotsOfSuite(BackendTester $I, string $suite): void
+    protected function runSuite(BackendTester $I, string $suite): void
     {
         $originalPath = '/var/www/html/public/t3docs';
         $actualPath = '/var/www/html/public/t3docs-generated/actual';

@@ -30,6 +30,6 @@ class IntroductionCest extends AbstractBaseCest
     public function makeScreenshots(BackendTester $I): void
     {
         $I->useExistingSession('admin');
-        parent::makeScreenshotsOfSuite($I, 'Introduction');
+        parent::runSuite($I, 'Introduction');
     }
 }

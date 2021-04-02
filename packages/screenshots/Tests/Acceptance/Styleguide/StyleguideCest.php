@@ -30,6 +30,6 @@ class StyleguideCest extends AbstractBaseCest
     public function makeScreenshots(BackendTester $I): void
     {
         $I->useExistingSession('admin');
-        parent::makeScreenshotsOfSuite($I, 'Styleguide');
+        parent::runSuite($I, 'Styleguide');
     }
 }
