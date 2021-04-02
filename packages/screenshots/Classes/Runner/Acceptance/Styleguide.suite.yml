@@ -16,7 +16,7 @@ modules:
 
 extensions:
     enabled:
-        - TYPO3\CMS\Screenshots\Tests\Acceptance\Support\Extension\StyleguideEnvironment
+        - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Extension\StyleguideEnvironment
 
 groups:
   AcceptanceTests-Job-*: AcceptanceTests-Job-*

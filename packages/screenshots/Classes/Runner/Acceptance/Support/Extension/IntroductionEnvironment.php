@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Support\Extension;
+namespace TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Extension;
 
 /*
  * This file is part of the TYPO3 CMS project.

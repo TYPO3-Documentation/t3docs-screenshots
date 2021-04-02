@@ -55,7 +55,7 @@ class ScreenshotsManagerController extends ActionController
     public function makeAction():void
     {
         $command = 'typo3DatabaseName=func_test typo3DatabaseUsername=root typo3DatabasePassword=root typo3DatabaseHost=db ' .
-            '/var/www/html/vendor/bin/codecept run -d -c /var/www/html/public/typo3conf/ext/screenshots/Tests/codeception.yml';
+            '/var/www/html/vendor/bin/codecept run -d -c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml';
 
         $output = sprintf('$ %s', $command) . "\n";
         exec($command . " 2>&1", $outputArray, $resultCode);

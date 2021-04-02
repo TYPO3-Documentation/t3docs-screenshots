@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Styleguide;
+namespace TYPO3\CMS\Screenshots\Runner\Acceptance\Styleguide;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,8 +16,8 @@ namespace TYPO3\CMS\Screenshots\Tests\Acceptance\Styleguide;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Screenshots\Tests\Acceptance\AbstractBaseCest;
-use TYPO3\CMS\Screenshots\Tests\Acceptance\Support\BackendTester;
+use TYPO3\CMS\Screenshots\Runner\Acceptance\AbstractBaseCest;
+use TYPO3\CMS\Screenshots\Runner\Acceptance\Support\BackendTester;
 
 /**
  * Tests the screenshots backend module can be loaded
