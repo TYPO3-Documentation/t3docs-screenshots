@@ -1,4 +1,0 @@
-class_name: BackendTester
-extensions:
-    enabled:
-        - TYPO3\CMS\Screenshots\Runner\Acceptance\Support\Extension\IntroductionEnvironment
