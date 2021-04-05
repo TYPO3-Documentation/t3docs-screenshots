@@ -1,0 +1,320 @@
+{
+	"comments": {
+		"php": "// Automatic screenshot: Remove this comment if you want to manually change this file",
+		"rst.txt": ".. Automatic screenshot: Remove this line if you want to manually change this file",
+		"general": "Automatic screenshot:"
+	},
+	"settings": {
+		"snippet": "ignore",
+		"isTca": false
+	},
+	"extensions": [
+		{
+			"extension": "login",
+			"paths": {
+				"imageSource": "Documentation/Includes/Images/AutomaticScreenshots/",
+				"relativeImagePath": "/Includes/Images/AutomaticScreenshots/",
+				"imageRst": "Documentation/Includes/Images/RstIncludes/"
+			},
+			"login": [
+				{
+					"screens": [
+						{
+							"filename": "LoginPage",
+							"caption": "Login page for the TYPO3 CMS backend",
+							"viewport": {
+								"width": 1024,
+								"height": 640
+							},
+							"actions": [
+								{
+									"action": "wait",
+									"timeout": 1000
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"extension": "backend",
+			"paths": {
+				"imageSource": "Documentation/Includes/Images/AutomaticScreenshots/",
+				"relativeImagePath": "/Includes/Images/AutomaticScreenshots/",
+				"imageRst": "Documentation/Includes/Images/RstIncludes/"
+			},
+			"overview": [
+				{
+					"screens": [
+						{
+							"filename": "Overview",
+							"caption": "Take screenshots of the user module in overview",
+							"viewport": {
+								"width": 1024,
+								"height": 640
+							},
+							"actions": [
+								{
+									"action": "click",
+									"button": "Backend Users"
+								},
+								{
+									"action": "wait",
+									"timeout": 1000
+								},
+								{
+									"action": "draw",
+									"item": "label",
+									"selector": ".modulemenu-action-active",
+									"content": "1"
+								},
+								{
+									"action": "draw",
+									"item": "box",
+									"selector": ".module-docheader-bar-navigation .module-docheader-bar-column-left select",
+									"iframe": "iframe#typo3-contentIframe"
+								},
+								{
+									"action": "draw",
+									"item": "label",
+									"selector": ".module-docheader-bar-navigation .module-docheader-bar-column-left",
+									"content": "2",
+									"iframe": "iframe#typo3-contentIframe"
+								},
+								{
+									"action": "wait",
+									"timeout": 100
+								}
+							]
+						}
+					]
+				}
+			],
+			"modules": [
+				{
+					"module": "/module/system/BeuserTxBeuser",
+					"screens": [
+						{
+							"filename": "Module",
+							"caption": "Viewing groups in the Backend Users module",
+							"viewport": {
+								"width": 960,
+								"height": 640
+							},
+							"parameters": [
+								{
+									"key": "tx_beuser_system_beusertxbeuser[action]",
+									"value": "index"
+								},
+								{
+									"key": "tx_beuser_system_beusertxbeuser[controller]",
+									"value": "BackendUserGroup"
+								}
+							],
+							"actions": [
+								{
+									"action": "click",
+									"select": "selector",
+									"selector": "select"
+								},
+								{
+									"action": "wait",
+									"timeout": 100
+								}
+							]
+						},
+						{
+							"filename": "ActionDraw",
+							"caption": "An orange box around the selector",
+							"para": "token=e&tx_beuser_system_beusertxbeuser%5Baction%5D=index&tx_beuser_system_beusertxbeuser%5Bcontroller%5D=BackendUserGroup",
+							"parameters": [
+								{
+									"key": "tx_beuser_system_beusertxbeuser[action]",
+									"value": "index"
+								},
+								{
+									"key": "tx_beuser_system_beusertxbeuser[controller]",
+									"value": "BackendUserGroup"
+								}
+							],
+							"actions": [
+								{
+									"action": "draw",
+									"item": "box",
+									"selector": "a[data-dispatch-action=\"TYPO3.InfoWindow.showItem\"]:first"
+								},
+								{
+									"action": "wait",
+									"timeout": 100
+								}
+							]
+						},
+						{
+							"filename": "ActionDrawArrow",
+							"caption": "An orange arrow pointing to the selector",
+							"para": "token=e&tx_beuser_system_beusertxbeuser%5Baction%5D=index&tx_beuser_system_beusertxbeuser%5Bcontroller%5D=BackendUserGroup",
+							"viewport": {
+								"width": 960,
+								"height": 640
+							},
+							"parameters": [
+								{
+									"key": "tx_beuser_system_beusertxbeuser[action]",
+									"value": "index"
+								},
+								{
+									"key": "tx_beuser_system_beusertxbeuser[controller]",
+									"value": "BackendUserGroup"
+								}
+							],
+							"actions": [
+								{
+									"action": "draw",
+									"item": "arrow",
+									"selector": "a[data-dispatch-action=\"TYPO3.InfoWindow.showItem\"]:first"
+								},
+								{
+									"action": "wait",
+									"timeout": 100
+								}
+							]
+						},
+						{
+							"filename": "ActionDrawLabel",
+							"caption": "An a label pointing to the selector",
+							"para": "token=e&tx_beuser_system_beusertxbeuser%5Baction%5D=index&tx_beuser_system_beusertxbeuser%5Bcontroller%5D=BackendUserGroup",
+							"viewport": {
+								"width": 960,
+								"height": 640
+							},
+							"parameters": [
+								{
+									"key": "tx_beuser_system_beusertxbeuser[action]",
+									"value": "index"
+								},
+								{
+									"key": "tx_beuser_system_beusertxbeuser[controller]",
+									"value": "BackendUserGroup"
+								}
+							],
+							"actions": [
+								{
+									"action": "draw",
+									"item": "label",
+									"selector": "a[data-dispatch-action=\"TYPO3.InfoWindow.showItem\"]:first",
+									"content": "1"
+								},
+								{
+									"action": "wait",
+									"timeout": 100
+								}
+							]
+						}
+					]
+				}
+			],
+			"tables": [
+				{
+					"table": "be_users",
+					"screens": [
+						{
+							"view": "record",
+							"selectRecord": {
+								"by": "username",
+								"username": "styleguide demo user 1"
+							},
+							"actions": [
+								{
+									"action": "click",
+									"select": "lang"
+								},
+								{
+									"action": "hide",
+									"selector": ".module-docheader"
+								}
+							],
+							"selector": "",
+							"filename": "Record",
+							"caption": "Setting the default language for a new backend user"
+						}
+					]
+				},
+				{
+					"table": "be_groups",
+					"screens": [
+						{
+							"view": "table",
+							"pid": 0,
+							"selector": ".recordlist",
+							"filename": "Table",
+							"actions": [
+								{
+									"action": "draw",
+									"item": "box",
+									"selector": "tbody .btn-default:first"
+								},
+								{
+									"action": "draw",
+									"item": "arrow",
+									"selector": "tbody .btn-default:first"
+								},
+								{
+									"action": "wait",
+									"timeout": 100
+								}
+							]
+						},
+						{
+							"view": "fields",
+							"selectRecord": {
+								"by": "title",
+								"title": "Advanced editors"
+							}
+						},
+						{
+							"view": "info",
+							"selectRecord": {
+								"by": "title",
+								"title": "All users"
+							},
+							"filename": "Info",
+							"caption": "Checking out which users are part of the group",
+							"actions": [
+								{
+									"action": "setCss",
+									"selector": ".table-fit-wrap",
+									"css": {
+										"max-height": "100px"
+									}
+								},
+								{
+									"action": "draw",
+									"item": "box",
+									"selector": "h3:first"
+								},
+								{
+									"action": "draw",
+									"item": "arrow",
+									"selector": "h3:first",
+									"position": "center"
+								},
+								{
+									"action": "wait",
+									"timeout": 100
+								}
+							]
+						}
+					],
+					"fields": [
+						{
+							"field": "allowed_languages",
+							"filename": "Field",
+							"caption": "Setting permissions for languages"
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,7 @@
+.. Automatic screenshot: Remove this line if you want to manually change this file
+
+.. figure:: /Includes/Images/AutomaticScreenshots/ActionDrawLabel.png
+   :alt: An a label pointing to the selector
+   :class: with-shadow
+
+   An a label pointing to the selector

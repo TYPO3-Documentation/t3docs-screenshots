@@ -1,0 +1,7 @@
+.. Automatic screenshot: Remove this line if you want to manually change this file
+
+.. figure:: /Includes/Images/AutomaticScreenshots/ActionDraw.png
+   :alt: An orange box around the selector
+   :class: with-shadow
+
+   An orange box around the selector

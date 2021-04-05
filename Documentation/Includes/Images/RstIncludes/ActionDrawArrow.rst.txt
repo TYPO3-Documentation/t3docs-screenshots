@@ -1,0 +1,7 @@
+.. Automatic screenshot: Remove this line if you want to manually change this file
+
+.. figure:: /Includes/Images/AutomaticScreenshots/ActionDrawArrow.png
+   :alt: An orange arrow pointing to the selector
+   :class: with-shadow
+
+   An orange arrow pointing to the selector
