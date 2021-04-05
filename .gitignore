@@ -19,6 +19,7 @@ nbproject
 !/public/OriginalManual
 /public/OriginalManual/*
 !/public/OriginalManual/.gitkeep
+!/public/OriginalManual/T3DocsScreenshots
 !/public/OriginalManual/README.rst
 !/public/Output
 /public/Output/*
@@ -26,3 +27,5 @@ nbproject
 /node_modules
 /Screenshots
 /public/OriginalManual/TYPO3CMS-Reference-TCA/Documentation-GENERATED-temp/
+/public/OriginalManual/TYPO3CMS-Reference-TCA/tmp-GENERATED-temp/
+/public/OriginalManual/TYPO3CMS-Reference-TCA/xxx_tmp-GENERATED-Makedir/

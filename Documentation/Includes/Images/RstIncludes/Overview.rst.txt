@@ -1,7 +1,7 @@
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
 .. figure:: /Includes/Images/AutomaticScreenshots/Overview.png
-   :alt: SYSTEM > Backend users
+   :alt: Take screenshots of the user module in overview
    :class: with-shadow
 
-   SYSTEM > Backend users
+   Take screenshots of the user module in overview

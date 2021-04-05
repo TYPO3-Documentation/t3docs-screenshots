@@ -22,10 +22,21 @@
 						{
 							"filename": "LoginPage",
 							"caption": "Login page for the TYPO3 CMS backend",
-							"viewport": {
-								"width": 1024,
-								"height": 640
-							},
+							"actions": [
+								{
+									"action": "wait",
+									"timeout": 1000
+								}
+							]
+						}
+					]
+				},
+				{
+					"type": "fullpage",
+					"screens": [
+						{
+							"filename": "LoginFullscreen",
+							"caption": "Login page for the TYPO3 CMS backend",
 							"actions": [
 								{
 									"action": "wait",

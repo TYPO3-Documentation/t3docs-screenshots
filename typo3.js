@@ -16,6 +16,7 @@ var settings = {
   mappingsPath: './public/Output/json/',
   limitToTable: '',
   limitToImage: '',
+  limitToExtension: '',
   stopOnFirstError: true,
   standardTimeoutTime: 500,
   snippet: 'include',
@@ -94,6 +95,9 @@ function fetchSettingsFromCli() {
   if (args['limitToImage']) {
     settings.limitToImage = args['limitToImage'];
   }
+  if (args['limitToExtension']) {
+    settings.limitToExtension = args['limitToExtension'];
+  }
   if (args['stopOnFirstError']) {
     settings.stopOnFirstError = args['stopOnFirstError'] === 'true';
   }
@@ -107,9 +111,59 @@ async function goToTypo3Frontend(page) {
   await page.screenshot({path: 'Screenshots/00_FE_Fullpage.png', fullPage: true});
 }
 
-async function goToTypo3Backend(page) {
+async function takeLoginScreenshot(page, config) {
+  // Take a Screenshot of the backend login
+  console.log("login screen");
+  for (let key in config['extensions']) {
+    let extensionConfig = config['extensions'][key];
+    let extensionSettings = getExtensionSettings(extensionConfig);
+    if (typeof extensionConfig['login'] === 'object') {
+      for (let i = 0; i < extensionConfig['login'].length; i++) {
+        let loginConfig = extensionConfig['login'][i];
+        if (typeof loginConfig['screens'] === 'object') {
+          for (let j = 0; j < loginConfig['screens'].length; j++) {
+            let viewConfig = loginConfig['screens'][j];
+            let viewSettings = getModuleViewSettings(viewConfig, extensionSettings);
+            let path = viewSettings['absoluteImageFilename'];
+            console.log('Capturing: ' + path);
+            if (viewSettings['type'] === 'fullpage') {
+              // Screenshot: Full page of Backend
+              await page.screenshot({
+                path: path,
+                fullPage: true
+              });
+            } else if (viewSettings['type'] === 'boundingbox') {
+              // Screenshot: Add + 25px space around Login-Box
+              const loginWrap = await page.$('.card-login');
+              const loginWrapBounds = await loginWrap.boundingBox();
+              await loginWrap.screenshot({
+                path: path,
+                clip: {
+                  x: loginWrapBounds.x - 25,
+                  y: loginWrapBounds.y - 25,
+                  width: loginWrapBounds.width + 25 * 2,
+                  height: loginWrapBounds.height + 25 * 2
+                }
+              });
+            } else {
+              // Screenshot: Login-Box
+              const loginWrap = await page.$('.card-login');
+              await loginWrap.screenshot({
+                path: path,
+              });
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+async function goToTypo3Backend(page, config) {
   await page.goto(settings.baseUrl + '/typo3/login', {waitUntil: 'networkidle2'});
   await page.waitForSelector('#loginCopyright');
+
+  await takeLoginScreenshot(page, config);
 
   const loginFormSubmitButton = await page.$('#t3-login-submit');
 
@@ -159,21 +213,25 @@ async function processBackendSuite(page, config) {
   for (let key in config['extensions']) {
     let extensionConfig = config['extensions'][key];
     let extensionSettings = getExtensionSettings(extensionConfig);
+    if (settings.limitToExtension === '' ||
+        settings.limitToExtension === config['extensions'][key]['extension']) {
+      let overviewConfig = config['extensions'][key]['overview'];
+      await overviewScreenshots(overviewConfig, extensionSettings, page, firstLine);
 
-    let overviewConfig = config['extensions'][key]['overview'];
-    await overviewScreenshots(overviewConfig, extensionSettings, page, firstLine);
+      let moduleConfig = config['extensions'][key]['modules'];
+      await moduleScreenshots(moduleConfig, extensionSettings, page, firstLine);
 
-    let moduleConfig = config['extensions'][key]['modules'];
-    await moduleScreenshots(moduleConfig, extensionSettings, page, firstLine);
-
-    let tableConfig = config['extensions'][key]['tables'];
-    for (let i = 0; i < tableConfig.length; i++) {
-      try {
-        await processTable(tableConfig[i], extensionSettings, page, firstLine);
-      } catch(e) {
-        log(
-          'Something went wrong processing table ' + tableConfig[i]['table'],
-          'error', e);
+      let tableConfig = config['extensions'][key]['tables'];
+      if (typeof tableConfig === 'object') {
+        for (let i = 0; i < tableConfig.length; i++) {
+          try {
+            await processTable(tableConfig[i], extensionSettings, page, firstLine);
+          } catch (e) {
+            log(
+              'Something went wrong processing table ' + tableConfig[i]['table'],
+              'error', e);
+          }
+        }
       }
     }
   }
@@ -439,6 +497,7 @@ async function createModuleScreenshot(
 ) {
   let filename = viewSettings['filename'];
   let selector = viewSettings['selector'];
+  const clip= viewSettings['clip'];
   console.log('Module Screenshot: '+filename);
   let url = 'http://localhost/typo3/index.php?route='+moduleSettings['module'];
   let parameters = '';
@@ -474,6 +533,32 @@ async function createModuleScreenshot(
     });
   } else {
     const formSection = await page.$(selector);
+    if (typeof clip !== 'object') {
+      await formSection.screenshot({
+        path: path
+      });
+    } else {
+      const formBounds = await formSection.boundingBox();
+      let height = formBounds.height + formBounds.y;
+      let width = formBounds.width + formBounds.x;
+      if (typeof clip === 'object') {
+        if (typeof clip['height'] === 'number') {
+          height = clip['height'];
+        }
+        if (typeof clip['width'] === 'number') {
+          width = clip['width'];
+        }
+      }
+      await formSection.screenshot({
+        path: path,
+        clip: {
+          x: 0,
+          y: 0,
+          width: width,
+          height: height
+        }
+      });
+    }
     await formSection.screenshot({
       path: path,
     });
@@ -749,14 +834,28 @@ async function drawAction(page, action) {
           });
         let css = '    position: absolute;' +
           '    z-index: 1000;' +
-          '    top: 0;' +
-          '    right: 0;' +
           '    background: #F49700;' +
           '    color: black; font-size: 20px; font-weight: bold;' +
           '    height: 30px; width: 30px;' +
           '    border-radius: 5px;' +
           '    text-align:center;' +
           '    line-height:30px;' ;
+        let positionCss =
+          '    top: 0;' +
+          '    right: 0;';
+        if (typeof action['position'] == 'string') {
+          if (action['position'] === 'left') {
+            positionCss =
+              '    top: 0;' +
+              '    left: 0;';
+          }
+          else if (action['position'] === 'outerRight') {
+            positionCss =
+              '    top: 0;' +
+              '    right: -30px;';
+          }
+        }
+        css = css + positionCss;
         let innerCss = '' ;
         element.prepend('' +
           '<div id="t3docsLabel" ' +

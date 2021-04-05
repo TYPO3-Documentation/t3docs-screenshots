@@ -12,12 +12,14 @@ $jsonConfig = file_get_contents($publicPath.'OriginalManual/'.$manualPath.'Scrip
 $config = json_decode($jsonConfig, true);
 
 foreach ($config['extensions'] as $key => $value) {
-    foreach ($config['extensions'][$key]['tables'] as $key2 => $value2) {
-        $config['extensions'][$key]['tables'][$key2]['tableConvert'] =
-            $config['extensions'][$key]['tables'][$key2]['tableConvert'] ?? '';
+
+    if(isset($config['extensions'][$key]['tables'])) {
+        foreach ($config['extensions'][$key]['tables'] as $key2 => $value2) {
+            $config['extensions'][$key]['tables'][$key2]['tableConvert'] =
+                $config['extensions'][$key]['tables'][$key2]['tableConvert'] ?? '';
+        }
+        unset($tableConfig);
     }
-    unset($tableConfig);
-//$tables = array_unique($tables);
 
 
     $config['extensions'][$key]['imageSource'] = $manualPath . $config['extensions'][$key]['paths']['imageSource'];
@@ -136,7 +138,15 @@ function deleteFile ($file, $fromPath) {
 
 
 function createDirIfNotExists($dir) {
-    if (!is_dir( $dir)) {
+    /*
+    echo linkinfo($dir);
+    echo $dir.'<br>';
+    if (is_link($dir)) {
+        $dir = readlink($dir);
+        echo 'links to: '.$dir.'<br>';
+    }
+    */
+    if (!is_dir($dir)) {
         if (!mkdir( $dir, 0777, true) && !is_dir( $dir)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created',  $dir));
         }
