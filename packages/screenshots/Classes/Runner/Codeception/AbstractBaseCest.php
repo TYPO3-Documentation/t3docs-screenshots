@@ -23,6 +23,8 @@ use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
  */
 abstract class AbstractBaseCest
 {
+    protected $reflectors = [];
+
     /**
      * @param BackendTester $I
      * @param string $suite
@@ -56,8 +58,14 @@ abstract class AbstractBaseCest
 
     protected function runAction(BackendTester $I, array $action)
     {
-        $name = array_shift($action);
-        $params = $action;
+        if (isset($action['action'])) {
+            $name = $action['action'];
+            unset($action['action']);
+            $params = $this->mapAssociativeArrayToActionParams(BackendTester::class, $name, $action);
+        } else {
+            $name = array_shift($action);
+            $params = $action;
+        }
 
         foreach ($params as &$param) {
             if (is_array($param)) {
@@ -66,5 +74,37 @@ abstract class AbstractBaseCest
         }
 
         return call_user_func_array([$I, $name], $params);
+    }
+
+    protected function mapAssociativeArrayToActionParams(string $class, string $action, array $associativeArray): array
+    {
+        $actionReflection = $this->getActionReflection($class, $action);
+        $params = [];
+
+        foreach ($actionReflection->getParameters() as $param) {
+            if (isset($associativeArray[$param->getName()])) {
+                $params[] = $associativeArray[$param->getName()];
+            } else {
+                if ($param->isDefaultValueAvailable()) {
+                    $params[] = $param->getDefaultValue();
+                } else {
+                    throw new \ReflectionException(sprintf(
+                        'Parameter "%s" is missing in action %s', $param->getName(), $action
+                    ));
+                }
+            }
+        }
+
+        return $params;
+    }
+
+    protected function getActionReflection(string $class, string $action): \ReflectionMethod
+    {
+        if (!isset($this->reflectors[$class])) {
+            $reflector = new \ReflectionClass($class);
+            $this->reflectors[$class] = $reflector;
+        }
+
+        return $this->reflectors[$class]->getMethod($action);
     }
 }
