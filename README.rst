@@ -115,6 +115,59 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
       }
    }
 
+The above are *simple style* action definitions: They require less space, but the order of values is important and
+must exactly match the order of action parameters in the PHP classes. Actions can also be defined in a *verbose style*,
+which improves readability. The keys must then match the action parameter names in the PHP classes and the special key
+``action`` marks the action name.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Introduction": {
+            "screenshots": [
+               [
+                  {
+                     "action": "makeScreenshotOfWindow",
+                     "path": "Documentation/Images/introduction_dashboard"
+                  }
+               ]
+            ]
+         }
+      }
+   }
+
+Simple and verbose style can be mixed:
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Introduction": {
+            "screenshots": [
+               [
+                  ["makeScreenshotOfWindow", "Documentation/Images/introduction_dashboard"]
+               ]
+            ]
+         },
+         "Styleguide": {
+            "screenshots": [
+               [
+                  ["makeScreenshotOfTable", 0, "pages", "Documentation/Images/styleguide_root_page"]
+               ],
+               [
+                  {
+                     "action": "makeScreenshotOfRecord",
+                     "table": "pages",
+                     "uid": 1,
+                     "path": "Documentation/Images/styleguide_first_page_record"
+                  }
+               ]
+            ]
+         }
+      }
+   }
+
 Actions can be nested to use the return value of the inner action by the outer, e.g.
 
 .. code-block:: json
