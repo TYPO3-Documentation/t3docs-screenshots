@@ -4,64 +4,73 @@
 	"license": "GPL-2.0-or-later",
 	"config": {
 		"platform": {
-			"php": "7.2"
+			"php": "7.4.1"
 		},
 		"sort-packages": true
 	},
-	"repositories": {
-		"local": {
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/TYPO3-Documentation/introduction"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/TYPO3-Documentation/bootstrap_package"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/TYPO3-Documentation/styleguide"
+		},
+		{
 			"type": "path",
 			"url": "./packages/*"
 		}
-	},
+	],
 	"require": {
-		"ext-imagick": "^3.4",
+		"ext-imagick": "*",
 		"ext-json": "*",
-		"codeception/codeception": "^4.1",
-		"codeception/module-webdriver": "^1.1",
+		"typo3/cms-adminpanel": "dev-master",
+		"typo3/cms-backend": "dev-master",
+		"typo3/cms-belog": "dev-master",
+		"typo3/cms-beuser": "dev-master",
+		"typo3/cms-core": "dev-master",
+		"typo3/cms-dashboard": "dev-master",
+		"typo3/cms-extbase": "dev-master",
+		"typo3/cms-extensionmanager": "dev-master",
+		"typo3/cms-felogin": "dev-master",
+		"typo3/cms-filelist": "dev-master",
+		"typo3/cms-filemetadata": "dev-master",
+		"typo3/cms-fluid": "dev-master",
+		"typo3/cms-fluid-styled-content": "dev-master",
+		"typo3/cms-form": "dev-master",
+		"typo3/cms-frontend": "dev-master",
+		"typo3/cms-impexp": "dev-master",
+		"typo3/cms-indexed-search": "dev-master",
+		"typo3/cms-info": "dev-master",
+		"typo3/cms-install": "dev-master",
+		"typo3/cms-linkvalidator": "dev-master",
+		"typo3/cms-lowlevel": "dev-master",
+		"typo3/cms-opendocs": "dev-master",
+		"typo3/cms-recordlist": "dev-master",
+		"typo3/cms-recycler": "dev-master",
+		"typo3/cms-reports": "dev-master",
+		"typo3/cms-rte-ckeditor": "dev-master",
+		"typo3/cms-scheduler": "dev-master",
+		"typo3/cms-seo": "dev-master",
+		"typo3/cms-setup": "dev-master",
+		"typo3/cms-sys-note": "dev-master",
+		"typo3/cms-t3editor": "dev-master",
+		"typo3/cms-tstemplate": "dev-master",
+		"typo3/cms-viewpage": "dev-master",
+		"bk2k/bootstrap-package": "dev-master",
+		"codeception/codeception": "^4.1.12",
+		"codeception/module-webdriver": "^1.1.4",
 		"cweagans/composer-patches": "^1.7",
-		"helhum/typo3-console": "^6.0.0",
 		"sensiolabs/ansi-to-html": "^1.2",
-		"typo3/cms-about": "^10.4",
-		"typo3/cms-backend": "^10.4",
-		"typo3/cms-belog": "^10.4",
-		"typo3/cms-beuser": "^10.4",
-		"typo3/cms-core": "^10.4",
-		"typo3/cms-dashboard": "^10.4",
-		"typo3/cms-extbase": "^10.4",
-		"typo3/cms-extensionmanager": "^10.4",
-		"typo3/cms-felogin": "^10.4",
-		"typo3/cms-filelist": "^10.4",
-		"typo3/cms-fluid": "^10.4",
-		"typo3/cms-fluid-styled-content": "^10.4",
-		"typo3/cms-form": "^10.4",
-		"typo3/cms-frontend": "^10.4",
-		"typo3/cms-impexp": "^10.4",
-		"typo3/cms-info": "^10.4",
-		"typo3/cms-install": "^10.4",
-		"typo3/cms-introduction": "^4.2",
-		"typo3/cms-recordlist": "^10.4",
-		"typo3/cms-rte-ckeditor": "^10.4",
-		"typo3/cms-seo": "^10.4",
-		"typo3/cms-setup": "^10.4",
-		"typo3/cms-styleguide": "^10.0.0@dev",
-		"typo3/cms-sys-note": "^10.4",
-		"typo3/cms-t3editor": "^10.4",
-		"typo3/cms-tstemplate": "^10.4",
-		"typo3/cms-viewpage": "^10.4",
+		"typo3/cms-introduction": "dev-master",
+		"typo3/cms-styleguide": "dev-master",
 		"typo3/screenshots": "@dev",
-		"typo3/testing-framework": "^6.6.2"
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"scripts":{
-		"typo3-cms-scripts": [
-			"typo3cms install:fixfolderstructure",
-			"typo3cms install:generatepackagestates"
-		],
-		"post-autoload-dump": [
-			"@typo3-cms-scripts"
-		]
+		"typo3/testing-framework": "^6.8.0"
 	},
 	"extra": {
 		"patches": {
