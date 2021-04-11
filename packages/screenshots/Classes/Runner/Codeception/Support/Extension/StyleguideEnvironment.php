@@ -36,13 +36,23 @@ class StyleguideEnvironment extends BackendEnvironment
     protected $localConfig = [
         'coreExtensionsToLoad' => [
             'core',
+            'beuser',
             'extbase',
             'fluid',
+            'filelist',
+            'extensionmanager',
+            'setup',
             'backend',
-            'about',
+            'belog',
             'install',
             'frontend',
             'recordlist',
+            'redirects',
+            'reports',
+            'sys_note',
+            'scheduler',
+            'tstemplate',
+            'lowlevel'
         ],
         'testExtensionsToLoad' => [
             'typo3conf/ext/screenshots',
@@ -50,8 +60,8 @@ class StyleguideEnvironment extends BackendEnvironment
         ],
         'xmlDatabaseFixtures' => [
             'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_users.xml',
-            'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_sessions.xml',
             'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_groups.xml',
+            'EXT:screenshots/Classes/Runner/Codeception/Fixtures/be_sessions.xml',
         ],
     ];
 
