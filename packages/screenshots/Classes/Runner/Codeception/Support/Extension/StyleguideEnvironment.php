@@ -29,34 +29,51 @@ use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 class StyleguideEnvironment extends BackendEnvironment
 {
     /**
-     * Load a list of core extensions and Screenshots
+     * Load all core extensions, the styleguide package and EXT:screenshots
      *
      * @var array
      */
     protected $localConfig = [
+        // Order matters: Align sorting of core extensions with /public/typo3conf/PackageStates.php
         'coreExtensionsToLoad' => [
             'core',
-            'beuser',
+            'scheduler',
             'extbase',
             'fluid',
-            'filelist',
-            'extensionmanager',
-            'setup',
-            'backend',
-            'belog',
-            'install',
             'frontend',
-            'recordlist',
-            'redirects',
+            'fluid_styled_content',
+            'filelist',
+            'impexp',
+            'form',
+            'install',
+            'info',
+            'linkvalidator',
             'reports',
+            'redirects',
+            'recordlist',
+            'backend',
+            'indexed_search',
+            'recycler',
+            'setup',
+            'rte_ckeditor',
+            'adminpanel',
+            'belog',
+            'beuser',
+            'dashboard',
+            'extensionmanager',
+            'felogin',
+            'filemetadata',
+            'lowlevel',
+            'opendocs',
+            'seo',
             'sys_note',
-            'scheduler',
+            't3editor',
             'tstemplate',
-            'lowlevel'
+            'viewpage',
         ],
         'testExtensionsToLoad' => [
+            'typo3conf/ext/styleguide',
             'typo3conf/ext/screenshots',
-            'typo3conf/ext/styleguide'
         ],
         'xmlDatabaseFixtures' => [
             'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_users.xml',
