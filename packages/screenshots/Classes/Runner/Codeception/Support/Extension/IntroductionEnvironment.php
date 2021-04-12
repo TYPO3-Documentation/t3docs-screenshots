@@ -42,11 +42,11 @@ class IntroductionEnvironment extends BackendEnvironment
             'extensionmanager',
             'fluid',
             'backend',
-            'about',
             'impexp',
             'install',
             'frontend',
             'recordlist',
+            'seo',
         ],
         'testExtensionsToLoad' => [
             'typo3conf/ext/introduction',
@@ -55,8 +55,8 @@ class IntroductionEnvironment extends BackendEnvironment
         ],
         'xmlDatabaseFixtures' => [
             'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_users.xml',
-            'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_sessions.xml',
             'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_groups.xml',
+            'EXT:screenshots/Classes/Runner/Codeception/Fixtures/be_sessions.xml',
         ],
     ];
 
