@@ -53,6 +53,7 @@
 		"typo3/cms-opendocs": "dev-master as 11.1.2",
 		"typo3/cms-recordlist": "dev-master as 11.1.2",
 		"typo3/cms-recycler": "dev-master as 11.1.2",
+		"typo3/cms-redirects": "dev-master as 11.1.2",
 		"typo3/cms-reports": "dev-master as 11.1.2",
 		"typo3/cms-rte-ckeditor": "dev-master as 11.1.2",
 		"typo3/cms-scheduler": "dev-master as 11.1.2",

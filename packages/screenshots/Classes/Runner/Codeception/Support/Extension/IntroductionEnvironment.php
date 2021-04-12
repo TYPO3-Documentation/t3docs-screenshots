@@ -31,22 +31,47 @@ use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 class IntroductionEnvironment extends BackendEnvironment
 {
     /**
-     * Load a list of core extensions and introduction package
+     * Load all core extensions, the introduction package and EXT:screenshots
      *
      * @var array
      */
     protected $localConfig = [
+        // Order matters: Align sorting of core extensions with /public/typo3conf/PackageStates.php
         'coreExtensionsToLoad' => [
             'core',
+            'scheduler',
             'extbase',
-            'extensionmanager',
             'fluid',
-            'backend',
-            'impexp',
-            'install',
             'frontend',
+            'fluid_styled_content',
+            'filelist',
+            'impexp',
+            'form',
+            'install',
+            'info',
+            'linkvalidator',
+            'reports',
+            'redirects',
             'recordlist',
+            'backend',
+            'indexed_search',
+            'recycler',
+            'setup',
+            'rte_ckeditor',
+            'adminpanel',
+            'belog',
+            'beuser',
+            'dashboard',
+            'extensionmanager',
+            'felogin',
+            'filemetadata',
+            'lowlevel',
+            'opendocs',
             'seo',
+            'sys_note',
+            't3editor',
+            'tstemplate',
+            'viewpage',
         ],
         'testExtensionsToLoad' => [
             'typo3conf/ext/introduction',
