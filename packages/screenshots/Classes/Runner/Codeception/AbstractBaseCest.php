@@ -17,6 +17,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception;
  */
 
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
+use TYPO3\CMS\Screenshots\Runner\Configuration\ConfigurationException;
 
 /**
  * Tests the screenshots backend module can be loaded
@@ -58,17 +59,18 @@ abstract class AbstractBaseCest
 
     protected function runAction(BackendTester $I, array $action)
     {
-        if (isset($action['action'])) {
-            $name = $action['action'];
-            unset($action['action']);
-            $params = $this->mapAssociativeArrayToActionParams(BackendTester::class, $name, $action);
-        } else {
-            $name = array_shift($action);
-            $params = $action;
+        if (!isset($action['action'])) {
+            throw new ConfigurationException(sprintf(
+                'Parameter "action" is missing in action configuration "%s".', json_encode($action)
+            ));
         }
 
+        $name = $action['action'];
+        unset($action['action']);
+        $params = $this->mapAssociativeArrayToActionParams(BackendTester::class, $name, $action);
+
         foreach ($params as &$param) {
-            if (is_array($param)) {
+            if (is_array($param) && isset($param['action'])) {
                 $param = $this->runAction($I, $param);
             }
         }
@@ -88,7 +90,7 @@ abstract class AbstractBaseCest
                 if ($param->isDefaultValueAvailable()) {
                     $params[] = $param->getDefaultValue();
                 } else {
-                    throw new \ReflectionException(sprintf(
+                    throw new ConfigurationException(sprintf(
                         'Parameter "%s" is missing in action %s', $param->getName(), $action
                     ));
                 }

@@ -89,39 +89,10 @@ File ``screenshots.json``
 
 The runner configuration file ``screenshots.json`` defines in the first level the TYPO3 environment (e.g. "Styleguide",
 "Introduction", etc.) where the screenshots are taken, and in the second level it lists blocks of actions where each
-block ends with a captured screenshot. Each action is an array, where the first value is the action name and the
-remaining values are the action parameters.
+block ends with a captured screenshot. Each action is an object, where the key ``action`` marks the action name and
+the remaining keys represent the action parameters.
 
 This is a small runner configuration which takes screenshots of two TYPO3 environments:
-
-.. code-block:: json
-
-   {
-      "suites": {
-         "Introduction": {
-            "screenshots": [
-               [
-                  ["makeScreenshotOfWindow", "Documentation/Images/introduction_dashboard"]
-               ]
-            ]
-         },
-         "Styleguide": {
-            "screenshots": [
-               [
-                  ["makeScreenshotOfTable", 0, "pages", "Documentation/Images/styleguide_root_page"]
-               ],
-               [
-                  ["makeScreenshotOfRecord", "pages", 1, "Documentation/Images/styleguide_first_page_record"]
-               ]
-            ]
-         }
-      }
-   }
-
-The above are *simple style* action definitions: They require less space, but the order of values is important and
-must exactly match the order of action parameters in the PHP classes. Actions can also be defined in a *verbose style*,
-which improves readability. The keys must then match the action parameter names in the PHP classes and the special key
-``action`` marks the action name.
 
 .. code-block:: json
 
@@ -136,27 +107,16 @@ which improves readability. The keys must then match the action parameter names 
                   }
                ]
             ]
-         }
-      }
-   }
-
-Simple and verbose style can be mixed:
-
-.. code-block:: json
-
-   {
-      "suites": {
-         "Introduction": {
-            "screenshots": [
-               [
-                  ["makeScreenshotOfWindow", "Documentation/Images/introduction_dashboard"]
-               ]
-            ]
          },
          "Styleguide": {
             "screenshots": [
                [
-                  ["makeScreenshotOfTable", 0, "pages", "Documentation/Images/styleguide_root_page"]
+                  {
+                     "action": "makeScreenshotOfTable",
+                     "pid": 0,
+                     "table": "pages",
+                     "path": "Documentation/Images/styleguide_root_page"
+                  }
                ],
                [
                   {
@@ -180,19 +140,19 @@ Actions can be nested to use the return value of the inner action by the outer, 
          "Styleguide": {
             "screenshots": [
                [
-                  [
-                     "makeScreenshotOfTable",
-                     ["getUidByField", "pages", "title", "elements rte"],
-                     "pages",
-                     "Documentation/Images/styleguide_root_page"
-                  ]
+                  {
+                     "action": "makeScreenshotOfTable",
+                     "pid": {"action": "getUidByField", "table": "pages", "field": "title", "value": "elements rte"},
+                     "table": "pages",
+                     "path": "Documentation/Images/styleguide_root_page"
+                  }
                ]
             ]
          }
       }
    }
 
-which executes the action ``getUidByField()`` and uses the return value as first argument of action
+which executes the action ``getUidByField()`` and uses the return value for parameter ``pid`` of action
 ``makeScreenshotOfTable()``.
 
 Available Actions
