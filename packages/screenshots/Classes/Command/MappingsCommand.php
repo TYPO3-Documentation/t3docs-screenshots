@@ -69,7 +69,7 @@ class MappingsCommand extends Command
 
             $mappings = [];
             while ($row = $result->fetch()) {
-                if (!empty($row[$fromField]) && !isset($mappings[$row[$fromField]])) {
+                if ($row[$fromField] !== null && $row[$fromField] !== '' && !isset($mappings[$row[$fromField]])) {
                     $mappings[$row[$fromField]] = $row[$toField];
                 }
             }
