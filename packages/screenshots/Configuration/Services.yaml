@@ -3,3 +3,7 @@ services:
     tags:
       - name: 'console.command'
         command: 'screenshots:mappings'
+  TYPO3\CMS\Screenshots\Command\InitCommand:
+    tags:
+      - name: 'console.command'
+        command: 'screenshots:init'

@@ -29,9 +29,23 @@ class Typo3Screenshots extends Module
         'basePath' => ''
     ];
 
-    public function loadScreenshotsConfiguration(string $filePath): Configuration
+    /**
+     * @param string $path Path to the folder that might contain the screenshots.json.
+     * @return bool Does the folder contain the screenshots.json?
+     */
+    public function checkForScreenshotsConfiguration(string $path): bool
     {
-        $configuration = new Configuration($filePath);
+        $configuration = new Configuration($path);
+        return is_file($configuration->getFilePath());
+    }
+
+    /**
+     * @param string $path Path to the folder that contains the screenshots.json.
+     * @return Configuration
+     */
+    public function loadScreenshotsConfiguration(string $path): Configuration
+    {
+        $configuration = new Configuration($path);
         $configuration->read();
         return $configuration;
     }

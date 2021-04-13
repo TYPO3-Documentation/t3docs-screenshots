@@ -42,11 +42,6 @@ Installation
 4. Add a page tree by activating the distribution ``EXT:introduction`` - or -
 5. Add a page tree by activating the distribution ``EXT:styleguide`` and clicking in the upper right corner
    "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
-6. Fetch all official TYPO3 manuals for further processing (requires access granted):
-
-   .. code-block:: bash
-
-      ddev fetch-manuals
 
 Re-Installation
 ---------------
@@ -89,13 +84,33 @@ The runner scans the sub folders of ``public/t3docs``, processes the ``public/t3
 creates the screenshots in ``public/t3docs-generated/actual/*/`` where they get further processed by the Screenshots
 Manager.
 
+Folders in ``public/t3docs``
+----------------------------
+
+The folders in ``public/t3docs`` should contain the official TYPO3 Documentation manuals or other documentation that
+needs fresh screenshots of TYPO3. Get all official TYPO3 Documentation manuals in one bundle (requires access
+permission) by
+
+.. code-block:: bash
+
+   ddev fetch-manuals
+
 File ``screenshots.json``
 -------------------------
 
-The runner configuration file ``screenshots.json`` defines in the first level the TYPO3 environment (e.g. "Styleguide",
-"Introduction", etc.) where the screenshots are taken, and in the second level it lists blocks of actions where each
-block ends with a captured screenshot. Each action is an object, where the key ``action`` marks the action name and
-the remaining keys represent the action parameters.
+The runner configuration file ``screenshots.json`` must be placed in the root directory of the respective documentation
+folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the TYPO3 environment
+(e.g. "Styleguide", "Introduction", etc.) where the screenshots are taken, and in the second level it lists blocks of
+actions where each block ends with a captured screenshot. Each action is an object, where the key ``action`` marks the
+action name and the remaining keys represent the action parameters.
+
+Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3docs`` by
+
+.. code-block:: bash
+
+   ddev init-screenshot-json [folder]
+
+where ``[folder]`` defaults to ``My-Manual`` if left blank.
 
 This is a small runner configuration which takes screenshots of two TYPO3 environments:
 
