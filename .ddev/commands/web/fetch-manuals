@@ -1,0 +1,33 @@
+#!/bin/bash
+
+## Description: Fetch all official TYPO3 Documentation manuals
+## Usage: fetch-manuals
+## Example: "fetch-manuals"
+
+manualsPath="/var/www/html/public/t3docs"
+
+clone_manual() {
+    local repositoryUrl=$1
+    local branch=$2
+    local manualFolder=$3
+
+    if [[ -d "$manualsPath/$manualFolder" ]]; then
+        echo "Manual '$manualFolder' already exists."
+    else
+        echo "Clone manual '$manualFolder' from '$repositoryUrl' .."
+        git clone --single-branch --branch "$branch" "$repositoryUrl" "$manualFolder"
+    fi
+
+    cd "$manualFolder"
+    git stash
+    git checkout "$branch"
+    git pull --rebase
+    cd - > /dev/null
+}
+
+[[ ! -d "$manualsPath" ]] && mkdir "$manualsPath"
+cd "$manualsPath"
+
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TCA.git" "master" "TYPO3CMS-Reference-TCA"
+
+cd - > /dev/null

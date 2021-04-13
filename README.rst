@@ -42,6 +42,11 @@ Installation
 4. Add a page tree by activating the distribution ``EXT:introduction`` - or -
 5. Add a page tree by activating the distribution ``EXT:styleguide`` and clicking in the upper right corner
    "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
+6. Fetch all official TYPO3 manuals for further processing (requires access granted):
+
+   .. code-block:: bash
+
+      ddev fetch-manuals
 
 Re-Installation
 ---------------
