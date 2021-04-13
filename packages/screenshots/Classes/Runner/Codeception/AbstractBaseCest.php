@@ -37,13 +37,11 @@ abstract class AbstractBaseCest
 
         $directories = array_filter(glob($originalPath . '/*'), 'is_dir');
         foreach ($directories as $originalDirectory) {
-            $configPath = $originalDirectory . '/screenshots.json';
-
-            if (is_file($configPath)) {
+            if ($I->checkForScreenshotsConfiguration($originalDirectory)) {
                 $actualDirectory = $actualPath . DIRECTORY_SEPARATOR . basename($originalDirectory);
                 $I->setScreenshotsBasePath($actualDirectory);
 
-                $configuration = $I->loadScreenshotsConfiguration($configPath);
+                $configuration = $I->loadScreenshotsConfiguration($originalDirectory);
                 $config = $configuration->getConfig();
 
                 if (!empty($config['suites'][$suite]['screenshots'])) {
