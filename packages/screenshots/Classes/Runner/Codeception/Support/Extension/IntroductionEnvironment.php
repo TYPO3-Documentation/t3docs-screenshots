@@ -90,7 +90,7 @@ class IntroductionEnvironment extends BackendEnvironment
      *
      * @param SuiteEvent $suiteEvent
      */
-    public function bootstrapTypo3Environment(SuiteEvent $suiteEvent)
+    public function bootstrapTypo3Environment(SuiteEvent $suiteEvent): void
     {
         parent::bootstrapTypo3Environment($suiteEvent);
 

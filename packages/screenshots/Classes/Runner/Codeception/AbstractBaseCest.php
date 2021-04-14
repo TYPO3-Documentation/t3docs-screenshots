@@ -16,6 +16,8 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception;
  * The TYPO3 project - inspiring people to share!
  */
 
+use ReflectionClass;
+use ReflectionMethod;
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
 use TYPO3\CMS\Screenshots\Runner\Configuration\ConfigurationException;
 
@@ -24,7 +26,10 @@ use TYPO3\CMS\Screenshots\Runner\Configuration\ConfigurationException;
  */
 abstract class AbstractBaseCest
 {
-    protected $reflectors = [];
+    /**
+     * @var ReflectionClass[]
+     */
+    protected array $reflectors = [];
 
     /**
      * @param BackendTester $I
@@ -98,10 +103,10 @@ abstract class AbstractBaseCest
         return $params;
     }
 
-    protected function getActionReflection(string $class, string $action): \ReflectionMethod
+    protected function getActionReflection(string $class, string $action): ReflectionMethod
     {
         if (!isset($this->reflectors[$class])) {
-            $reflector = new \ReflectionClass($class);
+            $reflector = new ReflectionClass($class);
             $this->reflectors[$class] = $reflector;
         }
 

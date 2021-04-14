@@ -26,7 +26,7 @@ class ScreenshotsManagerController extends ActionController
      */
     protected $view;
 
-    protected $threshold = 0.0002;
+    protected float $threshold = 0.0002;
 
     /**
      * Set up the doc header properly here
@@ -52,7 +52,7 @@ class ScreenshotsManagerController extends ActionController
     {
     }
 
-    public function makeAction():void
+    public function makeAction(): void
     {
         $command = 'typo3DatabaseName=func_test typo3DatabaseUsername=root typo3DatabasePassword=root typo3DatabaseHost=db ' .
             '/var/www/html/vendor/bin/codecept run -d -c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml';
@@ -68,7 +68,7 @@ class ScreenshotsManagerController extends ActionController
         $this->view->assign('resultCode', $resultCode);
     }
 
-    public function compareAction():void
+    public function compareAction(): void
     {
         $folderOriginal = 't3docs';
         $folderActual = 't3docs-generated/actual';
@@ -127,7 +127,7 @@ class ScreenshotsManagerController extends ActionController
         $this->view->assign('images', $images);
     }
 
-    public function copyAction():void
+    public function copyAction(): void
     {
         $folderOriginal = 't3docs';
         $folderActual = 't3docs-generated/actual';
