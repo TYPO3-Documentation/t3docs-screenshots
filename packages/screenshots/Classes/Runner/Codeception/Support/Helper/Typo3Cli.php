@@ -24,7 +24,7 @@ use Codeception\Module;
  */
 class Typo3Cli extends Module
 {
-    protected $mappings = [];
+    protected array $mappings = [];
 
     public function getUidByField(string $table, string $field, $value, string $uidField = 'uid'): int
     {

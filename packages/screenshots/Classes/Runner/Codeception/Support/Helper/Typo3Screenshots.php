@@ -65,13 +65,13 @@ class Typo3Screenshots extends Module
         $this->makeScreenshotOfElement($path);
     }
 
-    public function makeScreenshotOfTable(int $pid, string $table, string $path, string $selector = ''):void
+    public function makeScreenshotOfTable(int $pid, string $table, string $path, string $selector = ''): void
     {
         $this->goToTable($pid, $table);
         $this->makeScreenshotOfElement($path, $selector);
     }
 
-    public function goToTable(int $pid, string $table):void
+    public function goToTable(int $pid, string $table): void
     {
         $this->getModule('WebDriver')->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
@@ -79,7 +79,7 @@ class Typo3Screenshots extends Module
         );
     }
 
-    public function makeScreenshotOfRecord(string $table, int $uid, string $path, string $selector = ''):void
+    public function makeScreenshotOfRecord(string $table, int $uid, string $path, string $selector = ''): void
     {
         $this->goToRecord($table, $uid);
         $this->makeScreenshotOfElement($path, $selector);
@@ -93,13 +93,13 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $path, string $selector = ''):void
+    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $path, string $selector = ''): void
     {
         $this->goToField($table, $uid, $fields);
         $this->makeScreenshotOfElement($path, $selector);
     }
 
-    public function goToField(string $table, int $uid, string $fields):void
+    public function goToField(string $table, int $uid, string $fields): void
     {
         $this->getModule('WebDriver')->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
@@ -107,7 +107,7 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    protected function makeScreenshotOfElement(string $path, string $selector = ''):void
+    protected function makeScreenshotOfElement(string $path, string $selector = ''): void
     {
         $tmpFileName = $this->getTemporaryFileName($path);
         $tmpFilePath = $this->getTemporaryPath($tmpFileName);
