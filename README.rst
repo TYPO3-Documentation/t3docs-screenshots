@@ -38,10 +38,11 @@ Installation
 
       ddev launch
 
-3. Log into the TYPO3 backend and activate extension ``EXT:screenshots``.
-4. Add a page tree by activating the distribution ``EXT:introduction`` - or -
-5. Add a page tree by activating the distribution ``EXT:styleguide`` and clicking in the upper right corner
-   "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
+3. Log into the TYPO3 backend and activate the page tree of ``EXT:styleguide`` or ``EXT:introduction``:
+
+   -  add the page tree of ``EXT:introduction`` by de- and reactivating this extension - or -
+   -  add the page tree of ``EXT:styleguide`` by clicking in the upper right corner
+      "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
 
 Re-Installation
 ---------------
