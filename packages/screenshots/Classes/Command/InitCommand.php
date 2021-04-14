@@ -3,6 +3,15 @@
 declare(strict_types=1);
 namespace TYPO3\CMS\Screenshots\Command;
 
+/*
+ * This file is part of the TYPO3 project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

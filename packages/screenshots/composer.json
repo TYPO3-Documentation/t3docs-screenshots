@@ -15,7 +15,7 @@
     }
   ],
   "homepage": "https://github.com/TYPO3-Documentation/t3docs-screenshots",
-  "license": "GPL-2.0-or-later",
+  "license": "MIT",
   "keywords": [
     "typo3",
     "screenshot"

@@ -1,7 +1,7 @@
 {
 	"name": "typo3/t3docs-screenshots",
 	"description" : "TYPO3 CMS Screenshots",
-	"license": "GPL-2.0-or-later",
+	"license": "MIT",
 	"config": {
 		"platform": {
 			"php": "7.4.1"
