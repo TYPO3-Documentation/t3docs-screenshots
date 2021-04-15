@@ -168,6 +168,7 @@ used to include the screenshot comfortably into a documentation. The path can be
          "Introduction": {
             "screenshots": [
                [
+                  {"action": "setScreenshotsRstPath", "rstPath": "Images/IntroductionRst"},
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_with_rst_file"},
                   {"action": "createScreenshotsRstFile", "create": false},
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_without_rst_file"}
