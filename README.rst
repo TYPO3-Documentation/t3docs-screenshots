@@ -225,3 +225,13 @@ module menu at Admin Tools > Screenshots. It provides three functions: Starting 
 and original screenshots and copying screenshots from the actual path to the original path.
 
 .. image:: docs/typo3_screenshots_module.png
+
+
+Development
+===========
+
+Run unit tests by
+
+.. code-block:: bash
+
+   ddev run-unit-tests

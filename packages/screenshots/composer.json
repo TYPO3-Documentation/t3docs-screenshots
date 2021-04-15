@@ -28,6 +28,11 @@
       "TYPO3\\CMS\\Screenshots\\": "Classes/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+        "TYPO3\\CMS\\Screenshots\\Tests\\Unit\\": "Tests/Unit/"
+    }
+  },
   "extra": {
     "typo3/cms": {
       "extension-key": "screenshots"

@@ -34,7 +34,9 @@ class Configuration
 
     protected function getAbsolutePath(string $path): string
     {
-        $path = strpos($path, '/') === 0 ? $path : $this->basePath . '/' . $path;
+        // Absolute paths are e.g. vfs://t3docs or /t3docs
+        $isAbsolute = strpos($path, '/') === 0 || strpos($path, '://') !== false;
+        $path = $isAbsolute ? $path : $this->basePath . '/' . $path;
         return PathUtility::getCanonicalPath($path);
     }
 
