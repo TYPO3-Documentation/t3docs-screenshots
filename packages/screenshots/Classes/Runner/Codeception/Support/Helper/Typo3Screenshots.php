@@ -22,7 +22,9 @@ class Typo3Screenshots extends Module
 {
     protected $config = [
         'basePath' => '',
-        'imagePath' => 'Images/AutomaticScreenshots'
+        'imagePath' => 'Images/AutomaticScreenshots',
+        'rstPath' => 'Images/Rst',
+        'createRstFile' => true
     ];
 
     /**
@@ -61,15 +63,25 @@ class Typo3Screenshots extends Module
         $this->_setConfig(['imagePath' => $imagePath]);
     }
 
-    public function makeScreenshotOfWindow(string $fileName): void
+    public function setScreenshotsRstPath(string $rstPath): void
     {
-        $this->makeScreenshotOfElement($fileName);
+        $this->_setConfig(['rstPath' => $rstPath]);
     }
 
-    public function makeScreenshotOfTable(int $pid, string $table, string $fileName, string $selector = ''): void
+    public function createScreenshotsRstFile(bool $create): void
+    {
+        $this->_setConfig(['createRstFile' => $create]);
+    }
+
+    public function makeScreenshotOfWindow(string $fileName, string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    {
+        $this->makeScreenshotOfElement($fileName, '', $altText, $refLabel, $refTitle);
+    }
+
+    public function makeScreenshotOfTable(int $pid, string $table, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $this->goToTable($pid, $table);
-        $this->makeScreenshotOfElement($fileName, $selector);
+        $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
     public function goToTable(int $pid, string $table): void
@@ -80,10 +92,10 @@ class Typo3Screenshots extends Module
         );
     }
 
-    public function makeScreenshotOfRecord(string $table, int $uid, string $fileName, string $selector = ''): void
+    public function makeScreenshotOfRecord(string $table, int $uid, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $this->goToRecord($table, $uid);
-        $this->makeScreenshotOfElement($fileName, $selector);
+        $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
     public function goToRecord(string $table, int $uid):void
@@ -94,10 +106,10 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $fileName, string $selector = ''): void
+    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $this->goToField($table, $uid, $fields);
-        $this->makeScreenshotOfElement($fileName, $selector);
+        $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
     public function goToField(string $table, int $uid, string $fields): void
@@ -108,12 +120,12 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    public function makeScreenshotOfElement(string $fileName, string $selector = ''): void
+    public function makeScreenshotOfElement(string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
-        $relativePath = $this->getRelativePath($fileName);
-        $tmpFileName = $this->getTemporaryFileName($relativePath);
+        $relativeImagePath = $this->getRelativeImagePath($fileName);
+        $tmpFileName = $this->getTemporaryFileName($relativeImagePath);
         $tmpFilePath = $this->getTemporaryPath($tmpFileName);
-        $actualFilePath = $this->getActualPath($relativePath);
+        $absoluteImagePath = $this->getAbsolutePath($relativeImagePath);
 
         if (!empty($selector)) {
             $this->getModule('WebDriver')->makeElementScreenshot($selector, $tmpFileName);
@@ -121,13 +133,17 @@ class Typo3Screenshots extends Module
             $this->getModule('WebDriver')->makeScreenshot($tmpFileName);
         }
 
-        @mkdir(dirname($actualFilePath), 0777, true);
-        copy($tmpFilePath, $actualFilePath);
+        @mkdir(dirname($absoluteImagePath), 0777, true);
+        copy($tmpFilePath, $absoluteImagePath);
+
+        if ($this->_getConfig('createRstFile')) {
+            $this->makeRstFile($fileName, $relativeImagePath, $altText, $refLabel, $refTitle);
+        }
     }
 
-    protected function getRelativePath(string $fileName): string
+    protected function getRelativeImagePath(string $fileName): string
     {
-        return $this->_getConfig('imagePath') . DIRECTORY_SEPARATOR . $fileName;
+        return $this->_getConfig('imagePath') . DIRECTORY_SEPARATOR . $fileName . '.png';
     }
 
     protected function getTemporaryFileName(string $relativePath): string
@@ -142,9 +158,9 @@ class Typo3Screenshots extends Module
         return $path . DIRECTORY_SEPARATOR . $fileName . '.png';
     }
 
-    protected function getActualPath(string $relativePath): string
+    protected function getAbsolutePath(string $relativePath): string
     {
-        return $this->_getConfig('basePath') . DIRECTORY_SEPARATOR . $relativePath . '.png';
+        return $this->_getConfig('basePath') . DIRECTORY_SEPARATOR . $relativePath;
     }
 
     protected function cleanUpPath(string $path): void
@@ -160,6 +176,44 @@ class Typo3Screenshots extends Module
                 }
             }
             rmdir($path);
+        }
+    }
+
+    protected function makeRstFile(string $fileName, string $relativeImagePath, string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    {
+        $relativeRstPath = $this->getRelativeRstPath($fileName);
+        $absoluteRstPath = $this->getAbsolutePath($relativeRstPath);
+        $refDirective = $this->getRstReferenceDirective($refLabel, $refTitle);
+
+        $rst = <<<HEREDOC
+.. Automatic screenshot: Remove this line if you want to manually change this file
+
+.. figure:: $relativeImagePath
+   :alt: $altText
+   :class: with-shadow
+HEREDOC;
+
+        if ($refDirective !== '') {
+            $rst .= sprintf("\n   %s", $refDirective);
+        }
+
+        @mkdir(dirname($absoluteRstPath), 0777, true);
+        file_put_contents($absoluteRstPath, $rst);
+    }
+
+    protected function getRelativeRstPath(string $fileName): string
+    {
+        return $this->_getConfig('rstPath') . DIRECTORY_SEPARATOR . $fileName . '.rst.txt';
+    }
+
+    protected function getRstReferenceDirective(string $refLabel = '', string $refTitle = ''): string
+    {
+        if (!empty($refTitle) && !empty($refLabel)) {
+            return sprintf(':ref:`%s <%s>`', $refTitle, $refLabel);
+        } elseif (!empty($refLabel)) {
+            return sprintf(':ref:`%s`', $refLabel);
+        } else {
+            return '';
         }
     }
 }

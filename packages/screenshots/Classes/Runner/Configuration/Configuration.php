@@ -126,7 +126,9 @@ class Configuration
                             ['action' => 'click', 'link' => "Page"],
                             ['action' => 'switchToContentFrame'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_page_module"],
-                            ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_infobox", 'selector' => ".callout"],
+                            ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_infobox", 'selector' => ".callout", "altText" => "Typical TYPO3 infobox", "refLabel" => "my-reference-label", "refTitle" => "My reference title"],
+                            ['action' => 'createScreenshotsRstFile', 'create' => false],
+                            ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_infobox_without_rst", 'selector' => ".callout", "altText" => "Typical TYPO3 infobox", "refLabel" => "my-reference-label", "refTitle" => "My reference title"],
                         ]
                     ]
                 ]
