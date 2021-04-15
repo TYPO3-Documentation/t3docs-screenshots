@@ -4,14 +4,9 @@
 ## Usage: init-screenshot-json (folder|path)
 ## Example: "init-screenshot-json My-Manual" or "init-screenshot-json /var/www/html/t3docs/My-Manual"
 
-manualsPath="/var/www/html/public/t3docs"
-
 init_screenshot_json() {
     local manualFolder=${1}
-
-    echo "Initializing screenshot.json at folder $manualFolder."
     typo3 screenshots:init $manualFolder
 }
 
-[[ ! -d "$manualsPath" ]] && mkdir "$manualsPath"
 init_screenshot_json $@
