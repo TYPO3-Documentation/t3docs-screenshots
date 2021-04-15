@@ -46,12 +46,43 @@ class Configuration
     public function write(): void
     {
         GeneralUtility::mkdir_deep($this->path);
-        file_put_contents($this->getFilePath(), json_encode($this->config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        file_put_contents($this->getFilePath(), $this->printAsJson());
     }
 
     public function getFilePath(): string
     {
         return $this->path . '/' . $this->fileName;
+    }
+
+    /**
+     * Print the configuration frame pretty and use normal printing for the actions so that they consume only one line
+     * each.
+     *
+     * @return string
+     */
+    protected function printAsJson(): string
+    {
+        $config = $this->config;
+        $replace = [];
+
+        if (!empty($config['suites'])) {
+            foreach ($config['suites'] as $suiteId => &$suite) {
+                if (isset($suite['screenshots'])) {
+                    foreach ($suite['screenshots'] as $actionsId => &$actions) {
+                        foreach ($actions as $actionId => &$action) {
+                            $actionJson = str_replace('","', '", "', json_encode($action, JSON_UNESCAPED_SLASHES));
+                            $actionIdentifier = md5(sprintf('%s_%s_%s', $suiteId, $actionsId, $actionId));
+                            $replace["\"$actionIdentifier\""] = $actionJson;
+                            $action = $actionIdentifier;
+                        }
+                    }
+                }
+            }
+        }
+
+        $configJson = json_encode($config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $configJson = str_replace(array_keys($replace), array_values($replace), $configJson);
+        return $configJson;
     }
 
     public function getBasePath(): string
