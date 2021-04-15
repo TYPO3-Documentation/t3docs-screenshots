@@ -157,6 +157,26 @@ The target folder of the screenshots is ``Images/AutomaticScreenshots`` by defau
       }
    }
 
+Along with the screenshot a reStructuredText file gets created automatically in the folder ``Images/Rst`` and can be
+used to include the screenshot comfortably into a documentation. The path can be changed by the action
+``setScreenshotsRstPath`` and the automatic creation can be switched via action ``createScreenshotsRstFile``, e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Introduction": {
+            "screenshots": [
+               [
+                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_with_rst_file"},
+                  {"action": "createScreenshotsRstFile", "create": false},
+                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_without_rst_file"}
+               ]
+            ]
+         }
+      }
+   }
+
 Actions can be nested to use the return value of the inner action by the outer, e.g.
 
 .. code-block:: json
