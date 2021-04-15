@@ -85,15 +85,23 @@ abstract class AbstractBaseCest
         foreach ($actionReflection->getParameters() as $param) {
             if (isset($associativeArray[$param->getName()])) {
                 $params[] = $associativeArray[$param->getName()];
+                unset($associativeArray[$param->getName()]);
             } else {
                 if ($param->isDefaultValueAvailable()) {
                     $params[] = $param->getDefaultValue();
                 } else {
                     throw new ConfigurationException(sprintf(
-                        'Parameter "%s" is missing in action %s', $param->getName(), $action
+                        'Parameter "%s" is missing in action %s.', $param->getName(), $action
                     ));
                 }
             }
+        }
+
+        if (count($associativeArray) > 0) {
+            throw new ConfigurationException(sprintf(
+                'Parameters "%s" are not supported by action %s.',
+                implode('", "', array_keys($associativeArray)), $action
+            ));
         }
 
         return $params;
