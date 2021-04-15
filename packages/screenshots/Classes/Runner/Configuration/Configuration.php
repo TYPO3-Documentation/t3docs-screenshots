@@ -72,7 +72,7 @@ class Configuration
                 if (isset($suite['screenshots'])) {
                     foreach ($suite['screenshots'] as $actionsId => &$actions) {
                         foreach ($actions as $actionId => &$action) {
-                            $actionJson = str_replace('","', '", "', json_encode($action, JSON_UNESCAPED_SLASHES));
+                            $actionJson = str_replace(['",', '":'], ['", ', '": '], json_encode($action, JSON_UNESCAPED_SLASHES));
                             $actionIdentifier = md5(sprintf('%s_%s_%s', $suiteId, $actionsId, $actionId));
                             $replace["\"$actionIdentifier\""] = $actionJson;
                             $action = $actionIdentifier;
