@@ -21,7 +21,8 @@ use TYPO3\CMS\Screenshots\Runner\Configuration\Configuration;
 class Typo3Screenshots extends Module
 {
     protected $config = [
-        'basePath' => ''
+        'basePath' => '',
+        'imagePath' => 'Images/AutomaticScreenshots'
     ];
 
     /**
@@ -47,23 +48,28 @@ class Typo3Screenshots extends Module
 
     public function setScreenshotsBasePath(string $basePath): void
     {
-        $this->_reconfigure(['basePath' => $basePath]);
+        $this->_setConfig(['basePath' => $basePath]);
     }
 
     public function cleanUpScreenshotsBasePath(): void
     {
-        $this->cleanUpPath($this->config['basePath']);
+        $this->cleanUpPath($this->_getConfig('basePath'));
     }
 
-    public function makeScreenshotOfWindow(string $path): void
+    public function setScreenshotsImagePath(string $imagePath): void
     {
-        $this->makeScreenshotOfElement($path);
+        $this->_setConfig(['imagePath' => $imagePath]);
     }
 
-    public function makeScreenshotOfTable(int $pid, string $table, string $path, string $selector = ''): void
+    public function makeScreenshotOfWindow(string $fileName): void
+    {
+        $this->makeScreenshotOfElement($fileName);
+    }
+
+    public function makeScreenshotOfTable(int $pid, string $table, string $fileName, string $selector = ''): void
     {
         $this->goToTable($pid, $table);
-        $this->makeScreenshotOfElement($path, $selector);
+        $this->makeScreenshotOfElement($fileName, $selector);
     }
 
     public function goToTable(int $pid, string $table): void
@@ -74,10 +80,10 @@ class Typo3Screenshots extends Module
         );
     }
 
-    public function makeScreenshotOfRecord(string $table, int $uid, string $path, string $selector = ''): void
+    public function makeScreenshotOfRecord(string $table, int $uid, string $fileName, string $selector = ''): void
     {
         $this->goToRecord($table, $uid);
-        $this->makeScreenshotOfElement($path, $selector);
+        $this->makeScreenshotOfElement($fileName, $selector);
     }
 
     public function goToRecord(string $table, int $uid):void
@@ -88,10 +94,10 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $path, string $selector = ''): void
+    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $fileName, string $selector = ''): void
     {
         $this->goToField($table, $uid, $fields);
-        $this->makeScreenshotOfElement($path, $selector);
+        $this->makeScreenshotOfElement($fileName, $selector);
     }
 
     public function goToField(string $table, int $uid, string $fields): void
@@ -102,11 +108,12 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    protected function makeScreenshotOfElement(string $path, string $selector = ''): void
+    protected function makeScreenshotOfElement(string $fileName, string $selector = ''): void
     {
-        $tmpFileName = $this->getTemporaryFileName($path);
+        $relativePath = $this->getRelativePath($fileName);
+        $tmpFileName = $this->getTemporaryFileName($relativePath);
         $tmpFilePath = $this->getTemporaryPath($tmpFileName);
-        $actualFilePath = $this->getActualPath($path);
+        $actualFilePath = $this->getActualPath($relativePath);
 
         if (!empty($selector)) {
             $this->getModule('WebDriver')->makeElementScreenshot($selector, $tmpFileName);
@@ -118,10 +125,15 @@ class Typo3Screenshots extends Module
         copy($tmpFilePath, $actualFilePath);
     }
 
-    protected function getTemporaryFileName(string $path): string
+    protected function getRelativePath(string $fileName): string
     {
-        $pathInfo = pathinfo($path);
-        return $pathInfo['filename'] . '_' . substr(md5($path), 0, 8);
+        return $this->_getConfig('imagePath') . DIRECTORY_SEPARATOR . $fileName;
+    }
+
+    protected function getTemporaryFileName(string $relativePath): string
+    {
+        $pathInfo = pathinfo($relativePath);
+        return $pathInfo['filename'] . '_' . substr(md5($relativePath), 0, 8);
     }
 
     protected function getTemporaryPath(string $fileName): string
@@ -132,7 +144,7 @@ class Typo3Screenshots extends Module
 
     protected function getActualPath(string $relativePath): string
     {
-        return $this->config['basePath'] . DIRECTORY_SEPARATOR . $relativePath . '.png';
+        return $this->_getConfig('basePath') . DIRECTORY_SEPARATOR . $relativePath . '.png';
     }
 
     protected function cleanUpPath(string $path): void
