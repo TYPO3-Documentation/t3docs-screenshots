@@ -124,7 +124,7 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
                [
                   {
                      "action": "makeScreenshotOfWindow",
-                     "path": "Documentation/Images/introduction_dashboard"
+                     "fileName": "introduction_dashboard"
                   }
                ]
             ]
@@ -136,7 +136,7 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
                      "action": "makeScreenshotOfTable",
                      "pid": 0,
                      "table": "pages",
-                     "path": "Documentation/Images/styleguide_root_page"
+                     "fileName": "styleguide_root_page"
                   }
                ],
                [
@@ -144,7 +144,31 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
                      "action": "makeScreenshotOfRecord",
                      "table": "pages",
                      "uid": 1,
-                     "path": "Documentation/Images/styleguide_first_page_record"
+                     "fileName": "styleguide_first_page_record"
+                  }
+               ]
+            ]
+         }
+      }
+   }
+
+The target folder of the screenshots is ``Images/AutomaticScreenshots`` by default and is calculated relative to the
+``screenshots.json``. The path can be adapted by the action ``setScreenshotsImagePath``, e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Introduction": {
+            "screenshots": [
+               [
+                  {
+                     "action": "setScreenshotsImagePath",
+                     "imagePath": "Images/IntroductionScreenshots"
+                  },
+                  {
+                     "action": "makeScreenshotOfWindow",
+                     "fileName": "introduction_dashboard"
                   }
                ]
             ]
@@ -165,7 +189,7 @@ Actions can be nested to use the return value of the inner action by the outer, 
                      "action": "makeScreenshotOfTable",
                      "pid": {"action": "getUidByField", "table": "pages", "field": "title", "value": "elements rte"},
                      "table": "pages",
-                     "path": "Documentation/Images/styleguide_root_page"
+                     "fileName": "styleguide_root_page"
                   }
                ]
             ]

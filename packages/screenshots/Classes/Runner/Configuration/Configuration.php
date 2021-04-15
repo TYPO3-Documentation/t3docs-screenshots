@@ -81,20 +81,18 @@ class Configuration
                 'Introduction' => [
                     'screenshots' => [
                         [
-                            ['action' => 'see', 'text' => "Page"],
-                            ['action' => 'click', 'link' => "Page"],
-                            ['action' => 'switchToContentFrame'],
-                            ['action' => 'makeScreenshotOfWindow', 'path' => "Images/introduction_dashboard"]
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "introduction_dashboard"],
                         ]
                     ]
                 ],
                 'Styleguide' => [
                     'screenshots' => [
                         [
+                            ['action' => 'setScreenshotsImagePath', 'imagePath' => "Images/StyleguideScreenshots"],
                             ['action' => 'see', 'text' => "Page"],
                             ['action' => 'click', 'link' => "Page"],
                             ['action' => 'switchToContentFrame'],
-                            ['action' => 'makeScreenshotOfWindow', 'path' => 'Images/stylesheet_dashboard']
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_page_module"],
                         ]
                     ]
                 ]
