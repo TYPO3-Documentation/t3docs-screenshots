@@ -122,30 +122,17 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
          "Introduction": {
             "screenshots": [
                [
-                  {
-                     "action": "makeScreenshotOfWindow",
-                     "fileName": "introduction_dashboard"
-                  }
+                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard"}
                ]
             ]
          },
          "Styleguide": {
             "screenshots": [
                [
-                  {
-                     "action": "makeScreenshotOfTable",
-                     "pid": 0,
-                     "table": "pages",
-                     "fileName": "styleguide_root_page"
-                  }
+                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "styleguide_root_page"}
                ],
                [
-                  {
-                     "action": "makeScreenshotOfRecord",
-                     "table": "pages",
-                     "uid": 1,
-                     "fileName": "styleguide_first_page_record"
-                  }
+                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "styleguide_first_page_record"}
                ]
             ]
          }
@@ -162,14 +149,8 @@ The target folder of the screenshots is ``Images/AutomaticScreenshots`` by defau
          "Introduction": {
             "screenshots": [
                [
-                  {
-                     "action": "setScreenshotsImagePath",
-                     "imagePath": "Images/IntroductionScreenshots"
-                  },
-                  {
-                     "action": "makeScreenshotOfWindow",
-                     "fileName": "introduction_dashboard"
-                  }
+                  {"action": "setScreenshotsImagePath", "imagePath": "Images/IntroductionScreenshots"},
+                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard"}
                ]
             ]
          }
