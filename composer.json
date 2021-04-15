@@ -74,6 +74,11 @@
 		"typo3/screenshots": "@dev",
 		"typo3/testing-framework": "^6.8.0"
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Typo3\\CMS\\Screenshots\\Tests\\Unit\\": "packages/screenshots/Tests/Unit/"
+		}
+	},
 	"scripts":{
 		"typo3-cms-scripts": [
 			"typo3cms install:fixfolderstructure",

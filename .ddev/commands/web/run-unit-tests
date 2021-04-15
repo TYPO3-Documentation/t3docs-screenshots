@@ -1,0 +1,12 @@
+#!/bin/bash
+
+## Description: Run unit tests of EXT:screenshots
+## Usage: run-unit-tests
+## Example: "run-unit-tests"
+
+run_unit_tests() {
+    local flags=${1:-"/var/www/html/packages/screenshots/Tests/Unit"}
+    phpunit $flags
+}
+
+run_unit_tests $@
