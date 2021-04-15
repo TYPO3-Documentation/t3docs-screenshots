@@ -108,7 +108,7 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    protected function makeScreenshotOfElement(string $fileName, string $selector = ''): void
+    public function makeScreenshotOfElement(string $fileName, string $selector = ''): void
     {
         $relativePath = $this->getRelativePath($fileName);
         $tmpFileName = $this->getTemporaryFileName($relativePath);
