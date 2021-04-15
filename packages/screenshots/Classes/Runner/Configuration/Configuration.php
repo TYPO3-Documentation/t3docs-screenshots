@@ -126,6 +126,7 @@ class Configuration
                             ['action' => 'click', 'link' => "Page"],
                             ['action' => 'switchToContentFrame'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_page_module"],
+                            ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_infobox", 'selector' => ".callout"],
                         ]
                     ]
                 ]
