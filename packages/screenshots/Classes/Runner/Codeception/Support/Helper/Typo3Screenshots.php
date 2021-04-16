@@ -22,6 +22,7 @@ class Typo3Screenshots extends Module
 {
     protected $config = [
         'basePath' => '',
+        'documentationPath' => 'Documents',
         'imagePath' => 'Images/AutomaticScreenshots',
         'rstPath' => 'Images/Rst',
         'createRstFile' => true
@@ -48,9 +49,9 @@ class Typo3Screenshots extends Module
         return $configuration;
     }
 
-    public function setScreenshotsBasePath(string $basePath): void
+    public function setScreenshotsBasePath(string $path): void
     {
-        $this->_setConfig(['basePath' => $basePath]);
+        $this->_setConfig(['basePath' => $path]);
     }
 
     public function cleanUpScreenshotsBasePath(): void
@@ -58,14 +59,19 @@ class Typo3Screenshots extends Module
         $this->cleanUpPath($this->_getConfig('basePath'));
     }
 
-    public function setScreenshotsImagePath(string $imagePath): void
+    public function setScreenshotsDocumentationPath(string $path): void
     {
-        $this->_setConfig(['imagePath' => $imagePath]);
+        $this->_setConfig(['documentationPath' => $path]);
     }
 
-    public function setScreenshotsRstPath(string $rstPath): void
+    public function setScreenshotsImagePath(string $path): void
     {
-        $this->_setConfig(['rstPath' => $rstPath]);
+        $this->_setConfig(['imagePath' => $path]);
+    }
+
+    public function setScreenshotsRstPath(string $path): void
+    {
+        $this->_setConfig(['rstPath' => $path]);
     }
 
     public function createScreenshotsRstFile(bool $create): void
@@ -160,7 +166,13 @@ class Typo3Screenshots extends Module
 
     protected function getAbsolutePath(string $relativePath): string
     {
-        return $this->_getConfig('basePath') . DIRECTORY_SEPARATOR . $relativePath;
+        $absolutePath = [];
+        $absolutePath[] = $this->_getConfig('basePath');
+        if ($this->_getConfig('documentationPath') !== '') {
+            $absolutePath[] .= $this->_getConfig('documentationPath');
+        }
+        $absolutePath[] .= $relativePath;
+        return implode(DIRECTORY_SEPARATOR, $absolutePath);
     }
 
     protected function cleanUpPath(string $path): void
@@ -188,7 +200,7 @@ class Typo3Screenshots extends Module
         $rst = <<<HEREDOC
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
-.. figure:: $relativeImagePath
+.. figure:: /$relativeImagePath
    :alt: $altText
    :class: with-shadow
 HEREDOC;
