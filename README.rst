@@ -139,8 +139,9 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
       }
    }
 
-The target folder of the screenshots is ``Images/AutomaticScreenshots`` by default and is calculated relative to the
-``screenshots.json``. The path can be adapted by the action ``setScreenshotsImagePath``, e.g.
+The target folder of the screenshots is ``Documentation/Images/AutomaticScreenshots`` by default and is calculated
+relative to the ``screenshots.json``. The path can be adapted by the actions ``setScreenshotsDocumentationPath`` and
+``setScreenshotsImagePath`` respectively, e.g.
 
 .. code-block:: json
 
@@ -149,7 +150,8 @@ The target folder of the screenshots is ``Images/AutomaticScreenshots`` by defau
          "Introduction": {
             "screenshots": [
                [
-                  {"action": "setScreenshotsImagePath", "imagePath": "Images/IntroductionScreenshots"},
+                  {"action": "setScreenshotsDocumentationPath", "path": "IntroductionDocumentation"},
+                  {"action": "setScreenshotsImagePath", "path": "Images/IntroductionScreenshots"},
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard"}
                ]
             ]
@@ -157,9 +159,10 @@ The target folder of the screenshots is ``Images/AutomaticScreenshots`` by defau
       }
    }
 
-Along with the screenshot a reStructuredText file gets created automatically in the folder ``Images/Rst`` and can be
-used to include the screenshot comfortably into a documentation. The path can be changed by the action
-``setScreenshotsRstPath`` and the automatic creation can be switched via action ``createScreenshotsRstFile``, e.g.
+Along with the screenshot a reStructuredText file gets created automatically in the folder ``Documentation/Images/Rst``
+and can be used to include the screenshot comfortably into a documentation. The path can be changed by the actions
+``setScreenshotsDocumentationPath`` and ``setScreenshotsRstPath`` and the automatic creation can be switched via action
+``createScreenshotsRstFile``, e.g.
 
 .. code-block:: json
 
@@ -168,7 +171,8 @@ used to include the screenshot comfortably into a documentation. The path can be
          "Introduction": {
             "screenshots": [
                [
-                  {"action": "setScreenshotsRstPath", "rstPath": "Images/IntroductionRst"},
+                  {"action": "setScreenshotsDocumentationPath", "path": "IntroductionDocumentation"},
+                  {"action": "setScreenshotsRstPath", "path": "Images/IntroductionRst"},
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_with_rst_file"},
                   {"action": "createScreenshotsRstFile", "create": false},
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_without_rst_file"}

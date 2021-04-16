@@ -121,7 +121,8 @@ class Configuration
                 'Styleguide' => [
                     'screenshots' => [
                         [
-                            ['action' => 'setScreenshotsImagePath', 'imagePath' => "Images/StyleguideScreenshots"],
+                            ['action' => 'setScreenshotsDocumentationPath', 'path' => "StyleguideDocumentation"],
+                            ['action' => 'setScreenshotsImagePath', 'path' => "Images/StyleguideScreenshots"],
                             ['action' => 'see', 'text' => "Page"],
                             ['action' => 'click', 'link' => "Page"],
                             ['action' => 'switchToContentFrame'],
