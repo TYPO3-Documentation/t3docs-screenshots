@@ -206,7 +206,7 @@ class Typo3Screenshots extends Module
 HEREDOC;
 
         if ($refDirective !== '') {
-            $rst .= sprintf("\n   %s", $refDirective);
+            $rst .= sprintf("\n\n   %s", $refDirective);
         }
 
         @mkdir(dirname($absoluteRstPath), 0777, true);
