@@ -4,8 +4,16 @@
 ## Usage: make-screenshots [suite]
 ## Example: "make-screenshots" or "make-screenshots Styleguide"
 
-typo3DatabaseName=func_test \
-typo3DatabaseUsername=root \
-typo3DatabasePassword=root \
-typo3DatabaseHost=db \
-vendor/bin/codecept run -d -c public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml $@
+make_screenshots() {
+    local suite=$1
+    local actionsIdFilter=$2
+
+    screenshotsActionsIdFilter=$actionsIdFilter \
+    typo3DatabaseName=func_test \
+    typo3DatabaseUsername=root \
+    typo3DatabasePassword=root \
+    typo3DatabaseHost=db \
+    vendor/bin/codecept run -d -c public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml $suite
+}
+
+make_screenshots $@

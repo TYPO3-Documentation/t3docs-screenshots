@@ -241,6 +241,32 @@ Make screenshots of TYPO3 + EXT:introduction
 
    ddev make-screenshots Introduction
 
+Make screenshots of TYPO3 + EXT:introduction + Subset of actions
+----------------------------------------------------------------
+
+A custom identifier can be assigned to a block of actions and then used to execute only that specific subset of actions.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Styleguide": {
+            "screenshots": {
+               "root-page": [
+                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "styleguide_root_page"}
+               ],
+               "first-page": [
+                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "styleguide_first_page_record"}
+               ]
+            }
+         }
+      }
+   }
+
+.. code-block:: bash
+
+   ddev make-screenshots Styleguide first-page
+
 
 Screenshots manager
 ===================
