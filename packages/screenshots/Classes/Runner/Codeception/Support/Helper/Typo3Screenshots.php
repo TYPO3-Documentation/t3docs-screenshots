@@ -21,6 +21,7 @@ use TYPO3\CMS\Screenshots\Runner\Configuration\Configuration;
 class Typo3Screenshots extends Module
 {
     protected $config = [
+        'actionsIdFilter' => '',
         'basePath' => '',
         'documentationPath' => 'Documents',
         'imagePath' => 'Images/AutomaticScreenshots',
@@ -77,6 +78,16 @@ class Typo3Screenshots extends Module
     public function createScreenshotsRstFile(bool $create): void
     {
         $this->_setConfig(['createRstFile' => $create]);
+    }
+
+    public function fetchScreenshotsActionsIdFilter(): string
+    {
+        $actionsIdFilter = $this->_getConfig('actionsIdFilter');
+        $actionsIdFilter = is_numeric($actionsIdFilter) ? '' : $actionsIdFilter;
+        if (!empty($actionsIdFilter)) {
+            $this->debug(sprintf('Only run actions with identifier "%s".', $actionsIdFilter));
+        }
+        return $actionsIdFilter;
     }
 
     public function makeScreenshotOfWindow(string $fileName, string $altText = '', string $refLabel = '', string $refTitle = ''): void

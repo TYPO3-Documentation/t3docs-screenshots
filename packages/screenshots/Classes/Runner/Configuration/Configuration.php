@@ -120,7 +120,7 @@ class Configuration
                 ],
                 'Styleguide' => [
                     'screenshots' => [
-                        [
+                        'actions-identifier' => [
                             ['action' => 'setScreenshotsDocumentationPath', 'path' => "StyleguideDocumentation"],
                             ['action' => 'setScreenshotsImagePath', 'path' => "Images/StyleguideScreenshots"],
                             ['action' => 'see', 'text' => "Page"],

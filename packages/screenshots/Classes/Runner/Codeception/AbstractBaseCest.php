@@ -35,6 +35,7 @@ abstract class AbstractBaseCest
     {
         $originalPath = '/var/www/html/public/t3docs';
         $actualPath = '/var/www/html/public/t3docs-generated/actual';
+        $actionsIdFilter = $I->fetchScreenshotsActionsIdFilter();
 
         $directories = array_filter(glob($originalPath . '/*'), 'is_dir');
         foreach ($directories as $originalDirectory) {
@@ -46,9 +47,12 @@ abstract class AbstractBaseCest
                 $config = $configuration->getConfig();
 
                 if (!empty($config['suites'][$suite]['screenshots'])) {
-                    foreach ($config['suites'][$suite]['screenshots'] as $actions) {
-                        foreach ($actions as $action) {
-                            $this->runAction($I, $action);
+                    foreach ($config['suites'][$suite]['screenshots'] as $actionsId => $actions) {
+                        $isActionsEnabled = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
+                        if ($isActionsEnabled) {
+                            foreach ($actions as $action) {
+                                $this->runAction($I, $action);
+                            }
                         }
                     }
                 }
