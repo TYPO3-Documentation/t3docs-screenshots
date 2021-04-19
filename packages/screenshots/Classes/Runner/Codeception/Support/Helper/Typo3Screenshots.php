@@ -142,7 +142,7 @@ class Typo3Screenshots extends Module
         $relativeImagePath = $this->getRelativeImagePath($fileName);
         $tmpFileName = $this->getTemporaryFileName($relativeImagePath);
         $tmpFilePath = $this->getTemporaryPath($tmpFileName);
-        $absoluteImagePath = $this->getAbsolutePath($relativeImagePath);
+        $absoluteImagePath = $this->getAbsoluteDocumentationPath($relativeImagePath);
 
         if (!empty($selector)) {
             $this->getModule('WebDriver')->makeElementScreenshot($selector, $tmpFileName);
@@ -175,14 +175,14 @@ class Typo3Screenshots extends Module
         return $path . DIRECTORY_SEPARATOR . $fileName . '.png';
     }
 
-    protected function getAbsolutePath(string $relativePath): string
+    protected function getAbsoluteDocumentationPath(string $relativePath): string
     {
         $absolutePath = [];
         $absolutePath[] = $this->_getConfig('basePath');
         if ($this->_getConfig('documentationPath') !== '') {
-            $absolutePath[] .= $this->_getConfig('documentationPath');
+            $absolutePath[] = $this->_getConfig('documentationPath');
         }
-        $absolutePath[] .= $relativePath;
+        $absolutePath[] = $relativePath;
         return implode(DIRECTORY_SEPARATOR, $absolutePath);
     }
 
@@ -205,7 +205,7 @@ class Typo3Screenshots extends Module
     protected function makeRstFile(string $fileName, string $relativeImagePath, string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $relativeRstPath = $this->getRelativeRstPath($fileName);
-        $absoluteRstPath = $this->getAbsolutePath($relativeRstPath);
+        $absoluteRstPath = $this->getAbsoluteDocumentationPath($relativeRstPath);
         $refDirective = $this->getRstReferenceDirective($refLabel, $refTitle);
 
         $rst = <<<HEREDOC
