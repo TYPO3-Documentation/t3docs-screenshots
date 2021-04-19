@@ -120,7 +120,7 @@ class Configuration
                 ],
                 'Styleguide' => [
                     'screenshots' => [
-                        'actions-identifier' => [
+                        'actionsIdentifierScreenshots' => [
                             ['action' => 'setScreenshotsDocumentationPath', 'path' => "StyleguideDocumentation"],
                             ['action' => 'setScreenshotsImagePath', 'path' => "Images/StyleguideScreenshots"],
                             ['action' => 'see', 'text' => "Page"],
@@ -130,6 +130,14 @@ class Configuration
                             ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_infobox", 'selector' => ".callout", "altText" => "Typical TYPO3 infobox", "refLabel" => "my-reference-label", "refTitle" => "My reference title"],
                             ['action' => 'createScreenshotsRstFile', 'create' => false],
                             ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_infobox_without_rst", 'selector' => ".callout", "altText" => "Typical TYPO3 infobox", "refLabel" => "my-reference-label", "refTitle" => "My reference title"],
+                        ],
+                        'actionsIdentifierCodeSnippets' => [
+                            ['action' => 'setCodeSnippetsTargetPath', 'path' => "CodeSnippets/StyleguideCode"],
+                            ['action' => 'createCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/TCA/be_groups.php'],
+                            ['action' => 'setCodeSnippetsSourcePath', 'path' => "typo3/sysext/core"],
+                            ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFile' => 'be_groups_with_preset_source_path.php'],
+                            ['action' => 'createCodeSnippetsRstFile', 'create' => false],
+                            ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFile' => 'be_groups_without_rst.php'],
                         ]
                     ]
                 ]
