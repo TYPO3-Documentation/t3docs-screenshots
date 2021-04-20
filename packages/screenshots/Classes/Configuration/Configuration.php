@@ -136,6 +136,8 @@ class Configuration
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/TCA/be_groups.php'],
                             ['action' => 'setCodeSnippetsSourcePath', 'path' => "typo3/sysext/core"],
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'be_groups_with_preset_source_path'],
+                            ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'tca_be_groups'],
+                            ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'field' => 'types', 'targetFileName' => 'tca_be_groups_types'],
                         ]
                     ]
                 ]
