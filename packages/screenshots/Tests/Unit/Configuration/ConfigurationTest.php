@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Unit\Runner\Configuration;
+namespace TYPO3\CMS\Screenshots\Tests\Unit\Configuration;
 
 /*
  * This file is part of the TYPO3 project.
@@ -13,7 +13,7 @@ namespace TYPO3\CMS\Screenshots\Tests\Unit\Runner\Configuration;
  */
 
 use org\bovigo\vfs\vfsStream;
-use TYPO3\CMS\Screenshots\Runner\Configuration\Configuration;
+use TYPO3\CMS\Screenshots\Configuration\Configuration;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ConfigurationTest extends UnitTestCase
