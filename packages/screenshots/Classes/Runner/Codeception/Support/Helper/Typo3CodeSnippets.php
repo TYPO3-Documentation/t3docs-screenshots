@@ -22,9 +22,7 @@ class Typo3CodeSnippets extends Module
 {
     protected $config = [
         'sourcePath' => '',
-        'targetPath' => 'CodeSnippets/Code',
-        'rstPath' => 'CodeSnippets/Rst',
-        'createRstFile' => true
+        'targetPath' => 'CodeSnippets'
     ];
 
     public function setCodeSnippetsSourcePath(string $path): void
@@ -37,39 +35,24 @@ class Typo3CodeSnippets extends Module
         $this->_setConfig(['targetPath' => $path]);
     }
 
-    public function setCodeSnippetsRstPath(string $path): void
-    {
-        $this->_setConfig(['rstPath' => $path]);
-    }
-
-    public function createCodeSnippetsRstFile(bool $create): void
-    {
-        $this->_setConfig(['createRstFile' => $create]);
-    }
-
     /**
-     * Copies TYPO3 PHP file to the documentation and generates a reST include file.
+     * Reads a TYPO3 PHP file and generates a reST file with directive ".. code::" for inclusion from it.
      *
      * @param string $sourceFile File path of PHP file relative to TYPO3 public folder,
      *                              e.g. "typo3/sysext/core/Configuration/TCA/be_groups.php"
-     * @param string $targetFile File path of PHP file relative to code snippets target folder,
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
      *                              defaults to source file name if empty,
-     *                              e.g. "core_be_groups.php"
+     *                              e.g. "core_be_groups"
      */
-    public function createCodeSnippet(string $sourceFile, string $targetFile = ''): void
+    public function createCodeSnippet(string $sourceFile, string $targetFileName = ''): void
     {
-        $targetFile = $targetFile !== '' ? $targetFile : pathinfo($sourceFile, PATHINFO_BASENAME);
-        $targetFileName = pathinfo($targetFile, PATHINFO_FILENAME);
-        $relativeTargetPath = $this->getRelativeTargetPath($targetFile);
+        $targetFileName = $targetFileName !== '' ? $targetFileName : pathinfo($sourceFile, PATHINFO_FILENAME);
+        $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->read($absoluteSourcePath);
         $this->write($absoluteTargetPath, $code);
-
-        if ($this->_getConfig('createRstFile')) {
-            $this->createRstFile($targetFileName, $relativeTargetPath);
-        }
     }
 
     protected function getRelativeTargetPath(string $filePath): string
@@ -79,7 +62,7 @@ class Typo3CodeSnippets extends Module
             $relativePath[] = $this->_getConfig('targetPath');
         }
         $relativePath[] = $filePath;
-        return implode(DIRECTORY_SEPARATOR, $relativePath);
+        return implode(DIRECTORY_SEPARATOR, $relativePath) . '.rst.txt';
     }
 
     protected function getRelativeSourcePath(string $filePath): string
@@ -119,30 +102,22 @@ class Typo3CodeSnippets extends Module
 
     protected function write(string $path, string $code): void
     {
-        @mkdir(dirname($path), 0777, true);
-        file_put_contents($path, $code);
-    }
+        $code = $this->indentCode($code, '   ');
 
-    protected function createRstFile(string $fileName, string $relativeCodeSnippetPath): void
-    {
-        $relativeRstPath = $this->getRelativeRstPath($fileName);
-        $absoluteRstPath = $this->getAbsoluteDocumentationPath($relativeRstPath);
-
-        //TODO: Add ":start-at: start $field" and ":end-at: end $field"
         $rst = <<<HEREDOC
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
-.. literalinclude:: /$relativeCodeSnippetPath
-   :language: php
-   :lines: 2-
+.. code:: php
+
+$code
 HEREDOC;
 
-        @mkdir(dirname($absoluteRstPath), 0777, true);
-        file_put_contents($absoluteRstPath, $rst);
+        @mkdir(dirname($path), 0777, true);
+        file_put_contents($path, $rst);
     }
 
-    protected function getRelativeRstPath(string $fileName): string
+    protected function indentCode(string $code, string $indentation): string
     {
-        return $this->_getConfig('rstPath') . DIRECTORY_SEPARATOR . $fileName . '.rst.txt';
+        return $indentation . implode("\n$indentation", explode("\n", $code));
     }
 }
