@@ -126,13 +126,13 @@ class Typo3CodeSnippets extends Module
 
     protected function readPhpArray(string $path, string $field = ''): string
     {
-        $tca = include $path;
+        $phpArray = include $path;
 
         if ($field === '') {
-            $code = ArrayUtility::arrayExport($tca);
+            $code = ArrayUtility::arrayExport($phpArray);
         } else {
             $code = sprintf("'%s' => %s\n",
-                $field, ArrayUtility::arrayExport(ArrayUtility::getValueByPath($tca, $field))
+                $field, ArrayUtility::arrayExport(ArrayUtility::getValueByPath($phpArray, $field))
             );
         }
         return $code;
