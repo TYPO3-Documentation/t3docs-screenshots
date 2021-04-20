@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception;
 use ReflectionClass;
 use ReflectionMethod;
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
-use TYPO3\CMS\Screenshots\Runner\Configuration\ConfigurationException;
+use TYPO3\CMS\Screenshots\Configuration\ConfigurationException;
 
 /**
  * Tests the screenshots backend module can be loaded

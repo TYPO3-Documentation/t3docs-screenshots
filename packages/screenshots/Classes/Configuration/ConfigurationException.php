@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Runner\Configuration;
+namespace TYPO3\CMS\Screenshots\Configuration;
 
 /*
  * This file is part of the TYPO3 project.
