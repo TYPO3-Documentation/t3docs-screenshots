@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
  * Helper to provide code snippets of TYPO3.
@@ -36,7 +37,7 @@ class Typo3CodeSnippets extends Module
     }
 
     /**
-     * Reads a TYPO3 PHP file and generates a reST file with directive ".. code::" for inclusion from it.
+     * Reads a TYPO3 PHP file and generates a reST file from it for inclusion.
      *
      * @param string $sourceFile File path of PHP file relative to TYPO3 public folder,
      *                              e.g. "typo3/sysext/core/Configuration/TCA/be_groups.php"
@@ -52,6 +53,29 @@ class Typo3CodeSnippets extends Module
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->read($absoluteSourcePath);
+        $this->write($absoluteTargetPath, $code);
+    }
+
+    /**
+     * Reads a TYPO3 PHP array file and generates a reST file from it for inclusion.
+     *
+     * @param string $sourceFile File path of PHP array file relative to TYPO3 public folder,
+     *                              e.g. "typo3/sysext/core/Configuration/TCA/be_groups.php"
+     * @param string $field Reduce the PHP array to this field. Use a comma-separated list to specify a field of a
+     *                              multidimensional array,
+     *                              e.g. "columns,title"
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
+     *                              defaults to source file name if empty,
+     *                              e.g. "core_be_groups"
+     */
+    public function createPhpArrayCodeSnippet(string $sourceFile, string $field = '', string $targetFileName = ''): void
+    {
+        $targetFileName = $targetFileName !== '' ? $targetFileName : pathinfo($sourceFile, PATHINFO_FILENAME);
+        $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
+        $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+
+        $code = $this->readPhpArray($absoluteSourcePath, $field);
         $this->write($absoluteTargetPath, $code);
     }
 
@@ -97,6 +121,20 @@ class Typo3CodeSnippets extends Module
     protected function read(string $path): string
     {
         $code = file_get_contents($path);
+        return $code;
+    }
+
+    protected function readPhpArray(string $path, string $field = ''): string
+    {
+        $tca = include $path;
+
+        if ($field === '') {
+            $code = ArrayUtility::arrayExport($tca);
+        } else {
+            $code = sprintf("'%s' => %s\n",
+                $field, ArrayUtility::arrayExport(ArrayUtility::getValueByPath($tca, $field))
+            );
+        }
         return $code;
     }
 
