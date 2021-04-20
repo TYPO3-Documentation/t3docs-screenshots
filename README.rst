@@ -183,10 +183,8 @@ and can be used to include the screenshot comfortably into a documentation. The 
    }
 
 Another redundant documentation job besides taking screenshots is to insert and update code snippets. With action
-``createCodeSnippet`` a specific source file gets copied to the folder ``Documentation/CodeSnippets/Code`` and a
-reStructuredText file for inclusion into the documentation gets created automatically at
-``Documentation/CodeSnippets/Rst``. The paths can be changed by ``setCodeSnippetsTargetPath`` and
-``setCodeSnippetsRstPath``. The automatic creation can be switched via action ``createCodeSnippetsRstFile``, e.g.
+``createCodeSnippet`` a specific TYPO3 PHP source file gets transformed into a reStructuredText file for inclusion and
+gets saved to folder ``Documentation/CodeSnippets``. The path can be changed by ``setCodeSnippetsTargetPath``.
 
 .. code-block:: json
 
@@ -197,8 +195,7 @@ reStructuredText file for inclusion into the documentation gets created automati
                [
                   {"action": "setCodeSnippetsTargetPath", "path": "CodeSnippets/StyleguideCode"},
                   {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php"},
-                  {"action": "createCodeSnippetsRstFile", "create": false},
-                  {"action": "createCodeSnippet", "sourceFile": "Configuration/TCA/be_groups.php", "targetFile": "be_groups_without_rst.php"}
+                  {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "targetFileName": "core_be_groups"}
                ]
             ]
          }
