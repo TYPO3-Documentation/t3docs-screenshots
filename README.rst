@@ -94,6 +94,7 @@ permission) by
 
 .. code-block:: bash
 
+   ddev auth ssh
    ddev fetch-manuals
 
 File ``screenshots.json``

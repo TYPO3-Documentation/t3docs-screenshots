@@ -15,7 +15,7 @@ clone_manual() {
         echo "Manual '$manualFolder' already exists."
     else
         echo "Clone manual '$manualFolder' from '$repositoryUrl' .."
-        git clone --single-branch --branch "$branch" "$repositoryUrl" "$manualFolder"
+        git clone --branch "$branch" "$repositoryUrl" "$manualFolder"
     fi
 
     cd "$manualFolder"

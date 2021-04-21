@@ -61,9 +61,9 @@ class Typo3CodeSnippets extends Module
      *
      * @param string $sourceFile File path of PHP array file relative to TYPO3 public folder,
      *                              e.g. "typo3/sysext/core/Configuration/TCA/be_groups.php"
-     * @param string $field Reduce the PHP array to this field. Use a comma-separated list to specify a field of a
+     * @param string $field Reduce the PHP array to this field. Use a slash-separated list to specify a field of a
      *                              multidimensional array,
-     *                              e.g. "columns,title"
+     *                              e.g. "columns/title"
      * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
      *                              defaults to source file name if empty,
      *                              e.g. "core_be_groups"
