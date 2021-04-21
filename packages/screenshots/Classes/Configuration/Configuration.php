@@ -138,6 +138,14 @@ class Configuration
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'be_groups_with_preset_source_path'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'tca_be_groups'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'field' => 'columns/title', 'targetFileName' => 'tca_be_groups_columns_title'],
+                        ],
+                        'actionsIdentifierDraw' => [
+                            ['action' => 'switchToMainFrame'],
+                            ['action' => 'see', 'text' => "Page"],
+                            ['action' => 'drawBox', 'selector' => '#dashboard'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_highlighted_menuitem"],
+                            ['action' => 'clearDrawings'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_without_highlighted_menuitem"],
                         ]
                     ]
                 ]
