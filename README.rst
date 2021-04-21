@@ -160,6 +160,26 @@ relative to the ``screenshots.json``. The path can be adapted by the actions ``s
       }
    }
 
+To improve the screenshots experience, DOM elements can be highlighted by action ``drawBox`` and the highlighting
+can be removed later by action ``clearDrawings``, e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Introduction": {
+            "screenshots": [
+               [
+                  {"action": "drawBox", "selector": "#dashboard"},
+                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_with_highlighted_menuitem"},
+                  {"action": "clearDrawings"},
+                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_without_highlighted_menuitem"}
+               ]
+            ]
+         }
+      }
+   }
+
 Along with the screenshot a reStructuredText file gets created automatically in the folder ``Documentation/Images/Rst``
 and can be used to include the screenshot comfortably into a documentation. The path can be changed by the actions
 ``setScreenshotsDocumentationPath`` and ``setScreenshotsRstPath`` and the automatic creation can be switched via action
