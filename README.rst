@@ -160,8 +160,8 @@ relative to the ``screenshots.json``. The path can be adapted by the actions ``s
       }
    }
 
-To improve the screenshots experience, DOM elements can be highlighted by action ``drawBox`` and the highlighting
-can be removed later by action ``clearDrawings``, e.g.
+To improve the screenshots experience, DOM elements can be highlighted by action ``drawBox`` or ``drawArrow`` and the
+highlighting can be removed later by action ``clearDrawings``, e.g.
 
 .. code-block:: json
 
@@ -171,6 +171,7 @@ can be removed later by action ``clearDrawings``, e.g.
             "screenshots": [
                [
                   {"action": "drawBox", "selector": "#dashboard"},
+                  {"action": "drawArrow", "selector": "#dashboard", "position": "right-bottom"},
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_with_highlighted_menuitem"},
                   {"action": "clearDrawings"},
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_without_highlighted_menuitem"}
