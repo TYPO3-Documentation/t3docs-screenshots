@@ -144,6 +144,7 @@ class Configuration
                             ['action' => 'see', 'text' => "Page"],
                             ['action' => 'drawBox', 'selector' => '#dashboard'],
                             ['action' => 'drawArrow', 'selector' => '#dashboard', 'position' => 'right-bottom'],
+                            ['action' => 'drawBadge', 'selector' => '#dashboard', 'label' => 'Click here', 'position' => 'bottom'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_highlighted_menuitem"],
                             ['action' => 'clearDrawings'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_without_highlighted_menuitem"],

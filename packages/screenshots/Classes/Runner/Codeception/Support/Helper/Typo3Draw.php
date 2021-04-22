@@ -29,6 +29,11 @@ class Typo3Draw extends Module
     public const ARROW_RIGHT_MIDDLE = 'right-middle';
     public const ARROW_RIGHT_BOTTOM = 'right-bottom';
 
+    public const BADGE_RIGHT = 'right';
+    public const BADGE_LEFT = 'left';
+    public const BADGE_TOP = 'top';
+    public const BADGE_BOTTOM = 'bottom';
+
     /**
      * @var string[]
      */
@@ -162,6 +167,82 @@ HEREDOC, json_encode($this->paneCss), $selector, json_encode($arrowCss), $arrowS
             self::ARROW_RIGHT_TOP,
             self::ARROW_RIGHT_MIDDLE,
             self::ARROW_RIGHT_BOTTOM,
+        ]);
+    }
+
+    /**
+     * Draw a badge with text next to a DOM element specified by the selector.
+     *
+     * @param string $selector The DOM element selector used by jQuery(selector),
+     *                          e.g. "#dashboard" to add a badge next to the button "Dashboard" of the TYPO3 modules
+     *                          menu.
+     * @param string $label The badge text, e.g. "Click here" or "#1".
+     * @param string $position The position of the badge regarding the element: "left", "top", "right" or "bottom".
+     */
+    public function drawBadge(string $selector, string $label, string $position): void
+    {
+        if (!$this->isValidBadgePosition($position)) {
+            throw new \Exception(sprintf('Badge position "%s" is invalid.', $position), 4002);
+        }
+
+        $badgeCss = [
+            "position" => "absolute",
+            "font-size" => "larger",
+            "color" => "white",
+            "white-space" => "nowrap",
+            "background-color" => "#F49700",
+            "border-radius" => "2px",
+            "padding" => "4px 10px 4px 10px",
+        ];
+
+        /** @var WebDriver $webDriver */
+        $webDriver = $this->getModule('WebDriver');
+        $webDriver->executeJS(sprintf(<<<HEREDOC
+let pane=$('#t3docs-screenshots-pane');
+if (pane.length === 0) {
+    pane=$('<div id="t3docs-screenshots-pane">').css(%s).appendTo('body');
+}
+
+let selector="%s";
+let position="%s";
+let element=$(selector);
+if (element.length > 0) {
+    let badge = $('<div class="t3docs-screenshots-element">').text('%s').css(%s).appendTo(pane);
+    let positions={
+        "left": [
+            Math.floor(element.offset().left - badge.outerWidth()),
+            Math.floor(element.offset().top + element.outerHeight()/2 - badge.outerHeight()/2)
+        ],
+        "right": [
+            Math.ceil(element.offset().left + element.outerWidth()),
+            Math.floor(element.offset().top + element.outerHeight()/2 - badge.outerHeight()/2)
+        ],
+        "top": [
+            Math.floor(element.offset().left + element.outerWidth()/2 - badge.outerWidth()/2),
+            Math.floor(element.offset().top - badge.outerHeight())
+        ],
+        "bottom": [
+            Math.floor(element.offset().left + element.outerWidth()/2 - badge.outerWidth()/2),
+            Math.floor(element.offset().top +  element.outerHeight())
+        ],
+    };
+    badge.css({
+        left: positions[position][0],
+        top: positions[position][1],
+    });
+} else {
+    throw 'No element found for "' + selector + '".';
+}
+HEREDOC, json_encode($this->paneCss), $selector, $position, $label, json_encode($badgeCss)));
+    }
+
+    protected function isValidBadgePosition(string $position): bool
+    {
+        return in_array($position, [
+            self::BADGE_LEFT,
+            self::BADGE_RIGHT,
+            self::BADGE_TOP,
+            self::BADGE_BOTTOM,
         ]);
     }
 
