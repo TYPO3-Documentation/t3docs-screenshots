@@ -12,10 +12,13 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Codeception\Exception\MalformedLocatorException;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
+use Codeception\Util\Locator;
 use Facebook\WebDriver\Exception\ElementNotInteractableException;
 use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 
@@ -32,6 +35,7 @@ use Facebook\WebDriver\WebDriverBy;
  * This helper contains a slightly adapted copy of trait FrameSteps of the typo3/testing-framework package.
  * It should be integrated there ideally. Currently it differs by:
  * - it is a helper class, not an actor trait, and therefore can be used by other helper classes
+ * - element position calculation has changed in TYPO3 v11
  *
  * @see \TYPO3\TestingFramework\Core\Acceptance\Helper\AbstractPageTree
  */
@@ -69,6 +73,207 @@ class Typo3Navigation extends Module
         $webDriver = $this->getWebDriver();
         $contentFrame = $webDriver->_findElements("iframe[name='list_frame']");
         return count($contentFrame) > 0;
+    }
+
+    /**
+     * Scroll the module menu up to show the given element at the top.
+     *
+     * ``` php
+     * <?php
+     * $I->scrollModuleMenuTo('#file');
+     * ?>
+     * ```
+     *
+     * @param string $toSelector
+     * @param int $offsetX
+     * @param int $offsetY
+     */
+    public function scrollModuleMenuTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    {
+        $scrollingElement = 'document.getElementsByClassName("scaffold-modulemenu")[0]';
+        $offsetY = $offsetY + $this->getHeaderHeight() + 5;
+        $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
+    }
+
+    protected function getHeaderHeight(): int
+    {
+        return $this->getWebDriver()->executeInSelenium(
+            function (RemoteWebDriver $webDriver) {
+                $el = $webDriver->findElement($this->getStrictLocator(['class' => 'scaffold-header']));
+                return $el->getSize()->getHeight();
+            }
+        );
+    }
+
+    /**
+     * Move the module menu of the main frame to top.
+     */
+    public function scrollModuleMenuToTop(): void
+    {
+        $scrollingElement = 'document.getElementsByClassName("scaffold-modulemenu")[0]';
+        $this->scrollFrameToTop($scrollingElement);
+    }
+
+    /**
+     * Move the module menu of the main frame to the bottom.
+     */
+    public function scrollModuleMenuToBottom(): void
+    {
+        $scrollingElement = 'document.getElementsByClassName("scaffold-modulemenu")[0]';
+        $this->scrollFrameToBottom($scrollingElement);
+    }
+
+    /**
+     * Scroll the page tree up to show the given element at the top.
+     *
+     * ``` php
+     * <?php
+     * $I->scrollPageTreeTo('.node.identifier-0_32');
+     * ?>
+     * ```
+     *
+     * @param string $toSelector
+     * @param int $offsetX
+     * @param int $offsetY
+     */
+    public function scrollPageTreeTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    {
+        $scrollingElement = 'document.getElementById("typo3-pagetree-tree")';
+        $offsetY = $offsetY + $this->getPageTreeToolbarHeight() + $this->getHeaderHeight() + 3;
+        $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
+    }
+
+    protected function getPageTreeToolbarHeight(): int
+    {
+        return $this->getWebDriver()->executeInSelenium(
+            function (RemoteWebDriver $webDriver) {
+                $el = $webDriver->findElement($this->getStrictLocator(['id' => 'typo3-pagetree-toolbar']));
+                return $el->getSize()->getHeight();
+            }
+        );
+    }
+
+    /**
+     * Move the page tree of the main frame to top.
+     */
+    public function scrollPageTreeToTop(): void
+    {
+        $scrollingElement = 'document.getElementById("typo3-pagetree-tree")';
+        $this->scrollFrameToTop($scrollingElement);
+    }
+
+    /**
+     * Move the page tree of the main frame to the bottom.
+     */
+    public function scrollPageTreeToBottom(): void
+    {
+        $scrollingElement = 'document.getElementById("typo3-pagetree-tree")';
+        $this->scrollFrameToBottom($scrollingElement);
+    }
+
+    /**
+     * Scroll the module body up to show the given element at the top.
+     *
+     * ``` php
+     * <?php
+     * $I->scrollModuleBodyTo('#t3-table-tx_styleguide_elements_rte');
+     * ?>
+     * ```
+     *
+     * @param string $toSelector
+     * @param int $offsetX
+     * @param int $offsetY
+     */
+    public function scrollModuleBodyTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    {
+        $scrollingElement = 'document.getElementsByClassName("module")[0]';
+        $offsetY = $offsetY + $this->getModuleHeaderHeight() + 10;
+        $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
+    }
+
+    protected function getModuleHeaderHeight(): int
+    {
+        return $this->getWebDriver()->executeInSelenium(
+            function (RemoteWebDriver $webDriver) {
+                $el = $webDriver->findElement($this->getStrictLocator(['class' => 'module-docheader']));
+                return $el->getSize()->getHeight();
+            }
+        );
+    }
+
+    /**
+     * Move the module body of the content frame to top.
+     */
+    public function scrollModuleBodyToTop(): void
+    {
+        $scrollingElement = 'document.getElementsByClassName("module")[0]';
+        $this->scrollFrameToTop($scrollingElement);
+    }
+
+    /**
+     * Move the module body of the content frame to the bottom.
+     */
+    public function scrollModuleBodyToBottom(): void
+    {
+        $scrollingElement = 'document.getElementsByClassName("module")[0]';
+        $this->scrollFrameToBottom($scrollingElement);
+    }
+
+    /**
+     * Scroll the TYPO3 backend frame (module menu, page tree, module body) up to show the given element at the top.
+     * Extra shift can be set by passing $offsetX and $offsetY parameters.
+     *
+     * The scrolling layer gets scrolled up first to ease the position calculation of the element.
+     *
+     * @param string $scrollingElement
+     * @param string $toSelector
+     * @param int $offsetX
+     * @param int $offsetY
+     * @return void
+     *
+     * @see \Codeception\Module\WebDriver::scrollTo
+     */
+    protected function scrollFrameTo(string $scrollingElement, string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    {
+        $this->getWebDriver()->executeInSelenium(
+            function (RemoteWebDriver $webDriver) use ($scrollingElement, $toSelector, $offsetX, $offsetY) {
+                $webDriver->executeScript( "$scrollingElement.scrollTop = 0");
+                $el = $webDriver->findElement($this->getLocator($toSelector));
+                $x = $el->getLocation()->getX() - $offsetX;
+                $y = $el->getLocation()->getY() - $offsetY;
+                $webDriver->executeScript( "$scrollingElement.scrollTo($x, $y)");
+            }
+        );
+    }
+
+    /**
+     * Scroll the TYPO3 backend frame to top.
+     *
+     * @param string $scrollingElement
+     * @return void
+     */
+    protected function scrollFrameToTop(string $scrollingElement): void
+    {
+        $this->getWebDriver()->executeInSelenium(
+            function (RemoteWebDriver $webDriver) use ($scrollingElement) {
+                $webDriver->executeScript("$scrollingElement.scrollTop = 0");
+            }
+        );
+    }
+
+    /**
+     * Scroll the TYPO3 backend frame to the bottom.
+     *
+     * @param string $scrollingElement
+     * @return void
+     */
+    protected function scrollFrameToBottom(string $scrollingElement): void
+    {
+        $this->getWebDriver()->executeInSelenium(
+            function (RemoteWebDriver $webDriver) use ($scrollingElement) {
+                $webDriver->executeScript("$scrollingElement.scrollTop = $scrollingElement.scrollHeight");
+            }
+        );
     }
 
     /**
@@ -116,6 +321,68 @@ class Typo3Navigation extends Module
             // another possible exception if the chevron isn't there ... depends on facebook driver version
         }
         return $node;
+    }
+
+    /**
+     * Clone of the WebDriver module method which is unfortunately declared protected.
+     *
+     * @param $selector
+     * @return WebDriverBy
+     * @throws \InvalidArgumentException
+     *
+     * @see \Codeception\Module\WebDriver::getLocator()
+     */
+    protected function getLocator($selector)
+    {
+        if ($selector instanceof WebDriverBy) {
+            return $selector;
+        }
+        if (is_array($selector)) {
+            return $this->getStrictLocator($selector);
+        }
+        if (Locator::isID($selector)) {
+            return WebDriverBy::id(substr($selector, 1));
+        }
+        if (Locator::isCSS($selector)) {
+            return WebDriverBy::cssSelector($selector);
+        }
+        if (Locator::isXPath($selector)) {
+            return WebDriverBy::xpath($selector);
+        }
+        throw new \InvalidArgumentException("Only CSS or XPath allowed");
+    }
+
+    /**
+     * Clone of the WebDriver module method which is unfortunately declared protected.
+     *
+     * @param array $by
+     * @return WebDriverBy
+     *
+     * @see \Codeception\Module\WebDriver::getStrictLocator()
+     */
+    protected function getStrictLocator(array $by)
+    {
+        $type = key($by);
+        $locator = $by[$type];
+        switch ($type) {
+            case 'id':
+                return WebDriverBy::id($locator);
+            case 'name':
+                return WebDriverBy::name($locator);
+            case 'css':
+                return WebDriverBy::cssSelector($locator);
+            case 'xpath':
+                return WebDriverBy::xpath($locator);
+            case 'link':
+                return WebDriverBy::linkText($locator);
+            case 'class':
+                return WebDriverBy::className($locator);
+            default:
+                throw new MalformedLocatorException(
+                    "$by => $locator",
+                    "Strict locator can be either xpath, css, id, link, class, name: "
+                );
+        }
     }
 
     protected function getWebDriver(): WebDriver

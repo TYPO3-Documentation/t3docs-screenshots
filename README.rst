@@ -160,6 +160,31 @@ relative to the ``screenshots.json``. The path can be adapted by the actions ``s
       }
    }
 
+To steer the runner through the TYPO3 backend, many TYPO3 specific actions have been added to the general browser
+navigation actions, e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Styleguide": {
+            "screenshots": [
+               [
+                  {"action": "switchToMainFrame"},
+                  {"action": "scrollModuleMenuTo", "toSelector": "#web_list"},
+                  {"action": "click", "link": "List"},
+                  {"action": "openPageTreePath", "path": ["styleguide TCA demo", "elements rte"]},
+                  {"action": "scrollPageTreeTo", "toSelector": "#identifier-0_12"},
+                  {"action": "switchToContentFrame"},
+                  {"action": "waitForText", "text": "elements rte", "timeout": 5},
+                  {"action": "scrollModuleBodyToBottom"},
+                  {"action": "makeScreenshotOfWindow", "fileName": "stylesheet_content_scrolled_down"},
+               ]
+            ]
+         }
+      }
+   }
+
 To guide the reader of the documentation over the screenshot, DOM elements can be highlighted by actions ``drawBox``,
 ``drawArrow``, ``drawBadge``, etc. and the highlighting can be removed later by action ``clearDrawings``, e.g.
 
