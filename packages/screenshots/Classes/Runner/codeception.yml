@@ -41,7 +41,7 @@ modules:
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Cli
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3CodeSnippets
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Draw
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3PageTree
+    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Navigation
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots:
         actionsIdFilter: "%screenshotsActionsIdFilter%"
 

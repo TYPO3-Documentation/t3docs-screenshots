@@ -31,7 +31,7 @@ use Facebook\WebDriver\WebDriverBy;
  *
  * @see \TYPO3\TestingFramework\Core\Acceptance\Helper\AbstractPageTree
  */
-class Typo3PageTree extends Module
+class Typo3Navigation extends Module
 {
     // Selectors
     protected string $pageTreeFrameSelector = '#typo3-pagetree';
