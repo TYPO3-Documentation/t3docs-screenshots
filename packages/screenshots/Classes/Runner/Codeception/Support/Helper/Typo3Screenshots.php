@@ -13,6 +13,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
  */
 
 use Codeception\Module;
+use Codeception\Module\WebDriver;
 use TYPO3\CMS\Screenshots\Configuration\Configuration;
 
 /**
@@ -103,7 +104,7 @@ class Typo3Screenshots extends Module
 
     public function goToTable(int $pid, string $table): void
     {
-        $this->getModule('WebDriver')->amOnPage(sprintf(
+        $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
             urlencode('/module/web/list'), $pid, $table)
         );
@@ -117,7 +118,7 @@ class Typo3Screenshots extends Module
 
     public function goToRecord(string $table, int $uid):void
     {
-        $this->getModule('WebDriver')->amOnPage(sprintf(
+        $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit',
             urlencode('/record/edit'), $table, $uid
         ));
@@ -131,7 +132,7 @@ class Typo3Screenshots extends Module
 
     public function goToField(string $table, int $uid, string $fields): void
     {
-        $this->getModule('WebDriver')->amOnPage(sprintf(
+        $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
             urlencode('/record/edit'), $table, $uid, $fields
         ));
@@ -145,10 +146,10 @@ class Typo3Screenshots extends Module
         $absoluteImagePath = $this->getAbsoluteDocumentationPath($relativeImagePath);
 
         if (!empty($selector)) {
-            $this->getModule('WebDriver')->seeElement($selector);
-            $this->getModule('WebDriver')->makeElementScreenshot($selector, $tmpFileName);
+            $this->getWebDriver()->seeElement($selector);
+            $this->getWebDriver()->makeElementScreenshot($selector, $tmpFileName);
         } else {
-            $this->getModule('WebDriver')->makeScreenshot($tmpFileName);
+            $this->getWebDriver()->makeScreenshot($tmpFileName);
         }
 
         @mkdir(dirname($absoluteImagePath), 0777, true);
@@ -239,5 +240,10 @@ HEREDOC;
         } else {
             return '';
         }
+    }
+
+    protected function getWebDriver(): WebDriver
+    {
+        return $this->getModule('WebDriver');
     }
 }
