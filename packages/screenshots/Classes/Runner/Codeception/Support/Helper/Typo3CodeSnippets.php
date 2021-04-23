@@ -110,9 +110,9 @@ class Typo3CodeSnippets extends Module
     protected function getAbsoluteDocumentationPath(string $relativePath): string
     {
         $absolutePath = [];
-        $absolutePath[] = $this->getModule(Typo3Screenshots::class)->_getConfig('basePath');
-        if ($this->getModule(Typo3Screenshots::class)->_getConfig('documentationPath') !== '') {
-            $absolutePath[] = $this->getModule(Typo3Screenshots::class)->_getConfig('documentationPath');
+        $absolutePath[] = $this->getTypo3Screenshots()->_getConfig('basePath');
+        if ($this->getTypo3Screenshots()->_getConfig('documentationPath') !== '') {
+            $absolutePath[] = $this->getTypo3Screenshots()->_getConfig('documentationPath');
         }
         $absolutePath[] = $relativePath;
         return implode(DIRECTORY_SEPARATOR, $absolutePath);
@@ -157,5 +157,10 @@ HEREDOC;
     protected function indentCode(string $code, string $indentation): string
     {
         return $indentation . implode("\n$indentation", explode("\n", $code));
+    }
+
+    protected function getTypo3Screenshots(): Typo3Screenshots
+    {
+        return $this->getModule(Typo3Screenshots::class);
     }
 }

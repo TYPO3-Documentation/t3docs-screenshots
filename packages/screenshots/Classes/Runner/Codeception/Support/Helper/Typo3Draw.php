@@ -62,8 +62,7 @@ class Typo3Draw extends Module
             "border-radius" => "2px",
         ];
 
-        /** @var WebDriver $webDriver */
-        $webDriver = $this->getModule('WebDriver');
+        $webDriver = $this->getWebDriver();
         $webDriver->executeJS(sprintf(<<<HEREDOC
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
@@ -118,8 +117,7 @@ HEREDOC;
         $arrowSvgOneLine = str_replace("\n", "", $arrowSvg);
         [$positionX, $positionY] = explode('-', $position);
 
-        /** @var WebDriver $webDriver */
-        $webDriver = $this->getModule('WebDriver');
+        $webDriver = $this->getWebDriver();
         $webDriver->executeJS(sprintf(<<<HEREDOC
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
@@ -196,8 +194,7 @@ HEREDOC, json_encode($this->paneCss), $selector, json_encode($arrowCss), $arrowS
             "padding" => "4px 10px 4px 10px",
         ];
 
-        /** @var WebDriver $webDriver */
-        $webDriver = $this->getModule('WebDriver');
+        $webDriver = $this->getWebDriver();
         $webDriver->executeJS(sprintf(<<<HEREDOC
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
@@ -252,13 +249,39 @@ HEREDOC, json_encode($this->paneCss), $selector, $position, $label, json_encode(
      */
     public function clearDrawings(): void
     {
-        /** @var WebDriver $webDriver */
-        $webDriver = $this->getModule('WebDriver');
+        $typo3Navigation = $this->getTypo3Navigation();
+
+        if ($typo3Navigation->_isOnMainFrame()) {
+            $this->clearDrawingsOfIFrame();
+            $typo3Navigation->switchToContentFrame();
+            $this->clearDrawingsOfIFrame();
+            $typo3Navigation->switchToMainFrame();
+        } else {
+            $this->clearDrawingsOfIFrame();
+            $typo3Navigation->switchToMainFrame();
+            $this->clearDrawingsOfIFrame();
+            $typo3Navigation->switchToContentFrame();
+        }
+    }
+
+    protected function clearDrawingsOfIFrame(): void
+    {
+        $webDriver = $this->getWebDriver();
         $webDriver->executeJS(<<<HEREDOC
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length > 0) {
     pane.remove();
 }
 HEREDOC);
+    }
+
+    protected function getWebDriver(): WebDriver
+    {
+        return $this->getModule('WebDriver');
+    }
+
+    protected function getTypo3Navigation(): Typo3Navigation
+    {
+        return $this->getModule(Typo3Navigation::class);
     }
 }

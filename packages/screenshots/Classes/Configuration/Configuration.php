@@ -141,13 +141,17 @@ class Configuration
                         ],
                         'actionsIdentifierDraw' => [
                             ['action' => 'switchToMainFrame'],
-                            ['action' => 'see', 'text' => "Page"],
+                            ['action' => 'see', 'text' => "Dashboard"],
+                            ['action' => 'click', 'link' => "Dashboard"],
                             ['action' => 'drawBox', 'selector' => '#dashboard'],
                             ['action' => 'drawArrow', 'selector' => '#dashboard', 'position' => 'right-bottom'],
                             ['action' => 'drawBadge', 'selector' => '#dashboard', 'label' => 'Click here', 'position' => 'bottom'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_highlighted_menuitem"],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'drawBox', 'selector' => '.dashboard-item-content'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_highlighted_dashboard_item"],
                             ['action' => 'clearDrawings'],
-                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_without_highlighted_menuitem"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_without_highlights"],
                         ]
                     ]
                 ]
