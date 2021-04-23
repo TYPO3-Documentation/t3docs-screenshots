@@ -20,14 +20,18 @@ use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 
 /**
- * Helper to support comfortable navigation of the TYPO3 page tree.
+ * Helper to support comfortable navigation of the TYPO3 backend.
  *
- * This helper is a slightly adapted copy of class AbstractPageTree of the typo3/testing-framework package. It should be
- * integrated there ideally. Currently it differs by:
+ * This helper contains a slightly adapted copy of class AbstractPageTree of the typo3/testing-framework package.
+ * It should be integrated there ideally. Currently it differs by:
  * - adding the actions to the actor instead of providing an own class
  *   to prevent additional injections in testing classes
  * - considering the configuration param "wait" of module "WebDriver"
  *   when opening the page tree path and the page tree is not visible immediately
+ *
+ * This helper contains a slightly adapted copy of trait FrameSteps of the typo3/testing-framework package.
+ * It should be integrated there ideally. Currently it differs by:
+ * - it is a helper class, not an actor trait, and therefore can be used by other helper classes
  *
  * @see \TYPO3\TestingFramework\Core\Acceptance\Helper\AbstractPageTree
  */
@@ -38,6 +42,34 @@ class Typo3Navigation extends Module
     protected string $pageTreeSelector = '#typo3-pagetree-treeContainer';
     protected string $treeItemSelector = 'g.nodes > .node';
     protected string $treeItemAnchorSelector = 'text.node-name';
+
+    /**
+     * Switch to TYPO3 backend main frame, the one with module menu and top bar.
+     */
+    public function switchToMainFrame(): void
+    {
+        $webDriver = $this->getWebDriver();
+        $webDriver->waitForElementNotVisible('#nprogress', 120);
+        $webDriver->switchToIFrame();
+    }
+
+    /**
+     * Switch to TYPO3 backend content frame, the one with module content.
+     */
+    public function switchToContentFrame(): void
+    {
+        $webDriver = $this->getWebDriver();
+        $webDriver->waitForElementNotVisible('#nprogress', 120);
+        $webDriver->switchToIFrame('list_frame');
+        $webDriver->waitForElementNotVisible('#nprogress', 120);
+    }
+
+    public function _isOnMainFrame(): bool
+    {
+        $webDriver = $this->getWebDriver();
+        $contentFrame = $webDriver->_findElements("iframe[name='list_frame']");
+        return count($contentFrame) > 0;
+    }
 
     /**
      * Open the given hierarchical path in the page tree and click the last page.
@@ -53,8 +85,7 @@ class Typo3Navigation extends Module
      */
     public function openPageTreePath(array $path): void
     {
-        /** @var WebDriver $webDriver */
-        $webDriver = $this->getModule('WebDriver');
+        $webDriver = $this->getWebDriver();
         $webDriver->switchToIFrame();
         $webDriver->seeElement(['css' => $this->pageTreeSelector]);
         $pageTree = $webDriver->_findElements(['css' => $this->pageTreeSelector])[0];
@@ -74,8 +105,7 @@ class Typo3Navigation extends Module
      */
     protected function ensureTreeNodeIsOpen(string $nodeText, RemoteWebElement $pageTree): RemoteWebElement
     {
-        /** @var WebDriver $webDriver */
-        $webDriver = $this->getModule('WebDriver');
+        $webDriver = $this->getWebDriver();
         $webDriver->see($nodeText, $this->treeItemSelector);
         $node = $pageTree->findElement(WebDriverBy::xpath('//*[text()=\'' . $nodeText . '\']/..'));
         try {
@@ -86,5 +116,10 @@ class Typo3Navigation extends Module
             // another possible exception if the chevron isn't there ... depends on facebook driver version
         }
         return $node;
+    }
+
+    protected function getWebDriver(): WebDriver
+    {
+        return $this->getModule('WebDriver');
     }
 }
