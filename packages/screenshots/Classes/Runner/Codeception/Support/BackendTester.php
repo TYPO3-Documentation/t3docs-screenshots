@@ -13,7 +13,6 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support;
  */
 
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\_generated\BackendTesterActions;
-use TYPO3\TestingFramework\Core\Acceptance\Step\FrameSteps;
 
 /**
  * Default backend admin or editor actor in the backend
@@ -21,5 +20,4 @@ use TYPO3\TestingFramework\Core\Acceptance\Step\FrameSteps;
 class BackendTester extends \Codeception\Actor
 {
     use BackendTesterActions;
-    use FrameSteps;
 }
