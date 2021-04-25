@@ -145,6 +145,7 @@ class Typo3Screenshots extends Module
         $absoluteImagePath = $this->getAbsoluteDocumentationPath($relativeImagePath);
 
         if (!empty($selector)) {
+            $this->getModule('WebDriver')->seeElement($selector);
             $this->getModule('WebDriver')->makeElementScreenshot($selector, $tmpFileName);
         } else {
             $this->getModule('WebDriver')->makeScreenshot($tmpFileName);
