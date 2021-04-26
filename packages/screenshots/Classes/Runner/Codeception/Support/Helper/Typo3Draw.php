@@ -17,6 +17,8 @@ use Codeception\Module\WebDriver;
 
 /**
  * Helper to highlight DOM elements for screenshots.
+ *
+ * This class relies on jQuery, which is provided by the TYPO3 backend by default.
  */
 class Typo3Draw extends Module
 {
@@ -62,16 +64,17 @@ class Typo3Draw extends Module
             "border-radius" => "2px",
         ];
 
-        $webDriver = $this->getWebDriver();
-        $webDriver->executeJS(sprintf(<<<HEREDOC
+        $elements = $this->findElementsOrThrowException($selector);
+
+        $this->getWebDriver()->executeJS(sprintf(<<<HEREDOC
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
     pane=$('<div id="t3docs-screenshots-pane">').css(%s).appendTo('body');
 }
 
-let selector="%s";
-let element=$(selector);
-if (element.length > 0) {
+let elements=arguments;
+for (let i = 0; i < elements.length; i++) {
+    let element=$(elements[i]);
     let box=$('<div class="t3docs-screenshots-element">').css(%s);
     box.width(element.outerWidth());
     box.height(element.outerHeight());
@@ -80,10 +83,17 @@ if (element.length > 0) {
         top: element.offset().top - parseInt(box.css('border-top-width'))
     });
     box.appendTo(pane);
-} else {
-    throw 'No element found for "' + selector + '".';
 }
-HEREDOC, json_encode($this->paneCss), $selector, json_encode($boxCss)));
+HEREDOC, json_encode($this->paneCss), json_encode($boxCss)), $elements);
+    }
+
+    protected function findElementsOrThrowException(string $selector): array
+    {
+        $elements = $this->getWebDriver()->_findElements($selector);
+        if (count($elements) === 0) {
+            throw new \Exception(sprintf('No element found for "%s".', $selector), 4003);
+        }
+        return $elements;
     }
 
     /**
@@ -114,19 +124,20 @@ HEREDOC, json_encode($this->paneCss), $selector, json_encode($boxCss)));
  </g>
 </svg>
 HEREDOC;
+
+        $elements = $this->findElementsOrThrowException($selector);
         $arrowSvgOneLine = str_replace("\n", "", $arrowSvg);
         [$positionX, $positionY] = explode('-', $position);
 
-        $webDriver = $this->getWebDriver();
-        $webDriver->executeJS(sprintf(<<<HEREDOC
+        $this->getWebDriver()->executeJS(sprintf(<<<HEREDOC
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
     pane=$('<div id="t3docs-screenshots-pane">').css(%s).appendTo('body');
 }
 
-let selector="%s";
-let element=$(selector);
-if (element.length > 0) {
+let elements=arguments;
+for (let i = 0; i < elements.length; i++) {
+    let element=$(elements[i]);
     let arrow=$('<div class="t3docs-screenshots-element">').css(%s).html('%s').appendTo(pane);
     let position={
         "left": element.offset().left,
@@ -149,10 +160,8 @@ if (element.length > 0) {
     arrow.css({
         "transform": "translate("+position['%s']+"px, "+position['%s']+"px) rotate("+angle['%s']+")",
     });
-} else {
-    throw 'No element found for "' + selector + '".';
 }
-HEREDOC, json_encode($this->paneCss), $selector, json_encode($arrowCss), $arrowSvgOneLine, $positionX, $positionY, $position));
+HEREDOC, json_encode($this->paneCss), json_encode($arrowCss), $arrowSvgOneLine, $positionX, $positionY, $position), $elements);
     }
 
     protected function isValidArrowPosition(string $position): bool
@@ -194,17 +203,18 @@ HEREDOC, json_encode($this->paneCss), $selector, json_encode($arrowCss), $arrowS
             "padding" => "4px 10px 4px 10px",
         ];
 
-        $webDriver = $this->getWebDriver();
-        $webDriver->executeJS(sprintf(<<<HEREDOC
+        $elements = $this->findElementsOrThrowException($selector);
+
+        $this->getWebDriver()->executeJS(sprintf(<<<HEREDOC
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
     pane=$('<div id="t3docs-screenshots-pane">').css(%s).appendTo('body');
 }
 
-let selector="%s";
+let elements=arguments;
 let position="%s";
-let element=$(selector);
-if (element.length > 0) {
+for (let i = 0; i < elements.length; i++) {
+    let element=$(elements[i]);
     let badge = $('<div class="t3docs-screenshots-element">').text('%s').css(%s).appendTo(pane);
     let positions={
         "left": [
@@ -228,10 +238,8 @@ if (element.length > 0) {
         left: positions[position][0],
         top: positions[position][1],
     });
-} else {
-    throw 'No element found for "' + selector + '".';
 }
-HEREDOC, json_encode($this->paneCss), $selector, $position, $label, json_encode($badgeCss)));
+HEREDOC, json_encode($this->paneCss), $position, $label, json_encode($badgeCss)), $elements);
     }
 
     protected function isValidBadgePosition(string $position): bool
