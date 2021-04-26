@@ -12,15 +12,13 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Codeception\Exception\MalformedLocatorException;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
-use Codeception\Util\Locator;
 use Facebook\WebDriver\Exception\ElementNotInteractableException;
 use Facebook\WebDriver\Exception\NoSuchElementException;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverElement;
 
 /**
  * Helper to support comfortable navigation of the TYPO3 backend.
@@ -235,15 +233,13 @@ class Typo3Navigation extends Module
      */
     protected function scrollFrameTo(string $scrollingElement, string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
-        $this->getWebDriver()->executeInSelenium(
-            function (RemoteWebDriver $webDriver) use ($scrollingElement, $toSelector, $offsetX, $offsetY) {
-                $webDriver->executeScript( "$scrollingElement.scrollTop = 0");
-                $el = $webDriver->findElement($this->getLocator($toSelector));
-                $x = $el->getLocation()->getX() - $offsetX;
-                $y = $el->getLocation()->getY() - $offsetY;
-                $webDriver->executeScript( "$scrollingElement.scrollTo($x, $y)");
-            }
-        );
+        /** @var WebDriverElement[] $elements */
+        $webDriver = $this->getWebDriver();
+        $webDriver->executeJS("$scrollingElement.scrollTop = 0");
+        $elements = $webDriver->_findElements($toSelector);
+        $x = $elements[0]->getLocation()->getX() - $offsetX;
+        $y = $elements[0]->getLocation()->getY() - $offsetY;
+        $webDriver->executeJS("$scrollingElement.scrollTo($x, $y)");
     }
 
     /**
@@ -254,11 +250,7 @@ class Typo3Navigation extends Module
      */
     protected function scrollFrameToTop(string $scrollingElement): void
     {
-        $this->getWebDriver()->executeInSelenium(
-            function (RemoteWebDriver $webDriver) use ($scrollingElement) {
-                $webDriver->executeScript("$scrollingElement.scrollTop = 0");
-            }
-        );
+        $this->getWebDriver()->executeJS("$scrollingElement.scrollTop = 0");
     }
 
     /**
@@ -269,11 +261,7 @@ class Typo3Navigation extends Module
      */
     protected function scrollFrameToBottom(string $scrollingElement): void
     {
-        $this->getWebDriver()->executeInSelenium(
-            function (RemoteWebDriver $webDriver) use ($scrollingElement) {
-                $webDriver->executeScript("$scrollingElement.scrollTop = $scrollingElement.scrollHeight");
-            }
-        );
+        $this->getWebDriver()->executeJS("$scrollingElement.scrollTop = $scrollingElement.scrollHeight");
     }
 
     /**
@@ -321,68 +309,6 @@ class Typo3Navigation extends Module
             // another possible exception if the chevron isn't there ... depends on facebook driver version
         }
         return $node;
-    }
-
-    /**
-     * Clone of the WebDriver module method which is unfortunately declared protected.
-     *
-     * @param $selector
-     * @return WebDriverBy
-     * @throws \InvalidArgumentException
-     *
-     * @see \Codeception\Module\WebDriver::getLocator()
-     */
-    protected function getLocator($selector)
-    {
-        if ($selector instanceof WebDriverBy) {
-            return $selector;
-        }
-        if (is_array($selector)) {
-            return $this->getStrictLocator($selector);
-        }
-        if (Locator::isID($selector)) {
-            return WebDriverBy::id(substr($selector, 1));
-        }
-        if (Locator::isCSS($selector)) {
-            return WebDriverBy::cssSelector($selector);
-        }
-        if (Locator::isXPath($selector)) {
-            return WebDriverBy::xpath($selector);
-        }
-        throw new \InvalidArgumentException("Only CSS or XPath allowed");
-    }
-
-    /**
-     * Clone of the WebDriver module method which is unfortunately declared protected.
-     *
-     * @param array $by
-     * @return WebDriverBy
-     *
-     * @see \Codeception\Module\WebDriver::getStrictLocator()
-     */
-    protected function getStrictLocator(array $by)
-    {
-        $type = key($by);
-        $locator = $by[$type];
-        switch ($type) {
-            case 'id':
-                return WebDriverBy::id($locator);
-            case 'name':
-                return WebDriverBy::name($locator);
-            case 'css':
-                return WebDriverBy::cssSelector($locator);
-            case 'xpath':
-                return WebDriverBy::xpath($locator);
-            case 'link':
-                return WebDriverBy::linkText($locator);
-            case 'class':
-                return WebDriverBy::className($locator);
-            default:
-                throw new MalformedLocatorException(
-                    "$by => $locator",
-                    "Strict locator can be either xpath, css, id, link, class, name: "
-                );
-        }
     }
 
     protected function getWebDriver(): WebDriver
