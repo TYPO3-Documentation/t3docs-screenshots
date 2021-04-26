@@ -97,12 +97,12 @@ class Typo3Navigation extends Module
 
     protected function getHeaderHeight(): int
     {
-        return $this->getWebDriver()->executeInSelenium(
-            function (RemoteWebDriver $webDriver) {
-                $el = $webDriver->findElement($this->getStrictLocator(['class' => 'scaffold-header']));
-                return $el->getSize()->getHeight();
-            }
-        );
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['class' => 'scaffold-header']);
+        if (count($elements) > 0) {
+            return $elements[0]->getSize()->getHeight();
+        }
+        return 0;
     }
 
     /**
@@ -145,12 +145,12 @@ class Typo3Navigation extends Module
 
     protected function getPageTreeToolbarHeight(): int
     {
-        return $this->getWebDriver()->executeInSelenium(
-            function (RemoteWebDriver $webDriver) {
-                $el = $webDriver->findElement($this->getStrictLocator(['id' => 'typo3-pagetree-toolbar']));
-                return $el->getSize()->getHeight();
-            }
-        );
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['id' => 'typo3-pagetree-toolbar']);
+        if (count($elements) > 0) {
+            return $elements[0]->getSize()->getHeight();
+        }
+        return 0;
     }
 
     /**
@@ -193,12 +193,12 @@ class Typo3Navigation extends Module
 
     protected function getModuleHeaderHeight(): int
     {
-        return $this->getWebDriver()->executeInSelenium(
-            function (RemoteWebDriver $webDriver) {
-                $el = $webDriver->findElement($this->getStrictLocator(['class' => 'module-docheader']));
-                return $el->getSize()->getHeight();
-            }
-        );
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['class' => 'module-docheader']);
+        if (count($elements) > 0) {
+            return $elements[0]->getSize()->getHeight();
+        }
+        return 0;
     }
 
     /**
