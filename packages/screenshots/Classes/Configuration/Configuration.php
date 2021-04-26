@@ -161,7 +161,7 @@ class Configuration
                             ['action' => 'drawBadge', 'selector' => '#dashboard', 'label' => 'Click here', 'position' => 'bottom'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_highlighted_menuitem"],
                             ['action' => 'switchToContentFrame'],
-                            ['action' => 'drawBox', 'selector' => '.dashboard-item-content'],
+                            ['action' => 'drawBox', 'selector' => '(//*[contains(@class, "dashboard-item-content")])[1]'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_highlighted_dashboard_item"],
                             ['action' => 'clearDrawings'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_without_highlights"],
