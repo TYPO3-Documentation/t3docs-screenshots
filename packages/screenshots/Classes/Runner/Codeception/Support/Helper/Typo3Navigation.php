@@ -35,6 +35,11 @@ use Facebook\WebDriver\WebDriverElement;
  * - it is a helper class, not an actor trait, and therefore can be used by other helper classes
  * - element position calculation has changed in TYPO3 v11
  *
+ * This helper contains a slightly adapted copy of class ModalDialog of the typo3/core package.
+ * It should be integrated in the typo3/testing-framework ideally. Currently it differs by:
+ * - adding the actions to the actor instead of providing an own class
+ *   to prevent additional injections in testing classes
+ *
  * @see \TYPO3\TestingFramework\Core\Acceptance\Helper\AbstractPageTree
  */
 class Typo3Navigation extends Module
@@ -44,6 +49,8 @@ class Typo3Navigation extends Module
     protected string $pageTreeSelector = '#typo3-pagetree-treeContainer';
     protected string $treeItemSelector = 'g.nodes > .node';
     protected string $treeItemAnchorSelector = 'text.node-name';
+    protected string $openedModalSelector = '.modal.show';
+    protected string $openedModalButtonContainerSelector = '.modal.show .modal-footer';
 
     /**
      * Switch to TYPO3 backend main frame, the one with module menu and top bar.
@@ -309,6 +316,28 @@ class Typo3Navigation extends Module
             // another possible exception if the chevron isn't there ... depends on facebook driver version
         }
         return $node;
+    }
+
+    public function waitForModalDialogInMainFrame(): void
+    {
+        $webDriver = $this->getWebDriver();
+        $webDriver->switchToIFrame();
+        $webDriver->waitForElement($this->openedModalSelector);
+        $webDriver->wait(0.5);
+    }
+
+    public function clickButtonInModalDialog(string $buttonLink): void
+    {
+        $webDriver = $this->getWebDriver();
+        $webDriver->click($buttonLink, $this->openedModalButtonContainerSelector);
+        $webDriver->waitForElementNotVisible($this->openedModalSelector);
+        $webDriver->wait(0.5);
+    }
+
+    public function waitForAndClickModalDialogInMainFrame(string $buttonLink): void
+    {
+        $this->waitForModalDialogInMainFrame();
+        $this->clickButtonInModalDialog($buttonLink);
     }
 
     protected function getWebDriver(): WebDriver
