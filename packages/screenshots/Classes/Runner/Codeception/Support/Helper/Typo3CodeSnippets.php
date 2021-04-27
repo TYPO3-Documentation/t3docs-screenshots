@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Helper to provide code snippets of TYPO3.
@@ -23,6 +24,8 @@ class Typo3CodeSnippets extends Module
 {
     protected $config = [
         'sourcePath' => '',
+        'fileNameDefault' => '###SOURCE_FILE###_###LAST_FIELD###',
+        'fileNameSchema' => 'UpperCamelCase',
         'targetPath' => 'CodeSnippets'
     ];
 
@@ -34,6 +37,16 @@ class Typo3CodeSnippets extends Module
     public function setCodeSnippetsTargetPath(string $path): void
     {
         $this->_setConfig(['targetPath' => $path]);
+    }
+
+    public function setCodeSnippetsFileNameDefault(string $name): void
+    {
+        $this->_setConfig(['fileNameDefault' => $name]);
+    }
+
+    public function setCodeSnippetsFileNameSchema(string $schema): void
+    {
+        $this->_setConfig(['fileNameSchema' => $schema]);
     }
 
     /**
@@ -70,7 +83,7 @@ class Typo3CodeSnippets extends Module
      */
     public function createPhpArrayCodeSnippet(string $sourceFile, string $field = '', string $targetFileName = ''): void
     {
-        $targetFileName = $targetFileName !== '' ? $targetFileName : pathinfo($sourceFile, PATHINFO_FILENAME);
+        $targetFileName = $this->getTargetFileName($targetFileName, $sourceFile, $field);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
@@ -162,5 +175,37 @@ HEREDOC;
     protected function getTypo3Screenshots(): Typo3Screenshots
     {
         return $this->getModule(Typo3Screenshots::class);
+    }
+
+    /**
+     * @param string $targetFileName
+     * @param string $sourceFile
+     * @return array|string|string[]
+     */
+    protected function getTargetFileName(
+        string $targetFileName,
+        string $sourceFile,
+        string $field
+    ): string
+    {
+        $ret = $targetFileName;
+        if ($ret === ''){
+            $ret = $this->config['fileNameDefault'];
+            $ret = str_replace('###SOURCE_FILE###', pathinfo($sourceFile,
+                PATHINFO_FILENAME), $ret);
+            $fields = explode('/', $field);
+            $ret = str_replace('###LAST_FIELD###', $fields[sizeof($fields) - 1], $ret);
+        }
+        switch($this->config['fileNameSchema']) {
+            case 'UpperCamelCase':
+                $ret = GeneralUtility::underscoredToUpperCamelCase($ret);
+                break;
+            case 'LowerCamelCase':
+                $ret = GeneralUtility::underscoredToLowerCamelCase($ret);
+                break;
+            default:
+                break;
+        }
+        return $ret;
     }
 }
