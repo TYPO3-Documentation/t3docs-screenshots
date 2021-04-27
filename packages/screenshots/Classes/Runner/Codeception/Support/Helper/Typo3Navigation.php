@@ -285,8 +285,9 @@ class Typo3Navigation extends Module
      */
     public function openPageTreePath(array $path): void
     {
+        $this->switchToMainFrame();
+
         $webDriver = $this->getWebDriver();
-        $webDriver->switchToIFrame();
         $webDriver->seeElement(['css' => $this->pageTreeSelector]);
         $pageTree = $webDriver->_findElements(['css' => $this->pageTreeSelector])[0];
         foreach ($path as $pageName) {
@@ -320,8 +321,9 @@ class Typo3Navigation extends Module
 
     public function waitForModalDialogInMainFrame(): void
     {
+        $this->switchToMainFrame();
+
         $webDriver = $this->getWebDriver();
-        $webDriver->switchToIFrame();
         $webDriver->waitForElement($this->openedModalSelector);
         $webDriver->wait(0.5);
     }
