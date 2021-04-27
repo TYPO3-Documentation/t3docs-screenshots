@@ -131,11 +131,24 @@ class Typo3CodeSnippets extends Module
         if ($field === '') {
             $code = ArrayUtility::arrayExport($phpArray);
         } else {
+            $fields = array_reverse(explode ( '/' , $field));
+            $valueExport = ArrayUtility::getValueByPath($phpArray, $field);
+            if (sizeof($fields) > 1) {
+                for ($i = 0; $i < sizeof($fields)-1; $i++) {
+                    $valueExport = [$fields[$i] => $valueExport];
+                }
+            }
             $code = sprintf("'%s' => %s\n",
-                $field, ArrayUtility::arrayExport(ArrayUtility::getValueByPath($phpArray, $field))
+                $fields[sizeof($fields)-1],
+                $this->fixIndentation(ArrayUtility::arrayExport($valueExport))
             );
         }
         return $code;
+    }
+
+    protected function fixIndentation($string): string
+    {
+        return str_replace('    ','   ',$string);
     }
 
     protected function write(string $path, string $code): void
