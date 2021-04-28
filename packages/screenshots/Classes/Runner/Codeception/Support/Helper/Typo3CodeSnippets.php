@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Screenshots\Util\ArrayHelper;
 
 /**
  * Helper to provide code snippets of TYPO3.
@@ -131,24 +132,12 @@ class Typo3CodeSnippets extends Module
         if ($field === '') {
             $code = ArrayUtility::arrayExport($phpArray);
         } else {
-            $fields = array_reverse(explode ( '/' , $field));
-            $valueExport = ArrayUtility::getValueByPath($phpArray, $field);
-            if (sizeof($fields) > 1) {
-                for ($i = 0; $i < sizeof($fields)-1; $i++) {
-                    $valueExport = [$fields[$i] => $valueExport];
-                }
-            }
+            $phpArray = ArrayHelper::getArrayByPath($phpArray, $field);
             $code = sprintf("'%s' => %s\n",
-                $fields[sizeof($fields)-1],
-                $this->fixIndentation(ArrayUtility::arrayExport($valueExport))
+                key($phpArray), ArrayUtility::arrayExport(current($phpArray))
             );
         }
         return $code;
-    }
-
-    protected function fixIndentation($string): string
-    {
-        return str_replace('    ','   ',$string);
     }
 
     protected function write(string $path, string $code): void
