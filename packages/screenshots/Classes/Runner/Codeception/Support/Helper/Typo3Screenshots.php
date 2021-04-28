@@ -14,7 +14,6 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Module;
 use Codeception\Module\WebDriver;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Screenshots\Configuration\Configuration;
 
 /**
@@ -28,14 +27,7 @@ class Typo3Screenshots extends Module
         'documentationPath' => 'Documentation',
         'imagePath' => 'Images/AutomaticScreenshots',
         'rstPath' => 'Images/Rst',
-        'createRstFile' => true,
-        'currentRecord' => [
-            'table' => 'pages',
-            'uid' => 1
-        ],
-        'fileNameDefault' => '###TABLE###',
-        'fileNameDefaultField' => '###TABLE###_###FIELD###',
-        'fileNameSchema' => 'UpperCamelCase',
+        'createRstFile' => true
     ];
 
     /**
@@ -59,67 +51,9 @@ class Typo3Screenshots extends Module
         return $configuration;
     }
 
-    public function setScreenshotsFileNameDefault(string $name): void
-    {
-        $this->_setConfig(['fileNameDefault' => $name]);
-    }
-
-    public function setScreenshotsFileNameDefaultField(string $name): void
-    {
-        $this->_setConfig(['fileNameDefaultField' => $name]);
-    }
-
-    /**
-     * UpperCamelCase: Transfer filenames from underline to UpperCamelCase
-     * LowerCamelCase: Transfer filenames from underline to lowerCamelCase
-     * All other values: Leave filenames unchanged
-     * @param string $schema one of "UpperCamelCase", "LowerCamelCase", ""
-     * @throws \Codeception\Exception\ModuleConfigException
-     * @throws \Codeception\Exception\ModuleException
-     */
-    public function setScreenshotsFileNameSchema(string $schema): void
-    {
-        $this->_setConfig(['fileNameSchema' => $schema]);
-    }
-
     public function setScreenshotsBasePath(string $path): void
     {
         $this->_setConfig(['basePath' => $path]);
-    }
-
-    /**
-     * Sets a default value for table and uid when no explicit ones are used in
-     * the call.
-     *
-     * Example:
-     * {
-     *    "action": "setScreenshotsCurrentRecord",
-     *    "table": "tx_styleguide_elements_basic",
-     *    "uid": {
-     *        "action": "getUidByField",
-     *        "table": "tx_styleguide_elements_basic",
-     *        "field": "sys_language_uid",
-     *        "value": 0
-     *    }
-     * },
-     * // Takes screenshots from the record choosen above and field "inpu_1"
-     * {
-     *    "action": "makeScreenshotOfField",
-     *    "fields": "input_1"
-     * },
-     *
-     * @param string $table
-     * @param int $uid
-     * @throws \Codeception\Exception\ModuleConfigException
-     * @throws \Codeception\Exception\ModuleException
-     */
-    public function setScreenshotsCurrentRecord(string $table, int $uid): void
-    {
-        $record = [
-            'table' => $table,
-            'uid' => $uid
-        ];
-        $this->_setConfig(['currentRecord' => $record]);
     }
 
     public function cleanUpScreenshotsBasePath(): void
@@ -170,114 +104,38 @@ class Typo3Screenshots extends Module
 
     public function goToTable(int $pid, string $table): void
     {
-        if ($table == '') {
-            $table = $this->config['currentRecord']['table'];
-        }
         $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
             urlencode('/module/web/list'), $pid, $table)
         );
     }
 
-    public function makeScreenshotOfRecord(string $table='', int $uid=0, string $fileName='', string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    public function makeScreenshotOfRecord(string $table, int $uid, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
-        $currentRecord = $this->goToRecord($table, $uid);
-        $fileName = $this->getFileNameOfRecord($fileName, $currentRecord);
+        $this->goToRecord($table, $uid);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
-    public function goToRecord(string $table, int $uid):array
+    public function goToRecord(string $table, int $uid):void
     {
-        if ($table == '' || $uid < 1) {
-            $table = $this->config['
-            ']['table'];
-            $uid = $this->config['currentRecord']['uid'];
-        }
         $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit',
             urlencode('/record/edit'), $table, $uid
         ));
-        return [
-            'table' => $table,
-            'uid' => $uid
-        ];
     }
 
-    protected function adjustFileNameToSchema(string $fileName, string $schema) : string
+    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
-        $ret = $fileName;
-        switch($schema) {
-            case 'UpperCamelCase':
-                $ret = GeneralUtility::underscoredToUpperCamelCase($ret);
-                break;
-            case 'LowerCamelCase':
-                $ret = GeneralUtility::underscoredToLowerCamelCase($ret);
-                break;
-            default:
-                break;
-        }
-        return $ret;
-    }
-
-    protected function getFileNameOfRecord(string $fileName, array $currentRecord) : string
-    {
-        $ret = $fileName;
-        if ($ret === ''){
-            $ret = $this->config['fileNameDefaultField'];
-            $ret = str_replace('###TABLE###', $currentRecord['table'], $ret);
-            $ret = str_replace('###UID###', $currentRecord['uid'], $ret);
-        }
-        $ret = $this->adjustFileNameToSchema($ret, $this->config['fileNameSchema']);
-        return $ret;
-    }
-
-    protected function getFileNameOfField(string $fileName, array $currentRecord, string $fields) : string
-    {
-        $ret = $fileName;
-        if ($ret === ''){
-            $ret = $this->config['fileNameDefaultField'];
-            $ret = str_replace('###TABLE###', $currentRecord['table'], $ret);
-            $ret = str_replace('###UID###', $currentRecord['uid'], $ret);
-            $fields = explode('/', $fields);
-            $ret = str_replace('###FIELDS###', implode('_', $fields), $ret);
-            $ret = str_replace('###FIELD###', $fields[0], $ret);
-            $ret = str_replace('###LAST_FIELD###', $fields[sizeof($fields) - 1], $ret);
-        }
-        switch($this->config['fileNameSchema']) {
-            case 'UpperCamelCase':
-                $ret = GeneralUtility::underscoredToUpperCamelCase($ret);
-                break;
-            case 'LowerCamelCase':
-                $ret = GeneralUtility::underscoredToLowerCamelCase($ret);
-                break;
-            default:
-                break;
-        }
-        return $ret;
-    }
-
-    public function makeScreenshotOfField(string $table = '', int $uid = 0, string $fields = '', string $fileName = '', string $selector = '.form-section', string $altText = '', string $refLabel = '', string $refTitle = ''): void
-    {
-        $this->getModule('WebDriver')->assertNotEmpty($fields);
-        $currentRecord = $this->goToField($table, $uid, $fields);
-        $fileName = $this->getFileNameOfField($fileName, $currentRecord, $fields);
+        $this->goToField($table, $uid, $fields);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
-    public function goToField(string $table, int $uid, string $fields): array
+    public function goToField(string $table, int $uid, string $fields): void
     {
-        if ($table == '' || $uid < 1) {
-            $table = $this->config['currentRecord']['table'];
-            $uid = $this->config['currentRecord']['uid'];
-        }
         $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
             urlencode('/record/edit'), $table, $uid, $fields
         ));
-        return [
-            'table' => $table,
-            'uid' => $uid
-        ];
     }
 
     public function makeScreenshotOfElement(string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
