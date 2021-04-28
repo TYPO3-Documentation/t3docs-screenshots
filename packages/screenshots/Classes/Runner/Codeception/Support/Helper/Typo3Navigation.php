@@ -19,6 +19,7 @@ use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
+use TYPO3\TestingFramework\Core\Acceptance\Helper\Login;
 
 /**
  * Helper to support comfortable navigation of the TYPO3 backend.
@@ -51,6 +52,14 @@ class Typo3Navigation extends Module
     protected string $treeItemAnchorSelector = 'text.node-name';
     protected string $openedModalSelector = '.modal.show';
     protected string $openedModalButtonContainerSelector = '.modal.show .modal-footer';
+
+    /**
+     * Navigate back to the TYPO3 backend from any url
+     */
+    public function reloadBackend(): void
+    {
+        $this->getLogin()->useExistingSession();
+    }
 
     /**
      * Switch to TYPO3 backend main frame, the one with module menu and top bar.
@@ -345,5 +354,10 @@ class Typo3Navigation extends Module
     protected function getWebDriver(): WebDriver
     {
         return $this->getModule('WebDriver');
+    }
+
+    protected function getLogin(): Login
+    {
+        return $this->getModule(Login::class);
     }
 }
