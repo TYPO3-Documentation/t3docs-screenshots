@@ -27,7 +27,8 @@ class Typo3Screenshots extends Module
         'documentationPath' => 'Documents',
         'imagePath' => 'Images/AutomaticScreenshots',
         'rstPath' => 'Images/Rst',
-        'createRstFile' => true
+        'createRstFile' => true,
+        'defaults' => [],
     ];
 
     /**
@@ -81,6 +82,26 @@ class Typo3Screenshots extends Module
         $this->_setConfig(['createRstFile' => $create]);
     }
 
+    public function setScreenshotsDefaultPid(int $pid): void
+    {
+        $this->_setConfig(['defaults' => array_merge($this->_getConfig('defaults'), ['pid' => $pid])]);
+    }
+
+    public function setScreenshotsDefaultTable(string $table): void
+    {
+        $this->_setConfig(['defaults' => array_merge($this->_getConfig('defaults'), ['table' => $table])]);
+    }
+
+    public function setScreenshotsDefaultUid(int $uid): void
+    {
+        $this->_setConfig(['defaults' => array_merge($this->_getConfig('defaults'), ['uid' => $uid])]);
+    }
+
+    public function clearScreenshotsDefaults(): void
+    {
+        $this->_setConfig(['defaults' => []]);
+    }
+
     public function fetchScreenshotsActionsIdFilter(): string
     {
         $actionsIdFilter = $this->_getConfig('actionsIdFilter');
@@ -96,42 +117,73 @@ class Typo3Screenshots extends Module
         $this->makeScreenshotOfElement($fileName, '', $altText, $refLabel, $refTitle);
     }
 
-    public function makeScreenshotOfTable(int $pid, string $table, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $this->goToTable($pid, $table);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
-    public function goToTable(int $pid, string $table): void
+    public function goToTable(int $pid = -1, string $table = ''): void
     {
+        [$pid, $table] = $this->resolveTable($pid, $table);
         $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
-            urlencode('/module/web/list'), $pid, $table)
+                '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
+                urlencode('/module/web/list'), $pid, $table)
         );
     }
 
-    public function makeScreenshotOfRecord(string $table, int $uid, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    protected function resolveTable(int $pid, string $table): array
+    {
+        $pid = $pid !== -1 ? $pid : $this->_getConfig('defaults')['pid'];
+        $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];
+        if ($pid === null || $table === null) {
+            throw new \Exception(
+                'Table cannot be resolved: Set table name and PID explicitly or specify default values.',
+                4001
+            );
+        }
+        $this->debug(sprintf('Use table "%s" of PID "%s".', $table, $pid));
+        return [$pid, $table];
+    }
+
+    public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $this->goToRecord($table, $uid);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
-    public function goToRecord(string $table, int $uid):void
+    public function goToRecord(string $table = '', int $uid = -1): void
     {
+        [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit',
             urlencode('/record/edit'), $table, $uid
         ));
     }
 
-    public function makeScreenshotOfField(string $table, int $uid, string $fields, string $fileName, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    protected function resolveRecord(string $table, int $uid): array
     {
-        $this->goToField($table, $uid, $fields);
+        $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];
+        $uid = $uid !== -1 ? $uid : $this->_getConfig('defaults')['uid'];
+        if ($table === null || $uid === null) {
+            throw new \Exception(
+                'Record cannot be resolved: Set table name and UID explicitly or specify default values.',
+                4002
+            );
+        }
+        $this->debug(sprintf('Use record with UID "%s" of table "%s".', $uid, $table));
+        return [$table, $uid];
+    }
+
+    public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    {
+        $this->goToField($fields, $table, $uid);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
     }
 
-    public function goToField(string $table, int $uid, string $fields): void
+    public function goToField(string $fields, string $table = '', int $uid = -1): void
     {
+        [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
             '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
             urlencode('/record/edit'), $table, $uid, $fields
