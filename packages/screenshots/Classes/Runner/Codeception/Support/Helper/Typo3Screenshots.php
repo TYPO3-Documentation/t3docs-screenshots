@@ -175,7 +175,7 @@ class Typo3Screenshots extends Module
         return [$table, $uid];
     }
 
-    public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '.form-section', string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $this->goToField($fields, $table, $uid);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $refLabel, $refTitle);
