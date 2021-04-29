@@ -86,7 +86,9 @@ class ScreenshotsManagerController extends ActionController
         $images = [];
 
         GeneralUtility::rmdir(GeneralUtility::getFileAbsFileName($folderDiff), true);
-        $files = GeneralUtility::getAllFilesAndFoldersInPath([], GeneralUtility::getFileAbsFileName($folderActual) . '/');
+        $files = GeneralUtility::getAllFilesAndFoldersInPath(
+            [], GeneralUtility::getFileAbsFileName($folderActual) . '/', 'gif,jpg,jpeg,png,bmp'
+        );
 
         $folderActualLength = strlen(GeneralUtility::getFileAbsFileName($folderActual));
         foreach ($files as $file) {
