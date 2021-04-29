@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception;
 
 use ReflectionClass;
 use ReflectionMethod;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationException;
 
@@ -23,9 +24,21 @@ use TYPO3\CMS\Screenshots\Configuration\ConfigurationException;
 abstract class AbstractBaseCest
 {
     /**
+     * Symfony's console output is provided implicitly by Codeception
+     *
+     * @var ConsoleOutput
+     */
+    protected ConsoleOutput $consoleOutput;
+
+    /**
      * @var ReflectionClass[]
      */
-    protected array $reflectors = [];
+    protected array $reflectors;
+
+    public function __construct() {
+        $this->consoleOutput = new ConsoleOutput();
+        $this->reflectors = [];
+    }
 
     /**
      * @param BackendTester $I
@@ -51,7 +64,7 @@ abstract class AbstractBaseCest
                         $isActionsEnabled = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
                         if ($isActionsEnabled) {
                             foreach ($actions as $action) {
-                                $this->runAction($I, $action);
+                                $this->handleAction($I, $action);
                             }
                         }
                     }
@@ -60,14 +73,26 @@ abstract class AbstractBaseCest
         }
     }
 
-    protected function runAction(BackendTester $I, array $action)
+    protected function handleAction(BackendTester $I, array $action)
     {
-        if (!isset($action['action'])) {
+        if (isset($action['comment'])) {
+            $this->printComment($action);
+        } elseif (isset($action['action'])) {
+            $this->runAction($I, $action);
+        } else {
             throw new ConfigurationException(sprintf(
-                'Parameter "action" is missing in action configuration "%s".', json_encode($action)
+                'Parameter "action" or "comment" is missing in configuration "%s".', json_encode($action)
             ));
         }
+    }
 
+    protected function printComment(array $action)
+    {
+        $this->consoleOutput->writeln(' ' . $action['comment']);
+    }
+
+    protected function runAction(BackendTester $I, array $action)
+    {
         $name = $action['action'];
         unset($action['action']);
         $params = $this->mapAssociativeArrayToActionParams(BackendTester::class, $name, $action);
