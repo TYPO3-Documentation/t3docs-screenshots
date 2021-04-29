@@ -124,6 +124,9 @@ This is a small runner configuration which takes screenshots of two TYPO3 enviro
             "screenshots": [
                [
                   {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard"}
+               ],
+               [
+                  {"action": "makeScreenshotOfFullPage", "fileName": "introduction_dashboard_full_page"}
                ]
             ]
          },
