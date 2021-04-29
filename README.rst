@@ -275,6 +275,25 @@ Actions can be nested to use the return value of the inner action by the outer, 
 which executes the action ``getUidByField()`` and uses the return value for parameter ``pid`` of action
 ``makeScreenshotOfTable()``.
 
+Comments can be inserted to facilitate maintenance work, e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Styleguide": {
+            "screenshots": [
+               [
+                  {"comment": "************************************"},
+                  {"comment": "Take screenshots of TYPO3 TCA table."},
+                  {"comment": "************************************"},
+                  {"action": "makeScreenshotOfTable", "pid": 27, "table": "pages", "fileName": "styleguide_root_page"}
+               ]
+            ]
+         }
+      }
+   }
+
 Available Actions
 -----------------
 

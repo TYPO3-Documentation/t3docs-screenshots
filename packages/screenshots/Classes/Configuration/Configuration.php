@@ -121,6 +121,9 @@ class Configuration
                 'Styleguide' => [
                     'screenshots' => [
                         'actionsIdentifierScreenshots' => [
+                            ['comment' => '********************************************************'],
+                            ['comment' => 'Take screenshots configured in a dummy screenshots.json.'],
+                            ['comment' => '********************************************************'],
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                             ['action' => 'setScreenshotsDocumentationPath', 'path' => "StyleguideDocumentation"],
                             ['action' => 'setScreenshotsImagePath', 'path' => "Images/StyleguideScreenshots"],
@@ -155,6 +158,12 @@ class Configuration
                             ['action' => 'setScreenshotsDefaultUid', 'uid' => 1],
                             ['action' => 'makeScreenshotOfTable', 'fileName' => 'tx_styleguide_elements_basic_of_pid_22'],
                             ['action' => 'makeScreenshotOfTable', 'pid' => '27', 'table' => 'tx_styleguide_elements_group', 'fileName' => 'tx_styleguide_elements_group_of_pid_27'],
+                            [
+                                'action' => 'makeScreenshotOfTable',
+                                'pid' => ['action' => 'getUidByField', 'table' => 'pages', 'field' => 'title', 'value' => 'elements group'],
+                                'table' => 'tx_styleguide_elements_group',
+                                'fileName' => 'tx_styleguide_elements_group_of_page_with_specific_title'
+                            ],
                             ['action' => 'makeScreenshotOfRecord', 'fileName' => 'tx_styleguide_elements_basic_with_uid_1'],
                             ['action' => 'makeScreenshotOfRecord', 'table' => 'tx_styleguide_elements_group', 'uid' => 3, 'fileName' => 'tx_styleguide_elements_group_with_uid_3'],
                             ['action' => 'makeScreenshotOfField', 'fields' => 'input_1', 'fileName' => 'tx_styleguide_elements_basic_with_uid_1_and_field_input_1'],
