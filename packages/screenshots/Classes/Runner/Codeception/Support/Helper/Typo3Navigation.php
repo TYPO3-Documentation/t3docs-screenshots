@@ -90,6 +90,46 @@ class Typo3Navigation extends Module
     }
 
     /**
+     * Return the window width of the main frame.
+     *
+     * @return int
+     */
+    public function _getWindowWidth(): int
+    {
+        return $this->getWebDriver()->webDriver->manage()->window()->getSize()->getWidth();
+    }
+
+    /**
+     * Return the window height of the main frame.
+     *
+     * @return int
+     */
+    public function _getWindowHeight(): int
+    {
+        return $this->getWebDriver()->webDriver->manage()->window()->getSize()->getHeight();
+    }
+
+    /**
+     * Return the inner window width of the current frame(!)
+     *
+     * @return int
+     */
+    public function _getWindowInnerWidth(): int
+    {
+        return $this->getWebDriver()->executeJS('return window.innerWidth;');
+    }
+
+    /**
+     * Return the inner window height of the current frame(!)
+     *
+     * @return int
+     */
+    public function _getWindowInnerHeight(): int
+    {
+        return $this->getWebDriver()->executeJS('return window.innerHeight;');
+    }
+
+    /**
      * Scroll the module menu up to show the given element at the top.
      *
      * ``` php
@@ -105,16 +145,26 @@ class Typo3Navigation extends Module
     public function scrollModuleMenuTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
         $scrollingElement = 'document.getElementsByClassName("scaffold-modulemenu")[0]';
-        $offsetY = $offsetY + $this->getHeaderHeight() + 5;
+        $offsetY = $offsetY + $this->_getHeaderHeight() + 5;
         $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
     }
 
-    protected function getHeaderHeight(): int
+    public function _getHeaderHeight(): int
     {
         /** @var WebDriverElement[] $elements */
         $elements = $this->getWebDriver()->_findElements(['class' => 'scaffold-header']);
         if (count($elements) > 0) {
             return $elements[0]->getSize()->getHeight();
+        }
+        return 0;
+    }
+
+    public function _getModuleMenuScrollHeight(): int
+    {
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['class' => 'scaffold-modulemenu']);
+        if (count($elements) > 0) {
+            return $this->getWebDriver()->executeJS("return arguments[0].scrollHeight", $elements);
         }
         return 0;
     }
@@ -153,16 +203,26 @@ class Typo3Navigation extends Module
     public function scrollPageTreeTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
         $scrollingElement = 'document.getElementById("typo3-pagetree-tree")';
-        $offsetY = $offsetY + $this->getPageTreeToolbarHeight() + $this->getHeaderHeight() + 3;
+        $offsetY = $offsetY + $this->_getPageTreeToolbarHeight() + $this->_getHeaderHeight() + 3;
         $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
     }
 
-    protected function getPageTreeToolbarHeight(): int
+    public function _getPageTreeToolbarHeight(): int
     {
         /** @var WebDriverElement[] $elements */
         $elements = $this->getWebDriver()->_findElements(['id' => 'typo3-pagetree-toolbar']);
         if (count($elements) > 0) {
             return $elements[0]->getSize()->getHeight();
+        }
+        return 0;
+    }
+
+    public function _getPageTreeScrollHeight(): int
+    {
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['id' => 'typo3-pagetree-tree']);
+        if (count($elements) > 0) {
+            return $this->getWebDriver()->executeJS("return arguments[0].scrollHeight", $elements);
         }
         return 0;
     }
@@ -211,6 +271,16 @@ class Typo3Navigation extends Module
         $elements = $this->getWebDriver()->_findElements(['class' => 'module-docheader']);
         if (count($elements) > 0) {
             return $elements[0]->getSize()->getHeight();
+        }
+        return 0;
+    }
+
+    public function _getModuleScrollHeight(): int
+    {
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['class' => 'module']);
+        if (count($elements) > 0) {
+            return $this->getWebDriver()->executeJS("return arguments[0].scrollHeight", $elements);
         }
         return 0;
     }

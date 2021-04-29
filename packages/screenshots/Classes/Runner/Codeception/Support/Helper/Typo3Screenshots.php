@@ -112,6 +112,59 @@ class Typo3Screenshots extends Module
         return $actionsIdFilter;
     }
 
+    /**
+     * Save current browser window size, set size to full page, take screenshot and reset size to saved window size.
+     *
+     * The total page height is the header height plus the maximum of the three columns:
+     * - module menu
+     * - page tree
+     * - module
+     *
+     * Since the module is in a different frame than the rest, this action switches between frames to capture all sizes
+     * and returns to the frame where it started.
+     * Also, this method adjusts the outer dimension of the browser, but calculates the inner dimension: so it must
+     * calculate the distance between the two types of dimensions.
+     *
+     * @param string $fileName
+     * @param string $altText
+     * @param string $refLabel
+     * @param string $refTitle
+     */
+    public function makeScreenshotOfFullPage(string $fileName, string $altText = '', string $refLabel = '', string $refTitle = ''): void
+    {
+        $webDriver = $this->getWebDriver();
+        $typo3Navigation = $this->getTypo3Navigation();
+
+        $windowWidth = $typo3Navigation->_getWindowWidth();
+        $windowHeight = $typo3Navigation->_getWindowHeight();
+
+        $scrollHeights = [];
+        if ($typo3Navigation->_isOnMainFrame()) {
+            $windowInnerHeight = $typo3Navigation->_getWindowInnerHeight();
+            $headerHeight = $typo3Navigation->_getHeaderHeight();
+            $scrollHeights[] = $typo3Navigation->_getModuleMenuScrollHeight();
+            $scrollHeights[] = $typo3Navigation->_getPageTreeToolbarHeight() + $typo3Navigation->_getPageTreeScrollHeight();
+            $typo3Navigation->switchToContentFrame();
+            $scrollHeights[] = $typo3Navigation->_getModuleScrollHeight();
+            $typo3Navigation->switchToMainFrame();
+        } else {
+            $scrollHeights[] = $typo3Navigation->_getModuleScrollHeight();
+            $typo3Navigation->switchToMainFrame();
+            $windowInnerHeight = $typo3Navigation->_getWindowInnerHeight();
+            $headerHeight = $typo3Navigation->_getHeaderHeight();
+            $scrollHeights[] = $typo3Navigation->_getModuleMenuScrollHeight();
+            $scrollHeights[] = $typo3Navigation->_getPageTreeToolbarHeight() + $typo3Navigation->_getPageTreeScrollHeight();
+            $typo3Navigation->switchToContentFrame();
+        }
+
+        $fullPageWidth = $windowWidth;
+        $fullPageHeight = ($windowHeight - $windowInnerHeight) + $headerHeight + max($scrollHeights);
+
+        $webDriver->resizeWindow($fullPageWidth, $fullPageHeight);
+        $this->makeScreenshotOfWindow($fileName, $altText, $refLabel, $refTitle);
+        $webDriver->resizeWindow($windowWidth, $windowHeight);
+    }
+
     public function makeScreenshotOfWindow(string $fileName, string $altText = '', string $refLabel = '', string $refTitle = ''): void
     {
         $this->makeScreenshotOfElement($fileName, '', $altText, $refLabel, $refTitle);
@@ -297,5 +350,10 @@ HEREDOC;
     protected function getWebDriver(): WebDriver
     {
         return $this->getModule('WebDriver');
+    }
+
+    protected function getTypo3Navigation(): Typo3Navigation
+    {
+        return $this->getModule(Typo3Navigation::class);
     }
 }
