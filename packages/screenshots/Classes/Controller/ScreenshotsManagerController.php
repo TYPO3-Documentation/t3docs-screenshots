@@ -77,18 +77,6 @@ class ScreenshotsManagerController extends ActionController
         $this->view->assign('resultCode', $resultCode);
     }
 
-    private function isImage($path)
-    {
-        $a = getimagesize($path);
-        $image_type = $a[2];
-
-        if(in_array($image_type , array(IMAGETYPE_GIF , IMAGETYPE_JPEG ,IMAGETYPE_PNG , IMAGETYPE_BMP)))
-        {
-            return true;
-        }
-        return false;
-    }
-
     public function compareAction(): void
     {
         $folderOriginal = 't3docs';
@@ -128,24 +116,19 @@ class ScreenshotsManagerController extends ActionController
                     'urls' => $urls
                 ];
             } else {
-                if ($this->isImage($paths['actual']) &&
-                        $this->isImage($paths['original'])) {
-                    $imageActual = new \Imagick($paths['actual']);
-                    $imageOriginal = new \Imagick($paths['original']);
-                    $diff = $imageActual->compareImages($imageOriginal,
-                        \Imagick::METRIC_MEANABSOLUTEERROR);
+                $imageActual = new \Imagick($paths['actual']);
+                $imageOriginal = new \Imagick($paths['original']);
+                $diff = $imageActual->compareImages($imageOriginal, \Imagick::METRIC_MEANABSOLUTEERROR);
 
-                    if ($diff[1] > $this->threshold) {
-                        GeneralUtility::mkdir_deep(dirname($paths['diff']));
-                        GeneralUtility::writeFile($paths['diff'], $diff[0]);
-                        $images[] = [
-                            'difference' => $diff[1],
-                            'maxHeight' => max($imageActual->getImageHeight(),
-                                $imageOriginal->getImageHeight()),
-                            'paths' => $paths,
-                            'urls' => $urls
-                        ];
-                    }
+                if ($diff[1] > $this->threshold) {
+                    GeneralUtility::mkdir_deep(dirname($paths['diff']));
+                    GeneralUtility::writeFile($paths['diff'], $diff[0]);
+                    $images[] = [
+                        'difference' => $diff[1],
+                        'maxHeight' => max($imageActual->getImageHeight(), $imageOriginal->getImageHeight()),
+                        'paths' => $paths,
+                        'urls' => $urls
+                    ];
                 }
             }
         }
