@@ -315,14 +315,15 @@ class Typo3Screenshots extends Module
         $absoluteRstPath = $this->getAbsoluteDocumentationPath($relativeRstPath);
         $refDirective = $this->getRstReferenceDirective($refLabel, $refTitle);
 
-        $rst = <<<HEREDOC
+        $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
-.. figure:: /$relativeImagePath
-   :alt: $altText
+.. figure:: /%s
+   :alt: %s
    :class: with-shadow
-HEREDOC;
+NOWDOC;
 
+        $rst = sprintf($rst, $relativeImagePath, $altText);
         if ($refDirective !== '') {
             $rst .= sprintf("\n\n   %s", $refDirective);
         }
