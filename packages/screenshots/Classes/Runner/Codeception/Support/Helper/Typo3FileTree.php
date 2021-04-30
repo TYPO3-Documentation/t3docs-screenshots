@@ -13,28 +13,19 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
  */
 
 /**
- * Helper to support comfortable navigation of the TYPO3 page tree.
- *
- * This helper contains a slightly adapted copy of class AbstractPageTree of the typo3/testing-framework package.
- * It should be integrated there ideally. Currently it differs by:
- * - adding the actions to the actor instead of providing an own class
- *   to prevent additional injections in testing classes
- * - considering the configuration param "wait" of module "WebDriver"
- *   when opening the page tree path and the page tree is not visible immediately
- *
- * @see \TYPO3\TestingFramework\Core\Acceptance\Helper\AbstractPageTree
+ * Helper to support comfortable navigation of the TYPO3 file tree.
  */
-class Typo3PageTree extends AbstractTypo3Tree
+class Typo3FileTree extends AbstractTypo3Tree
 {
-    protected string $treeFrameSelector = '#typo3-pagetree';
-    protected string $treeToolbarSelector = '#typo3-pagetree-toolbar';
-    protected string $treeSelector = '#typo3-pagetree-treeContainer';
-    protected string $treeSvgSelector = '#typo3-pagetree-tree';
+    protected string $treeFrameSelector = '#typo3-filestoragetree';
+    protected string $treeToolbarSelector = '#filestoragetree-toolbar';
+    protected string $treeSelector = '#typo3-filestoragetree .navigation-tree-container';
+    protected string $treeSvgSelector = '#typo3-filestoragetree-tree';
     protected string $nodeSelector = 'g.nodes > .node';
     protected string $nodeAnchorSelector = 'text.node-name';
 
     /**
-     * Scroll the page tree up to show the given node at the top.
+     * Scroll the file tree up to show the given node at the top.
      *
      * Make sure that the node is visible in the browser window before using this action. Otherwise, the browser
      * cannot determine the position of the node because the tree is an SVG element and the browser has limited
@@ -44,33 +35,33 @@ class Typo3PageTree extends AbstractTypo3Tree
      * @param int $offsetX
      * @param int $offsetY
      */
-    public function scrollPageTreeTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    public function scrollFileTreeTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
         parent::scrollTreeTo($toSelector, $offsetX, $offsetY);
     }
 
     /**
-     * Move the page tree of the main frame to top.
+     * Move the file tree of the main frame to top.
      */
-    public function scrollPageTreeToTop(): void
+    public function scrollFileTreeToTop(): void
     {
         parent::scrollTreeToTop();
     }
 
     /**
-     * Move the page tree of the main frame to the bottom.
+     * Move the file tree of the main frame to the bottom.
      */
-    public function scrollPageTreeToBottom(): void
+    public function scrollFileTreeToBottom(): void
     {
         parent::scrollTreeToBottom();
     }
 
-    public function _getPageTreeToolbarHeight(): int
+    public function _getFileTreeToolbarHeight(): int
     {
         return parent::getTreeToolbarHeight();
     }
 
-    public function _getPageTreeScrollHeight(): int
+    public function _getFileTreeScrollHeight(): int
     {
         return parent::getTreeScrollHeight();
     }
@@ -82,16 +73,16 @@ class Typo3PageTree extends AbstractTypo3Tree
      * Otherwise, the browser cannot find all nodes of the path because the tree is an SVG element and
      * the browser has limited capabilities with respect to SVGs.
      *
-     * Example to open "styleguide -> elements basic" page:
+     * Example to open "fileadmin/form_definitions" folder:
      * [
-     *    'styleguide TCA demo',
-     *    'elements basic',
+     *    'fileadmin',
+     *    'form_definitions',
      * ]
      *
      * @param string[] $path
      * @throws \Codeception\Exception\ModuleException
      */
-    public function openPageTreePath(array $path): void
+    public function openFileTreePath(array $path): void
     {
         parent::openTreePath($path);
     }
