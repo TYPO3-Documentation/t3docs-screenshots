@@ -197,7 +197,7 @@ NOWDOC;
      * @param string $label The badge text, e.g. "Click here" or "#1".
      * @param string $position The position of the badge regarding the element: "left", "top", "right" or "bottom".
      */
-    public function drawBadge(string $selector, string $label, string $position): void
+    public function drawBadge(string $selector, string $label, string $position = self::BADGE_BOTTOM): void
     {
         if (!$this->isValidBadgePosition($position)) {
             throw new \Exception(sprintf('Badge position "%s" is invalid.', $position), 4002);
