@@ -134,6 +134,7 @@ class Typo3Screenshots extends Module
     {
         $webDriver = $this->getWebDriver();
         $typo3Navigation = $this->getTypo3Navigation();
+        $typo3PageTree = $this->getTypo3PageTree();
 
         $windowWidth = $typo3Navigation->_getWindowWidth();
         $windowHeight = $typo3Navigation->_getWindowHeight();
@@ -143,7 +144,7 @@ class Typo3Screenshots extends Module
             $windowInnerHeight = $typo3Navigation->_getWindowInnerHeight();
             $headerHeight = $typo3Navigation->_getHeaderHeight();
             $scrollHeights[] = $typo3Navigation->_getModuleMenuScrollHeight();
-            $scrollHeights[] = $typo3Navigation->_getPageTreeToolbarHeight() + $typo3Navigation->_getPageTreeScrollHeight();
+            $scrollHeights[] = $typo3PageTree->_getPageTreeToolbarHeight() + $typo3PageTree->_getPageTreeScrollHeight();
             $typo3Navigation->switchToContentFrame();
             $scrollHeights[] = $typo3Navigation->_getModuleScrollHeight();
             $typo3Navigation->switchToMainFrame();
@@ -153,7 +154,7 @@ class Typo3Screenshots extends Module
             $windowInnerHeight = $typo3Navigation->_getWindowInnerHeight();
             $headerHeight = $typo3Navigation->_getHeaderHeight();
             $scrollHeights[] = $typo3Navigation->_getModuleMenuScrollHeight();
-            $scrollHeights[] = $typo3Navigation->_getPageTreeToolbarHeight() + $typo3Navigation->_getPageTreeScrollHeight();
+            $scrollHeights[] = $typo3PageTree->_getPageTreeToolbarHeight() + $typo3PageTree->_getPageTreeScrollHeight();
             $typo3Navigation->switchToContentFrame();
         }
 
@@ -356,5 +357,10 @@ NOWDOC;
     protected function getTypo3Navigation(): Typo3Navigation
     {
         return $this->getModule(Typo3Navigation::class);
+    }
+
+    protected function getTypo3PageTree(): Typo3PageTree
+    {
+        return $this->getModule(Typo3PageTree::class);
     }
 }
