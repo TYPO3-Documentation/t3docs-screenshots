@@ -144,9 +144,9 @@ class Typo3Navigation extends Module
      */
     public function scrollModuleMenuTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
-        $scrollingElement = 'document.getElementsByClassName("scaffold-modulemenu")[0]';
+        $frameSelector = ['class' => 'scaffold-modulemenu'];
         $offsetY = $offsetY + $this->_getHeaderHeight() + 5;
-        $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
+        $this->scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
     }
 
     public function _getHeaderHeight(): int
@@ -174,8 +174,8 @@ class Typo3Navigation extends Module
      */
     public function scrollModuleMenuToTop(): void
     {
-        $scrollingElement = 'document.getElementsByClassName("scaffold-modulemenu")[0]';
-        $this->scrollFrameToTop($scrollingElement);
+        $frameSelector = ['class' => 'scaffold-modulemenu'];
+        $this->scrollFrameToTop($frameSelector);
     }
 
     /**
@@ -183,8 +183,8 @@ class Typo3Navigation extends Module
      */
     public function scrollModuleMenuToBottom(): void
     {
-        $scrollingElement = 'document.getElementsByClassName("scaffold-modulemenu")[0]';
-        $this->scrollFrameToBottom($scrollingElement);
+        $frameSelector = ['class' => 'scaffold-modulemenu'];
+        $this->scrollFrameToBottom($frameSelector);
     }
 
     /**
@@ -202,9 +202,9 @@ class Typo3Navigation extends Module
      */
     public function scrollPageTreeTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
-        $scrollingElement = 'document.getElementById("typo3-pagetree-tree")';
+        $frameSelector = ['id' => 'typo3-pagetree-tree'];
         $offsetY = $offsetY + $this->_getPageTreeToolbarHeight() + $this->_getHeaderHeight() + 3;
-        $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
+        $this->scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
     }
 
     public function _getPageTreeToolbarHeight(): int
@@ -232,8 +232,8 @@ class Typo3Navigation extends Module
      */
     public function scrollPageTreeToTop(): void
     {
-        $scrollingElement = 'document.getElementById("typo3-pagetree-tree")';
-        $this->scrollFrameToTop($scrollingElement);
+        $frameSelector = ['id' => 'typo3-pagetree-tree'];
+        $this->scrollFrameToTop($frameSelector);
     }
 
     /**
@@ -241,8 +241,8 @@ class Typo3Navigation extends Module
      */
     public function scrollPageTreeToBottom(): void
     {
-        $scrollingElement = 'document.getElementById("typo3-pagetree-tree")';
-        $this->scrollFrameToBottom($scrollingElement);
+        $frameSelector = ['id' => 'typo3-pagetree-tree'];
+        $this->scrollFrameToBottom($frameSelector);
     }
 
     /**
@@ -260,12 +260,12 @@ class Typo3Navigation extends Module
      */
     public function scrollModuleBodyTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
-        $scrollingElement = 'document.getElementsByClassName("module")[0]';
-        $offsetY = $offsetY + $this->getModuleHeaderHeight() + 10;
-        $this->scrollFrameTo($scrollingElement, $toSelector, $offsetX, $offsetY);
+        $frameSelector = ['class' => 'module'];
+        $offsetY = $offsetY + $this->_getModuleHeaderHeight() + 10;
+        $this->scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
     }
 
-    protected function getModuleHeaderHeight(): int
+    public function _getModuleHeaderHeight(): int
     {
         /** @var WebDriverElement[] $elements */
         $elements = $this->getWebDriver()->_findElements(['class' => 'module-docheader']);
@@ -290,8 +290,8 @@ class Typo3Navigation extends Module
      */
     public function scrollModuleBodyToTop(): void
     {
-        $scrollingElement = 'document.getElementsByClassName("module")[0]';
-        $this->scrollFrameToTop($scrollingElement);
+        $frameSelector = ['class' => 'module'];
+        $this->scrollFrameToTop($frameSelector);
     }
 
     /**
@@ -299,8 +299,8 @@ class Typo3Navigation extends Module
      */
     public function scrollModuleBodyToBottom(): void
     {
-        $scrollingElement = 'document.getElementsByClassName("module")[0]';
-        $this->scrollFrameToBottom($scrollingElement);
+        $frameSelector = ['class' => 'module'];
+        $this->scrollFrameToBottom($frameSelector);
     }
 
     /**
@@ -309,7 +309,7 @@ class Typo3Navigation extends Module
      *
      * The scrolling layer gets scrolled up first to ease the position calculation of the element.
      *
-     * @param string $scrollingElement
+     * @param string|array $frameSelector
      * @param string $toSelector
      * @param int $offsetX
      * @param int $offsetY
@@ -317,37 +317,43 @@ class Typo3Navigation extends Module
      *
      * @see \Codeception\Module\WebDriver::scrollTo
      */
-    protected function scrollFrameTo(string $scrollingElement, string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    protected function scrollFrameTo($frameSelector, string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
-        /** @var WebDriverElement[] $elements */
         $webDriver = $this->getWebDriver();
-        $webDriver->executeJS("$scrollingElement.scrollTop = 0");
-        $elements = $webDriver->_findElements($toSelector);
-        $x = $elements[0]->getLocation()->getX() - $offsetX;
-        $y = $elements[0]->getLocation()->getY() - $offsetY;
-        $webDriver->executeJS("$scrollingElement.scrollTo($x, $y)");
+
+        /** @var WebDriverElement $frameElement */
+        $frameElement = $webDriver->_findElements($frameSelector)[0];
+        $webDriver->executeJS("arguments[0].scrollTop = 0", [$frameElement]);
+
+        /** @var WebDriverElement $toElement */
+        $toElement = $webDriver->_findElements($toSelector)[0];
+        $x = $toElement->getLocation()->getX() - $offsetX;
+        $y = $toElement->getLocation()->getY() - $offsetY;
+        $webDriver->executeJS("arguments[0].scrollTo($x, $y)", [$frameElement]);
     }
 
     /**
      * Scroll the TYPO3 backend frame to top.
      *
-     * @param string $scrollingElement
+     * @param string|array $frameSelector
      * @return void
      */
-    protected function scrollFrameToTop(string $scrollingElement): void
+    protected function scrollFrameToTop($frameSelector): void
     {
-        $this->getWebDriver()->executeJS("$scrollingElement.scrollTop = 0");
+        $frameElement = $this->getWebDriver()->_findElements($frameSelector)[0];
+        $this->getWebDriver()->executeJS("arguments[0].scrollTop = 0", [$frameElement]);
     }
 
     /**
      * Scroll the TYPO3 backend frame to the bottom.
      *
-     * @param string $scrollingElement
+     * @param string|array $frameSelector
      * @return void
      */
-    protected function scrollFrameToBottom(string $scrollingElement): void
+    protected function scrollFrameToBottom($frameSelector): void
     {
-        $this->getWebDriver()->executeJS("$scrollingElement.scrollTop = $scrollingElement.scrollHeight");
+        $frameElement = $this->getWebDriver()->_findElements($frameSelector)[0];
+        $this->getWebDriver()->executeJS("arguments[0].scrollTop = arguments[0].scrollHeight", [$frameElement]);
     }
 
     /**
