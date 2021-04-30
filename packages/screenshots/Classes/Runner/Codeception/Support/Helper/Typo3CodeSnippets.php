@@ -144,13 +144,15 @@ class Typo3CodeSnippets extends Module
     {
         $code = $this->indentCode($code, '   ');
 
-        $rst = <<<HEREDOC
+        $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
 .. code:: php
 
-$code
-HEREDOC;
+%s
+NOWDOC;
+
+        $rst = sprintf($rst, $code);
 
         @mkdir(dirname($path), 0777, true);
         file_put_contents($path, $rst);

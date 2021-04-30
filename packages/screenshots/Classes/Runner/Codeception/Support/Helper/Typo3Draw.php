@@ -66,7 +66,7 @@ class Typo3Draw extends Module
 
         $elements = $this->findElementsOrThrowException($selector);
 
-        $this->getWebDriver()->executeJS(sprintf(<<<HEREDOC
+        $js = <<<'NOWDOC'
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
     pane=$('<div id="t3docs-screenshots-pane">').css(%s).appendTo('body');
@@ -84,7 +84,12 @@ for (let i = 0; i < elements.length; i++) {
     });
     box.appendTo(pane);
 }
-HEREDOC, json_encode($this->paneCss), json_encode($boxCss)), $elements);
+NOWDOC;
+
+        $this->getWebDriver()->executeJS(
+            sprintf($js, json_encode($this->paneCss), json_encode($boxCss)),
+            $elements
+        );
     }
 
     protected function findElementsOrThrowException(string $selector): array
@@ -117,19 +122,19 @@ HEREDOC, json_encode($this->paneCss), json_encode($boxCss)), $elements);
             "padding-left" => "10px",
             "transform-origin" => "left center",
         ];
-        $arrowSvg = <<<HEREDOC
+        $arrowSvg = <<<'NOWDOC'
 <svg width="126.93" height="32" version="1.1" viewBox="0 0 33.584 8.4667" xmlns="http://www.w3.org/2000/svg">
  <g transform="translate(48.542 -18.356)">
   <path fill="#F49700" d="m-14.958 21.828v1.5251c0 0.25164-0.20196 0.45752-0.44879 0.45752h-28.535v2.5545c0 0.40796-0.48245 0.61003-0.76669 0.32408l-3.7025-3.7746c-0.17578-0.1792-0.17578-0.46896 0-0.64816l3.7025-3.7746c0.28424-0.28976 0.76669-0.08388 0.76669 0.32408v2.5545h28.535c0.24684 0 0.44879 0.20588 0.44879 0.45752z"/>
  </g>
 </svg>
-HEREDOC;
+NOWDOC;
 
         $elements = $this->findElementsOrThrowException($selector);
         $arrowSvgOneLine = str_replace("\n", "", $arrowSvg);
         [$positionX, $positionY] = explode('-', $position);
 
-        $this->getWebDriver()->executeJS(sprintf(<<<HEREDOC
+        $js = <<<'NOWDOC'
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
     pane=$('<div id="t3docs-screenshots-pane">').css(%s).appendTo('body');
@@ -161,7 +166,12 @@ for (let i = 0; i < elements.length; i++) {
         "transform": "translate("+position['%s']+"px, "+position['%s']+"px) rotate("+angle['%s']+")",
     });
 }
-HEREDOC, json_encode($this->paneCss), json_encode($arrowCss), $arrowSvgOneLine, $positionX, $positionY, $position), $elements);
+NOWDOC;
+
+        $this->getWebDriver()->executeJS(
+            sprintf($js, json_encode($this->paneCss), json_encode($arrowCss), $arrowSvgOneLine, $positionX, $positionY, $position),
+            $elements
+        );
     }
 
     protected function isValidArrowPosition(string $position): bool
@@ -205,7 +215,7 @@ HEREDOC, json_encode($this->paneCss), json_encode($arrowCss), $arrowSvgOneLine, 
 
         $elements = $this->findElementsOrThrowException($selector);
 
-        $this->getWebDriver()->executeJS(sprintf(<<<HEREDOC
+        $js = <<<'NOWDOC'
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length === 0) {
     pane=$('<div id="t3docs-screenshots-pane">').css(%s).appendTo('body');
@@ -239,7 +249,12 @@ for (let i = 0; i < elements.length; i++) {
         top: positions[position][1],
     });
 }
-HEREDOC, json_encode($this->paneCss), $position, $label, json_encode($badgeCss)), $elements);
+NOWDOC;
+
+        $this->getWebDriver()->executeJS(
+            sprintf($js, json_encode($this->paneCss), $position, $label, json_encode($badgeCss)),
+            $elements
+        );
     }
 
     protected function isValidBadgePosition(string $position): bool
@@ -274,13 +289,15 @@ HEREDOC, json_encode($this->paneCss), $position, $label, json_encode($badgeCss))
 
     protected function clearDrawingsOfIFrame(): void
     {
-        $webDriver = $this->getWebDriver();
-        $webDriver->executeJS(<<<HEREDOC
+        $js = <<<'NOWDOC'
 let pane=$('#t3docs-screenshots-pane');
 if (pane.length > 0) {
     pane.remove();
 }
-HEREDOC);
+NOWDOC;
+
+        $webDriver = $this->getWebDriver();
+        $webDriver->executeJS($js);
     }
 
     protected function getWebDriver(): WebDriver
