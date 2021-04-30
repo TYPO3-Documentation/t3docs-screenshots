@@ -190,6 +190,10 @@ class Typo3Navigation extends Module
     /**
      * Scroll the page tree up to show the given element at the top.
      *
+     * Make sure that the element is visible in the browser window before using this action. Otherwise, the browser
+     * cannot determine the position of the element because the page tree is an SVG element and the browser has limited
+     * capabilities with respect to SVGs.
+     *
      * ``` php
      * <?php
      * $I->scrollPageTreeTo('.node.identifier-0_32');
@@ -322,13 +326,17 @@ class Typo3Navigation extends Module
         $webDriver = $this->getWebDriver();
 
         /** @var WebDriverElement $frameElement */
-        $frameElement = $webDriver->_findElements($frameSelector)[0];
-        $webDriver->executeJS("arguments[0].scrollTop = 0", [$frameElement]);
-
         /** @var WebDriverElement $toElement */
+        $frameElement = $webDriver->_findElements($frameSelector)[0];
         $toElement = $webDriver->_findElements($toSelector)[0];
-        $x = $toElement->getLocation()->getX() - $offsetX;
-        $y = $toElement->getLocation()->getY() - $offsetY;
+
+        $frameElementScrollX = $webDriver->executeJS("return arguments[0].scrollLeft", [$frameElement]);
+        $frameElementScrollY = $webDriver->executeJS("return arguments[0].scrollTop", [$frameElement]);
+        $toElementX = $toElement->getLocation()->getX();
+        $toElementY = $toElement->getLocation()->getY();
+        $x = $frameElementScrollX + $toElementX - $offsetX;
+        $y = $frameElementScrollY + $toElementY - $offsetY;
+
         $webDriver->executeJS("arguments[0].scrollTo($x, $y)", [$frameElement]);
     }
 
@@ -358,6 +366,10 @@ class Typo3Navigation extends Module
 
     /**
      * Open the given hierarchical path in the page tree and click the last page.
+     *
+     * Make sure that the pages of the hierarchical path are visible in the browser window before using this action.
+     * Otherwise, the browser cannot find all page nodes of the path because the page tree is an SVG element and
+     * the browser has limited capabilities with respect to SVGs.
      *
      * Example to open "styleguide -> elements basic" page:
      * [
