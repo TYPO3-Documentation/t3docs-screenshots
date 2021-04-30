@@ -50,7 +50,7 @@ class Typo3Draw extends Module
     /**
      * Draw a box around a DOM element specified by the selector.
      *
-     * @param string $selector The DOM element selector used by jQuery(selector),
+     * @param string $selector The DOM element,
      *                          e.g. "#dashboard" to draw a box around the button "Dashboard" of the TYPO3 modules menu.
      */
     public function drawBox(string $selector): void
@@ -104,7 +104,7 @@ NOWDOC;
     /**
      * Draw an arrow which points to a DOM element specified by the selector.
      *
-     * @param string $selector The DOM element selector used by jQuery(selector),
+     * @param string $selector The DOM element,
      *                          e.g. "#dashboard" to draw an arrow which points to the button "Dashboard" of the TYPO3
      *                          modules menu.
      * @param string $position The position of the arrow regarding the element it points to: "left-top", "left-middle",
@@ -191,7 +191,7 @@ NOWDOC;
     /**
      * Draw a badge with text next to a DOM element specified by the selector.
      *
-     * @param string $selector The DOM element selector used by jQuery(selector),
+     * @param string $selector The DOM element,
      *                          e.g. "#dashboard" to add a badge next to the button "Dashboard" of the TYPO3 modules
      *                          menu.
      * @param string $label The badge text, e.g. "Click here" or "#1".
