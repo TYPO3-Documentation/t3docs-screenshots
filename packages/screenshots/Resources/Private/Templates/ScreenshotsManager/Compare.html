@@ -11,11 +11,11 @@
         </f:form>
     </div>
     <h2>Results</h2>
-    <f:if condition="{images}">
+    <f:if condition="{comparisons}">
         <f:then>
-            <f:for each="{images}" as="image" iteration="iteration">
-                <f:be.infobox title="#{iteration.cycle}: {image.paths.relative}" state="-1" disableIcon="TRUE">
-                    <b>Difference:</b> {image.difference}
+            <f:for each="{comparisons}" as="comparison" iteration="iteration">
+                <f:be.infobox title="#{iteration.cycle}: {comparison.imageOriginal.uri}" state="-1" disableIcon="TRUE">
+                    <b>Difference:</b> {comparison.difference}
                 </f:be.infobox>
                 <div class="panel panel-default">
                     <div class="table-fit">
@@ -26,26 +26,26 @@
                                 <th>Original</th>
                             </tr>
                             <tr>
-                                <td><img src="{image.urls.actual}" alt="" /></td>
+                                <td><img src="{comparison.imageActual.uriWithCacheBust}" alt="" /></td>
                                 <td>
-                                    <f:if condition="{image.urls.diff}">
+                                    <f:if condition="{comparison.imageDiff.existing}">
                                         <f:then>
-                                            <img src="{image.urls.diff}" alt="" />
+                                            <img src="{comparison.imageDiff.uriWithCacheBust}" alt="" />
                                         </f:then>
                                         <f:else>
-                                            <screenshots:placeholder width="200px" height="{image.maxHeight}px">
+                                            <screenshots:placeholder width="200px" height="{comparison.maxHeight}px">
                                                 Nothing to compare.
                                             </screenshots:placeholder>
                                         </f:else>
                                     </f:if>
                                 </td>
                                 <td>
-                                    <f:if condition="{image.urls.original}">
+                                    <f:if condition="{comparison.imageOriginal.existing}">
                                         <f:then>
-                                            <img src="{image.urls.original}" alt="" />
+                                            <img src="{comparison.imageOriginal.uriWithCacheBust}" alt="" />
                                         </f:then>
                                         <f:else>
-                                            <screenshots:placeholder width="200px" height="{image.maxHeight}px">
+                                            <screenshots:placeholder width="200px" height="{comparison.maxHeight}px">
                                                 Does not exist yet.
                                             </screenshots:placeholder>
                                         </f:else>
