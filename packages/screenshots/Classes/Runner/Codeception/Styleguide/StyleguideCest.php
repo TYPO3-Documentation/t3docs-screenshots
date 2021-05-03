@@ -13,7 +13,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Styleguide;
  */
 
 use TYPO3\CMS\Screenshots\Runner\Codeception\AbstractBaseCest;
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
+use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
 
 /**
  * Tests the screenshots backend module can be loaded
@@ -21,9 +21,9 @@ use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
 class StyleguideCest extends AbstractBaseCest
 {
     /**
-     * @param BackendTester $I
+     * @param Photographer $I
      */
-    public function makeScreenshots(BackendTester $I): void
+    public function makeScreenshots(Photographer $I): void
     {
         $I->useExistingSession('admin');
         parent::runSuite($I, 'Styleguide');

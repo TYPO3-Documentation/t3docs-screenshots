@@ -12,12 +12,12 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\_generated\BackendTesterActions;
+use TYPO3\CMS\Screenshots\Runner\Codeception\Support\_generated\PhotographerActions;
 
 /**
- * Default backend admin or editor actor in the backend
+ * Default actor
 */
-class BackendTester extends \Codeception\Actor
+class Photographer extends \Codeception\Actor
 {
-    use BackendTesterActions;
+    use PhotographerActions;
 }

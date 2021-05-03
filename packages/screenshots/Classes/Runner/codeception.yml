@@ -1,11 +1,11 @@
 suites:
   Introduction:
-    actor: BackendTester
+    actor: Photographer
     extensions:
       enabled:
         - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\IntroductionEnvironment
   Styleguide:
-    actor: BackendTester
+    actor: Photographer
     extensions:
       enabled:
         - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\StyleguideEnvironment
