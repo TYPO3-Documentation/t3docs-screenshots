@@ -117,7 +117,7 @@ class Typo3Screenshots extends Module
      *
      * The total page height is the header height plus the maximum of the three columns:
      * - module menu
-     * - page tree
+     * - page tree / file tree
      * - module
      *
      * Since the module is in a different frame than the rest, this action switches between frames to capture all sizes
