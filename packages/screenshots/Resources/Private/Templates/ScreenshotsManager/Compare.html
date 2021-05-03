@@ -26,11 +26,11 @@
                                 <th>Original</th>
                             </tr>
                             <tr>
-                                <td><f:image src="{image.urls.actual}" /></td>
+                                <td><img src="{image.urls.actual}" alt="" /></td>
                                 <td>
                                     <f:if condition="{image.urls.diff}">
                                         <f:then>
-                                            <f:image src="{image.urls.diff}" />
+                                            <img src="{image.urls.diff}" alt="" />
                                         </f:then>
                                         <f:else>
                                             <screenshots:placeholder width="200px" height="{image.maxHeight}px">
@@ -42,7 +42,7 @@
                                 <td>
                                     <f:if condition="{image.urls.original}">
                                         <f:then>
-                                            <f:image src="{image.urls.original}" />
+                                            <img src="{image.urls.original}" alt="" />
                                         </f:then>
                                         <f:else>
                                             <screenshots:placeholder width="200px" height="{image.maxHeight}px">

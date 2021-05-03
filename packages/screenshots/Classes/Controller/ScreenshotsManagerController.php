@@ -100,15 +100,18 @@ class ScreenshotsManagerController extends ActionController
                 'diff' => GeneralUtility::getFileAbsFileName($folderDiff . $pathRelative)
             ];
             $urls = [
-                'original' => $folderOriginal . $pathRelative,
-                'actual' => $folderActual . $pathRelative,
-                'diff' => $folderDiff . $pathRelative
+                'original' => '/' . $folderOriginal . $pathRelative,
+                'actual' => '/' . $folderActual . $pathRelative,
+                'diff' => '/' . $folderDiff . $pathRelative
             ];
 
             if (is_file($paths['original']) === false) {
                 $imageActual = new \Imagick($paths['actual']);
+                $imageActualModificationTime = filemtime($paths['actual']);
+
                 $paths['original'] = $paths['diff'] = '';
                 $urls['original'] = $urls['diff'] = '';
+                $urls['actual'] .= '?bust=' . $imageActualModificationTime;
 
                 GeneralUtility::mkdir_deep(dirname($paths['diff']));
                 $images[] = [
@@ -120,6 +123,12 @@ class ScreenshotsManagerController extends ActionController
             } else {
                 $imageActual = new \Imagick($paths['actual']);
                 $imageOriginal = new \Imagick($paths['original']);
+                $imageActualModificationTime = filemtime($paths['actual']);
+                $imageOriginalModificationTime = filemtime($paths['original']);
+
+                $urls['actual'] .= '?bust=' . $imageActualModificationTime;
+                $urls['original'] .= '?bust=' . $imageOriginalModificationTime;
+
                 $diff = $imageActual->compareImages($imageOriginal, \Imagick::METRIC_MEANABSOLUTEERROR);
 
                 if ($diff[1] > $this->threshold) {
