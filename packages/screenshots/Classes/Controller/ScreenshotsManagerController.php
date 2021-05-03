@@ -18,6 +18,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
 
 class ScreenshotsManagerController extends ActionController
 {
@@ -83,68 +84,34 @@ class ScreenshotsManagerController extends ActionController
         $folderActual = 't3docs-generated/actual';
         $folderDiff = 't3docs-generated/diff';
 
-        $images = [];
+        $comparisons = [];
 
-        GeneralUtility::rmdir(GeneralUtility::getFileAbsFileName($folderDiff), true);
-        $files = GeneralUtility::getAllFilesAndFoldersInPath(
-            [], GeneralUtility::getFileAbsFileName($folderActual) . '/', 'gif,jpg,jpeg,png,bmp'
-        );
+        $pathOriginal = GeneralUtility::getFileAbsFileName($folderOriginal);
+        $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
+        $pathDiff = GeneralUtility::getFileAbsFileName($folderDiff);
 
-        $folderActualLength = strlen(GeneralUtility::getFileAbsFileName($folderActual));
+        GeneralUtility::rmdir($pathDiff, true);
+        $files = GeneralUtility::removePrefixPathFromList(GeneralUtility::getAllFilesAndFoldersInPath(
+            [], $pathActual . '/', 'gif,jpg,jpeg,png,bmp'
+        ), $pathActual);
+
         foreach ($files as $file) {
-            $pathRelative = substr($file, $folderActualLength);
-            $paths = [
-                'relative' => $pathRelative,
-                'original' => GeneralUtility::getFileAbsFileName($folderOriginal . $pathRelative),
-                'actual' => GeneralUtility::getFileAbsFileName($folderActual . $pathRelative),
-                'diff' => GeneralUtility::getFileAbsFileName($folderDiff . $pathRelative)
-            ];
-            $urls = [
-                'original' => '/' . $folderOriginal . $pathRelative,
-                'actual' => '/' . $folderActual . $pathRelative,
-                'diff' => '/' . $folderDiff . $pathRelative
-            ];
-
-            if (is_file($paths['original']) === false) {
-                $imageActual = new \Imagick($paths['actual']);
-                $imageActualModificationTime = filemtime($paths['actual']);
-
-                $paths['original'] = $paths['diff'] = '';
-                $urls['original'] = $urls['diff'] = '';
-                $urls['actual'] .= '?bust=' . $imageActualModificationTime;
-
-                GeneralUtility::mkdir_deep(dirname($paths['diff']));
-                $images[] = [
-                    'difference' => 1,
-                    'maxHeight' => $imageActual->getImageHeight(),
-                    'paths' => $paths,
-                    'urls' => $urls
-                ];
-            } else {
-                $imageActual = new \Imagick($paths['actual']);
-                $imageOriginal = new \Imagick($paths['original']);
-                $imageActualModificationTime = filemtime($paths['actual']);
-                $imageOriginalModificationTime = filemtime($paths['original']);
-
-                $urls['actual'] .= '?bust=' . $imageActualModificationTime;
-                $urls['original'] .= '?bust=' . $imageOriginalModificationTime;
-
-                $diff = $imageActual->compareImages($imageOriginal, \Imagick::METRIC_MEANABSOLUTEERROR);
-
-                if ($diff[1] > $this->threshold) {
-                    GeneralUtility::mkdir_deep(dirname($paths['diff']));
-                    GeneralUtility::writeFile($paths['diff'], $diff[0]);
-                    $images[] = [
-                        'difference' => $diff[1],
-                        'maxHeight' => max($imageActual->getImageHeight(), $imageOriginal->getImageHeight()),
-                        'paths' => $paths,
-                        'urls' => $urls
-                    ];
-                }
+            $comparison = new ImageComparison(
+                $pathActual . $file,
+                $pathOriginal . $file,
+                $pathDiff . $file,
+                '/' . $folderActual . $file,
+                '/' . $folderOriginal . $file,
+                '/' . $folderDiff . $file,
+                $this->threshold
+            );
+            $comparison->process();
+            if ($comparison->getDifference() > $this->threshold) {
+                $comparisons[] = $comparison;
             }
         }
 
-        $this->view->assign('images', $images);
+        $this->view->assign('comparisons', $comparisons);
     }
 
     public function copyAction(): void
