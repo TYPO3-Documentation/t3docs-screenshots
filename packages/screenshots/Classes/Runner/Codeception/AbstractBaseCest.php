@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception;
 use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\BackendTester;
+use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationException;
 
 /**
@@ -41,10 +41,10 @@ abstract class AbstractBaseCest
     }
 
     /**
-     * @param BackendTester $I
+     * @param Photographer $I
      * @param string $suite
      */
-    protected function runSuite(BackendTester $I, string $suite): void
+    protected function runSuite(Photographer $I, string $suite): void
     {
         $originalPath = '/var/www/html/public/t3docs';
         $actualPath = '/var/www/html/public/t3docs-generated/actual';
@@ -73,7 +73,7 @@ abstract class AbstractBaseCest
         }
     }
 
-    protected function handleAction(BackendTester $I, array $action)
+    protected function handleAction(Photographer $I, array $action)
     {
         if (isset($action['comment'])) {
             $this->printComment($action);
@@ -91,11 +91,11 @@ abstract class AbstractBaseCest
         $this->consoleOutput->writeln(' ' . $action['comment']);
     }
 
-    protected function runAction(BackendTester $I, array $action)
+    protected function runAction(Photographer $I, array $action)
     {
         $name = $action['action'];
         unset($action['action']);
-        $params = $this->mapAssociativeArrayToActionParams(BackendTester::class, $name, $action);
+        $params = $this->mapAssociativeArrayToActionParams(Photographer::class, $name, $action);
 
         foreach ($params as &$param) {
             if (is_array($param) && isset($param['action'])) {
