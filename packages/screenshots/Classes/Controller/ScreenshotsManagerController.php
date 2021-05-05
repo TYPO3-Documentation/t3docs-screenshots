@@ -14,7 +14,6 @@ namespace TYPO3\CMS\Screenshots\Controller;
 
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
@@ -22,13 +21,6 @@ use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
 
 class ScreenshotsManagerController extends ActionController
 {
-    /**
-     * Backend Template Container
-     *
-     * @var string
-     */
-    protected $defaultViewObjectName = BackendTemplateView::class;
-
     /**
      * BackendTemplateContainer
      *
@@ -49,13 +41,6 @@ class ScreenshotsManagerController extends ActionController
             parent::initializeView($view);
             $this->view->getModuleTemplate()->setFlashMessageQueue($this->controllerContext->getFlashMessageQueue());
         }
-    }
-
-    protected function initializeAction(): void
-    {
-        /** @var PageRenderer $pageRenderer */
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->addCssFile('EXT:screenshots/Resources/Public/Css/screenshots-manager.css');
     }
 
     public function indexAction()
