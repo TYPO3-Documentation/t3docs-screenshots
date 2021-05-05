@@ -1,3 +1,6 @@
+.screenshots-manager {
+    color: #333;
+}
 .screenshots-manager .placeholder {
     display: flex;
     justify-content: center;

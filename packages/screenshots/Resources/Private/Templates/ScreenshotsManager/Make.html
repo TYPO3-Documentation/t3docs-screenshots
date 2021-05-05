@@ -5,11 +5,10 @@
     <div>
         <f:form>
             <f:link.action action="make" class="btn btn-warning">Make screenshots</f:link.action>
-            <f:link.action action="compare" class="btn btn-primary">Compare screenshots</f:link.action>
-            <f:link.action action="copy" class="btn btn-success">Copy screenshots</f:link.action>
         </f:form>
     </div>
     <h2>Result</h2>
+    <f:render partial="Messages" arguments="{messages:messages}" />
     <f:if condition="{resultCode} == 0">
         <f:then>
             <f:be.infobox state="0">
