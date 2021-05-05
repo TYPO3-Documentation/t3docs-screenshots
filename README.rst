@@ -366,8 +366,39 @@ To manage the created screenshots the TYPO3 instance backend provides a module "
 module menu at Admin Tools > Screenshots. It provides three functions: Starting the screenshot runner, comparing actual
 and original screenshots and copying screenshots from the actual path to the original path.
 
-.. image:: docs/typo3_screenshots_module.png
+Welcome
+-------
 
+On the welcome page you can select the action you want to perform:
+
+- create screenshots by processing the available ``screenshots.json`` through the Screenshot Runner or
+- compare new screenshots with the originals and copy the new screenshots
+
+.. image:: docs/screenshots_manager_welcome.png
+
+Make screenshots
+----------------
+
+On this page you automatically start the screenshot runner, which starts a subprocess on the command line.
+The result is displayed on this page as soon as the runner is finished - which may take a while.
+
+.. image:: docs/screenshots_manager_make.png
+
+Compare & copy screenshots
+--------------------------
+
+On this page you compare the newly created screenshots of the runner with the originals. Each list item shows the
+current state on the left, the original state on the right and the difference map in the middle. At the top it shows
+the difference as a number.
+
+.. image:: docs/screenshots_manager_compare.png
+
+When you have confirmed the changes, pressing the "Copy screenshots" button will copy the screenshots to the original
+location.
+
+.. image:: docs/screenshots_manager_copy.png
+
+Eventually, the original screenshots were updated and the changes can be committed and pushed.
 
 Development
 ===========
