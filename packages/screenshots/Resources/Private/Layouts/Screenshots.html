@@ -1,5 +1,21 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
-<div class="screenshots-manager">
-    <f:render section="Content" />
-</div>
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+    data-namespace-typo3-fluid="true">
+
+<be:moduleLayout>
+    <f:be.pageRenderer
+        includeCssFiles="{0:'EXT:screenshots/Resources/Public/Css/screenshots-manager.css'}"
+    />
+    <be:moduleLayout.menu identifier="ScreenshotsModuleActionMenu">
+        <be:moduleLayout.menuItem label="-" uri="{f:uri.action(controller: 'ScreenshotsManager', action: 'index')}"/>
+        <be:moduleLayout.menuItem label="Make screenshots" uri="{f:uri.action(controller: 'ScreenshotsManager', action: 'make')}"/>
+        <be:moduleLayout.menuItem label="Compare screenshots" uri="{f:uri.action(controller: 'ScreenshotsManager', action: 'compare')}"/>
+        <be:moduleLayout.menuItem label="Copy screenshots" uri="{f:uri.action(controller: 'ScreenshotsManager', action: 'copy')}"/>
+    </be:moduleLayout.menu>
+    <div class="screenshots-manager">
+        <f:render section="Content" />
+    </div>
+</be:moduleLayout>
+
 </html>
