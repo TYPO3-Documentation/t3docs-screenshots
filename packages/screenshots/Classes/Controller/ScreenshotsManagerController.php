@@ -13,35 +13,15 @@ namespace TYPO3\CMS\Screenshots\Controller;
  */
 
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
-use TYPO3\CMS\Backend\View\BackendTemplateView;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
+use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
 use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
 
 class ScreenshotsManagerController extends ActionController
 {
-    /**
-     * BackendTemplateContainer
-     *
-     * @var BackendTemplateView
-     */
-    protected $view;
-
     protected float $threshold = 0.0002;
-
-    /**
-     * Set up the doc header properly here
-     *
-     * @param ViewInterface $view
-     */
-    protected function initializeView(ViewInterface $view)
-    {
-        if ($view instanceof BackendTemplateView) {
-            parent::initializeView($view);
-            $this->view->getModuleTemplate()->setFlashMessageQueue($this->controllerContext->getFlashMessageQueue());
-        }
-    }
 
     public function indexAction()
     {
@@ -61,6 +41,7 @@ class ScreenshotsManagerController extends ActionController
 
         $this->view->assign('outputHtml', $outputHtml);
         $this->view->assign('resultCode', $resultCode);
+        $this->view->assign('messages', $this->fetchMessages());
     }
 
     public function compareAction(): void
@@ -97,6 +78,7 @@ class ScreenshotsManagerController extends ActionController
         }
 
         $this->view->assign('comparisons', $comparisons);
+        $this->view->assign('messages', $this->fetchMessages());
     }
 
     public function copyAction(): void
@@ -121,6 +103,53 @@ class ScreenshotsManagerController extends ActionController
             copy($paths['actual'], $paths['original']);
         }
 
-        $this->view->assign('files', $files);
+        if (count($files) > 0) {
+            $this->pushMessage(sprintf('%s images copied.', count($files)), InfoboxViewHelper::STATE_OK);
+        } else {
+            $this->pushMessage('No images copied.', InfoboxViewHelper::STATE_OK);
+        }
+
+        $this->redirect('compare');
+    }
+
+    /**
+     * Add a message to the module internal message stack. They are displayed as infoboxes at a user-defined
+     * position in the template. Survives redirects similar to $this->addFlashMessage().
+     *
+     * @param string $message
+     * @param int $state An InfoboxViewHelper state.
+     */
+    protected function pushMessage(string $message, int $state): void
+    {
+        $moduleData = $this->getBackendUser()->getModuleData('tx_screenshots');
+        $moduleData['messages'][] = ['message' => $message, 'state' => $state];
+        $this->getBackendUser()->pushModuleData('tx_screenshots', $moduleData);
+    }
+
+    /**
+     * Retrieve messages from the module internal message stack.
+     *
+     * @return array
+     */
+    protected function fetchMessages(): array
+    {
+        $messages = [];
+
+        $moduleData = $this->getBackendUser()->getModuleData('tx_screenshots');
+        if (isset($moduleData['messages'])) {
+            $messages = $moduleData['messages'];
+            unset($moduleData['messages']);
+            $this->getBackendUser()->pushModuleData('tx_screenshots', $moduleData);
+        }
+
+        return $messages;
+    }
+
+    /**
+     * @return BackendUserAuthentication
+     */
+    protected function getBackendUser(): BackendUserAuthentication
+    {
+        return $GLOBALS['BE_USER'];
     }
 }

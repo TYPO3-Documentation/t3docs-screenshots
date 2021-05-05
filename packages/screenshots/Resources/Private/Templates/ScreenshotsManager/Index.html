@@ -2,16 +2,51 @@
 <f:layout name="Screenshots" />
 <f:section name="Content">
     <h1>TYPO3 Screenshots</h1>
-    <div>
-        <f:form>
-            <f:link.action action="make" class="btn btn-warning">Make screenshots</f:link.action>
-            <f:link.action action="compare" class="btn btn-primary">Compare screenshots</f:link.action>
-            <f:link.action action="copy" class="btn btn-success">Copy screenshots</f:link.action>
-        </f:form>
+    <div class="card-container">
+        <div class="card card-size-fixed-small">
+            <div class="card-header">
+                <div class="card-icon">
+                    <img src="{f:uri.resource(path: 'Icons/modules/make.svg')}" width="64" height="64" class="card-header-icon-image" />
+                </div>
+                <div class="card-header-body">
+                    <h1 class="card-title">Make</h1>
+                    <span class="card-subtitle">Screenshots Runner</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <p class="card-text">
+                    This action processes the screenshots.json in the subfolders of path <code>/public/t3docs</code> and
+                    generates screenshots in the equivalent subfolders of path
+                    <code>/public/t3docs-generated/actual</code>.
+                </p>
+            </div>
+            <div class="card-footer">
+                <f:form>
+                    <f:link.action action="make" class="btn btn-warning">Make screenshots</f:link.action>
+                </f:form>
+            </div>
+        </div>
+        <div class="card card-size-fixed-small">
+            <div class="card-header">
+                <div class="card-icon">
+                    <img src="{f:uri.resource(path: 'Icons/modules/compare.svg')}" width="64" height="64" class="card-header-icon-image" />
+                </div>
+                <div class="card-header-body">
+                    <h1 class="card-title">Compare &amp; Copy</h1>
+                    <span class="card-subtitle">Screenshots Manager</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <p class="card-text">
+                    This action compares the generated to the original screenshots and copies all selected files over.
+                </p>
+            </div>
+            <div class="card-footer">
+                <f:form>
+                    <f:link.action action="compare" class="btn btn-success">Compare & copy screenshots</f:link.action>
+                </f:form>
+            </div>
+        </div>
     </div>
-    <h2>Results</h2>
-    <f:be.infobox state="-2">
-        Nothing done yet. Please choose an action.
-    </f:be.infobox>
 </f:section>
 </html>

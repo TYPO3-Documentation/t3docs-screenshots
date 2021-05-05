@@ -3,15 +3,15 @@
       data-namespace-typo3-fluid="true">
 <f:layout name="Screenshots" />
 <f:section name="Content">
-    <h1>TYPO3 Screenshots :: Compare</h1>
+    <h1>TYPO3 Screenshots :: Compare &amp; Copy</h1>
     <div>
         <f:form>
-            <f:link.action action="make" class="btn btn-warning">Make screenshots</f:link.action>
             <f:link.action action="compare" class="btn btn-primary">Compare screenshots</f:link.action>
             <f:link.action action="copy" class="btn btn-success">Copy screenshots</f:link.action>
         </f:form>
     </div>
     <h2>Results</h2>
+    <f:render partial="Messages" arguments="{messages:messages}" />
     <f:if condition="{comparisons}">
         <f:then>
             <f:for each="{comparisons}" as="comparison" iteration="iteration">
