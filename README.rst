@@ -391,6 +391,10 @@ On this page you compare the newly created screenshots of the runner with the or
 current state on the left, the original state on the right and the difference map in the middle. At the top it shows
 the difference as a number.
 
+Each screenshot is selected for copying by default, but can be deselected individually and in aggregation. All text
+files such as the screenshot ReST include files or the code snippets cannot be deselected but are copied in bundles:
+They must be handled externally by the Git comparison tools.
+
 .. image:: docs/screenshots_manager_compare.png
 
 When you have confirmed the changes, pressing the "Copy screenshots" button will copy the screenshots to the original
