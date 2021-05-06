@@ -14,8 +14,10 @@ namespace TYPO3\CMS\Screenshots\Controller;
 
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
 use TYPO3\CMS\Screenshots\Comparison\Image;
 use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
@@ -24,6 +26,22 @@ class ScreenshotsManagerController extends ActionController
 {
     protected float $threshold = 0.0002;
     protected array $imageExtensions = ['gif', 'jpg', 'jpeg', 'png', 'bmp'];
+
+    protected PageRenderer $pageRenderer;
+
+    public function injectPageRenderer(PageRenderer $pageRenderer)
+    {
+        $this->pageRenderer = $pageRenderer;
+    }
+
+    protected function initializeView(ViewInterface $view)
+    {
+        parent::initializeView($view);
+
+        $this->pageRenderer->addInlineLanguageLabelFile('EXT:screenshots/Resources/Private/Language/locallang_mod.xlf');
+        $this->pageRenderer->addCssFile('EXT:screenshots/Resources/Public/Css/screenshots-manager.css');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Screenshots/ScreenshotsManager');
+    }
 
     public function indexAction()
     {
