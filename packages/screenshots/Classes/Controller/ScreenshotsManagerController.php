@@ -17,11 +17,13 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
+use TYPO3\CMS\Screenshots\Comparison\Image;
 use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
 
 class ScreenshotsManagerController extends ActionController
 {
     protected float $threshold = 0.0002;
+    protected array $imageExtensions = ['gif', 'jpg', 'jpeg', 'png', 'bmp'];
 
     public function indexAction()
     {
@@ -50,64 +52,96 @@ class ScreenshotsManagerController extends ActionController
         $folderActual = 't3docs-generated/actual';
         $folderDiff = 't3docs-generated/diff';
 
-        $comparisons = [];
-
         $pathOriginal = GeneralUtility::getFileAbsFileName($folderOriginal);
         $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
         $pathDiff = GeneralUtility::getFileAbsFileName($folderDiff);
 
         GeneralUtility::rmdir($pathDiff, true);
         $files = GeneralUtility::removePrefixPathFromList(GeneralUtility::getAllFilesAndFoldersInPath(
-            [], $pathActual . '/', 'gif,jpg,jpeg,png,bmp'
+            [], $pathActual . '/'
         ), $pathActual);
 
+        $imageExtensionsIndex = array_flip($this->imageExtensions);
+
+        $comparisons = [];
+        $numImages = 0;
+        $numFiles = 0;
         foreach ($files as $file) {
-            $comparison = new ImageComparison(
-                $pathActual . $file,
-                $pathOriginal . $file,
-                $pathDiff . $file,
-                '/' . $folderActual . $file,
-                '/' . $folderOriginal . $file,
-                '/' . $folderDiff . $file,
-                $this->threshold
-            );
-            $comparison->process();
-            if ($comparison->getDifference() > $this->threshold) {
-                $comparisons[] = $comparison;
+            $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+
+            if (isset($imageExtensionsIndex[$fileExtension])) {
+                $comparison = new ImageComparison(
+                    $pathActual . $file,
+                    $pathOriginal . $file,
+                    $pathDiff . $file,
+                    '/' . $folderActual . $file,
+                    '/' . $folderOriginal . $file,
+                    '/' . $folderDiff . $file,
+                    $this->threshold
+                );
+                $comparison->process();
+                if ($comparison->getDifference() > $this->threshold) {
+                    $comparisons[] = $comparison;
+                    $numImages++;
+                }
+            } else {
+                $numFiles++;
             }
         }
 
         $this->view->assign('comparisons', $comparisons);
+        $this->view->assign('numImages', $numImages);
+        $this->view->assign('numFiles', $numFiles);
         $this->view->assign('messages', $this->fetchMessages());
     }
 
-    public function copyAction(): void
+    public function copyAction(array $imagesToCopy = [], int $numImages = 0): void
     {
         $folderOriginal = 't3docs';
         $folderActual = 't3docs-generated/actual';
-        $folderDiff = 't3docs-generated/diff';
 
-        $files = GeneralUtility::getAllFilesAndFoldersInPath([], GeneralUtility::getFileAbsFileName($folderActual) . '/');
+        $pathOriginal = GeneralUtility::getFileAbsFileName($folderOriginal);
+        $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
 
-        $folderActualLength = strlen(GeneralUtility::getFileAbsFileName($folderActual));
+        $files = GeneralUtility::removePrefixPathFromList(GeneralUtility::getAllFilesAndFoldersInPath(
+            [], $pathActual . '/'
+        ), $pathActual);
+
+        $imageExtensionsIndex = array_flip($this->imageExtensions);
+        $imagesToCopyIndex = array_flip($imagesToCopy);
+
+        $numCopiedImages = 0;
+        $numCopiedFiles = 0;
         foreach ($files as $file) {
-            $pathRelative = substr($file, $folderActualLength);
-            $paths = [
-                'relative' => $pathRelative,
-                'original' => GeneralUtility::getFileAbsFileName($folderOriginal . $pathRelative),
-                'actual' => GeneralUtility::getFileAbsFileName($folderActual . $pathRelative),
-                'diff' => GeneralUtility::getFileAbsFileName($folderDiff . $pathRelative)
-            ];
+            $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
-            GeneralUtility::mkdir_deep(dirname($paths['original']));
-            copy($paths['actual'], $paths['original']);
+            if (isset($imageExtensionsIndex[$fileExtension])) {
+                $image = new Image(
+                    $pathActual . $file,
+                    '/' . $folderActual . $file
+                );
+                if (isset($imagesToCopyIndex[$image->getHash()])) {
+                    $image->copy($pathOriginal . $file);
+                    $numCopiedImages++;
+                }
+            } else {
+                GeneralUtility::mkdir_deep(dirname($pathActual . $file));
+                copy($pathActual . $file, $pathOriginal . $file);
+                $numCopiedFiles++;
+            }
         }
 
-        if (count($files) > 0) {
-            $this->pushMessage(sprintf('%s images copied.', count($files)), InfoboxViewHelper::STATE_OK);
+        if ($numImages === 1) {
+            $message = sprintf('%d of %d image ', $numCopiedImages, $numImages);
         } else {
-            $this->pushMessage('No images copied.', InfoboxViewHelper::STATE_OK);
+            $message = sprintf('%d of %d images ', $numCopiedImages, $numImages);
         }
+        if ($numCopiedFiles === 1) {
+            $message .= sprintf('and %d code snippet and reST include file copied.', $numCopiedFiles);
+        } else {
+            $message .= sprintf('and %d code snippets and reST include files copied.', $numCopiedFiles);
+        }
+        $this->pushMessage($message, InfoboxViewHelper::STATE_OK);
 
         $this->redirect('compare');
     }
