@@ -24,6 +24,24 @@
                         <h2>{numImages} screenshots to compare & copy</h2>
                     </f:else>
                 </f:if>
+                <div class="clearfix p-2">
+                    <div class="form-check form-switch float-end">
+                        <input type="checkbox"
+                            class="form-check-input smjs-toggle-all"
+                            data-toggle-selector='.images-to-copy'
+                            id="toggleImagesToCopy"
+                            checked="checked"
+                            role="button"
+                        />
+                        <label
+                            class="form-check-label form"
+                            for="toggleImagesToCopy"
+                            role="button"
+                        >
+                            Copy all
+                        </label>
+                    </div>
+                </div>
                 <f:for each="{comparisons}" as="comparison" iteration="iteration">
                     <div class="panel panel-default">
                         <div class="table-fit">
@@ -34,14 +52,6 @@
                                     </th>
                                     <th>
                                         <div class="form-check form-switch float-end">
-                                            <f:form.checkbox
-                                                class="form-check-input"
-                                                id="image_{comparison.imageActual.hash}"
-                                                name="imagesToCopy[]"
-                                                value="{comparison.imageActual.hash}"
-                                                checked="checked"
-                                                additionalAttributes="{role:'button'}"
-                                            />
                                             <label
                                                 class="form-check-label"
                                                 for="image_{comparison.imageActual.hash}"
@@ -49,6 +59,14 @@
                                             >
                                                 Copy
                                             </label>
+                                            <f:form.checkbox
+                                                class="form-check-input images-to-copy"
+                                                id="image_{comparison.imageActual.hash}"
+                                                name="imagesToCopy[]"
+                                                value="{comparison.imageActual.hash}"
+                                                checked="checked"
+                                                additionalAttributes="{role:'button'}"
+                                            />
                                         </div>
                                     </th>
                                 </tr>
