@@ -46,6 +46,12 @@ class Image
         $this->refresh();
     }
 
+    public function copy(string $path): void
+    {
+        GeneralUtility::mkdir_deep(dirname($path));
+        copy($this->path, $path);
+    }
+
     public function getPath(): string
     {
         return $this->path;
@@ -69,5 +75,15 @@ class Image
     public function getChangeTime(): int
     {
         return $this->changeTime;
+    }
+
+    public function getFileName(): string
+    {
+        return pathinfo($this->path, PATHINFO_BASENAME);
+    }
+
+    public function getHash(): string
+    {
+        return md5($this->path);
     }
 }

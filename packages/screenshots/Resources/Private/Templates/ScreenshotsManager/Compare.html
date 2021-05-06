@@ -4,65 +4,148 @@
 <f:layout name="Screenshots" />
 <f:section name="Content">
     <h1>TYPO3 Screenshots :: Compare &amp; Copy</h1>
-    <div>
-        <f:form>
-            <f:link.action action="compare" class="btn btn-primary">Compare screenshots</f:link.action>
-            <f:link.action action="copy" class="btn btn-success">Copy screenshots</f:link.action>
-        </f:form>
-    </div>
-    <h2>Results</h2>
-    <f:render partial="Messages" arguments="{messages:messages}" />
-    <f:if condition="{comparisons}">
-        <f:then>
-            <f:for each="{comparisons}" as="comparison" iteration="iteration">
-                <f:be.infobox title="#{iteration.cycle}: {comparison.imageOriginal.uri}" state="-1" disableIcon="TRUE">
-                    <b>Difference:</b> {comparison.difference}
-                </f:be.infobox>
-                <div class="panel panel-default">
-                    <div class="table-fit">
-                        <table class="table table-striped table-hover">
-                            <tr>
-                                <th>Actual</th>
-                                <th>Diff</th>
-                                <th>Original</th>
-                            </tr>
-                            <tr>
-                                <td><img src="{comparison.imageActual.uriWithCacheBust}" alt="" /></td>
-                                <td>
-                                    <f:if condition="{comparison.imageDiff.existing}">
-                                        <f:then>
-                                            <img src="{comparison.imageDiff.uriWithCacheBust}" alt="" />
-                                        </f:then>
-                                        <f:else>
-                                            <screenshots:placeholder width="200px" height="{comparison.maxHeight}px">
-                                                Nothing to compare.
-                                            </screenshots:placeholder>
-                                        </f:else>
-                                    </f:if>
-                                </td>
-                                <td>
-                                    <f:if condition="{comparison.imageOriginal.existing}">
-                                        <f:then>
-                                            <img src="{comparison.imageOriginal.uriWithCacheBust}" alt="" />
-                                        </f:then>
-                                        <f:else>
-                                            <screenshots:placeholder width="200px" height="{comparison.maxHeight}px">
-                                                Does not exist yet.
-                                            </screenshots:placeholder>
-                                        </f:else>
-                                    </f:if>
-                                </td>
-                            </tr>
-                        </table>
+    <f:form method="post" action="copy">
+        <f:form.hidden name="numImages" value="{numImages}" />
+        <div>
+            <f:link.action action="compare" class="btn btn-primary">Refresh screenshots</f:link.action>
+            <f:form.submit class="btn btn-success float-end" value="Copy selected screenshots & files" />
+        </div>
+        <f:if condition="{messages}">
+            <h2>Results</h2>
+            <f:render partial="Messages" arguments="{messages:messages}" />
+        </f:if>
+        <f:if condition="{numImages} > 0">
+            <f:then>
+                <f:if condition="{numImages} == 1">
+                    <f:then>
+                        <h2>1 screenshot to compare & copy</h2>
+                    </f:then>
+                    <f:else>
+                        <h2>{numImages} screenshots to compare & copy</h2>
+                    </f:else>
+                </f:if>
+                <f:for each="{comparisons}" as="comparison" iteration="iteration">
+                    <div class="panel panel-default">
+                        <div class="table-fit">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        <span class="badge bg-primary fs-5">{iteration.cycle} / {numImages}</span>
+                                    </th>
+                                    <th>
+                                        <div class="form-check form-switch float-end">
+                                            <f:form.checkbox
+                                                class="form-check-input"
+                                                id="image_{comparison.imageActual.hash}"
+                                                name="imagesToCopy[]"
+                                                value="{comparison.imageActual.hash}"
+                                                checked="checked"
+                                                additionalAttributes="{role:'button'}"
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="image_{comparison.imageActual.hash}"
+                                                role="button"
+                                            >
+                                                Copy
+                                            </label>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="table-fit">
+                            <table class="table table-striped col-min">
+                                <tr>
+                                    <td style="width:1%;">Filename:</td>
+                                    <td>{comparison.imageActual.fileName}</td>
+                                </tr>
+                                <tr>
+                                    <td>Actual url:</td>
+                                    <td>{comparison.imageActual.uri}</td>
+                                </tr>
+                                <tr>
+                                    <td>Original url:</td>
+                                    <td>{comparison.imageOriginal.uri}</td>
+                                </tr>
+                                <tr>
+                                    <td>Difference:</td>
+                                    <td>{comparison.difference}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="table-fit">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Actual</td>
+                                    <td>Diff</td>
+                                    <td>Original</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="{comparison.imageActual.uriWithCacheBust}" alt="" /></td>
+                                    <td>
+                                        <f:if condition="{comparison.imageDiff.existing}">
+                                            <f:then>
+                                                <img src="{comparison.imageDiff.uriWithCacheBust}" alt="" />
+                                            </f:then>
+                                            <f:else>
+                                                <screenshots:placeholder width="100%" height="{comparison.maxHeight}px">
+                                                    Nothing to compare.
+                                                </screenshots:placeholder>
+                                            </f:else>
+                                        </f:if>
+                                    </td>
+                                    <td>
+                                        <f:if condition="{comparison.imageOriginal.existing}">
+                                            <f:then>
+                                                <img src="{comparison.imageOriginal.uriWithCacheBust}" alt="" />
+                                            </f:then>
+                                            <f:else>
+                                                <screenshots:placeholder width="100%" height="{comparison.maxHeight}px">
+                                                    Does not exist yet.
+                                                </screenshots:placeholder>
+                                            </f:else>
+                                        </f:if>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </f:for>
-        </f:then>
-        <f:else>
-            <f:be.infobox state="-1">
-                All generated images match with the original images.
-            </f:be.infobox>
-        </f:else>
-    </f:if>
+                </f:for>
+            </f:then>
+            <f:else>
+                <h2>No screenshots to compare & copy</h2>
+                <f:be.infobox state="-1">
+                    All generated images match with the original images.
+                </f:be.infobox>
+            </f:else>
+        </f:if>
+        <div>
+            <f:if condition="{numFiles} > 0">
+                <f:then>
+                    <f:if condition="{numFiles} == 1">
+                        <f:then>
+                            <h2>1 code snippet or reST include file to copy</h2>
+                        </f:then>
+                        <f:else>
+                            <h2>{numFiles} code snippets and reST include files to copy</h2>
+                        </f:else>
+                    </f:if>
+                </f:then>
+                <f:else>
+                    <h2>No code snippet or reST include file to copy</h2>
+                </f:else>
+            </f:if>
+            <p>
+                Code snippets and reST include files are copied in a bundle and cannot be selected individually.
+                They can be conveniently compared in the Git comparison tools before the changes are eventually
+                committed.
+            </p>
+        </div>
+        <div class="pt-3">
+            <f:link.action action="compare" class="btn btn-primary">Refresh screenshots</f:link.action>
+            <f:form.submit class="btn btn-success float-end" value="Copy selected screenshots & files" />
+        </div>
+    </f:form>
 </f:section>
 </html>
