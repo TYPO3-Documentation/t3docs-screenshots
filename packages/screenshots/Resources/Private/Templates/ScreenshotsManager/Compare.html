@@ -5,10 +5,14 @@
 <f:section name="Content">
     <h1>TYPO3 Screenshots :: Compare &amp; Copy</h1>
     <f:form method="post" action="copy">
-        <f:form.hidden name="numImages" value="{numImages}" />
+        <f:form.hidden name="numImages" value="{numImages}" id="screenshotsNumImages" />
+        <f:form.hidden name="numFiles" value="{numFiles}" id="screenshotsNumFiles" />
         <div>
             <f:link.action action="compare" class="btn btn-primary">Refresh screenshots</f:link.action>
-            <f:form.submit class="btn btn-success float-end" value="Copy selected screenshots & files" />
+            <f:form.submit
+                class="btn btn-success float-end button-copy-screenshots"
+                value="{f:translate(key: 'LLL:EXT:screenshots/Resources/Private/Language/locallang_mod.xlf:button.copyscreenshots', arguments: {0: numImages, 1: numFiles})}"
+            />
         </div>
         <f:if condition="{messages}">
             <h2>Results</h2>
@@ -162,7 +166,10 @@
         </div>
         <div class="pt-3">
             <f:link.action action="compare" class="btn btn-primary">Refresh screenshots</f:link.action>
-            <f:form.submit class="btn btn-success float-end" value="Copy selected screenshots & files" />
+            <f:form.submit
+                class="btn btn-success float-end button-copy-screenshots"
+                value="{f:translate(key: 'LLL:EXT:screenshots/Resources/Private/Language/locallang_mod.xlf:button.copyscreenshots', arguments: {0: numImages, 1: numFiles})}"
+            />
         </div>
     </f:form>
 </f:section>
