@@ -64,7 +64,17 @@ class ScreenshotsManagerController extends ActionController
         $this->view->assign('messages', $this->fetchMessages());
     }
 
-    public function compareAction(): void
+    public function compareAction(string $cmd = 'compare', string $search = '', array $imagesToCopy = [], int $numImages = 0): void
+    {
+        if ($cmd === 'copy') {
+            $this->copy($imagesToCopy, $numImages);
+        }
+        $this->compare($search);
+
+        $this->view->assign('messages', $this->fetchMessages());
+    }
+
+    protected function compare(string $search): void
     {
         $folderOriginal = 't3docs';
         $folderActual = 't3docs-generated/actual';
@@ -74,12 +84,19 @@ class ScreenshotsManagerController extends ActionController
         $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
         $pathDiff = GeneralUtility::getFileAbsFileName($folderDiff);
 
+        $urlActual = '/' . $folderActual;
+        $urlOriginal = '/' . $folderOriginal;
+        $urlDiff = '/' . $folderDiff;
+
         GeneralUtility::rmdir($pathDiff, true);
         $files = GeneralUtility::removePrefixPathFromList(GeneralUtility::getAllFilesAndFoldersInPath(
             [], $pathActual . '/'
         ), $pathActual);
 
         $imageExtensionsIndex = array_flip($this->imageExtensions);
+
+        $isSearch = !empty($search);
+        $isSearchByRegexp = strpos($search, '#') === 0;
 
         $comparisons = [];
         $numImages = 0;
@@ -88,13 +105,25 @@ class ScreenshotsManagerController extends ActionController
             $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
             if (isset($imageExtensionsIndex[$fileExtension])) {
+                if ($isSearch) {
+                    if ($isSearchByRegexp) {
+                        if (preg_match($search, $urlActual . $file) !== 1) {
+                            continue;
+                        }
+                    } else {
+                        if (strpos($urlActual . $file, $search) === false) {
+                            continue;
+                        }
+                    }
+                }
+
                 $comparison = new ImageComparison(
                     $pathActual . $file,
                     $pathOriginal . $file,
                     $pathDiff . $file,
-                    '/' . $folderActual . $file,
-                    '/' . $folderOriginal . $file,
-                    '/' . $folderDiff . $file,
+                    $urlActual . $file,
+                    $urlOriginal . $file,
+                    $urlDiff . $file,
                     $this->threshold
                 );
                 $comparison->process();
@@ -110,16 +139,18 @@ class ScreenshotsManagerController extends ActionController
         $this->view->assign('comparisons', $comparisons);
         $this->view->assign('numImages', $numImages);
         $this->view->assign('numFiles', $numFiles);
-        $this->view->assign('messages', $this->fetchMessages());
+        $this->view->assign('search', $search);
     }
 
-    public function copyAction(array $imagesToCopy = [], int $numImages = 0): void
+    protected function copy(array $imagesToCopy, int $numImages): void
     {
         $folderOriginal = 't3docs';
         $folderActual = 't3docs-generated/actual';
 
         $pathOriginal = GeneralUtility::getFileAbsFileName($folderOriginal);
         $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
+
+        $urlActual = '/' . $folderActual;
 
         $files = GeneralUtility::removePrefixPathFromList(GeneralUtility::getAllFilesAndFoldersInPath(
             [], $pathActual . '/'
@@ -136,7 +167,7 @@ class ScreenshotsManagerController extends ActionController
             if (isset($imageExtensionsIndex[$fileExtension])) {
                 $image = new Image(
                     $pathActual . $file,
-                    '/' . $folderActual . $file
+                    $urlActual . $file
                 );
                 if (isset($imagesToCopyIndex[$image->getHash()])) {
                     $image->copy($pathOriginal . $file);
@@ -160,8 +191,6 @@ class ScreenshotsManagerController extends ActionController
             $message .= sprintf('and %d code snippets and reST include files copied.', $numCopiedFiles);
         }
         $this->pushMessage($message, InfoboxViewHelper::STATE_OK);
-
-        $this->redirect('compare');
     }
 
     /**

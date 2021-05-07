@@ -15,7 +15,7 @@ define(['jquery'], function ($) {
     let numImagesToCopy = $('.images-to-copy').filter(':checked').length;
     let numFilesToCopy = $('#screenshotsNumFiles').val();
     let label = TYPO3.lang['button.copyscreenshots'].replace('%d', numImagesToCopy).replace('%d', numFilesToCopy);
-    $('.button-copy-screenshots').attr('value', label);
+    $('.button-copy-screenshots').text(label);
   };
 
   ScreenshotsManager.toggleAllImagesToCopy = function() {
