@@ -9,13 +9,15 @@
         <f:form.hidden name="numFiles" value="{numFiles}" id="screenshotsNumFiles" />
         <div class="row pt-2 pb-3">
             <div class="col-12 col-xl-4 col-lg-6 col-md-8">
-                <f:form.textfield
-                    name="search"
-                    value="{search}"
-                    class="form-control"
-                    placeholder="Filter screenshots by url"
-                    additionalAttributes="{aria-label:'Filter screenshots by url'}"
-                />
+                <label for="screenshotsSearch" class="form-label">Filter screenshots by url</label>
+                <div>
+                    <f:form.textfield
+                        id="screenshotsSearch"
+                        name="search"
+                        value="{search}"
+                        class="form-control"
+                    />
+                </div>
                 <div class="form-text">Enclose the term with # to use regular expressions.</div>
             </div>
         </div>

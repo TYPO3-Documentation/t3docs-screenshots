@@ -7,7 +7,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-define(['jquery'], function ($) {
+define(['jquery', 'TYPO3/CMS/Backend/Input/Clearable'], function ($) {
 
   var ScreenshotsManager = {};
 
@@ -23,6 +23,17 @@ define(['jquery'], function ($) {
     $('.images-to-copy').prop('checked', checked);
   }
 
+  ScreenshotsManager.makeInputFieldClearable = function(selector) {
+    const $inputField = $(selector);
+    if ($inputField.length > 0) {
+      $inputField[0].clearable({
+        onClear: function (input) {
+          input.closest('form').submit();
+        }
+      });
+    }
+  }
+
   $(document).ready(function () {
     $('.images-to-copy').on('click', function(){
       ScreenshotsManager.updateCopyButtonLabel();
@@ -31,6 +42,7 @@ define(['jquery'], function ($) {
       ScreenshotsManager.toggleAllImagesToCopy();
       ScreenshotsManager.updateCopyButtonLabel();
     });
+    ScreenshotsManager.makeInputFieldClearable('#screenshotsSearch');
   });
 
 });
