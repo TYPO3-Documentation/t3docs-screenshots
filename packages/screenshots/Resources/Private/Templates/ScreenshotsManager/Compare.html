@@ -8,15 +8,17 @@
         <f:form.hidden name="numImages" value="{numImages}" id="screenshotsNumImages" />
         <f:form.hidden name="numFiles" value="{numFiles}" id="screenshotsNumFiles" />
         <div class="row pt-2 pb-3">
-            <div class="col-12 col-xl-4 col-lg-6 col-md-8">
+            <div class="col-12 col-xl-4 col-lg-6 col-md-8" id="screenshotsSearchContainer">
                 <label for="screenshotsSearch" class="form-label">Filter screenshots by url</label>
-                <div>
+                <div class="input-group">
                     <f:form.textfield
                         id="screenshotsSearch"
                         name="search"
                         value="{search}"
                         class="form-control"
+                        additionalAttributes="{autocomplete:'off', spellcheck:'off', autocapitalize: 'none'}"
                     />
+                    <div class="dropdown-menu" role="menu"></div>
                 </div>
                 <div class="form-text">Enclose the term with # to use regular expressions.</div>
             </div>
