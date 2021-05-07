@@ -1,6 +1,17 @@
 .screenshots-manager {
     color: #333;
 }
+.screenshots-manager .autocomplete-suggestion {
+    cursor: pointer;
+    color: rgba(245,245,245,.7);
+    border: none;
+}
+.screenshots-manager .autocomplete-suggestion:hover {
+    color: rgba(245,245,245,1);
+}
+.screenshots-manager .autocomplete-selected {
+    color: rgba(245,245,245,1);
+}
 .screenshots-manager .placeholder {
     display: flex;
     justify-content: center;

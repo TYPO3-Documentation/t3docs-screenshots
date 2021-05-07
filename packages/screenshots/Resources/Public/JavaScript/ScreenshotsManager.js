@@ -7,7 +7,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-define(['jquery', 'TYPO3/CMS/Backend/Input/Clearable'], function ($) {
+define(['jquery', 'jquery/autocomplete', 'TYPO3/CMS/Backend/Input/Clearable'], function ($) {
 
   var ScreenshotsManager = {};
 
@@ -34,6 +34,32 @@ define(['jquery', 'TYPO3/CMS/Backend/Input/Clearable'], function ($) {
     }
   }
 
+  ScreenshotsManager.addAutocompleteToSearchBox = function() {
+    const $searchBox = $('#screenshotsSearch');
+    if ($searchBox.length > 0) {
+      $.ajax({
+        url: TYPO3.settings.ajaxUrls['screenshots_folders'],
+        dataType: 'json',
+        cache: false
+      }).done(function(suggestions) {
+        $searchBox.autocomplete({
+          lookupLimit: 30,
+          lookup: suggestions,
+          noCache: true,
+          width: '100%',
+          appendTo: '#screenshotsSearchContainer .dropdown-menu',
+          beforeRender: function (container) {
+            container.attr('style', '');
+            container.parent().addClass('show');
+          },
+          onHide: function (container) {
+            container.parent().removeClass('show');
+          },
+        });
+      });
+    }
+  }
+
   $(document).ready(function () {
     $('.images-to-copy').on('click', function(){
       ScreenshotsManager.updateCopyButtonLabel();
@@ -43,6 +69,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Input/Clearable'], function ($) {
       ScreenshotsManager.updateCopyButtonLabel();
     });
     ScreenshotsManager.makeInputFieldClearable('#screenshotsSearch');
+    ScreenshotsManager.addAutocompleteToSearchBox();
   });
 
 });
