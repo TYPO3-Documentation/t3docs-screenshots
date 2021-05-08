@@ -143,7 +143,7 @@ class ScreenshotsManagerController extends ActionController
                     $numCopiedImages++;
                 }
             } else {
-                GeneralUtility::mkdir_deep(dirname($pathActual . $file));
+                GeneralUtility::mkdir_deep(dirname($pathOriginal . $file));
                 copy($pathActual . $file, $pathOriginal . $file);
                 $numCopiedFiles++;
             }
