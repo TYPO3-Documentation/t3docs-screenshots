@@ -147,7 +147,7 @@ class Typo3CodeSnippets extends Module
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
-.. code:: php
+.. code-block:: php
 
 %s
 NOWDOC;
