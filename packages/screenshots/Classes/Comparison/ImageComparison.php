@@ -14,9 +14,9 @@ namespace TYPO3\CMS\Screenshots\Comparison;
 
 class ImageComparison
 {
-    protected Image $imageActual;
-    protected Image $imageOriginal;
-    protected Image $imageDiff;
+    protected File $imageActual;
+    protected File $imageOriginal;
+    protected File $imageDiff;
     protected float $threshold;
     protected float $difference;
     protected int $maxHeight;
@@ -30,9 +30,9 @@ class ImageComparison
         string $uriDiff,
         float $threshold
     ) {
-        $this->imageActual = new Image($pathActual, $uriActual);
-        $this->imageOriginal = new Image($pathOriginal, $uriOriginal);
-        $this->imageDiff = new Image($pathDiff, $uriDiff);
+        $this->imageActual = new File($pathActual, $uriActual);
+        $this->imageOriginal = new File($pathOriginal, $uriOriginal);
+        $this->imageDiff = new File($pathDiff, $uriDiff);
         $this->threshold = $threshold;
         $this->difference = 0;
         $this->maxHeight = 0;
@@ -60,17 +60,17 @@ class ImageComparison
         }
     }
 
-    public function getImageActual(): Image
+    public function getImageActual(): File
     {
         return $this->imageActual;
     }
 
-    public function getImageOriginal(): Image
+    public function getImageOriginal(): File
     {
         return $this->imageOriginal;
     }
 
-    public function getImageDiff(): Image
+    public function getImageDiff(): File
     {
         return $this->imageDiff;
     }
