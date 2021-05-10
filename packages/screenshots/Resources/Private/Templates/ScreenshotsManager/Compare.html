@@ -9,7 +9,7 @@
         <f:form.hidden name="numFiles" value="{numFiles}" id="screenshotsNumFiles" />
         <div class="row pt-2 pb-3">
             <div class="col-12 col-xl-4 col-lg-6 col-md-8" id="screenshotsSearchContainer">
-                <label for="screenshotsSearch" class="form-label">Filter screenshots by url</label>
+                <label for="screenshotsSearch" class="form-label">Filter screenshots by path</label>
                 <div class="input-group">
                     <f:form.textfield
                         id="screenshotsSearch"
@@ -107,11 +107,11 @@
                                     <td>{comparison.imageActual.fileName}</td>
                                 </tr>
                                 <tr>
-                                    <td>Actual url:</td>
+                                    <td>Actual path:</td>
                                     <td>{comparison.imageActual.uri}</td>
                                 </tr>
                                 <tr>
-                                    <td>Original url:</td>
+                                    <td>Original path:</td>
                                     <td>{comparison.imageOriginal.uri}</td>
                                 </tr>
                                 <tr>
