@@ -102,48 +102,59 @@ class ScreenshotsManagerController extends ActionController
 
         $imageExtensionsIndex = array_flip($this->imageExtensions);
 
-        $isSearch = !empty($search);
-        $isSearchByRegexp = strpos($search, '#') === 0;
-
         $imageComparisons = [];
         $textFiles = [];
+        $numImagesFilteredOut = 0;
+        $numTextFilesFilteredOut = 0;
         foreach ($files as $file) {
             $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
             if (isset($imageExtensionsIndex[$fileExtension])) {
-                if ($isSearch) {
-                    if ($isSearchByRegexp) {
-                        if (preg_match($search, $urlActual . $file) !== 1) {
-                            continue;
-                        }
-                    } else {
-                        if (strpos($urlActual . $file, $search) === false) {
-                            continue;
-                        }
+                if ($this->isSearchTermMatchingFilePath($search, $file)) {
+                    $imageComparison = new ImageComparison(
+                        $pathActual . $file,
+                        $pathOriginal . $file,
+                        $pathDiff . $file,
+                        $urlActual . $file,
+                        $urlOriginal . $file,
+                        $urlDiff . $file,
+                        $this->threshold
+                    );
+                    $imageComparison->process();
+                    if ($imageComparison->getDifference() > $this->threshold) {
+                        $imageComparisons[] = $imageComparison;
                     }
-                }
-
-                $imageComparison = new ImageComparison(
-                    $pathActual . $file,
-                    $pathOriginal . $file,
-                    $pathDiff . $file,
-                    $urlActual . $file,
-                    $urlOriginal . $file,
-                    $urlDiff . $file,
-                    $this->threshold
-                );
-                $imageComparison->process();
-                if ($imageComparison->getDifference() > $this->threshold) {
-                    $imageComparisons[] = $imageComparison;
+                } else {
+                    $numImagesFilteredOut++;
                 }
             } else {
-                $textFiles[] = new File($pathActual . $file, $urlActual . $file);
+                if ($this->isSearchTermMatchingFilePath($search, $file)) {
+                    $textFiles[] = new File($pathActual . $file, $urlActual . $file);
+                } else {
+                    $numTextFilesFilteredOut++;
+                }
             }
         }
 
         $this->view->assign('imageComparisons', $imageComparisons);
         $this->view->assign('textFiles', $textFiles);
+        $this->view->assign('numImagesFilteredOut', $numImagesFilteredOut);
+        $this->view->assign('numTextFilesFilteredOut', $numTextFilesFilteredOut);
         $this->view->assign('search', $search);
+    }
+
+    protected function isSearchTermMatchingFilePath(string $search, string $filePath): bool
+    {
+        if (empty($search)) {
+            return true;
+        }
+
+        $isSearchByRegexp = strpos($search, '#') === 0;
+        if ($isSearchByRegexp) {
+            return preg_match($search, $filePath) === 1;
+        } else {
+            return strpos($filePath, $search) !== false;
+        }
     }
 
     protected function copy(array $imagesToCopy, array $textFilesToCopy, int $numImages, int $numTextFiles): void
