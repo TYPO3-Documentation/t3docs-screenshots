@@ -14,7 +14,7 @@ namespace TYPO3\CMS\Screenshots\Comparison;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Image
+class File
 {
     protected string $path;
     protected string $uri;
