@@ -392,10 +392,16 @@ current state on the left, the original state on the right and the difference ma
 the difference as a number.
 
 Each screenshot is selected for copying by default, but can be deselected individually and in aggregation. All text
-files such as the screenshot ReST include files or the code snippets cannot be deselected but are copied in bundles:
-They must be handled externally by the Git comparison tools.
+files such as the screenshot reST include files or the code snippets cannot be compared, but can only be selected or
+deselected for copying in bundles: They must be handled externally by the Git comparison tools.
 
 .. image:: docs/screenshots_manager_compare.png
+
+To work comfortably with a large number of files, the list of screenshots and text files can be reduced by entering
+a path in the search field at the top of the page: Only files with a matching path will then be displayed. Regular
+expressions are supported and automatic suggestion of available paths is enabled.
+
+.. image:: docs/screenshots_manager_compare_searchbox.png
 
 When you have confirmed the changes, pressing the "Copy screenshots" button will copy the screenshots to the original
 location.
