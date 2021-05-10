@@ -305,7 +305,7 @@ NOWDOC;
         return $this->getModule('WebDriver');
     }
 
-    protected function getTypo3Navigation(): Typo3Navigation
+    public function getTypo3Navigation(): Typo3Navigation
     {
         return $this->getModule(Typo3Navigation::class);
     }

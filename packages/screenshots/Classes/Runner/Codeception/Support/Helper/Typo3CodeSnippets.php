@@ -45,16 +45,19 @@ class Typo3CodeSnippets extends Module
      * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
      *                              defaults to source file name if empty,
      *                              e.g. "core_be_groups"
+     * @param string $language The programming language of the code snippet,
+     *                          e.g. "php"
      */
-    public function createCodeSnippet(string $sourceFile, string $targetFileName = ''): void
+    public function createCodeSnippet(string $sourceFile, string $targetFileName = '', string $language = ''): void
     {
+        $language = $language !== '' ? $language : $this->getCodeLanguageByFileExtension($sourceFile);
         $targetFileName = $targetFileName !== '' ? $targetFileName : pathinfo($sourceFile, PATHINFO_FILENAME);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->read($absoluteSourcePath);
-        $this->write($absoluteTargetPath, $code);
+        $this->write($absoluteTargetPath, $code, $language);
     }
 
     /**
@@ -77,7 +80,46 @@ class Typo3CodeSnippets extends Module
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->readPhpArray($absoluteSourcePath, $field);
-        $this->write($absoluteTargetPath, $code);
+        $this->write($absoluteTargetPath, $code, 'php');
+    }
+
+    protected function getCodeLanguageByFileExtension(string $filePath): string
+    {
+        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+        switch ($fileExtension) {
+            case 'xml':
+            case 'xlf':
+                $language = 'xml';
+                break;
+            case 'ts':
+            case 'typoscript':
+                $language = 'typoscript';
+                break;
+            case 'sql':
+                $language = 'sql';
+                break;
+            case 'html':
+                $language = 'html';
+                break;
+            case 'yaml':
+                $language = 'yaml';
+                break;
+            case 'php':
+                $language = 'php';
+                break;
+            default:
+                throw new \Exception(
+                    sprintf(
+                        'The programming language of the file "%s" cannot be determined automatically via the ' .
+                        'file extension "%s". Please specify the language explicitly.',
+                        $filePath, $fileExtension
+                    ),
+                    4001
+                );
+        }
+
+        return $language;
     }
 
     protected function getRelativeTargetPath(string $filePath): string
@@ -103,7 +145,9 @@ class Typo3CodeSnippets extends Module
     protected function getAbsoluteTypo3Path(string $relativePath): string
     {
         $absolutePath = [];
-        $absolutePath[] = Environment::getPublicPath();
+        if (Environment::getPublicPath() !== '') {
+            $absolutePath[] = Environment::getPublicPath();
+        }
         $absolutePath[] = $relativePath;
         return implode(DIRECTORY_SEPARATOR, $absolutePath);
     }
@@ -111,7 +155,9 @@ class Typo3CodeSnippets extends Module
     protected function getAbsoluteDocumentationPath(string $relativePath): string
     {
         $absolutePath = [];
-        $absolutePath[] = $this->getTypo3Screenshots()->_getConfig('basePath');
+        if ($this->getTypo3Screenshots()->_getConfig('basePath') !== '') {
+            $absolutePath[] = $this->getTypo3Screenshots()->_getConfig('basePath');
+        }
         if ($this->getTypo3Screenshots()->_getConfig('documentationPath') !== '') {
             $absolutePath[] = $this->getTypo3Screenshots()->_getConfig('documentationPath');
         }
@@ -140,19 +186,19 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function write(string $path, string $code): void
+    protected function write(string $path, string $code, string $language): void
     {
         $code = $this->indentCode($code, '   ');
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
-.. code-block:: php
+.. code-block:: %s
 
 %s
 NOWDOC;
 
-        $rst = sprintf($rst, $code);
+        $rst = sprintf($rst, $language, $code);
 
         @mkdir(dirname($path), 0777, true);
         file_put_contents($path, $rst);
@@ -163,7 +209,7 @@ NOWDOC;
         return $indentation . implode("\n$indentation", explode("\n", $code));
     }
 
-    protected function getTypo3Screenshots(): Typo3Screenshots
+    public function getTypo3Screenshots(): Typo3Screenshots
     {
         return $this->getModule(Typo3Screenshots::class);
     }
