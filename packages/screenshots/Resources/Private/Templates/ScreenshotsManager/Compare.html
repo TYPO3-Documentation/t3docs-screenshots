@@ -46,6 +46,69 @@
         </f:if>
 
         <div class="row">
+            <f:if condition="{numTextFiles} > 0">
+                <f:then>
+                    <div class="col-8">
+                        <f:if condition="{numTextFiles} == 1">
+                            <f:then>
+                                <h2>
+                                    1 code snippet or reST include file to copy
+                                    <f:if condition="{numTextFilesFilteredOut} > 0">
+                                        <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
+                                    </f:if>
+                                </h2>
+                            </f:then>
+                            <f:else>
+                                <h2>
+                                    {numTextFiles} code snippets and reST include files to copy
+                                    <f:if condition="{numTextFilesFilteredOut} > 0">
+                                        <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
+                                    </f:if>
+                                </h2>
+                            </f:else>
+                        </f:if>
+                    </div>
+                    <div class="col-4 pt-4">
+                        <div class="form-check form-switch float-end pt-1 pe-2">
+                            <input type="checkbox"
+                                   class="form-check-input smjs-toggle-all"
+                                   data-toggle-selector='.text-files-to-copy'
+                                   id="toggleTextFilesToCopy"
+                                   checked="checked"
+                                   role="button"
+                            />
+                            <label
+                                class="form-check-label form"
+                                for="toggleTextFilesToCopy"
+                                role="button"
+                            >
+                                Copy all
+                            </label>
+                            <f:for each="{textFiles}" as="textFile">
+                                <f:form.hidden name="textFilesToCopy[]" value="{textFile.hash}" class="text-files-to-copy" />
+                            </f:for>
+                        </div>
+                    </div>
+                </f:then>
+                <f:else>
+                    <div class="col-12">
+                        <h2>
+                            No code snippet or reST include file to copy
+                            <f:if condition="{numTextFilesFilteredOut} > 0">
+                                <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
+                            </f:if>
+                        </h2>
+                    </div>
+                </f:else>
+            </f:if>
+            <p>
+                Code snippets and reST include files are copied in a bundle and cannot be selected individually.
+                They can be conveniently compared in the Git comparison tools before the changes are eventually
+                committed.
+            </p>
+        </div>
+
+        <div class="row">
             <f:if condition="{numImages} > 0">
                 <f:then>
                     <div class="col-8">
@@ -191,69 +254,6 @@
                 </div>
             </div>
         </f:for>
-
-        <div class="row">
-            <f:if condition="{numTextFiles} > 0">
-                <f:then>
-                    <div class="col-8">
-                        <f:if condition="{numTextFiles} == 1">
-                            <f:then>
-                                <h2>
-                                    1 code snippet or reST include file to copy
-                                    <f:if condition="{numTextFilesFilteredOut} > 0">
-                                        <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
-                                    </f:if>
-                                </h2>
-                            </f:then>
-                            <f:else>
-                                <h2>
-                                    {numTextFiles} code snippets and reST include files to copy
-                                    <f:if condition="{numTextFilesFilteredOut} > 0">
-                                        <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
-                                    </f:if>
-                                </h2>
-                            </f:else>
-                        </f:if>
-                    </div>
-                    <div class="col-4 pt-4">
-                        <div class="form-check form-switch float-end pt-1 pe-2">
-                            <input type="checkbox"
-                                   class="form-check-input smjs-toggle-all"
-                                   data-toggle-selector='.text-files-to-copy'
-                                   id="toggleTextFilesToCopy"
-                                   checked="checked"
-                                   role="button"
-                            />
-                            <label
-                                class="form-check-label form"
-                                for="toggleTextFilesToCopy"
-                                role="button"
-                            >
-                                Copy all
-                            </label>
-                            <f:for each="{textFiles}" as="textFile">
-                                <f:form.hidden name="textFilesToCopy[]" value="{textFile.hash}" class="text-files-to-copy" />
-                            </f:for>
-                        </div>
-                    </div>
-                </f:then>
-                <f:else>
-                    <div class="col-12">
-                        <h2>
-                            No code snippet or reST include file to copy
-                            <f:if condition="{numTextFilesFilteredOut} > 0">
-                                <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
-                            </f:if>
-                        </h2>
-                    </div>
-                </f:else>
-            </f:if>
-            <p>
-                Code snippets and reST include files are copied in a bundle and cannot be selected individually.
-                They can be conveniently compared in the Git comparison tools before the changes are eventually
-                committed.
-            </p>
-        </div>
 
         <div class="pt-3">
             <f:form.button name="cmd" value="compare" type="submit" class="btn btn-primary">
