@@ -105,7 +105,7 @@ class ScreenshotsManagerController extends ActionController
         $isSearch = !empty($search);
         $isSearchByRegexp = strpos($search, '#') === 0;
 
-        $comparisons = [];
+        $imageComparisons = [];
         $textFiles = [];
         foreach ($files as $file) {
             $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
@@ -123,7 +123,7 @@ class ScreenshotsManagerController extends ActionController
                     }
                 }
 
-                $comparison = new ImageComparison(
+                $imageComparison = new ImageComparison(
                     $pathActual . $file,
                     $pathOriginal . $file,
                     $pathDiff . $file,
@@ -132,22 +132,17 @@ class ScreenshotsManagerController extends ActionController
                     $urlDiff . $file,
                     $this->threshold
                 );
-                $comparison->process();
-                if ($comparison->getDifference() > $this->threshold) {
-                    $comparisons[] = $comparison;
+                $imageComparison->process();
+                if ($imageComparison->getDifference() > $this->threshold) {
+                    $imageComparisons[] = $imageComparison;
                 }
             } else {
-                $textFiles[] = new File(
-                    $pathActual . $file,
-                    $urlActual . $file
-                );
+                $textFiles[] = new File($pathActual . $file, $urlActual . $file);
             }
         }
 
-        $this->view->assign('comparisons', $comparisons);
+        $this->view->assign('imageComparisons', $imageComparisons);
         $this->view->assign('textFiles', $textFiles);
-        $this->view->assign('numImages', count($comparisons));
-        $this->view->assign('numTextFiles', count($textFiles));
         $this->view->assign('search', $search);
     }
 
@@ -175,19 +170,13 @@ class ScreenshotsManagerController extends ActionController
             $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
             if (isset($imageExtensionsIndex[$fileExtension])) {
-                $image = new File(
-                    $pathActual . $file,
-                    $urlActual . $file
-                );
+                $image = new File($pathActual . $file, $urlActual . $file);
                 if (isset($imagesToCopyIndex[$image->getHash()])) {
                     $image->copy($pathOriginal . $file);
                     $numCopiedImages++;
                 }
             } else {
-                $textFile = new File(
-                    $pathActual . $file,
-                    $urlActual . $file
-                );
+                $textFile = new File($pathActual . $file, $urlActual . $file);
                 if (isset($textFilesToCopyIndex[$textFile->getHash()])) {
                     $textFile->copy($pathOriginal . $file);
                     $numCopiedFiles++;
