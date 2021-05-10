@@ -13,7 +13,7 @@
 
         <div class="row pt-2 pb-3">
             <div class="col-12 col-xl-4 col-lg-6 col-md-8" id="screenshotsSearchContainer">
-                <label for="screenshotsSearch" class="form-label">Filter screenshots by path</label>
+                <label for="screenshotsSearch" class="form-label">Filter screenshots &amp; files by path</label>
                 <div class="input-group">
                     <f:form.textfield
                         id="screenshotsSearch"
@@ -51,10 +51,20 @@
                     <div class="col-8">
                         <f:if condition="{numImages} == 1">
                             <f:then>
-                                <h2>1 screenshot to compare & copy</h2>
+                                <h2>
+                                    1 screenshot to compare & copy
+                                    <f:if condition="{numImagesFilteredOut} > 0">
+                                        <br><small>{numImagesFilteredOut} screenshots filtered out</small>
+                                    </f:if>
+                                </h2>
                             </f:then>
                             <f:else>
-                                <h2>{numImages} screenshots to compare & copy</h2>
+                                <h2>
+                                    {numImages} screenshots to compare & copy
+                                    <f:if condition="{numImagesFilteredOut} > 0">
+                                        <br><small>{numImagesFilteredOut} screenshots filtered out</small>
+                                    </f:if>
+                                </h2>
                             </f:else>
                         </f:if>
                     </div>
@@ -79,7 +89,12 @@
                 </f:then>
                 <f:else>
                     <div class="col-12">
-                        <h2>No screenshots to compare & copy</h2>
+                        <h2>
+                            No screenshots to compare & copy
+                            <f:if condition="{numImagesFilteredOut} > 0">
+                                <br><small>{numImagesFilteredOut} screenshots filtered out</small>
+                            </f:if>
+                        </h2>
                         <p>
                             All generated images match with the original images.
                         </p>
@@ -183,10 +198,20 @@
                     <div class="col-8">
                         <f:if condition="{numTextFiles} == 1">
                             <f:then>
-                                <h2>1 code snippet or reST include file to copy</h2>
+                                <h2>
+                                    1 code snippet or reST include file to copy
+                                    <f:if condition="{numTextFilesFilteredOut} > 0">
+                                        <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
+                                    </f:if>
+                                </h2>
                             </f:then>
                             <f:else>
-                                <h2>{numTextFiles} code snippets and reST include files to copy</h2>
+                                <h2>
+                                    {numTextFiles} code snippets and reST include files to copy
+                                    <f:if condition="{numTextFilesFilteredOut} > 0">
+                                        <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
+                                    </f:if>
+                                </h2>
                             </f:else>
                         </f:if>
                     </div>
@@ -214,7 +239,12 @@
                 </f:then>
                 <f:else>
                     <div class="col-12">
-                        <h2>No code snippet or reST include file to copy</h2>
+                        <h2>
+                            No code snippet or reST include file to copy
+                            <f:if condition="{numTextFilesFilteredOut} > 0">
+                                <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
+                            </f:if>
+                        </h2>
                     </div>
                 </f:else>
             </f:if>
