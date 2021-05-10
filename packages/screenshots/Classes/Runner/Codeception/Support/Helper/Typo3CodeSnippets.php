@@ -46,7 +46,7 @@ class Typo3CodeSnippets extends Module
      *                              defaults to source file name if empty,
      *                              e.g. "core_be_groups"
      */
-    public function createCodeSnippet(string $sourceFile, string $targetFileName = '', string $language = ''): void
+    public function createCodeSnippet(string $sourceFile, string $targetFileName = ''): void
     {
         $targetFileName = $targetFileName !== '' ? $targetFileName : pathinfo($sourceFile, PATHINFO_FILENAME);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
@@ -54,34 +54,7 @@ class Typo3CodeSnippets extends Module
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->read($absoluteSourcePath);
-        if ($language === '') {
-            $pathParts = explode('.', $sourceFile);
-            switch ($pathParts[sizeof($pathParts) - 1]) {
-                case 'xml':
-                case 'xlf':
-                    $language = 'xml';
-                    break;
-                case 'ts':
-                case 'typoscript':
-                    $language = 'typoscript';
-                    break;
-                case 'sql':
-                    $language = 'sql';
-                    break;
-                case 'html':
-                    $language = 'html';
-                    break;
-                case 'yaml':
-                    $language = 'yaml';
-                    break;
-                case 'php':
-                    $language = 'php';
-                    break;
-                default:
-                    $language = 'none';
-            }
-        }
-        $this->write($absoluteTargetPath, $code, $language);
+        $this->write($absoluteTargetPath, $code);
     }
 
     /**
@@ -104,7 +77,7 @@ class Typo3CodeSnippets extends Module
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->readPhpArray($absoluteSourcePath, $field);
-        $this->write($absoluteTargetPath, $code, 'php');
+        $this->write($absoluteTargetPath, $code);
     }
 
     protected function getRelativeTargetPath(string $filePath): string
@@ -167,19 +140,19 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function write(string $path, string $code, string $language): void
+    protected function write(string $path, string $code): void
     {
         $code = $this->indentCode($code, '   ');
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
-.. code-block:: %s
+.. code-block:: php
 
 %s
 NOWDOC;
 
-        $rst = sprintf($rst, $language, $code);
+        $rst = sprintf($rst, $code);
 
         @mkdir(dirname($path), 0777, true);
         file_put_contents($path, $rst);
