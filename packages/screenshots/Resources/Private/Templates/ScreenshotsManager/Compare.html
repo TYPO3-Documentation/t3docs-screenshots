@@ -3,6 +3,9 @@
       data-namespace-typo3-fluid="true">
 <f:layout name="Screenshots" />
 <f:section name="Content">
+    <f:variable name="numImages">{imageComparisons -> f:count()}</f:variable>
+    <f:variable name="numTextFiles">{textFiles -> f:count()}</f:variable>
+
     <h1>TYPO3 Screenshots :: Compare &amp; Copy</h1>
     <f:form method="post" action="compare">
         <f:form.hidden name="numImages" value="{numImages}" />
@@ -85,7 +88,7 @@
             </f:if>
         </div>
 
-        <f:for each="{comparisons}" as="comparison" iteration="iteration">
+        <f:for each="{imageComparisons}" as="imageComparison" iteration="iteration">
             <div class="panel panel-default">
                 <div class="table-fit">
                     <table class="table">
@@ -97,16 +100,16 @@
                                 <div class="form-check form-switch float-end">
                                     <label
                                         class="form-check-label"
-                                        for="image_{comparison.imageActual.hash}"
+                                        for="image_{imageComparison.imageActual.hash}"
                                         role="button"
                                     >
                                         Copy
                                     </label>
                                     <f:form.checkbox
                                         class="form-check-input images-to-copy"
-                                        id="image_{comparison.imageActual.hash}"
+                                        id="image_{imageComparison.imageActual.hash}"
                                         name="imagesToCopy[]"
-                                        value="{comparison.imageActual.hash}"
+                                        value="{imageComparison.imageActual.hash}"
                                         checked="checked"
                                         additionalAttributes="{role:'button'}"
                                     />
@@ -119,19 +122,19 @@
                     <table class="table table-striped col-min">
                         <tr>
                             <td style="width:1%;">Filename:</td>
-                            <td>{comparison.imageActual.fileName}</td>
+                            <td>{imageComparison.imageActual.fileName}</td>
                         </tr>
                         <tr>
                             <td>Actual path:</td>
-                            <td>{comparison.imageActual.uri}</td>
+                            <td>{imageComparison.imageActual.uri}</td>
                         </tr>
                         <tr>
                             <td>Original path:</td>
-                            <td>{comparison.imageOriginal.uri}</td>
+                            <td>{imageComparison.imageOriginal.uri}</td>
                         </tr>
                         <tr>
                             <td>Difference:</td>
-                            <td>{comparison.difference}</td>
+                            <td>{imageComparison.difference}</td>
                         </tr>
                     </table>
                 </div>
@@ -143,26 +146,26 @@
                             <td>Original</td>
                         </tr>
                         <tr>
-                            <td><img src="{comparison.imageActual.uriWithCacheBust}" alt="" /></td>
+                            <td><img src="{imageComparison.imageActual.uriWithCacheBust}" alt="" /></td>
                             <td>
-                                <f:if condition="{comparison.imageDiff.existing}">
+                                <f:if condition="{imageComparison.imageDiff.existing}">
                                     <f:then>
-                                        <img src="{comparison.imageDiff.uriWithCacheBust}" alt="" />
+                                        <img src="{imageComparison.imageDiff.uriWithCacheBust}" alt="" />
                                     </f:then>
                                     <f:else>
-                                        <screenshots:placeholder width="100%" height="{comparison.maxHeight}px">
+                                        <screenshots:placeholder width="100%" height="{imageComparison.maxHeight}px">
                                             Nothing to compare.
                                         </screenshots:placeholder>
                                     </f:else>
                                 </f:if>
                             </td>
                             <td>
-                                <f:if condition="{comparison.imageOriginal.existing}">
+                                <f:if condition="{imageComparison.imageOriginal.existing}">
                                     <f:then>
-                                        <img src="{comparison.imageOriginal.uriWithCacheBust}" alt="" />
+                                        <img src="{imageComparison.imageOriginal.uriWithCacheBust}" alt="" />
                                     </f:then>
                                     <f:else>
-                                        <screenshots:placeholder width="100%" height="{comparison.maxHeight}px">
+                                        <screenshots:placeholder width="100%" height="{imageComparison.maxHeight}px">
                                             Does not exist yet.
                                         </screenshots:placeholder>
                                     </f:else>
