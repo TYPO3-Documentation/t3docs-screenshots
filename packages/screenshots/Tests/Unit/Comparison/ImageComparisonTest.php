@@ -22,7 +22,7 @@ class ImageComparisonTest extends UnitTestCase
 {
     protected string $vfsPath;
     protected string $vfsPathPlaceholder = '::vfs-path::';
-    protected string $fixturePath = __DIR__ . '/Fixtures';
+    protected string $fixturePath = __DIR__ . '/../Fixtures';
 
     protected function setUp(): void
     {
@@ -79,11 +79,11 @@ class ImageComparisonTest extends UnitTestCase
         return [
             'original-image-does-not-exist' => [
                 [
-                    $this->fixturePath . DIRECTORY_SEPARATOR . 'actual.png',
-                    $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'original.png',
+                    $this->fixturePath . DIRECTORY_SEPARATOR . 'screenshot-actual.png',
+                    $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'screenshot-original.png',
                     $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'diff.png',
-                    '/actual.png',
-                    '/original.png',
+                    '/screenshot-actual.png',
+                    '/screenshot-original.png',
                     '/diff.png',
                     0.0002,
                 ],
@@ -93,18 +93,18 @@ class ImageComparisonTest extends UnitTestCase
                     'imageActualExists' => true,
                     'imageOriginalExists' => false,
                     'imageDiffExists' => false,
-                    'imageActualUrlWithCacheBust' => '#^/actual.png\?bust=[0-9]+$#',
-                    'imageOriginalUrlWithCacheBust' => '#^/original.png$#',
+                    'imageActualUrlWithCacheBust' => '#^/screenshot-actual.png\?bust=[0-9]+$#',
+                    'imageOriginalUrlWithCacheBust' => '#^/screenshot-original.png$#',
                     'imageDiffUrlWithCacheBust' => '#^/diff.png$#',
                 ]
             ],
             'original-and-actual-differ' => [
                 [
-                    $this->fixturePath . DIRECTORY_SEPARATOR . 'actual.png',
-                    $this->fixturePath . DIRECTORY_SEPARATOR . 'original.png',
+                    $this->fixturePath . DIRECTORY_SEPARATOR . 'screenshot-actual.png',
+                    $this->fixturePath . DIRECTORY_SEPARATOR . 'screenshot-original.png',
                     $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'diff.png',
-                    '/actual.png',
-                    '/original.png',
+                    '/screenshot-actual.png',
+                    '/screenshot-original.png',
                     '/diff.png',
                     0.0002,
                 ],
@@ -114,18 +114,18 @@ class ImageComparisonTest extends UnitTestCase
                     'imageActualExists' => true,
                     'imageOriginalExists' => true,
                     'imageDiffExists' => true,
-                    'imageActualUrlWithCacheBust' => '#^/actual.png\?bust=[0-9]+$#',
-                    'imageOriginalUrlWithCacheBust' => '#^/original.png\?bust=[0-9]+$#',
+                    'imageActualUrlWithCacheBust' => '#^/screenshot-actual.png\?bust=[0-9]+$#',
+                    'imageOriginalUrlWithCacheBust' => '#^/screenshot-original.png\?bust=[0-9]+$#',
                     'imageDiffUrlWithCacheBust' => '#^/diff.png\?bust=[0-9]+$#',
                 ]
             ],
             'both-images-match' => [
                 [
-                    $this->fixturePath . DIRECTORY_SEPARATOR . 'actual.png',
-                    $this->fixturePath . DIRECTORY_SEPARATOR . 'actual.png',
+                    $this->fixturePath . DIRECTORY_SEPARATOR . 'screenshot-actual.png',
+                    $this->fixturePath . DIRECTORY_SEPARATOR . 'screenshot-actual.png',
                     $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'diff.png',
-                    '/actual.png',
-                    '/original.png',
+                    '/screenshot-actual.png',
+                    '/screenshot-original.png',
                     '/diff.png',
                     0.0002,
                 ],
@@ -135,8 +135,8 @@ class ImageComparisonTest extends UnitTestCase
                     'imageActualExists' => true,
                     'imageOriginalExists' => true,
                     'imageDiffExists' => false,
-                    'imageActualUrlWithCacheBust' => '#^/actual.png\?bust=[0-9]+$#',
-                    'imageOriginalUrlWithCacheBust' => '#^/original.png\?bust=[0-9]+$#',
+                    'imageActualUrlWithCacheBust' => '#^/screenshot-actual.png\?bust=[0-9]+$#',
+                    'imageOriginalUrlWithCacheBust' => '#^/screenshot-original.png\?bust=[0-9]+$#',
                     'imageDiffUrlWithCacheBust' => '#^/diff.png$#',
                 ]
             ]

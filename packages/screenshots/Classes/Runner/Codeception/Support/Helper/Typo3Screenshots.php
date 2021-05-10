@@ -289,7 +289,9 @@ class Typo3Screenshots extends Module
     protected function getAbsoluteDocumentationPath(string $relativePath): string
     {
         $absolutePath = [];
-        $absolutePath[] = $this->_getConfig('basePath');
+        if ($this->_getConfig('basePath') !== '') {
+            $absolutePath[] = $this->_getConfig('basePath');
+        }
         if ($this->_getConfig('documentationPath') !== '') {
             $absolutePath[] = $this->_getConfig('documentationPath');
         }
@@ -357,17 +359,17 @@ NOWDOC;
         return $this->getModule('WebDriver');
     }
 
-    protected function getTypo3Navigation(): Typo3Navigation
+    public function getTypo3Navigation(): Typo3Navigation
     {
         return $this->getModule(Typo3Navigation::class);
     }
 
-    protected function getTypo3PageTree(): Typo3PageTree
+    public function getTypo3PageTree(): Typo3PageTree
     {
         return $this->getModule(Typo3PageTree::class);
     }
 
-    protected function getTypo3FileTree(): Typo3FileTree
+    public function getTypo3FileTree(): Typo3FileTree
     {
         return $this->getModule(Typo3FileTree::class);
     }
