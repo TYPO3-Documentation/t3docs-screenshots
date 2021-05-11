@@ -43,15 +43,13 @@ class Typo3CodeSnippets extends Module
      * @param string $sourceFile File path of PHP file relative to TYPO3 public folder,
      *                              e.g. "typo3/sysext/core/Configuration/TCA/be_groups.php"
      * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
-     *                              defaults to source file name if empty,
      *                              e.g. "core_be_groups"
      * @param string $language The programming language of the code snippet,
      *                          e.g. "php"
      */
-    public function createCodeSnippet(string $sourceFile, string $targetFileName = '', string $language = ''): void
+    public function createCodeSnippet(string $sourceFile, string $targetFileName, string $language = ''): void
     {
         $language = $language !== '' ? $language : $this->getCodeLanguageByFileExtension($sourceFile);
-        $targetFileName = $targetFileName !== '' ? $targetFileName : pathinfo($sourceFile, PATHINFO_FILENAME);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
@@ -65,16 +63,14 @@ class Typo3CodeSnippets extends Module
      *
      * @param string $sourceFile File path of PHP array file relative to TYPO3 public folder,
      *                              e.g. "typo3/sysext/core/Configuration/TCA/be_groups.php"
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
+     *                              e.g. "core_be_groups"
      * @param string $field Reduce the PHP array to this field. Use a slash-separated list to specify a field of a
      *                              multidimensional array,
      *                              e.g. "columns/title"
-     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
-     *                              defaults to source file name if empty,
-     *                              e.g. "core_be_groups"
      */
-    public function createPhpArrayCodeSnippet(string $sourceFile, string $field = '', string $targetFileName = ''): void
+    public function createPhpArrayCodeSnippet(string $sourceFile, string $targetFileName, string $field = ''): void
     {
-        $targetFileName = $targetFileName !== '' ? $targetFileName : pathinfo($sourceFile, PATHINFO_FILENAME);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));

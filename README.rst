@@ -245,7 +245,6 @@ gets saved to folder ``Documentation/CodeSnippets``. The path can be changed by 
             "screenshots": [
                [
                   {"action": "setCodeSnippetsTargetPath", "path": "CodeSnippets/StyleguideCode"},
-                  {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php"},
                   {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "targetFileName": "core_be_groups"},
                   {"action": "createPhpArrayCodeSnippet", "sourceFile": "Configuration/TCA/be_groups.php", "field": "types", "targetFileName": "core_be_groups_types"}
                ]
