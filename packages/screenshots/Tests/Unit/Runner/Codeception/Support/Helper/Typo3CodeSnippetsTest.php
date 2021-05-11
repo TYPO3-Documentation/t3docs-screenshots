@@ -49,7 +49,7 @@ class Typo3CodeSnippetsTest extends UnitTestCase
      * @test
      * @dataProvider createCodeSnippetDataProvider
      */
-    public function createCodeSnippet(string $sourceFile, string $targetFilePath, string $expected): void
+    public function createCodeSnippet(string $sourceFile, string $targetFileName, string $targetFilePath, string $expected): void
     {
         $this->resolveVfsPath($sourceFile);
         $this->resolveVfsPath($targetFilePath);
@@ -57,7 +57,7 @@ class Typo3CodeSnippetsTest extends UnitTestCase
         $this->createDummyCodeSnippet($sourceFile);
 
         $typo3CodeSnippets = $this->getTypo3CodeSnippetsMock();
-        $typo3CodeSnippets->createCodeSnippet($sourceFile);
+        $typo3CodeSnippets->createCodeSnippet($sourceFile, $targetFileName);
 
         self::assertFileExists($targetFilePath);
         self::assertStringContainsString($expected, file_get_contents($targetFilePath));
@@ -68,12 +68,14 @@ class Typo3CodeSnippetsTest extends UnitTestCase
         return [
             [
                 'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . '/code-snippet.php',
-                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet.rst.txt',
+                'targetFileName' => 'code-snippet-php',
+                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-php.rst.txt',
                 'expected' => 'code-block:: php'
             ],
             [
                 'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . '/code-snippet.xml',
-                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet.rst.txt',
+                'targetFileName' => 'code-snippet-xml',
+                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-xml.rst.txt',
                 'expected' => 'code-block:: xml'
             ]
         ];
@@ -85,13 +87,14 @@ class Typo3CodeSnippetsTest extends UnitTestCase
     public function createCodeSnippetFailsIfCodeLanguageCannotBeDetermined(): void
     {
         $sourceFile = $this->vfsPath . DIRECTORY_SEPARATOR . '/code-snippet.unknown';
+        $targetFileName = 'code-snippet-unkown';
 
         $this->createDummyCodeSnippet($sourceFile);
 
         $this->expectExceptionCode(4001);
 
         $typo3CodeSnippets = $this->getTypo3CodeSnippetsMock();
-        $typo3CodeSnippets->createCodeSnippet($sourceFile);
+        $typo3CodeSnippets->createCodeSnippet($sourceFile, $targetFileName);
     }
 
     protected function getTypo3CodeSnippetsMock(): Typo3CodeSnippets

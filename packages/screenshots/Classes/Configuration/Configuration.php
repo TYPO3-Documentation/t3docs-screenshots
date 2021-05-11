@@ -195,7 +195,7 @@ class Configuration
                         ],
                         'actionsIdentifierCodeSnippets' => [
                             ['action' => 'setCodeSnippetsTargetPath', 'path' => "CodeSnippets/StyleguideCode"],
-                            ['action' => 'createCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/TCA/be_groups.php'],
+                            ['action' => 'createCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/TCA/be_groups.php', 'targetFileName' => 'be_groups'],
                             ['action' => 'setCodeSnippetsSourcePath', 'path' => "typo3/sysext/core"],
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'be_groups_with_preset_source_path'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'tca_be_groups'],
