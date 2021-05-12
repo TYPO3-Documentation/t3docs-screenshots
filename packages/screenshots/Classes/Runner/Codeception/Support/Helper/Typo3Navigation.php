@@ -75,43 +75,81 @@ class Typo3Navigation extends Module
     }
 
     /**
-     * Return the window width of the main frame.
+     * Calculate the total page size.
      *
-     * @return int
+     * The total page height is the header height plus the maximum of the three columns:
+     * - module menu
+     * - page tree / file tree
+     * - module
+     *
+     * Since the module is in a different frame than the rest, this action switches between frames to capture all sizes
+     * and returns to the frame where it started.
+     * Also, this method calculates the outer dimension of the browser, but receives the inner dimension: so it must
+     * calculate the distance between the two types of dimensions.
+     *
+     * @return int[]
      */
-    public function _getWindowWidth(): int
+    public function _getFullPageSize(): array
     {
-        return $this->getWebDriver()->webDriver->manage()->window()->getSize()->getWidth();
+        $typo3PageTree = $this->getTypo3PageTree();
+        $typo3FileTree = $this->getTypo3FileTree();
+
+        $windowSize = $this->_getWindowSize();
+
+        $scrollHeights = [];
+        if ($this->_isOnMainFrame()) {
+            $windowInnerSize = $this->_getWindowInnerSize();
+            $headerHeight = $this->_getHeaderHeight();
+            $scrollHeights[] = $this->_getModuleMenuScrollHeight();
+            $scrollHeights[] = $typo3PageTree->_getPageTreeToolbarHeight() + $typo3PageTree->_getPageTreeScrollHeight();
+            $scrollHeights[] = $typo3FileTree->_getFileTreeToolbarHeight() + $typo3FileTree->_getFileTreeScrollHeight();
+            $this->switchToContentFrame();
+            $scrollHeights[] = $this->_getModuleScrollHeight();
+            $this->switchToMainFrame();
+        } else {
+            $scrollHeights[] = $this->_getModuleScrollHeight();
+            $this->switchToMainFrame();
+            $windowInnerSize = $this->_getWindowInnerSize();
+            $headerHeight = $this->_getHeaderHeight();
+            $scrollHeights[] = $this->_getModuleMenuScrollHeight();
+            $scrollHeights[] = $typo3PageTree->_getPageTreeToolbarHeight() + $typo3PageTree->_getPageTreeScrollHeight();
+            $scrollHeights[] = $typo3FileTree->_getFileTreeToolbarHeight() + $typo3FileTree->_getFileTreeScrollHeight();
+            $this->switchToContentFrame();
+        }
+
+        $fullPageWidth = $windowSize['width'];
+        $fullPageHeight = ($windowSize['height'] - $windowInnerSize['height']) + $headerHeight + max($scrollHeights);
+
+        return [
+            'width' => $fullPageWidth,
+            'height' => $fullPageHeight
+        ];
     }
 
     /**
-     * Return the window height of the main frame.
+     * Return the window size of the main frame.
      *
-     * @return int
+     * @return int[]
      */
-    public function _getWindowHeight(): int
+    public function _getWindowSize(): array
     {
-        return $this->getWebDriver()->webDriver->manage()->window()->getSize()->getHeight();
+        return [
+            'width' => $this->getWebDriver()->webDriver->manage()->window()->getSize()->getWidth(),
+            'height' => $this->getWebDriver()->webDriver->manage()->window()->getSize()->getHeight()
+        ];
     }
 
     /**
-     * Return the inner window width of the current frame(!)
+     * Return the inner window size of the current frame(!)
      *
-     * @return int
+     * @return int[]
      */
-    public function _getWindowInnerWidth(): int
+    public function _getWindowInnerSize(): array
     {
-        return $this->getWebDriver()->executeJS('return window.innerWidth;');
-    }
-
-    /**
-     * Return the inner window height of the current frame(!)
-     *
-     * @return int
-     */
-    public function _getWindowInnerHeight(): int
-    {
-        return $this->getWebDriver()->executeJS('return window.innerHeight;');
+        return [
+            'width' => $this->getWebDriver()->executeJS('return window.innerWidth;'),
+            'height' => $this->getWebDriver()->executeJS('return window.innerHeight;')
+        ];
     }
 
     /**
@@ -313,6 +351,16 @@ class Typo3Navigation extends Module
     protected function getWebDriver(): WebDriver
     {
         return $this->getModule('WebDriver');
+    }
+
+    public function getTypo3PageTree(): Typo3PageTree
+    {
+        return $this->getModule(Typo3PageTree::class);
+    }
+
+    public function getTypo3FileTree(): Typo3FileTree
+    {
+        return $this->getModule(Typo3FileTree::class);
     }
 
     protected function getLogin(): Login
