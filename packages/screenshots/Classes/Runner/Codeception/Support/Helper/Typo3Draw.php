@@ -281,9 +281,11 @@ NOWDOC;
             $typo3Navigation->switchToMainFrame();
         } else {
             $this->clearDrawingsOfIFrame();
-            $typo3Navigation->switchToMainFrame();
-            $this->clearDrawingsOfIFrame();
-            $typo3Navigation->switchToContentFrame();
+            if ($typo3Navigation->_hasMainFrame()) {
+                $typo3Navigation->switchToMainFrame();
+                $this->clearDrawingsOfIFrame();
+                $typo3Navigation->switchToContentFrame();
+            }
         }
     }
 

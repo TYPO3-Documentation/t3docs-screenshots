@@ -67,11 +67,29 @@ class Typo3Navigation extends Module
         $webDriver->waitForElementNotVisible('#nprogress', 120);
     }
 
+    /**
+     * Check if the browser is in the TYPO3 backend main frame, the one with module menu and top bar.
+     *
+     * @return bool
+     */
     public function _isOnMainFrame(): bool
     {
-        $webDriver = $this->getWebDriver();
-        $contentFrame = $webDriver->_findElements("iframe[name='list_frame']");
-        return count($contentFrame) > 0;
+        return count($this->getWebDriver()->_findElements("#modulemenu")) > 0;
+    }
+
+    /**
+     * Check if there is a TYPO3 backend main frame.
+     *
+     * If the browser was navigated directly to an url of the TYPO3 backend content frame, the main frame does not exist
+     * and switching to it would throw an exception.
+     *
+     * @return bool
+     *
+     * @see Typo3Screenshots::goToField() Example for navigating the browser to a content frame directly.
+     */
+    public function _hasMainFrame(): bool
+    {
+        return $this->getWebDriver()->executeJS('return self !== top');
     }
 
     /**
@@ -108,13 +126,18 @@ class Typo3Navigation extends Module
             $this->switchToMainFrame();
         } else {
             $scrollHeights[] = $this->_getModuleScrollHeight();
-            $this->switchToMainFrame();
-            $windowInnerSize = $this->_getWindowInnerSize();
-            $headerHeight = $this->_getHeaderHeight();
-            $scrollHeights[] = $this->_getModuleMenuScrollHeight();
-            $scrollHeights[] = $typo3PageTree->_getPageTreeToolbarHeight() + $typo3PageTree->_getPageTreeScrollHeight();
-            $scrollHeights[] = $typo3FileTree->_getFileTreeToolbarHeight() + $typo3FileTree->_getFileTreeScrollHeight();
-            $this->switchToContentFrame();
+            if ($this->_hasMainFrame()) {
+                $this->switchToMainFrame();
+                $windowInnerSize = $this->_getWindowInnerSize();
+                $headerHeight = $this->_getHeaderHeight();
+                $scrollHeights[] = $this->_getModuleMenuScrollHeight();
+                $scrollHeights[] = $typo3PageTree->_getPageTreeToolbarHeight() + $typo3PageTree->_getPageTreeScrollHeight();
+                $scrollHeights[] = $typo3FileTree->_getFileTreeToolbarHeight() + $typo3FileTree->_getFileTreeScrollHeight();
+                $this->switchToContentFrame();
+            } else {
+                $windowInnerSize = $this->_getWindowInnerSize();
+                $headerHeight = 0;
+            }
         }
 
         $fullPageWidth = $windowSize['width'];

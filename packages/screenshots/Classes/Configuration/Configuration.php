@@ -192,7 +192,7 @@ class Configuration
                             ['action' => 'wait', 'timeout' => 1],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_filelist"],
                         ],
-                        'actionsIdentifierScreenshotsOfTCA' => [
+                        'actionsIdentifierScreenshotsOfContentFrameOnly' => [
                             ['action' => 'setScreenshotsDefaultPid', 'pid' => 22],
                             ['action' => 'setScreenshotsDefaultTable', 'table' => 'tx_styleguide_elements_basic'],
                             ['action' => 'setScreenshotsDefaultUid', 'uid' => 1],
@@ -232,7 +232,13 @@ class Configuration
                             ['action' => 'drawBox', 'selector' => '(//*[contains(@class, "dashboard-item-content")])[2]'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_highlighted_dashboard_item"],
                             ['action' => 'clearDrawings'],
-                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_without_highlights"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_dashboard_with_cleared_highlights"],
+                            ['action' => 'goToTable', "pid" => 22, "table" => "tx_styleguide_elements_basic"],
+                            ['action' => 'drawBox', 'selector' => 'h1'],
+                            ['action' => 'drawArrow', 'selector' => 'h1', 'position' => 'center-bottom'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "tx_styleguide_elements_basic_with_highlights_and_fullpage"],
+                            ['action' => 'clearDrawings'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "tx_styleguide_elements_basic_with_cleared_highlights_and_fullpage"],
                         ]
                     ]
                 ]
