@@ -93,6 +93,26 @@ class Typo3Navigation extends Module
     }
 
     /**
+     * Resize the current window to total page size.
+     *
+     * Consider resizing the window back to its previous size when done with the full page actions.
+     *
+     * @see WebDriver::resizeWindow()
+     */
+    public function resizeToFullPage(): void
+    {
+        $windowSize = $this->_getWindowSize();
+        $fullPageSize = $this->_getFullPageSize();
+
+        $this->debug(sprintf(
+            'Resizing browser window from %dx%d to %dx%d.',
+            $windowSize['width'], $windowSize['height'], $fullPageSize['width'], $fullPageSize['height']
+        ));
+
+        $this->getWebDriver()->resizeWindow($fullPageSize['width'], $fullPageSize['height']);
+    }
+
+    /**
      * Calculate the total page size.
      *
      * The total page height is the header height plus the maximum of the three columns:

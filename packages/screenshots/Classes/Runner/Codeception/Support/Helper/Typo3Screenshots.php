@@ -133,11 +133,43 @@ class Typo3Screenshots extends Module
         $webDriver->resizeWindow($windowSize['width'], $windowSize['height']);
     }
 
+    /**
+     * Take screenshot of the browser window.
+     *
+     * @param string $fileName
+     * @param string $altText
+     * @param string $captionText
+     * @param string $captionReference
+     */
     public function makeScreenshotOfWindow(string $fileName, string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->makeScreenshotOfElement($fileName, '', $altText, $captionText, $captionReference);
     }
 
+    /**
+     * Take screenshot of a TYPO3 backend table form.
+     *
+     * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
+     * Therefore, replace this action with:
+     * ``` php
+     * <?php
+     * $I->goToTable(..);
+     * $I->resizeToFullPage();
+     * $I->makeScreenshotOfElement(..);
+     * $I->resizeWindow(..);
+     * ?>
+     * ```
+     * This issue is due to a chrome driver bug with partially scrolled out DOM elements.
+     * See https://bugs.chromium.org/p/chromedriver/issues/detail?id=3629 for further details.
+     *
+     * @param string $fileName
+     * @param int $pid
+     * @param string $table
+     * @param string $selector
+     * @param string $altText
+     * @param string $captionText
+     * @param string $captionReference
+     */
     public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->goToTable($pid, $table);
@@ -167,6 +199,30 @@ class Typo3Screenshots extends Module
         return [$pid, $table];
     }
 
+    /**
+     * Take screenshot of a TYPO3 backend record form.
+     *
+     * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
+     * Therefore, replace this action with:
+     * ``` php
+     * <?php
+     * $I->goToRecord(..);
+     * $I->resizeToFullPage();
+     * $I->makeScreenshotOfElement(..);
+     * $I->resizeWindow(..);
+     * ?>
+     * ```
+     * This issue is due to a chrome driver bug with partially scrolled out DOM elements.
+     * See https://bugs.chromium.org/p/chromedriver/issues/detail?id=3629 for further details.
+     *
+     * @param string $fileName
+     * @param string $table
+     * @param int $uid
+     * @param string $selector
+     * @param string $altText
+     * @param string $captionText
+     * @param string $captionReference
+     */
     public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->goToRecord($table, $uid);
@@ -196,6 +252,31 @@ class Typo3Screenshots extends Module
         return [$table, $uid];
     }
 
+    /**
+     * Take screenshot of a TYPO3 backend form field.
+     *
+     * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
+     * Therefore, replace this action with:
+     * ``` php
+     * <?php
+     * $I->goToField(..);
+     * $I->resizeToFullPage();
+     * $I->makeScreenshotOfElement(..);
+     * $I->resizeWindow(..);
+     * ?>
+     * ```
+     * This issue is due to a chrome driver bug with partially scrolled out DOM elements.
+     * See https://bugs.chromium.org/p/chromedriver/issues/detail?id=3629 for further details.
+     *
+     * @param string $fileName
+     * @param string $fields
+     * @param string $table
+     * @param int $uid
+     * @param string $selector
+     * @param string $altText
+     * @param string $captionText
+     * @param string $captionReference
+     */
     public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '.form-section', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->goToField($fields, $table, $uid);
@@ -211,6 +292,27 @@ class Typo3Screenshots extends Module
         ));
     }
 
+    /**
+     * Take screenshot of the browser window or of a DOM element - if $selector is specified.
+     *
+     * Attention: If the screenshot of a DOM element looks broken, resize the window to full page before taking the
+     * screenshot. Therefore, replace this action with:
+     * ``` php
+     * <?php
+     * $I->resizeToFullPage();
+     * $I->makeScreenshotOfElement(..);
+     * $I->resizeWindow(..);
+     * ?>
+     * ```
+     * This is due to a chrome driver bug with partially scrolled out DOM elements.
+     * See https://bugs.chromium.org/p/chromedriver/issues/detail?id=3629 for further details.
+     *
+     * @param string $fileName
+     * @param string $selector
+     * @param string $altText
+     * @param string $captionText
+     * @param string $captionReference
+     */
     public function makeScreenshotOfElement(string $fileName, string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $relativeImagePath = $this->getRelativeImagePath($fileName);
