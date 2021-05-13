@@ -319,7 +319,7 @@ class Typo3Screenshots extends Module
     {
         $relativeRstPath = $this->getRelativeRstPath($fileName);
         $absoluteRstPath = $this->getAbsoluteDocumentationPath($relativeRstPath);
-        $refDirective = $this->getRstCaption($caption, $captionReference);
+        $captionContent = $this->getRstCaption($caption, $captionReference);
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
@@ -330,8 +330,8 @@ class Typo3Screenshots extends Module
 NOWDOC;
 
         $rst = sprintf($rst, $relativeImagePath, $altText);
-        if ($refDirective !== '') {
-            $rst .= sprintf("\n\n   %s", $refDirective);
+        if ($captionContent !== '') {
+            $rst .= sprintf("\n\n   %s", $captionContent);
         }
 
         @mkdir(dirname($absoluteRstPath), 0777, true);
@@ -346,7 +346,7 @@ NOWDOC;
     protected function getRstCaption(string $caption = '', string $captionReference = ''): string
     {
         if (!empty($captionReference) && !empty($caption)) {
-            return sprintf(':ref:`%s <%s>`', $captionReference, $caption);
+            return sprintf(':ref:`%s <%s>`', $caption, $captionReference);
         } elseif (!empty($caption)) {
             return $caption;
         } else {
