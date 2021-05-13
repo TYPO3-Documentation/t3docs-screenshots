@@ -127,10 +127,10 @@ class Typo3Screenshots extends Module
      *
      * @param string $fileName
      * @param string $altText
-     * @param string $caption
+     * @param string $captionText
      * @param string $captionReference
      */
-    public function makeScreenshotOfFullPage(string $fileName, string $altText = '', string $caption = '', string $captionReference = ''): void
+    public function makeScreenshotOfFullPage(string $fileName, string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $webDriver = $this->getWebDriver();
         $typo3Navigation = $this->getTypo3Navigation();
@@ -165,19 +165,19 @@ class Typo3Screenshots extends Module
         $fullPageHeight = ($windowHeight - $windowInnerHeight) + $headerHeight + max($scrollHeights);
 
         $webDriver->resizeWindow($fullPageWidth, $fullPageHeight);
-        $this->makeScreenshotOfWindow($fileName, $altText, $caption, $captionReference);
+        $this->makeScreenshotOfWindow($fileName, $altText, $captionText, $captionReference);
         $webDriver->resizeWindow($windowWidth, $windowHeight);
     }
 
-    public function makeScreenshotOfWindow(string $fileName, string $altText = '', string $caption = '', string $captionReference = ''): void
+    public function makeScreenshotOfWindow(string $fileName, string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
-        $this->makeScreenshotOfElement($fileName, '', $altText, $caption, $captionReference);
+        $this->makeScreenshotOfElement($fileName, '', $altText, $captionText, $captionReference);
     }
 
-    public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $caption = '', string $captionReference = ''): void
+    public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->goToTable($pid, $table);
-        $this->makeScreenshotOfElement($fileName, $selector, $altText, $caption, $captionReference);
+        $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
     }
 
     public function goToTable(int $pid = -1, string $table = ''): void
@@ -203,10 +203,10 @@ class Typo3Screenshots extends Module
         return [$pid, $table];
     }
 
-    public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $caption = '', string $captionReference = ''): void
+    public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->goToRecord($table, $uid);
-        $this->makeScreenshotOfElement($fileName, $selector, $altText, $caption, $captionReference);
+        $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
     }
 
     public function goToRecord(string $table = '', int $uid = -1): void
@@ -232,10 +232,10 @@ class Typo3Screenshots extends Module
         return [$table, $uid];
     }
 
-    public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '.form-section', string $altText = '', string $caption = '', string $captionReference = ''): void
+    public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '.form-section', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->goToField($fields, $table, $uid);
-        $this->makeScreenshotOfElement($fileName, $selector, $altText, $caption, $captionReference);
+        $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
     }
 
     public function goToField(string $fields, string $table = '', int $uid = -1): void
@@ -247,7 +247,7 @@ class Typo3Screenshots extends Module
         ));
     }
 
-    public function makeScreenshotOfElement(string $fileName, string $selector = '', string $altText = '', string $caption = '', string $captionReference = ''): void
+    public function makeScreenshotOfElement(string $fileName, string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $relativeImagePath = $this->getRelativeImagePath($fileName);
         $tmpFileName = $this->getTemporaryFileName($relativeImagePath);
@@ -265,7 +265,7 @@ class Typo3Screenshots extends Module
         copy($tmpFilePath, $absoluteImagePath);
 
         if ($this->_getConfig('createRstFile')) {
-            $this->makeRstFile($fileName, $relativeImagePath, $altText, $caption, $captionReference);
+            $this->makeRstFile($fileName, $relativeImagePath, $altText, $captionText, $captionReference);
         }
     }
 
@@ -315,11 +315,11 @@ class Typo3Screenshots extends Module
         }
     }
 
-    protected function makeRstFile(string $fileName, string $relativeImagePath, string $altText = '', string $caption = '', string $captionReference = ''): void
+    protected function makeRstFile(string $fileName, string $relativeImagePath, string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $relativeRstPath = $this->getRelativeRstPath($fileName);
         $absoluteRstPath = $this->getAbsoluteDocumentationPath($relativeRstPath);
-        $captionContent = $this->getRstCaption($caption, $captionReference);
+        $caption = $this->getRstCaption($captionText, $captionReference);
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
@@ -330,8 +330,8 @@ class Typo3Screenshots extends Module
 NOWDOC;
 
         $rst = sprintf($rst, $relativeImagePath, $altText);
-        if ($captionContent !== '') {
-            $rst .= sprintf("\n\n   %s", $captionContent);
+        if ($caption !== '') {
+            $rst .= sprintf("\n\n   %s", $caption);
         }
 
         @mkdir(dirname($absoluteRstPath), 0777, true);
@@ -343,12 +343,12 @@ NOWDOC;
         return $this->_getConfig('rstPath') . DIRECTORY_SEPARATOR . $fileName . '.rst.txt';
     }
 
-    protected function getRstCaption(string $caption = '', string $captionReference = ''): string
+    protected function getRstCaption(string $captionText = '', string $captionReference = ''): string
     {
-        if (!empty($captionReference) && !empty($caption)) {
-            return sprintf(':ref:`%s <%s>`', $caption, $captionReference);
-        } elseif (!empty($caption)) {
-            return $caption;
+        if (!empty($captionReference) && !empty($captionText)) {
+            return sprintf(':ref:`%s <%s>`', $captionText, $captionReference);
+        } elseif (!empty($captionText)) {
+            return $captionText;
         } else {
             return '';
         }
