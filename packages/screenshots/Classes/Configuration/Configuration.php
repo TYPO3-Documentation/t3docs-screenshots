@@ -149,7 +149,7 @@ class Configuration
                             ['action' => 'switchToContentFrame'],
                             ['action' => 'scrollModuleBodyTo', 'toSelector' => '#t3-table-pages_translated'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheet_list_scrolled_to_element"],
-                            ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_tca_table", 'selector' => "#t3-table-pages_translated", "altText" => "This is a TCA table", "refLabel" => "my-reference-label", "refTitle" => "My reference title"],
+                            ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_tca_table", 'selector' => "#t3-table-pages_translated", "altText" => "This is a TCA table", "caption" => "my-reference-label", "captionReference" => "My reference title"],
                             ['action' => 'createScreenshotsRstFile', 'create' => false],
                             ['action' => 'makeScreenshotOfElement', 'fileName' => "stylesheet_tca_table_without_rst", 'selector' => "#t3-table-pages_translated"],
                             ['action' => 'click', 'link' => ".btn-toolbar [title='Create a bookmark to this page']"],
