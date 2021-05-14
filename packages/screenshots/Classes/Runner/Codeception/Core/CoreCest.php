@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Runner\Codeception\Styleguide;
+namespace TYPO3\CMS\Screenshots\Runner\Codeception\Core;
 
 /*
  * This file is part of the TYPO3 project.
@@ -16,9 +16,9 @@ use TYPO3\CMS\Screenshots\Runner\Codeception\AbstractBaseCest;
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
 
 /**
- * Run all actions of TYPO3 environment "Styleguide"
+ * Run all actions of TYPO3 environment "Core"
  */
-class StyleguideCest extends AbstractBaseCest
+class CoreCest extends AbstractBaseCest
 {
     /**
      * @param Photographer $I
@@ -26,6 +26,6 @@ class StyleguideCest extends AbstractBaseCest
     public function makeScreenshots(Photographer $I): void
     {
         $I->useExistingSession('admin');
-        parent::runSuite($I, 'Styleguide');
+        parent::runSuite($I, 'Core');
     }
 }

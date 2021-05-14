@@ -1,4 +1,9 @@
 suites:
+  Core:
+    actor: Photographer
+    extensions:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\CoreEnvironment
   Introduction:
     actor: Photographer
     extensions:
