@@ -38,10 +38,11 @@ Installation
 
       ddev launch
 
-3. Log into the TYPO3 backend and activate the page tree of ``EXT:styleguide`` or ``EXT:introduction``:
+3. Log into the TYPO3 backend
+4. Optionally activate the page tree of ``EXT:styleguide`` or ``EXT:introduction``:
 
-   -  add the page tree of ``EXT:introduction`` by de- and reactivating this extension - or -
-   -  add the page tree of ``EXT:styleguide`` by clicking in the upper right corner
+   -  initialize the page tree of ``EXT:introduction`` by de- and reactivating this extension - or -
+   -  initialize the page tree of ``EXT:styleguide`` by clicking in the upper right corner
       "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
 
 Re-Installation
@@ -102,9 +103,9 @@ File ``screenshots.json``
 
 The runner configuration file ``screenshots.json`` must be placed in the root directory of the respective documentation
 folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the TYPO3 environment
-(e.g. "Styleguide", "Introduction", etc.) where the screenshots are taken, and in the second level it lists blocks of
-actions where each block ends with a captured screenshot. Each action is an object, where the key ``action`` marks the
-action name and the remaining keys represent the action parameters.
+(e.g. "Core", "Styleguide", "Introduction", etc.) where the screenshots are taken, and in the second level it lists
+blocks of actions where each block ends with a captured screenshot. Each action is an object, where the key ``action``
+marks the action name and the remaining keys represent the action parameters.
 
 Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3docs`` by
 
@@ -114,17 +115,21 @@ Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3
 
 where ``[folder]`` defaults to ``My-Manual`` if left blank.
 
-This is a small runner configuration which takes screenshots of two TYPO3 environments:
+This is a small runner configuration which takes screenshots of three TYPO3 environments:
 
 .. code-block:: json
 
    {
       "suites": {
-         "Introduction": {
+         "Core": {
             "screenshots": [
                [
-                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard"}
-               ],
+                  {"action": "makeScreenshotOfWindow", "fileName": "core_dashboard"}
+               ]
+            ]
+         },
+         "Introduction": {
+            "screenshots": [
                [
                   {"action": "makeScreenshotOfFullPage", "fileName": "introduction_dashboard_full_page"}
                ]
@@ -316,6 +321,13 @@ Make all screenshots
 .. code-block:: bash
 
    ddev make-screenshots
+
+Make screenshots of TYPO3
+-------------------------
+
+.. code-block:: bash
+
+   ddev make-screenshots Core
 
 Make screenshots of TYPO3 + EXT:styleguide
 ------------------------------------------

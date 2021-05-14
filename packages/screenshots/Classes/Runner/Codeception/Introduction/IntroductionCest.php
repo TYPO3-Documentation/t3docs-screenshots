@@ -16,7 +16,7 @@ use TYPO3\CMS\Screenshots\Runner\Codeception\AbstractBaseCest;
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
 
 /**
- * Tests the screenshots backend module can be loaded
+ * Run all actions of TYPO3 environment "Introduction"
  */
 class IntroductionCest extends AbstractBaseCest
 {

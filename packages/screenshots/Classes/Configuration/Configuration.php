@@ -111,10 +111,23 @@ class Configuration
     {
         $this->config = [
             'suites' => [
+                'Core' => [
+                    'screenshots' => [
+                        [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                            ['action' => 'see', 'text' => "List"],
+                            ['action' => 'click', 'link' => "List"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "typo3_dashboard_full_page"],
+                        ]
+                    ]
+                ],
                 'Introduction' => [
                     'screenshots' => [
                         [
-                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "introduction_dashboard"],
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                            ['action' => 'see', 'text' => "List"],
+                            ['action' => 'click', 'link' => "List"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "introduction_dashboard_full_page"],
                         ]
                     ]
                 ],
