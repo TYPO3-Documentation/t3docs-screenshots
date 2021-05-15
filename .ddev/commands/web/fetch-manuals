@@ -29,5 +29,6 @@ clone_manual() {
 cd "$manualsPath"
 
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TCA.git" "master" "TYPO3CMS-Reference-TCA"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-GettingStarted" "master" "TYPO3CMS-Tutorial-GettingStarted"
 
 cd - > /dev/null
