@@ -306,10 +306,10 @@ Available Actions
 
 As action all codeception actions are supported including the actions of the packages ``typo3/testing-framework`` and
 ``typo3/screenshots``. All available actions get compiled into
-``packages/screenshots/Classes/Runner/Codeception/Support/_generated/BackendTesterActions.php`` - ready for lookup.
+``packages/screenshots/Classes/Runner/Codeception/Support/_generated/PhotographerActions.php`` - ready for lookup.
 
 A new action should be added to the files of ``packages/screenshots/Classes/Runner/Codeception/Support/Helper`` and then be
-compiled into the ``BackendTesterActions.php`` by
+compiled into the ``PhotographerActions.php`` by
 
 .. code-block:: bash
 
