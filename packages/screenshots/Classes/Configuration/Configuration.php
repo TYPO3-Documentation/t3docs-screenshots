@@ -208,8 +208,8 @@ class Configuration
                                 'fileName' => 'TxStyleguideElementsGroupOfPageWithSpecificTitle'
                             ],
                             ['action' => 'makeScreenshotOfRecord', 'fileName' => 'TxStyleguideElementsBasicWithUid1'],
-                            ['action' => 'makeScreenshotOfRecord', 'table' => 'Tx_styleguide_elements_group', 'uid' => 3, 'fileName' => 'TxStyleguideElementsGroupWithUid3'],
-                            ['action' => 'makeScreenshotOfField', 'fields' => 'input_1', 'fileName' => 'TxStyleguide_elements_basic_with_uid_1_and_field_input_1'],
+                            ['action' => 'makeScreenshotOfRecord', 'table' => 'tx_styleguide_elements_group', 'uid' => 3, 'fileName' => 'TxStyleguideElementsGroupWithUid3'],
+                            ['action' => 'makeScreenshotOfField', 'fields' => 'input_1', 'fileName' => 'TxStyleguideElementsBasicWithUid1AndFieldInput1'],
                             ['action' => 'makeScreenshotOfField', 'table' => 'tx_styleguide_elements_group', 'uid' => 3, 'fields' => 'group_db_1', 'fileName' => 'TxStyleguideElementsGroupWithUid3AndFieldGroupDb1'],
                             ['action' => 'clearScreenshotsDefaults'],
                             ['action' => 'reloadBackend'],
