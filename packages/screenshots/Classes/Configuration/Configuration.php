@@ -158,7 +158,7 @@ class Configuration
                             ['action' => 'scrollPageTreeToBottom'],
                             ['action' => 'scrollPageTreeTo', 'toSelector' => '#identifier-0_152'],
                             ['action' => 'scrollPageTreeToBottom'],
-                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "stylesheetListScrolledDown"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "StylesheetListScrolledDown"],
                             ['action' => 'scrollModuleMenuTo', 'toSelector' => '#web_list'],
                             ['action' => 'scrollPageTreeToTop'],
                             ['action' => 'scrollPageTreeTo', 'toSelector' => '#identifier-0_12'],
