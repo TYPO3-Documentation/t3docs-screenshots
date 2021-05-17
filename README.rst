@@ -111,9 +111,9 @@ Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3
 
 .. code-block:: bash
 
-   ddev init-screenshot-json [folder]
+   ddev init-screenshot-json [-t folder]
 
-where ``[folder]`` defaults to ``My-Manual`` if left blank.
+where ``[-t folder]`` defaults to ``My-Manual`` if left blank.
 
 This is a small runner configuration which takes screenshots of three TYPO3 environments:
 
@@ -327,21 +327,21 @@ Make screenshots of TYPO3
 
 .. code-block:: bash
 
-   ddev make-screenshots Core
+   ddev make-screenshots -s Core
 
 Make screenshots of TYPO3 + EXT:styleguide
 ------------------------------------------
 
 .. code-block:: bash
 
-   ddev make-screenshots Styleguide
+   ddev make-screenshots -s Styleguide
 
 Make screenshots of TYPO3 + EXT:introduction
 --------------------------------------------
 
 .. code-block:: bash
 
-   ddev make-screenshots Introduction
+   ddev make-screenshots -s Introduction
 
 Make screenshots of TYPO3 + EXT:introduction + Subset of actions
 ----------------------------------------------------------------
@@ -367,7 +367,7 @@ A custom identifier can be assigned to a block of actions and then used to execu
 
 .. code-block:: bash
 
-   ddev make-screenshots Styleguide first-page
+   ddev make-screenshots -s Styleguide -a first-page
 
 
 Screenshots manager

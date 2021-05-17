@@ -1,19 +1,63 @@
 #!/bin/bash
 
 ## Description: Make screenshots via codeception inside the web container
-## Usage: make-screenshots [suite]
-## Example: "make-screenshots" or "make-screenshots Styleguide"
+## Usage: make-screenshots
+## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots
+## Flags: [{"Name":"actions-id","Shorthand":"a","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite","Shorthand":"s","Usage":"Run actions of specific TYPO3 environment suite only (Core, Introduction, Styleguide). All suites if empty."}]
+
+SUITE=""
+ACTIONS_ID=""
+
+fetch_options() {
+    local params;
+    local exitStatus;
+
+    params=$(getopt --options s:a: --longoptions suite:,actions-id: --name "$0" -- "$@")
+
+    exitStatus=$?
+    if [ $exitStatus -eq 0 ]; then
+        eval set -- "$params"
+
+        while true
+        do
+            case "$1" in
+                -s|--suite)
+                    SUITE=$2
+                    shift 2
+                    ;;
+                -a|--actions-id)
+                    ACTIONS_ID=$2
+                    shift 2
+                    ;;
+                --)
+                    shift
+                    ;;
+                "")
+                    break
+                    ;;
+                *)
+                    echo "Invalid argument: '$1'" >&2
+                    exitStatus=1
+                    shift
+                    ;;
+            esac
+        done
+    fi
+
+    if [ $exitStatus -ne 0 ]; then
+        echo "Call \"make-screenshots --help\" to display help and valid options."
+        exit $exitStatus
+    fi
+}
 
 make_screenshots() {
-    local suite=$1
-    local actionsIdFilter=$2
-
-    screenshotsActionsIdFilter=$actionsIdFilter \
+    screenshotsActionsIdFilter=$ACTIONS_ID \
     typo3DatabaseName=func_test \
     typo3DatabaseUsername=root \
     typo3DatabasePassword=root \
     typo3DatabaseHost=db \
-    vendor/bin/codecept run -d -c public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml $suite
+    vendor/bin/codecept run -d -c public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml $SUITE
 }
 
-make_screenshots $@
+fetch_options $@
+make_screenshots
