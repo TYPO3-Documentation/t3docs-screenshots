@@ -1,6 +1,6 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:for each="{messages}" as="message">
     <f:be.infobox state="{message.state}">
-        {message.message}
+        {message.message -> f:format.htmlentitiesDecode()}
     </f:be.infobox>
 </f:for>

@@ -47,10 +47,32 @@ class ScreenshotsManagerController extends ActionController
     {
     }
 
-    public function makeAction(): void
+    public function makeAction(string $cmd = 'show'): void
     {
-        $command = 'typo3DatabaseName=func_test typo3DatabaseUsername=root typo3DatabasePassword=root typo3DatabaseHost=db ' .
-            '/var/www/html/vendor/bin/codecept run -d -c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml';
+        if ($cmd === 'make') {
+            $this->make();
+        }
+
+        $this->view->assign('messages', $this->fetchMessages());
+    }
+
+    protected function make(): void
+    {
+        $suite = '';
+        $pathFilter = '';
+        $actionsIdFilter = '';
+
+        $command = sprintf('screenshotsPathFilter=%s ' .
+            'screenshotsActionsIdFilter=%s ' .
+            'typo3DatabaseName=func_test ' .
+            'typo3DatabaseUsername=root ' .
+            'typo3DatabasePassword=root ' .
+            'typo3DatabaseHost=db ' .
+            '/var/www/html/vendor/bin/codecept run -d ' .
+            '-c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml ' .
+            '%s',
+            $pathFilter, $actionsIdFilter, $suite
+        );
 
         $output = sprintf('$ %s', $command) . "\n";
         exec($command . " 2>&1", $outputArray, $resultCode);
@@ -59,9 +81,19 @@ class ScreenshotsManagerController extends ActionController
         $converter = new AnsiToHtmlConverter();
         $outputHtml = $converter->convert($output);
 
+        if ($resultCode === 0) {
+            $link = sprintf('<a href="%s">next</a>', $this->uriBuilder->reset()->uriFor('compare'));
+            $message = sprintf(
+                'Successfully created screenshots. You will probably compare them with the original ones %s.',
+                $link
+            );
+            $this->pushMessage($message, InfoboxViewHelper::STATE_OK);
+        } else {
+            $message = 'Creating screenshots has failed. Please find the details below.';
+            $this->pushMessage($message, InfoboxViewHelper::STATE_ERROR);
+        }
+
         $this->view->assign('outputHtml', $outputHtml);
-        $this->view->assign('resultCode', $resultCode);
-        $this->view->assign('messages', $this->fetchMessages());
     }
 
     public function compareAction(
