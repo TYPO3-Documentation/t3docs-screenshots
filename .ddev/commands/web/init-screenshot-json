@@ -1,12 +1,53 @@
 #!/bin/bash
 
 ## Description: Init basic screenshots.json inside the web container
-## Usage: init-screenshot-json (folder|path)
-## Example: "init-screenshot-json My-Manual" or "init-screenshot-json /var/www/html/t3docs/My-Manual"
+## Usage: init-screenshot-json
+## Example: init-screenshot-json -t My-Manual\ninit-screenshot-json -t /var/www/html/t3docs/My-Manual
+## Flags: [{"Name":"target-folder","Shorthand":"t","Usage":"Target folder by relative or absolute path. \"My-Manual\" if empty."}]
 
-init_screenshot_json() {
-    local manualFolder=${1}
-    typo3 screenshots:init $manualFolder
+TARGET_FOLDER=""
+
+fetch_options() {
+    local params;
+    local exitStatus;
+
+    params=$(getopt --options t: --longoptions target-folder: --name "$0" -- "$@")
+
+    exitStatus=$?
+    if [ $exitStatus -eq 0 ]; then
+        eval set -- "$params"
+
+        while true
+        do
+            case "$1" in
+                -t|--target-folder)
+                    TARGET_FOLDER=$2
+                    shift 2
+                    ;;
+                --)
+                    shift
+                    ;;
+                "")
+                    break
+                    ;;
+                *)
+                    echo "Invalid argument: '$1'" >&2
+                    exitStatus=1
+                    shift
+                    ;;
+            esac
+        done
+    fi
+
+    if [ $exitStatus -ne 0 ]; then
+        echo "Call \"init-screenshots-json --help\" to display help and valid options."
+        exit $exitStatus
+    fi
 }
 
-init_screenshot_json $@
+init_screenshot_json() {
+    typo3 screenshots:init $TARGET_FOLDER
+}
+
+fetch_options $@
+init_screenshot_json

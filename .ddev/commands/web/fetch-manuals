@@ -2,16 +2,16 @@
 
 ## Description: Fetch all official TYPO3 Documentation manuals
 ## Usage: fetch-manuals
-## Example: "fetch-manuals"
+## Example: fetch-manuals
 
-manualsPath="/var/www/html/public/t3docs"
+TARGET_FOLDER="/var/www/html/public/t3docs"
 
 clone_manual() {
     local repositoryUrl=$1
     local branch=$2
     local manualFolder=$3
 
-    if [[ -d "$manualsPath/$manualFolder" ]]; then
+    if [[ -d "$TARGET_FOLDER/$manualFolder" ]]; then
         echo "Manual '$manualFolder' already exists."
     else
         echo "Clone manual '$manualFolder' from '$repositoryUrl' .."
@@ -25,8 +25,8 @@ clone_manual() {
     cd - > /dev/null
 }
 
-[[ ! -d "$manualsPath" ]] && mkdir "$manualsPath"
-cd "$manualsPath"
+[[ ! -d "$TARGET_FOLDER" ]] && mkdir "$TARGET_FOLDER"
+cd "$TARGET_FOLDER"
 
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TCA.git" "master" "TYPO3CMS-Reference-TCA"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-GettingStarted" "master" "TYPO3CMS-Tutorial-GettingStarted"

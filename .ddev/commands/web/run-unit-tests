@@ -2,11 +2,57 @@
 
 ## Description: Run unit tests of EXT:screenshots
 ## Usage: run-unit-tests
-## Example: "run-unit-tests"
+## Example: run-unit-tests\nrun-unit-tests -p "-d memory_limit=768M"\nrun-unit-tests -u "-v /var/www/html/packages/screenshots/Tests/Unit"
+## Flags: [{"Name":"php-flags","Shorthand":"p","Usage":"PHP command flags. None if empty."},{"Name":"phpunit-flags","Shorthand":"u","Usage":"PHPUnit command flags. \"/var/www/html/packages/screenshots/Tests/Unit\" if empty."}]
 
-run_unit_tests() {
-    local flags=${1:-"/var/www/html/packages/screenshots/Tests/Unit"}
-    phpunit $flags
+PHP_FLAGS=""
+PHPUNIT_FLAGS="/var/www/html/packages/screenshots/Tests/Unit"
+
+fetch_options() {
+    local params;
+    local exitStatus;
+
+    params=$(getopt --options p:u: --longoptions php-flags:phpunit-flags: --name "$0" -- "$@")
+
+    exitStatus=$?
+    if [ $exitStatus -eq 0 ]; then
+        eval set -- "$params"
+
+        while true
+        do
+            case "$1" in
+                -p|--php-flags)
+                    PHP_FLAGS=$2
+                    shift 2
+                    ;;
+                -u|--phpunit-flags)
+                    PHPUNIT_FLAGS=$2
+                    shift 2
+                    ;;
+                --)
+                    shift
+                    ;;
+                "")
+                    break
+                    ;;
+                *)
+                    echo "Invalid argument: '$1'" >&2
+                    exitStatus=1
+                    shift
+                    ;;
+            esac
+        done
+    fi
+
+    if [ $exitStatus -ne 0 ]; then
+        echo "Call \"run-unit-tests --help\" to display help and valid options."
+        exit $exitStatus
+    fi
 }
 
-run_unit_tests $@
+run_unit_tests() {
+    php $PHP_FLAGS /var/www/html/vendor/bin/phpunit $PHPUNIT_FLAGS
+}
+
+fetch_options $@
+run_unit_tests
