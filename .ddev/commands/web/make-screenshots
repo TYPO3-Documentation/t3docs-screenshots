@@ -2,17 +2,18 @@
 
 ## Description: Make screenshots via codeception inside the web container
 ## Usage: make-screenshots
-## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots
-## Flags: [{"Name":"actions-id","Shorthand":"a","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite","Shorthand":"s","Usage":"Run actions of specific TYPO3 environment suite only (Core, Introduction, Styleguide). All suites if empty."}]
+## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots\nmake-screenshots -t My-Manual
+## Flags: [{"Name":"actions-id","Shorthand":"a","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite","Shorthand":"s","Usage":"Run actions of specific TYPO3 environment suite only (Core, Introduction, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
 
 SUITE=""
+TARGET_PATH=""
 ACTIONS_ID=""
 
 fetch_options() {
     local params;
     local exitStatus;
 
-    params=$(getopt --options s:a: --longoptions suite:,actions-id: --name "$0" -- "$@")
+    params=$(getopt --options s:a:t: --longoptions suite:,actions-id:target-path: --name "$0" -- "$@")
 
     exitStatus=$?
     if [ $exitStatus -eq 0 ]; then
@@ -27,6 +28,10 @@ fetch_options() {
                     ;;
                 -a|--actions-id)
                     ACTIONS_ID=$2
+                    shift 2
+                    ;;
+                -t|--target-path)
+                    TARGET_PATH=$2
                     shift 2
                     ;;
                 --)
@@ -51,6 +56,7 @@ fetch_options() {
 }
 
 make_screenshots() {
+    screenshotsPathFilter=$TARGET_PATH \
     screenshotsActionsIdFilter=$ACTIONS_ID \
     typo3DatabaseName=func_test \
     typo3DatabaseUsername=root \

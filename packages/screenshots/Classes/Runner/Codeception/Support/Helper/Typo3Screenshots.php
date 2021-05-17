@@ -102,6 +102,15 @@ class Typo3Screenshots extends Module
         $this->_setConfig(['defaults' => []]);
     }
 
+    public function fetchScreenshotsPathFilter(): string
+    {
+        $pathFilter = $this->_getConfig('pathFilter');
+        if (!empty($pathFilter)) {
+            $this->debug(sprintf('Only run screenshots.json of folder "%s".', $pathFilter));
+        }
+        return $pathFilter;
+    }
+
     public function fetchScreenshotsActionsIdFilter(): string
     {
         $actionsIdFilter = $this->_getConfig('actionsIdFilter');
