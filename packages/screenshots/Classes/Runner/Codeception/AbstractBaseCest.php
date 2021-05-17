@@ -48,9 +48,15 @@ abstract class AbstractBaseCest
     {
         $originalPath = '/var/www/html/public/t3docs';
         $actualPath = '/var/www/html/public/t3docs-generated/actual';
+        $pathFilter = $I->fetchScreenshotsPathFilter();
         $actionsIdFilter = $I->fetchScreenshotsActionsIdFilter();
 
-        $directories = array_filter(glob($originalPath . '/*'), 'is_dir');
+        if (!empty($pathFilter)) {
+            $directories = [$pathFilter];
+        } else {
+            $directories = array_filter(glob($originalPath . '/*'), 'is_dir');
+        }
+
         foreach ($directories as $originalDirectory) {
             if ($I->checkForScreenshotsConfiguration($originalDirectory)) {
                 $actualDirectory = $actualPath . DIRECTORY_SEPARATOR . basename($originalDirectory);

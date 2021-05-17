@@ -53,6 +53,7 @@ modules:
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Navigation
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3PageTree
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots:
+        pathFilter: "%screenshotsPathFilter%"
         actionsIdFilter: "%screenshotsActionsIdFilter%"
 
 params:

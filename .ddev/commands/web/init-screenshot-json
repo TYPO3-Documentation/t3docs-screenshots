@@ -3,15 +3,15 @@
 ## Description: Init basic screenshots.json inside the web container
 ## Usage: init-screenshot-json
 ## Example: init-screenshot-json -t My-Manual\ninit-screenshot-json -t /var/www/html/t3docs/My-Manual
-## Flags: [{"Name":"target-folder","Shorthand":"t","Usage":"Target folder by relative or absolute path. \"My-Manual\" if empty."}]
+## Flags: [{"Name":"target-path","Shorthand":"t","Usage":"Target folder by relative or absolute path. \"My-Manual\" if empty."}]
 
-TARGET_FOLDER=""
+TARGET_PATH=""
 
 fetch_options() {
     local params;
     local exitStatus;
 
-    params=$(getopt --options t: --longoptions target-folder: --name "$0" -- "$@")
+    params=$(getopt --options t: --longoptions target-path: --name "$0" -- "$@")
 
     exitStatus=$?
     if [ $exitStatus -eq 0 ]; then
@@ -20,8 +20,8 @@ fetch_options() {
         while true
         do
             case "$1" in
-                -t|--target-folder)
-                    TARGET_FOLDER=$2
+                -t|--target-path)
+                    TARGET_PATH=$2
                     shift 2
                     ;;
                 --)
@@ -46,7 +46,7 @@ fetch_options() {
 }
 
 init_screenshot_json() {
-    typo3 screenshots:init $TARGET_FOLDER
+    typo3 screenshots:init $TARGET_PATH
 }
 
 fetch_options $@
