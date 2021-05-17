@@ -128,6 +128,20 @@ class Configuration
                             ['action' => 'see', 'text' => "List"],
                             ['action' => 'click', 'link' => "List"],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionDashboardFullPage"],
+                        ],
+                        'actionsIdentifierUserSwitch' => [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                            ['action' => 'see', 'text' => "Backend Users"],
+                            ['action' => 'click', 'link' => "Backend Users"],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'waitForElement', 'element' => '[name="BackendUserModuleMenu"]', 'timeout' => 5],
+                            ['action' => 'click', 'link' => "//table[@id='typo3-backend-user-list']/tbody/tr[3]//a[@title='Switch to user']"],
+                            ['action' => 'waitForText', 'text' => 'SU simple-editor', 'timeout' => 5],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionSimpleEditorSwitch"],
+                            ['action' => 'click', 'link' => "SU simple-editor"],
+                            ['action' => 'click', 'link' => "Exit"],
+                            ['action' => 'waitForText', 'text' => 'Klaus Admin', 'timeout' => 5],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionSimpleEditorSwitchBack"],
                         ]
                     ]
                 ],
