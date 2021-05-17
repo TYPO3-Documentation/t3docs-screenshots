@@ -73,9 +73,9 @@ class CoreEnvironment extends BackendEnvironment
             'typo3conf/ext/screenshots',
         ],
         'xmlDatabaseFixtures' => [
-            'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_users.xml',
-            'PACKAGE:typo3/testing-framework/Resources/Core/Acceptance/Fixtures/be_groups.xml',
-            'EXT:screenshots/Classes/Runner/Codeception/Fixtures/be_sessions.xml',
+            'EXT:screenshots/Classes/Runner/Codeception/Fixtures/StyleguideEnvironment/be_groups.xml',
+            'EXT:screenshots/Classes/Runner/Codeception/Fixtures/StyleguideEnvironment/be_sessions.xml',
+            'EXT:screenshots/Classes/Runner/Codeception/Fixtures/StyleguideEnvironment/be_users.xml',
         ],
     ];
 
