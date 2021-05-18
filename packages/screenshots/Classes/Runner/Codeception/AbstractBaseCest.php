@@ -15,6 +15,8 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception;
 use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationException;
 
@@ -35,7 +37,14 @@ abstract class AbstractBaseCest
      */
     protected array $reflectors;
 
+    protected ConfigurationRepository $configurationRepository;
+
     public function __construct() {
+        $originalPath = '/var/www/html/public/t3docs';
+
+        $this->configurationRepository = GeneralUtility::makeInstance(
+            ConfigurationRepository::class, $originalPath
+        );
         $this->consoleOutput = new ConsoleOutput();
         $this->reflectors = [];
     }
@@ -46,32 +55,29 @@ abstract class AbstractBaseCest
      */
     protected function runSuite(Photographer $I, string $suite): void
     {
-        $originalPath = '/var/www/html/public/t3docs';
         $actualPath = '/var/www/html/public/t3docs-generated/actual';
         $pathFilter = $I->fetchScreenshotsPathFilter();
         $actionsIdFilter = $I->fetchScreenshotsActionsIdFilter();
 
         if (!empty($pathFilter)) {
-            $directories = [$pathFilter];
+            $configurations = $this->configurationRepository->findByPath($pathFilter);
         } else {
-            $directories = array_filter(glob($originalPath . '/*'), 'is_dir');
+            $configurations = $this->configurationRepository->findAll();
         }
 
-        foreach ($directories as $originalDirectory) {
-            if ($I->checkForScreenshotsConfiguration($originalDirectory)) {
-                $actualDirectory = $actualPath . DIRECTORY_SEPARATOR . basename($originalDirectory);
-                $I->setScreenshotsBasePath($actualDirectory);
+        foreach ($configurations as $configuration) {
+            $originalDirectory = $configuration->getPath();
+            $actualDirectory = $actualPath . DIRECTORY_SEPARATOR . basename($originalDirectory);
+            $I->setScreenshotsBasePath($actualDirectory);
 
-                $configuration = $I->loadScreenshotsConfiguration($originalDirectory);
-                $config = $configuration->getConfig();
-
-                if (!empty($config['suites'][$suite]['screenshots'])) {
-                    foreach ($config['suites'][$suite]['screenshots'] as $actionsId => $actions) {
-                        $isActionsEnabled = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
-                        if ($isActionsEnabled) {
-                            foreach ($actions as $action) {
-                                $this->handleAction($I, $action);
-                            }
+            $configuration->read();
+            $config = $configuration->getConfig();
+            if (!empty($config['suites'][$suite]['screenshots'])) {
+                foreach ($config['suites'][$suite]['screenshots'] as $actionsId => $actions) {
+                    $isActionsEnabled = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
+                    if ($isActionsEnabled) {
+                        foreach ($actions as $action) {
+                            $this->handleAction($I, $action);
                         }
                     }
                 }

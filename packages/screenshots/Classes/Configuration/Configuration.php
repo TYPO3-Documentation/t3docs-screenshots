@@ -25,11 +25,22 @@ class Configuration
 
     protected string $path;
     protected array $config;
+    protected bool $existing;
 
     public function __construct(string $path = '')
     {
         $this->path = $this->getAbsolutePath($path);
         $this->config = [];
+        $this->refresh();
+    }
+
+    protected function refresh(): void
+    {
+        if (is_file($this->getFilePath())) {
+            $this->existing = true;
+        } else {
+            $this->existing = false;
+        }
     }
 
     protected function getAbsolutePath(string $path): string
@@ -48,12 +59,18 @@ class Configuration
     public function write(): void
     {
         GeneralUtility::mkdir_deep($this->path);
-        file_put_contents($this->getFilePath(), $this->printAsJson());
+        GeneralUtility::writeFile($this->getFilePath(), $this->printAsJson());
+        $this->refresh();
     }
 
     public function getFilePath(): string
     {
         return $this->path . '/' . $this->fileName;
+    }
+
+    public function isExisting(): bool
+    {
+        return $this->existing;
     }
 
     /**

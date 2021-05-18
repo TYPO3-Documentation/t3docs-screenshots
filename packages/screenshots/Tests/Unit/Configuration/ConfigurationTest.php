@@ -75,4 +75,21 @@ class ConfigurationTest extends UnitTestCase
             'basic-configuration' => $configuration->getConfig()
         ];
     }
+
+    /**
+     * @test
+     */
+    public function configAdaptsExistingStatus(): void
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '0770';
+        $root = vfsStream::setup('t3docs');
+
+        $configuration = new Configuration($root->url());
+        self::assertFileDoesNotExist($configuration->getFilePath());
+        self::assertFalse($configuration->isExisting());
+
+        $configuration->write();
+        self::assertFileExists($configuration->getFilePath());
+        self::assertTrue($configuration->isExisting());
+    }
 }
