@@ -4,7 +4,7 @@
     <h1>TYPO3 Screenshots :: Make</h1>
     <f:form method="post" action="make">
         <div class="row pt-2 pb-3">
-            <div class="col-12 col-xl-4 col-lg-6 col-md-8" id="screenshotsPathContainer">
+            <div class="col-12 col-md-4" id="screenshotsPathContainer">
                 <label for="screenshotsPath" class="form-label">Run screenshots.json of path</label>
                 <f:form.select
                     id="screenshotsPath"
@@ -15,6 +15,19 @@
                     optionValueField="path"
                     optionLabelField="filePath"
                     value="{pathFilter}"
+                    sortByOptionLabel="true"
+                    class="form-select"
+                />
+            </div>
+            <div class="col-12 col-md-4" id="screenshotsSuiteContainer">
+                <label for="screenshotsSuite" class="form-label">Run actions of environment</label>
+                <f:form.select
+                    id="screenshotsSuite"
+                    name="suiteFilter"
+                    options="{Core: 'Core (TYPO3)', Introduction: 'Introduction (TYPO3 + EXT:introduction)', Styleguide: 'Styleguide (TYPO3 + EXT:styleguide)'}"
+                    prependOptionLabel="All"
+                    prependOptionValue=""
+                    value="{suiteFilter}"
                     sortByOptionLabel="true"
                     class="form-select"
                 />
