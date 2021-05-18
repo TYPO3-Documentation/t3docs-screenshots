@@ -53,23 +53,27 @@
             </f:form.button>
         </div>
 
-        <h2>Result</h2>
-        <f:if condition="{messages}">
+        <h2>Results</h2>
+        <f:if condition="{cmd} == 'show'">
             <f:then>
-                <f:render partial="Messages" arguments="{messages:messages}" />
-            </f:then>
-            <f:else>
                 <f:be.infobox state="-2">
                     Nothing done yet. Click button "Make screenshots" to start the runner.
                 </f:be.infobox>
+            </f:then>
+            <f:else>
+                <f:if condition="{messages}">
+                    <f:render partial="Messages" arguments="{messages:messages}" />
+                </f:if>
+                <h2>Details</h2>
+                <div>
+                    <pre style="background-color: black;"><f:format.htmlentitiesDecode>{outputHtml}</f:format.htmlentitiesDecode></pre>
+                </div>
+                <div class="pt-3">
+                    <f:form.button name="cmd" value="make" type="submit" class="btn btn-warning">
+                        Make screenshots
+                    </f:form.button>
+                </div>
             </f:else>
-        </f:if>
-
-        <f:if condition="{outputHtml}">
-            <h2>Details</h2>
-            <div>
-                <pre style="background-color: black;"><f:format.htmlentitiesDecode>{outputHtml}</f:format.htmlentitiesDecode></pre>
-            </div>
         </f:if>
     </f:form>
 </f:section>

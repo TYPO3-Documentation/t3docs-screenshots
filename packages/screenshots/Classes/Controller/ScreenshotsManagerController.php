@@ -58,7 +58,12 @@ class ScreenshotsManagerController extends ActionController
     {
     }
 
-    public function makeAction(string $cmd = 'show', string $pathFilter = '', string $suiteFilter = '', string $actionsIdFilter = ''): void
+    public function makeAction(
+        string $cmd = 'show',
+        string $pathFilter = '',
+        string $suiteFilter = '',
+        string $actionsIdFilter = ''
+    ): void
     {
         if ($cmd === 'make') {
             $this->make($pathFilter, $suiteFilter, $actionsIdFilter);
@@ -76,6 +81,7 @@ class ScreenshotsManagerController extends ActionController
             }
         }
 
+        $this->view->assign('cmd', $cmd);
         $this->view->assign('pathFilter', $pathFilter);
         $this->view->assign('suiteFilter', $suiteFilter);
         $this->view->assign('actionsIdFilter', $actionsIdFilter);
@@ -121,7 +127,7 @@ class ScreenshotsManagerController extends ActionController
     }
 
     public function compareAction(
-        string $cmd = 'compare',
+        string $cmd = 'show',
         string $search = '',
         array $imagesToCopy = [],
         array $textFilesToCopy = [],
@@ -129,11 +135,15 @@ class ScreenshotsManagerController extends ActionController
         int $numTextFiles = 0
     ): void
     {
-        if ($cmd === 'copy') {
-            $this->copy($imagesToCopy, $textFilesToCopy, $numImages, $numTextFiles);
+        if ($cmd === 'compare') {
+            $this->compare($search);
         }
-        $this->compare($search);
+        elseif ($cmd === 'copy') {
+            $this->copy($imagesToCopy, $textFilesToCopy, $numImages, $numTextFiles);
+            $this->compare($search);
+        }
 
+        $this->view->assign('cmd', $cmd);
         $this->view->assign('messages', $this->fetchMessages());
     }
 
