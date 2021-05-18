@@ -79,7 +79,7 @@ class ConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function configAdaptsExistingStatus(): void
+    public function isExistingAdaptsAfterWritingTheConfiguration(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '0770';
         $root = vfsStream::setup('t3docs');
@@ -91,5 +91,22 @@ class ConfigurationTest extends UnitTestCase
         $configuration->write();
         self::assertFileExists($configuration->getFilePath());
         self::assertTrue($configuration->isExisting());
+    }
+
+    /**
+     * @test
+     */
+    public function getActionsIds(): void
+    {
+        $configuration = new Configuration('DummyPath');
+        $configuration->createBasicConfig();
+        $actualActionsIds = $configuration->getActionsIds();
+        $expectedActionsIds = [
+            'actionsIdentifierScreenshots',
+            'actionsIdentifierScreenshotsOfContentFrameOnly',
+            'actionsIdentifierCodeSnippets',
+            'actionsIdentifierDraw',
+        ];
+        self::assertEquals($expectedActionsIds, $actualActionsIds);
     }
 }

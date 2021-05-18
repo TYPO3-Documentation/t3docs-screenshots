@@ -73,6 +73,25 @@ class Configuration
         return $this->existing;
     }
 
+    public function getActionsIds(): array
+    {
+        $actionIds = [];
+
+        if (!empty($this->config['suites'])) {
+            foreach ($this->config['suites'] as &$suite) {
+                if (isset($suite['screenshots'])) {
+                    foreach ($suite['screenshots'] as $actionsId => &$actions) {
+                        if (!is_numeric($actionsId)) {
+                            $actionIds[] = $actionsId;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $actionIds;
+    }
+
     /**
      * Print the configuration frame pretty and use normal printing for the actions so that they consume only one line
      * each.

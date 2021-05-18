@@ -58,24 +58,34 @@ class ScreenshotsManagerController extends ActionController
     {
     }
 
-    public function makeAction(string $cmd = 'show', string $pathFilter = '', string $suiteFilter = ''): void
+    public function makeAction(string $cmd = 'show', string $pathFilter = '', string $suiteFilter = '', string $actionsIdFilter = ''): void
     {
         if ($cmd === 'make') {
-            $this->make($pathFilter, $suiteFilter);
+            $this->make($pathFilter, $suiteFilter, $actionsIdFilter);
         }
 
         $configurations = $this->configurationRepository->findAll();
 
+        $actionsIds = [];
+        foreach ($configurations as &$configuration) {
+            $configuration->read();
+            foreach ($configuration->getActionsIds() as $actionsId) {
+                if (!isset($actionsIds[$actionsId])) {
+                    $actionsIds[$actionsId] = $actionsId;
+                }
+            }
+        }
+
         $this->view->assign('pathFilter', $pathFilter);
         $this->view->assign('suiteFilter', $suiteFilter);
+        $this->view->assign('actionsIdFilter', $actionsIdFilter);
         $this->view->assign('configurations', $configurations);
+        $this->view->assign('actionsIds', $actionsIds);
         $this->view->assign('messages', $this->fetchMessages());
     }
 
-    protected function make(string $pathFilter = '', string $suiteFilter = ''): void
+    protected function make(string $pathFilter = '', string $suiteFilter = '', string $actionsIdFilter = ''): void
     {
-        $actionsIdFilter = '';
-
         $command = sprintf('screenshotsPathFilter=%s ' .
             'screenshotsActionsIdFilter=%s ' .
             'typo3DatabaseName=func_test ' .
