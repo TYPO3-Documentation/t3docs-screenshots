@@ -14,7 +14,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Module;
 use Codeception\Module\WebDriver;
-use TYPO3\CMS\Screenshots\Configuration\Configuration;
+use TYPO3\CMS\Screenshots\Util\FileHelper;
 
 /**
  * Helper to provide screenshots of TYPO3 specific backend elements.
@@ -31,27 +31,6 @@ class Typo3Screenshots extends Module
         'defaults' => [],
     ];
 
-    /**
-     * @param string $path Path to the folder that might contain the screenshots.json.
-     * @return bool Does the folder contain the screenshots.json?
-     */
-    public function checkForScreenshotsConfiguration(string $path): bool
-    {
-        $configuration = new Configuration($path);
-        return is_file($configuration->getFilePath());
-    }
-
-    /**
-     * @param string $path Path to the folder that contains the screenshots.json.
-     * @return Configuration
-     */
-    public function loadScreenshotsConfiguration(string $path): Configuration
-    {
-        $configuration = new Configuration($path);
-        $configuration->read();
-        return $configuration;
-    }
-
     public function setScreenshotsBasePath(string $path): void
     {
         $this->_setConfig(['basePath' => $path]);
@@ -59,7 +38,7 @@ class Typo3Screenshots extends Module
 
     public function cleanUpScreenshotsBasePath(): void
     {
-        $this->cleanUpPath($this->_getConfig('basePath'));
+        FileHelper::deleteRecursively($this->_getConfig('basePath'));
     }
 
     public function setScreenshotsDocumentationPath(string $path): void
@@ -372,22 +351,6 @@ class Typo3Screenshots extends Module
         }
         $absolutePath[] = $relativePath;
         return implode(DIRECTORY_SEPARATOR, $absolutePath);
-    }
-
-    protected function cleanUpPath(string $path): void
-    {
-        if (is_dir($path)) {
-            $subPaths = glob($path . '/*');
-            foreach ($subPaths as $subPath) {
-                if (is_file($subPath)) {
-                    unlink($subPath);
-                }
-                if (is_dir($subPath)) {
-                    $this->cleanUpPath($subPath);
-                }
-            }
-            rmdir($path);
-        }
     }
 
     protected function makeRstFile(string $fileName, string $relativeImagePath, string $altText = '', string $captionText = '', string $captionReference = ''): void

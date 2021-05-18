@@ -21,6 +21,7 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
 use TYPO3\CMS\Screenshots\Comparison\File;
 use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
+use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
 
 class ScreenshotsManagerController extends ActionController
 {
@@ -28,10 +29,20 @@ class ScreenshotsManagerController extends ActionController
     protected array $imageExtensions = ['gif', 'jpg', 'jpeg', 'png', 'bmp'];
 
     protected PageRenderer $pageRenderer;
+    protected ConfigurationRepository $configurationRepository;
 
     public function injectPageRenderer(PageRenderer $pageRenderer)
     {
         $this->pageRenderer = $pageRenderer;
+    }
+
+    public function __construct()
+    {
+        $originalPath = '/var/www/html/public/t3docs';
+
+        $this->configurationRepository = GeneralUtility::makeInstance(
+            ConfigurationRepository::class, $originalPath
+        );
     }
 
     protected function initializeView(ViewInterface $view)
@@ -47,19 +58,22 @@ class ScreenshotsManagerController extends ActionController
     {
     }
 
-    public function makeAction(string $cmd = 'show'): void
+    public function makeAction(string $cmd = 'show', string $pathFilter = ''): void
     {
         if ($cmd === 'make') {
-            $this->make();
+            $this->make($pathFilter);
         }
 
+        $configurations = $this->configurationRepository->findAll();
+
+        $this->view->assign('pathFilter', $pathFilter);
+        $this->view->assign('configurations', $configurations);
         $this->view->assign('messages', $this->fetchMessages());
     }
 
-    protected function make(): void
+    protected function make(string $pathFilter = ''): void
     {
         $suite = '';
-        $pathFilter = '';
         $actionsIdFilter = '';
 
         $command = sprintf('screenshotsPathFilter=%s ' .
