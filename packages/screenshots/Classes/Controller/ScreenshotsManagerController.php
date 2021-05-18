@@ -58,22 +58,22 @@ class ScreenshotsManagerController extends ActionController
     {
     }
 
-    public function makeAction(string $cmd = 'show', string $pathFilter = ''): void
+    public function makeAction(string $cmd = 'show', string $pathFilter = '', string $suiteFilter = ''): void
     {
         if ($cmd === 'make') {
-            $this->make($pathFilter);
+            $this->make($pathFilter, $suiteFilter);
         }
 
         $configurations = $this->configurationRepository->findAll();
 
         $this->view->assign('pathFilter', $pathFilter);
+        $this->view->assign('suiteFilter', $suiteFilter);
         $this->view->assign('configurations', $configurations);
         $this->view->assign('messages', $this->fetchMessages());
     }
 
-    protected function make(string $pathFilter = ''): void
+    protected function make(string $pathFilter = '', string $suiteFilter = ''): void
     {
-        $suite = '';
         $actionsIdFilter = '';
 
         $command = sprintf('screenshotsPathFilter=%s ' .
@@ -85,7 +85,7 @@ class ScreenshotsManagerController extends ActionController
             '/var/www/html/vendor/bin/codecept run -d ' .
             '-c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml ' .
             '%s',
-            $pathFilter, $actionsIdFilter, $suite
+            $pathFilter, $actionsIdFilter, $suiteFilter
         );
 
         $output = sprintf('$ %s', $command) . "\n";
