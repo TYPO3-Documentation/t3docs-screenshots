@@ -113,7 +113,7 @@ Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3
 
    ddev init-screenshot-json [-t folder]
 
-where ``[-t folder]`` defaults to ``My-Manual`` if left blank.
+where ``folder`` defaults to ``My-Manual`` if left blank.
 
 This is a small runner configuration which takes screenshots of three TYPO3 environments:
 
@@ -322,6 +322,17 @@ Make all screenshots
 
    ddev make-screenshots
 
+Make screenshots of specific ``screenshots.json`` file
+------------------------------------------------------
+
+A folder path can be specified to execute only the actions of this particular ``screenshots.json``. The folder path can
+be defined as an absolute path or relative to ``public/t3docs``, e.g. this command executes only
+``public/t3docs/My-Manual/screenshots.json``.
+
+.. code-block:: bash
+
+   ddev make-screenshots -t My-Manual
+
 Make screenshots of TYPO3
 -------------------------
 
@@ -390,10 +401,14 @@ On the welcome page you can select the action you want to perform:
 Make screenshots
 ----------------
 
-On this page you automatically start the screenshot runner, which starts a subprocess on the command line.
+On this page you start the screenshot runner, which starts a subprocess on the command line.
 The result is displayed on this page as soon as the runner is finished - which may take a while.
 
 .. image:: docs/screenshots_manager_make.png
+
+To comfortably work with a large number of ``screenhots.json`` and actions, the number of actions can be reduced by
+using the filter at the top of the page: Only actions matching the path, suite and action ID criteria will then be
+executed.
 
 Compare & copy screenshots
 --------------------------
