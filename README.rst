@@ -10,7 +10,13 @@ This project provides a way to take screenshots of the TYPO3 CMS in a scripted w
 First, the user browses a TYPO3 instance to take notes of a click path for a new screenshot.
 Next, the click path gets forged to a ``screenshots.json`` file.
 Next, all ``screenshots.json`` files get executed by the screenshot runner which produces the screenshots.
-Last, the actual screenshots get compared to the original screenshots and copied over if approved by the user.
+Last, the actual screenshots get compared to the original screenshots in the screenshot manager and copied over if
+approved by the user.
+
+Activity of the Screenshots Runner:
+
+.. image:: docs/screenshots_runner_diagram.png
+   :alt: Activity of screenshot runner
 
 .. contents:: Table of Contents
 
