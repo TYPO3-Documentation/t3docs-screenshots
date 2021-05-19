@@ -1,0 +1,10 @@
+.. uml::
+
+   (*) --> "Screenshots Runner" as runner
+   -left->[Read actions from screenshots.json] runner
+   -->[Run action] "Codeception" as codeception
+   --> "php-webdriver"
+   --> "Selenium WebDriver"
+   --> "Chrome Driver"
+   --> "Chrome"
+   --> runner
