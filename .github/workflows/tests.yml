@@ -1,0 +1,23 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  testsuite:
+    name: Unit Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Start DDEV
+        uses: jonaseberle/github-action-setup-ddev@v1
+
+      - name: Install composer packages
+        run: ddev composer install --no-interaction
+
+      - name: Run unit tests
+        run: ddev run-unit-tests
