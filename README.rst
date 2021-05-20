@@ -9,14 +9,14 @@ This project provides a way to take screenshots of the TYPO3 CMS in a scripted w
 
 First, the user browses a TYPO3 instance to take notes of a click path for a new screenshot.
 Next, the click path gets forged to a ``screenshots.json`` file.
-Next, all ``screenshots.json`` files get executed by the *Screenshots Runner* which produces the screenshots.
-Last, the actual screenshots get compared to the original screenshots in the *Screenshots Manager* and copied over if
+Next, all ``screenshots.json`` files get executed by the screenshots runner which produces the screenshots.
+Last, the actual screenshots get compared to the original screenshots in the screenshots manager and copied over if
 approved by the user.
 
-Activity of the Screenshots Runner:
+Activity of the screenshots runner:
 
 .. image:: docs/screenshots_runner_diagram.png
-   :alt: Activity diagram of the Screenshots Runner
+   :alt: Activity diagram of the screenshots runner
 
 .. contents:: Table of Contents
 
@@ -90,12 +90,12 @@ Remove the TYPO3 instance by
    ddev delete -yO
 
 
-Screenshots Runner
+Screenshots runner
 ==================
 
 The runner scans the sub folders of ``public/t3docs``, processes the ``public/t3docs/*/screenshots.json`` files and
-creates the screenshots in ``public/t3docs-generated/actual/*/`` where they get further processed by the Screenshots
-Manager.
+creates the screenshots in ``public/t3docs-generated/actual/*/`` where they get further processed by the screenshots
+manager.
 
 Folders in ``public/t3docs``
 ----------------------------
@@ -392,11 +392,11 @@ A custom identifier can be assigned to a block of actions and then used to execu
    ddev make-screenshots -s Styleguide -a first-page
 
 
-Screenshots Manager
+Screenshots manager
 ===================
 
 To manage the created screenshots the TYPO3 instance backend provides a module "Screenshots" which can be found in the
-module menu at Admin Tools > Screenshots. It provides three functions: Starting the Screenshots Runner, comparing actual
+module menu at Admin Tools > Screenshots. It provides three functions: Starting the screenshots runner, comparing actual
 and original screenshots and copying screenshots from the actual path to the original path.
 
 Welcome
@@ -404,7 +404,7 @@ Welcome
 
 On the welcome page you can select the action you want to perform:
 
-- create screenshots by processing the available ``screenshots.json`` through the Screenshots Runner or
+- create screenshots by processing the available ``screenshots.json`` through the screenshots runner or
 - compare new screenshots with the originals and copy the new screenshots
 
 .. image:: docs/screenshots_manager_welcome.png
@@ -412,7 +412,7 @@ On the welcome page you can select the action you want to perform:
 Make screenshots
 ----------------
 
-On this page you automatically start the Screenshots Runner, which starts a subprocess on the command line.
+On this page you automatically start the screenshots runner, which starts a subprocess on the command line.
 The result is displayed on this page as soon as the runner is finished - which may take a while.
 
 .. image:: docs/screenshots_manager_make.png
