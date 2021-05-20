@@ -1,5 +1,5 @@
 .. image:: https://github.com/TYPO3-Documentation/t3docs-screenshots/actions/workflows/tests.yml/badge.svg
-   :alt: Build Status
+   :alt: Testing Status
 
 =====================
 TYPO3 CMS Screenshots
