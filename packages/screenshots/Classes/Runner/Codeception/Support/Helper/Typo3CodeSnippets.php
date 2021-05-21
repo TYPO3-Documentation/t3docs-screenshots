@@ -16,6 +16,7 @@ use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\XmlHelper;
 
 /**
  * Helper to provide code snippets of TYPO3.
@@ -77,6 +78,27 @@ class Typo3CodeSnippets extends Module
 
         $code = $this->readPhpArray($absoluteSourcePath, $field);
         $this->write($absoluteTargetPath, $code, 'php');
+    }
+
+    /**
+     * Reads a TYPO3 XML file and generates a reST file from it for inclusion.
+     *
+     * @param string $sourceFile File path of XML file relative to TYPO3 public folder,
+     *                              e.g. "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml"
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
+     *                              e.g. "FormFrameworkXmlSheetTitle"
+     * @param string $field Reduce the XML structure to this field. Use a slash-separated list to specify a field in
+     *                              depth,
+     *                              e.g. "T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle"
+     */
+    public function createXmlCodeSnippet(string $sourceFile, string $targetFileName, string $field = ''): void
+    {
+        $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
+        $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+
+        $code = $this->readXml($absoluteSourcePath, $field);
+        $this->write($absoluteTargetPath, $code, 'xml');
     }
 
     protected function getCodeLanguageByFileExtension(string $filePath): string
@@ -179,6 +201,13 @@ class Typo3CodeSnippets extends Module
                 key($phpArray), ArrayUtility::arrayExport(current($phpArray))
             );
         }
+        return $code;
+    }
+
+    protected function readXml(string $path, string $field = ''): string
+    {
+        $xml = file_get_contents($path);
+        $code = XmlHelper::getXmlByPath($xml, $field);
         return $code;
     }
 

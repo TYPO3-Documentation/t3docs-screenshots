@@ -271,6 +271,9 @@ class Configuration
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'BeGroupsWithPresetSourcePath'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'TcaBeGroups'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'field' => 'columns/title', 'targetFileName' => 'TcaBeGroupsColumnsTitle'],
+                            ['action' => 'setCodeSnippetsSourcePath', 'path' => ""],
+                            ['action' => 'createXmlCodeSnippet', 'sourceFile' => 'typo3/sysext/form/Configuration/FlexForms/FormFramework.xml', 'targetFileName' => 'FormFrameworkXml'],
+                            ['action' => 'createXmlCodeSnippet', 'sourceFile' => 'typo3/sysext/form/Configuration/FlexForms/FormFramework.xml', 'field' => 'T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle', 'targetFileName' => 'FormFrameworkXmlSheetTitle'],
                         ],
                         'actionsIdentifierDraw' => [
                             ['action' => 'switchToMainFrame'],

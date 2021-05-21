@@ -27,8 +27,10 @@
 		}
 	],
 	"require": {
+		"ext-dom": "*",
 		"ext-imagick": "*",
 		"ext-json": "*",
+		"ext-libxml": "*",
 		"typo3/cms-adminpanel": "dev-master as 11.1.2",
 		"typo3/cms-backend": "dev-master as 11.1.2",
 		"typo3/cms-belog": "dev-master as 11.1.2",

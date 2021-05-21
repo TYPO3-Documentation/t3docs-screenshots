@@ -250,8 +250,10 @@ and can be used to include the screenshot comfortably into a documentation. The 
    }
 
 Another redundant documentation job besides taking screenshots is to insert and update code snippets. With action
-``createCodeSnippet`` a specific TYPO3 PHP source file gets transformed into a reStructuredText file for inclusion and
-gets saved to folder ``Documentation/CodeSnippets``. The path can be changed by ``setCodeSnippetsTargetPath``.
+``createCodeSnippet`` a specific TYPO3 code source file gets transformed into a reStructuredText file for inclusion and
+gets saved to folder ``Documentation/CodeSnippets``. The folder can be changed by ``setCodeSnippetsTargetPath``.
+Furthermore there are dedicated actions like ``createPhpArrayCodeSnippet`` or ``createXmlCodeSnippet`` to store only
+excerpts of code files.
 
 .. code-block:: json
 
@@ -262,7 +264,8 @@ gets saved to folder ``Documentation/CodeSnippets``. The path can be changed by 
                [
                   {"action": "setCodeSnippetsTargetPath", "path": "CodeSnippets/StyleguideCode"},
                   {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "targetFileName": "core_be_groups"},
-                  {"action": "createPhpArrayCodeSnippet", "sourceFile": "Configuration/TCA/be_groups.php", "field": "types", "targetFileName": "core_be_groups_types"}
+                  {"action": "createPhpArrayCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "field": "types", "targetFileName": "core_be_groups_types"},
+                  {"action": "createXmlCodeSnippet", "sourceFile": "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml", "field": "T3DataStructure/sheets/sDEF", "targetFileName": "FormFrameworkXmlSheetSDef"}
                ]
             ]
          }
