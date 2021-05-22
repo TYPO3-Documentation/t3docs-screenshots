@@ -135,24 +135,24 @@ This is a small runner configuration which takes screenshots of three TYPO3 envi
          "Core": {
             "screenshots": [
                [
-                  {"action": "makeScreenshotOfWindow", "fileName": "core_dashboard"}
+                  {"action": "makeScreenshotOfWindow", "fileName": "CoreDashboard"}
                ]
             ]
          },
          "Introduction": {
             "screenshots": [
                [
-                  {"action": "makeScreenshotOfFullPage", "fileName": "introduction_dashboard_full_page"}
+                  {"action": "makeScreenshotOfFullPage", "fileName": "IntroductionDashboardFullPage"}
                ]
             ]
          },
          "Styleguide": {
             "screenshots": [
                [
-                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "styleguide_root_page"}
+                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "StyleguideRootPage"}
                ],
                [
-                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "styleguide_first_page_record"}
+                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "StyleguideFirstPageRecord"}
                ]
             ]
          }
@@ -172,7 +172,7 @@ relative to the ``screenshots.json``. The path can be adapted by the actions ``s
                [
                   {"action": "setScreenshotsDocumentationPath", "path": "IntroductionDocumentation"},
                   {"action": "setScreenshotsImagePath", "path": "Images/IntroductionScreenshots"},
-                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard"}
+                  {"action": "makeScreenshotOfWindow", "fileName": "IntroductionDashboard"}
                ]
             ]
          }
@@ -197,7 +197,7 @@ navigation actions, e.g.
                   {"action": "switchToContentFrame"},
                   {"action": "waitForText", "text": "elements rte", "timeout": 5},
                   {"action": "scrollModuleBodyToBottom"},
-                  {"action": "makeScreenshotOfWindow", "fileName": "stylesheet_content_scrolled_down"},
+                  {"action": "makeScreenshotOfWindow", "fileName": "StylesheetContentScrolledDown"},
                ]
             ]
          }
@@ -217,9 +217,9 @@ To guide the reader of the documentation over the screenshot, DOM elements can b
                   {"action": "drawBox", "selector": "#dashboard"},
                   {"action": "drawArrow", "selector": "#dashboard", "position": "right-bottom"},
                   {"action": "drawBadge", "selector": "#dashboard", "label": "Click here", "position": "bottom"},
-                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_with_highlighted_menuitem"},
+                  {"action": "makeScreenshotOfWindow", "fileName": "IntroductionDashboardWithHighlightedMenuitem"},
                   {"action": "clearDrawings"},
-                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_without_highlighted_menuitem"}
+                  {"action": "makeScreenshotOfWindow", "fileName": "IntroductionDashboardWithoutHighlightedMenuitem"}
                ]
             ]
          }
@@ -240,9 +240,9 @@ and can be used to include the screenshot comfortably into a documentation. The 
                [
                   {"action": "setScreenshotsDocumentationPath", "path": "IntroductionDocumentation"},
                   {"action": "setScreenshotsRstPath", "path": "Images/IntroductionRst"},
-                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_with_rst_file"},
+                  {"action": "makeScreenshotOfWindow", "fileName": "IntroductionDashboardWithRstFile"},
                   {"action": "createScreenshotsRstFile", "create": false},
-                  {"action": "makeScreenshotOfWindow", "fileName": "introduction_dashboard_without_rst_file"}
+                  {"action": "makeScreenshotOfWindow", "fileName": "IntroductionDashboardWithoutRstFile"}
                ]
             ]
          }
@@ -263,8 +263,8 @@ excerpts of code files.
             "screenshots": [
                [
                   {"action": "setCodeSnippetsTargetPath", "path": "CodeSnippets/StyleguideCode"},
-                  {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "targetFileName": "core_be_groups"},
-                  {"action": "createPhpArrayCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "field": "types", "targetFileName": "core_be_groups_types"},
+                  {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "targetFileName": "CoreBeGroups"},
+                  {"action": "createPhpArrayCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "field": "types", "targetFileName": "CoreBeGroupsTypes"},
                   {"action": "createXmlCodeSnippet", "sourceFile": "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml", "field": "T3DataStructure/sheets/sDEF", "targetFileName": "FormFrameworkXmlSheetSDef"}
                ]
             ]
@@ -285,7 +285,7 @@ Actions can be nested to use the return value of the inner action by the outer, 
                      "action": "makeScreenshotOfTable",
                      "pid": {"action": "getUidByField", "table": "pages", "field": "title", "value": "elements rte"},
                      "table": "pages",
-                     "fileName": "styleguide_root_page"
+                     "fileName": "StyleguideRootPage"
                   }
                ]
             ]
@@ -308,7 +308,7 @@ Comments can be inserted to facilitate maintenance work, e.g.
                   {"comment": "************************************"},
                   {"comment": "Take screenshots of TYPO3 TCA table."},
                   {"comment": "************************************"},
-                  {"action": "makeScreenshotOfTable", "pid": 27, "table": "pages", "fileName": "styleguide_root_page"}
+                  {"action": "makeScreenshotOfTable", "pid": 27, "table": "pages", "fileName": "StyleguideRootPage"}
                ]
             ]
          }
@@ -380,10 +380,10 @@ A custom identifier can be assigned to a block of actions and then used to execu
          "Styleguide": {
             "screenshots": {
                "root-page": [
-                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "styleguide_root_page"}
+                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "StyleguideRootPage"}
                ],
                "first-page": [
-                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "styleguide_first_page_record"}
+                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "StyleguideFirstPageRecord"}
                ]
             }
          }
