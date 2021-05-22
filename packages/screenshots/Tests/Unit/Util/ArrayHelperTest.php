@@ -27,7 +27,7 @@ class ArrayHelperTest extends UnitTestCase
      */
     public function getArrayByPath(array $array, string $path, array $expected): void
     {
-        self::assertEquals(ArrayHelper::getArrayByPath($array, $path), $expected);
+        self::assertEquals($expected, ArrayHelper::getArrayByPath($array, $path));
     }
 
     public function getArrayByPathDataProvider(): array
