@@ -53,7 +53,9 @@ class Typo3CodeSnippets extends Module
      * @param string $language The programming language of the code snippet,
      *                          e.g. "php"
      */
-    public function createCodeSnippet(string $sourceFile, string $targetFileName, string $language = ''): void
+    public function createCodeSnippet(string $sourceFile, string $targetFileName,
+        string $language = '', string $caption = '', string $name = '', bool $lineos = false,
+        int $linenoStart = 0, array $emphasizeLines = []): void
     {
         $language = $language !== '' ? $language : $this->getCodeLanguageByFileExtension($sourceFile);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
@@ -61,7 +63,8 @@ class Typo3CodeSnippets extends Module
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->read($absoluteSourcePath);
-        $this->write($absoluteTargetPath, $code, $language);
+        $this->write($absoluteTargetPath, $code, $language, $caption, $name,
+            $lineos, $linenoStart, $emphasizeLines);
     }
 
     /**
@@ -75,14 +78,17 @@ class Typo3CodeSnippets extends Module
      *                              multidimensional array,
      *                              e.g. "columns/title"
      */
-    public function createPhpArrayCodeSnippet(string $sourceFile, string $targetFileName, string $field = ''): void
+    public function createPhpArrayCodeSnippet(string $sourceFile, string $targetFileName,
+        string $field = '', string $caption = '', string $name = '', bool $lineos = false,
+        int $linenoStart = 0, array $emphasizeLines = []): void
     {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->readPhpArray($absoluteSourcePath, $field);
-        $this->write($absoluteTargetPath, $code, 'php');
+        $this->write($absoluteTargetPath, $code, 'php', $caption, $name,
+            $lineos, $linenoStart, $emphasizeLines);
     }
 
     /**
@@ -96,14 +102,17 @@ class Typo3CodeSnippets extends Module
      *                              depth,
      *                              e.g. "T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle"
      */
-    public function createXmlCodeSnippet(string $sourceFile, string $targetFileName, string $field = ''): void
+    public function createXmlCodeSnippet(string $sourceFile, string $targetFileName,
+        string $field = '', string $caption = '', string $name = '', bool $lineos = false,
+        int $linenoStart = 0, array $emphasizeLines = []): void
     {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->readXml($absoluteSourcePath, $field);
-        $this->write($absoluteTargetPath, $code, 'xml');
+        $this->write($absoluteTargetPath, $code, 'xml', $caption, $name,
+            $lineos, $linenoStart, $emphasizeLines);
     }
 
     protected function getCodeLanguageByFileExtension(string $filePath): string
@@ -216,19 +225,40 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function write(string $path, string $code, string $language): void
+    protected function write(string $path, string $code, string $language,
+        string $caption, string $name, bool $lineos, int $linenoStart,
+        array $emphasizeLines): void
     {
         $code = $this->indentCode($code, '   ');
+        $options = '';
+        if (strlen($caption) > 0) {
+            $options .= sprintf('   :caption: %s', $caption) . "\r";
+        }
+        if (strlen($name) > 0) {
+            $options .= sprintf('   :name: %s', $name) . "\r";
+        }
+        if ($lineos) {
+            $options .= '   :linenos: ' . "\r";
+        }
+        if ($linenoStart > 0) {
+            $options .= sprintf('   :lineno-start: %s', $linenoStart) . "\r";
+        }
+        if (sizeof($emphasizeLines) > 0) {
+            $emphasizeLines = implode(',', $emphasizeLines);
+            $options .= sprintf('   :emphasize-lines: %s', $emphasizeLines) . "\r";
+        }
+
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
 .. code-block:: %s
+%s
 
 %s
 NOWDOC;
 
-        $rst = sprintf($rst, $language, $code);
+        $rst = sprintf($rst, $language, $options, $code);
 
         @mkdir(dirname($path), 0777, true);
         file_put_contents($path, $rst);
