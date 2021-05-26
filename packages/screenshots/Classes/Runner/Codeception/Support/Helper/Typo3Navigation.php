@@ -39,11 +39,21 @@ class Typo3Navigation extends Module
     protected string $openedModalButtonContainerSelector = '.modal.show .modal-footer';
 
     /**
-     * Navigate back to the TYPO3 backend from any url
+     * Restart the browser with default configuration and navigate to the TYPO3 backend from any url.
+     */
+    public function restartBrowserAndLoadBackend(): void
+    {
+        $this->getWebDriver()->deleteSessionSnapshot('login');
+        $this->getWebDriver()->_restart();
+        $this->getLogin()->useExistingSession('admin');
+    }
+
+    /**
+     * Navigate back to the TYPO3 backend from any url.
      */
     public function reloadBackend(): void
     {
-        $this->getLogin()->useExistingSession();
+        $this->getLogin()->useExistingSession('admin');
     }
 
     /**

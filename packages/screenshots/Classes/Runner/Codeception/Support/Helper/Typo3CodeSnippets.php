@@ -30,12 +30,17 @@ class Typo3CodeSnippets extends Module
 
     public function setCodeSnippetsSourcePath(string $path): void
     {
-        $this->_setConfig(['sourcePath' => $path]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['sourcePath' => $path]));
     }
 
     public function setCodeSnippetsTargetPath(string $path): void
     {
-        $this->_setConfig(['targetPath' => $path]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['targetPath' => $path]));
+    }
+
+    public function resetCodeSnippetsConfig(): void
+    {
+        $this->_resetConfig();
     }
 
     /**

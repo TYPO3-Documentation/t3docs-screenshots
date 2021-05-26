@@ -66,6 +66,10 @@ abstract class AbstractBaseCest
         }
 
         foreach ($configurations as $configuration) {
+            $I->resetCodeSnippetsConfig();
+            $I->resetScreenshotsConfig();
+            $I->restartBrowserAndLoadBackend();
+
             $originalDirectory = $configuration->getPath();
             $actualDirectory = $actualPath . DIRECTORY_SEPARATOR . basename($originalDirectory);
             $I->setScreenshotsBasePath($actualDirectory);
