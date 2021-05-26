@@ -25,7 +25,6 @@ class CoreCest extends AbstractBaseCest
      */
     public function makeScreenshots(Photographer $I): void
     {
-        $I->useExistingSession('admin');
         parent::runSuite($I, 'Core');
     }
 }

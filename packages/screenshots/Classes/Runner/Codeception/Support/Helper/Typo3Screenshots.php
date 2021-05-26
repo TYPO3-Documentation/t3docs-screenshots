@@ -33,7 +33,7 @@ class Typo3Screenshots extends Module
 
     public function setScreenshotsBasePath(string $path): void
     {
-        $this->_setConfig(['basePath' => $path]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['basePath' => $path]));
     }
 
     public function cleanUpScreenshotsBasePath(): void
@@ -43,42 +43,42 @@ class Typo3Screenshots extends Module
 
     public function setScreenshotsDocumentationPath(string $path): void
     {
-        $this->_setConfig(['documentationPath' => $path]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['documentationPath' => $path]));
     }
 
     public function setScreenshotsImagePath(string $path): void
     {
-        $this->_setConfig(['imagePath' => $path]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['imagePath' => $path]));
     }
 
     public function setScreenshotsRstPath(string $path): void
     {
-        $this->_setConfig(['rstPath' => $path]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['rstPath' => $path]));
     }
 
     public function createScreenshotsRstFile(bool $create): void
     {
-        $this->_setConfig(['createRstFile' => $create]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['createRstFile' => $create]));
     }
 
     public function setScreenshotsDefaultPid(int $pid): void
     {
-        $this->_setConfig(['defaults' => array_merge($this->_getConfig('defaults'), ['pid' => $pid])]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['pid' => $pid])]));
     }
 
     public function setScreenshotsDefaultTable(string $table): void
     {
-        $this->_setConfig(['defaults' => array_merge($this->_getConfig('defaults'), ['table' => $table])]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['table' => $table])]));
     }
 
     public function setScreenshotsDefaultUid(int $uid): void
     {
-        $this->_setConfig(['defaults' => array_merge($this->_getConfig('defaults'), ['uid' => $uid])]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['uid' => $uid])]));
     }
 
     public function clearScreenshotsDefaults(): void
     {
-        $this->_setConfig(['defaults' => []]);
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => []]));
     }
 
     public function fetchScreenshotsPathFilter(): string
@@ -98,6 +98,11 @@ class Typo3Screenshots extends Module
             $this->debug(sprintf('Only run actions with identifier "%s".', $actionsIdFilter));
         }
         return $actionsIdFilter;
+    }
+
+    public function resetScreenshotsConfig(): void
+    {
+        $this->_resetConfig();
     }
 
     /**
