@@ -1,16 +1,38 @@
 suites:
   Core:
     actor: Photographer
+    modules:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Login:
+            sessions:
+              # This sessions must exist in the database fixture to get a logged in state.
+              admin: 886526ce72b86870739cc41991144ec1
+              editor: ff83dfd81e20b34c27d3e97771a4525a
     extensions:
       enabled:
         - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\CoreEnvironment
   Introduction:
     actor: Photographer
+    modules:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Login:
+            sessions:
+              # This sessions must exist in the database fixture to get a logged in state.
+              admin: 886526ce72b86870739cc41991144ec1
+              simple-editor: ff83dfd81e20b34c27d3e97771a4525a
+              advanced-editor: c2c7a8af91f0204dbc4155127170d976
     extensions:
       enabled:
         - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\IntroductionEnvironment
   Styleguide:
     actor: Photographer
+    modules:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Login:
+            sessions:
+              # This sessions must exist in the database fixture to get a logged in state.
+              admin: 886526ce72b86870739cc41991144ec1
+              editor: ff83dfd81e20b34c27d3e97771a4525a
     extensions:
       enabled:
         - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\StyleguideEnvironment
@@ -45,11 +67,6 @@ modules:
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3CodeSnippets
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Draw
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3FileTree
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Login:
-        sessions:
-          # This sessions must exist in the database fixture to get a logged in state.
-          editor: ff83dfd81e20b34c27d3e97771a4525a
-          admin: 886526ce72b86870739cc41991144ec1
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Navigation
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3PageTree
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots:
