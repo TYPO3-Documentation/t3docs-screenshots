@@ -171,12 +171,15 @@ class Configuration
                             ['action' => 'click', 'link' => "Backend Users"],
                             ['action' => 'switchToContentFrame'],
                             ['action' => 'waitForElement', 'element' => '[name="BackendUserModuleMenu"]', 'timeout' => 5],
-                            ['action' => 'reloadBackend', 'role' => 'editor'],
+                            ['action' => 'reloadBackend', 'role' => 'simple-editor'],
                             ['action' => 'waitForText', 'text' => 'simple-editor', 'timeout' => 5],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionSimpleEditorSwitch"],
+                            ['action' => 'reloadBackend', 'role' => 'advanced-editor'],
+                            ['action' => 'waitForText', 'text' => 'advanced-editor', 'timeout' => 5],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionAdvancedEditorSwitch"],
                             ['action' => 'reloadBackend', 'role' => 'admin'],
                             ['action' => 'waitForText', 'text' => 'Klaus Admin', 'timeout' => 5],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionSimpleEditorSwitchBack"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionAdminSwitch"],
                         ]
                     ]
                 ],
