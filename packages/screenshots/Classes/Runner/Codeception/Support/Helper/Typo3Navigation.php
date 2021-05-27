@@ -38,21 +38,30 @@ class Typo3Navigation extends Module
     protected string $openedModalButtonContainerSelector = '.modal.show .modal-footer';
 
     /**
-     * Restart the browser with default configuration and navigate to the TYPO3 backend from any url.
+     * Restart the browser with default configuration and navigate to the TYPO3 backend.
+     *
+     * On browser restart, the TYPO3 cookies are deleted, but the Codeception WebDriver session snapshot remains.
+     * Clean it up to avoid an "Invalid cookie domain" exception in action `useExistingSession()`.
      */
     public function restartBrowserAndLoadBackend(): void
     {
-        $this->getWebDriver()->deleteSessionSnapshot('login');
         $this->getWebDriver()->_restart();
+        $this->getTypo3Login()->_deleteSession();
         $this->getTypo3Login()->useExistingSession('admin');
     }
 
     /**
      * Navigate back to the TYPO3 backend from any url.
+     *
+     * @param string $role
      */
-    public function reloadBackend(): void
+    public function reloadBackend(string $role = ''): void
     {
-        $this->getTypo3Login()->useExistingSession('admin');
+        if ($role !== '') {
+            $this->getTypo3Login()->useExistingSession($role);
+        } else {
+            $this->getTypo3Login()->useExistingSession();
+        }
     }
 
     /**
