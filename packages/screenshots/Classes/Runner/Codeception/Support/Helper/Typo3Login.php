@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Exception\ConfigurationException;
 use Codeception\Module;
+use Codeception\Module\WebDriver;
 use Codeception\Util\Locator;
 
 /**
@@ -22,6 +23,8 @@ use Codeception\Util\Locator;
  * This helper contains a slightly adapted copy of class Login of the typo3/testing-framework package.
  * It should be integrated in the typo3/testing-framework ideally. Currently it differs by:
  * - the logged-in user gets logged out, if the demanded user does not match the logged-in user
+ *
+ * @see \TYPO3\TestingFramework\Core\Acceptance\Helper\Login
  */
 class Typo3Login extends Module
 {
@@ -33,24 +36,27 @@ class Typo3Login extends Module
     ];
 
     /**
-     * Set a session cookie and load backend index.php
+     * Set a session cookie and load backend index.php.
      *
      * @param string $role
      * @throws ConfigurationException
+     * @throws \Codeception\Exception\ModuleException
      */
-    public function useExistingSession($role = '')
+    public function useExistingSession(string $role = '')
     {
+        $webDriver = $this->getModule('WebDriver');
 
-        /** @var Module\WebDriver $wd */
-        $wd = $this->getModule('WebDriver');
-        if ($wd->loadSessionSnapshot('login') === false) {
-            $wd->amOnPage('/typo3/index.php');
-            $wd->waitForElement('body[data-typo3-login-ready]');
+        if ($webDriver->loadSessionSnapshot('login') === false) {
+            $webDriver->amOnPage('/typo3/index.php');
+            $webDriver->waitForElement('body[data-typo3-login-ready]');
 
             $sessionCookie = '';
             if ($role) {
                 if (!isset($this->config['sessions'][$role])) {
-                    throw new ConfigurationException("Helper\Login doesn't have `sessions` defined for $role");
+                    throw new ConfigurationException(sprintf(
+                        "Helper Typo3Login doesn't have `sessions` defined for %s.",
+                        $role
+                    ));
                 }
                 $sessionCookie = $this->config['sessions'][$role];
             }
@@ -60,26 +66,31 @@ class Typo3Login extends Module
             // this workaround. First reset / delete the cookie and than set it and catch
             // the webdriver exception as the cookie has been set successful.
             try {
-                $wd->resetCookie('be_typo_user');
-                $wd->setCookie('be_typo_user', $sessionCookie);
+                $webDriver->resetCookie('be_typo_user');
+                $webDriver->setCookie('be_typo_user', $sessionCookie);
             } catch (\Facebook\WebDriver\Exception\UnableToSetCookieException $e) {
             }
             try {
-                $wd->resetCookie('be_lastLoginProvider');
-                $wd->setCookie('be_lastLoginProvider', '1433416747');
+                $webDriver->resetCookie('be_lastLoginProvider');
+                $webDriver->setCookie('be_lastLoginProvider', '1433416747');
             } catch (\Facebook\WebDriver\Exception\UnableToSetCookieException $e) {
             }
-            $wd->saveSessionSnapshot('login');
+            $webDriver->saveSessionSnapshot('login');
         }
 
         // reload the page to have a logged in backend
-        $wd->amOnPage('/typo3/index.php');
+        $webDriver->amOnPage('/typo3/index.php');
 
         // Ensure main content frame is fully loaded, otherwise there are load-race-conditions
-        $wd->waitForElement('iframe[name="list_frame"]');
-        $wd->switchToIFrame('list_frame');
-        $wd->waitForElement(Locator::firstElement('div.module'));
+        $webDriver->waitForElement('iframe[name="list_frame"]');
+        $webDriver->switchToIFrame('list_frame');
+        $webDriver->waitForElement(Locator::firstElement('div.module'));
         // And switch back to main frame preparing a click to main module for the following main test case
-        $wd->switchToIFrame();
+        $webDriver->switchToIFrame();
+    }
+
+    protected function getWebDriver(): WebDriver
+    {
+        return $this->getModule('WebDriver');
     }
 }
