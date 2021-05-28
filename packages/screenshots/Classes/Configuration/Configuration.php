@@ -157,6 +157,16 @@ class Configuration
                         ]
                     ]
                 ],
+                'Examples' => [
+                    'screenshots' => [
+                        [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                            ['action' => 'see', 'text' => "List"],
+                            ['action' => 'click', 'link' => "List"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "ExamplesDashboardFullPage"],
+                        ]
+                    ]
+                ],
                 'Introduction' => [
                     'screenshots' => [
                         [

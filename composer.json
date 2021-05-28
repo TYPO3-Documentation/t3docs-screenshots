@@ -11,11 +11,15 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/TYPO3-Documentation/introduction"
+			"url": "https://github.com/TYPO3-Documentation/bootstrap_package"
 		},
 		{
 			"type": "vcs",
-			"url": "https://github.com/TYPO3-Documentation/bootstrap_package"
+			"url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples"
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/TYPO3-Documentation/introduction"
 		},
 		{
 			"type": "vcs",
@@ -71,6 +75,7 @@
 		"cweagans/composer-patches": "^1.7",
 		"helhum/typo3-console": "dev-latest",
 		"sensiolabs/ansi-to-html": "^1.2",
+		"t3docs/examples": "dev-master",
 		"typo3/cms-introduction": "dev-master",
 		"typo3/cms-styleguide": "dev-master",
 		"typo3/screenshots": "@dev",
