@@ -114,9 +114,9 @@ File ``screenshots.json``
 
 The runner configuration file ``screenshots.json`` must be placed in the root directory of the respective documentation
 folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the TYPO3 environment
-(e.g. "Core", "Styleguide", "Introduction", etc.) where the screenshots are taken, and in the second level it lists
-blocks of actions where each block ends with a captured screenshot. Each action is an object, where the key ``action``
-marks the action name and the remaining keys represent the action parameters.
+("Core", "Examples", "Introduction" or "Styleguide") where the screenshots are taken, and in the second level
+it lists blocks of actions where each block ends with a captured screenshot. Each action is an object, where the key
+``action`` marks the action name and the remaining keys represent the action parameters.
 
 Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3docs`` by
 
@@ -126,7 +126,7 @@ Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3
 
 where ``folder`` defaults to ``My-Manual`` if left blank.
 
-This is a small runner configuration which takes screenshots of three TYPO3 environments:
+This is a small runner configuration which takes screenshots of four TYPO3 environments:
 
 .. code-block:: json
 
@@ -136,6 +136,13 @@ This is a small runner configuration which takes screenshots of three TYPO3 envi
             "screenshots": [
                [
                   {"action": "makeScreenshotOfWindow", "fileName": "CoreDashboard"}
+               ]
+            ]
+         },
+         "Examples": {
+            "screenshots": [
+               [
+                  {"action": "makeScreenshotOfFullPage", "fileName": "ExamplesDashboardFullPage"}
                ]
             ]
          },
@@ -354,12 +361,12 @@ Make screenshots of TYPO3
 
    ddev make-screenshots -s Core
 
-Make screenshots of TYPO3 + EXT:styleguide
-------------------------------------------
+Make screenshots of TYPO3 + EXT:examples
+----------------------------------------
 
 .. code-block:: bash
 
-   ddev make-screenshots -s Styleguide
+   ddev make-screenshots -s Examples
 
 Make screenshots of TYPO3 + EXT:introduction
 --------------------------------------------
@@ -367,6 +374,13 @@ Make screenshots of TYPO3 + EXT:introduction
 .. code-block:: bash
 
    ddev make-screenshots -s Introduction
+
+Make screenshots of TYPO3 + EXT:styleguide
+------------------------------------------
+
+.. code-block:: bash
+
+   ddev make-screenshots -s Styleguide
 
 Make screenshots of TYPO3 + EXT:introduction + Subset of actions
 ----------------------------------------------------------------

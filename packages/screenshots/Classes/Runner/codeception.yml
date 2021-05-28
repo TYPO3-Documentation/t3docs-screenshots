@@ -11,6 +11,18 @@ suites:
     extensions:
       enabled:
         - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\CoreEnvironment
+  Examples:
+    actor: Photographer
+    modules:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Login:
+            sessions:
+              # This sessions must exist in the database fixture to get a logged in state.
+              admin: 886526ce72b86870739cc41991144ec1
+              editor: ff83dfd81e20b34c27d3e97771a4525a
+    extensions:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\ExamplesEnvironment
   Introduction:
     actor: Photographer
     modules:

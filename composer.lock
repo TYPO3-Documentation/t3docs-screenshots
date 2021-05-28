@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0aa07c8a10ada5eb8b54f949aec3b4e",
+    "content-hash": "baa1db4404e7f97e94d4a75b0f1aa91c",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6608,6 +6608,58 @@
             "time": "2021-03-06T07:59:01+00:00"
         },
         {
+            "name": "t3docs/examples",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples.git",
+                "reference": "4d1baf5f215311b384a51695625efdedb607eace"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Code-Examples/zipball/4d1baf5f215311b384a51695625efdedb607eace",
+                "reference": "4d1baf5f215311b384a51695625efdedb607eace",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "^11.0.0",
+                "typo3/cms-fluid-styled-content": "^11.0.0"
+            },
+            "replace": {
+                "typo3-ter/examples": "self.version"
+            },
+            "default-branch": true,
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "examples"
+                },
+                "branch-alias": {
+                    "dev-master": "11.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "T3docs\\Examples\\": "Classes/"
+                }
+            },
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Documentation Team",
+                    "role": "Developer"
+                }
+            ],
+            "description": "This extension packages a number of code examples from the Core Documentation.",
+            "support": {
+                "source": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples/tree/master",
+                "issues": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples/issues"
+            },
+            "time": "2021-04-19T08:42:54+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.2.0",
             "source": {
@@ -9162,208 +9214,208 @@
     "packages-dev": [],
     "aliases": [
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-adminpanel",
             "version": "9999999-dev",
-            "package": "typo3/cms-adminpanel"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-backend",
             "version": "9999999-dev",
-            "package": "typo3/cms-backend"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-belog",
             "version": "9999999-dev",
-            "package": "typo3/cms-belog"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-beuser",
             "version": "9999999-dev",
-            "package": "typo3/cms-beuser"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-core",
             "version": "9999999-dev",
-            "package": "typo3/cms-core"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-dashboard",
             "version": "9999999-dev",
-            "package": "typo3/cms-dashboard"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-extbase",
             "version": "9999999-dev",
-            "package": "typo3/cms-extbase"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-extensionmanager",
             "version": "9999999-dev",
-            "package": "typo3/cms-extensionmanager"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-felogin",
             "version": "9999999-dev",
-            "package": "typo3/cms-felogin"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-filelist",
             "version": "9999999-dev",
-            "package": "typo3/cms-filelist"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-filemetadata",
             "version": "9999999-dev",
-            "package": "typo3/cms-filemetadata"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-fluid",
             "version": "9999999-dev",
-            "package": "typo3/cms-fluid"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-fluid-styled-content",
             "version": "9999999-dev",
-            "package": "typo3/cms-fluid-styled-content"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-form",
             "version": "9999999-dev",
-            "package": "typo3/cms-form"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-frontend",
             "version": "9999999-dev",
-            "package": "typo3/cms-frontend"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-impexp",
             "version": "9999999-dev",
-            "package": "typo3/cms-impexp"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-indexed-search",
             "version": "9999999-dev",
-            "package": "typo3/cms-indexed-search"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-info",
             "version": "9999999-dev",
-            "package": "typo3/cms-info"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-install",
             "version": "9999999-dev",
-            "package": "typo3/cms-install"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-linkvalidator",
             "version": "9999999-dev",
-            "package": "typo3/cms-linkvalidator"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-lowlevel",
             "version": "9999999-dev",
-            "package": "typo3/cms-lowlevel"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-opendocs",
             "version": "9999999-dev",
-            "package": "typo3/cms-opendocs"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-recordlist",
             "version": "9999999-dev",
-            "package": "typo3/cms-recordlist"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-recycler",
             "version": "9999999-dev",
-            "package": "typo3/cms-recycler"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-redirects",
             "version": "9999999-dev",
-            "package": "typo3/cms-redirects"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-reports",
             "version": "9999999-dev",
-            "package": "typo3/cms-reports"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-rte-ckeditor",
             "version": "9999999-dev",
-            "package": "typo3/cms-rte-ckeditor"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-scheduler",
             "version": "9999999-dev",
-            "package": "typo3/cms-scheduler"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-seo",
             "version": "9999999-dev",
-            "package": "typo3/cms-seo"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-setup",
             "version": "9999999-dev",
-            "package": "typo3/cms-setup"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-sys-note",
             "version": "9999999-dev",
-            "package": "typo3/cms-sys-note"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-t3editor",
             "version": "9999999-dev",
-            "package": "typo3/cms-t3editor"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-tstemplate",
             "version": "9999999-dev",
-            "package": "typo3/cms-tstemplate"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         },
         {
-            "alias": "11.1.2",
-            "alias_normalized": "11.1.2.0",
+            "package": "typo3/cms-viewpage",
             "version": "9999999-dev",
-            "package": "typo3/cms-viewpage"
+            "alias": "11.1.2",
+            "alias_normalized": "11.1.2.0"
         }
     ],
     "minimum-stability": "stable",
@@ -9404,6 +9456,7 @@
         "typo3/cms-viewpage": 20,
         "bk2k/bootstrap-package": 20,
         "helhum/typo3-console": 20,
+        "t3docs/examples": 20,
         "typo3/cms-introduction": 20,
         "typo3/cms-styleguide": 20,
         "typo3/screenshots": 20
@@ -9411,12 +9464,14 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "ext-dom": "*",
         "ext-imagick": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-libxml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.4.1"
     },
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
