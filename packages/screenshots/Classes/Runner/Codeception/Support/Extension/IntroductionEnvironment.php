@@ -99,7 +99,7 @@ class IntroductionEnvironment extends BackendEnvironment
             Environment::isWindows() ? 'WINDOWS' : 'UNIX'
         );
 
-        // screenshots generator uses DataHandler for some parts. DataHandler needs an initialized BE user
+        // The database initialization uses DataHandler for some parts. DataHandler needs an initialized BE user
         // with admin right and the live workspace.
         Bootstrap::initializeBackendUser();
         $GLOBALS['BE_USER']->user['admin'] = 1;
