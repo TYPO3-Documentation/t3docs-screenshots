@@ -20,13 +20,11 @@ use TYPO3\CMS\Styleguide\TcaDataGenerator\Generator;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 
 /**
- * Load various core extensions and screenshots and call screenshots generator
+ * Load all core extensions and EXT:styleguide and EXT:screenshots
  */
 class StyleguideEnvironment extends BackendEnvironment
 {
     /**
-     * Load all core extensions, the styleguide package and EXT:screenshots
-     *
      * @var array
      */
     protected $localConfig = [
@@ -79,7 +77,7 @@ class StyleguideEnvironment extends BackendEnvironment
     ];
 
     /**
-     * Generate styleguide data
+     * Initialize TYPO3 instance
      *
      * @param SuiteEvent $suiteEvent
      */

@@ -22,13 +22,11 @@ use TYPO3\CMS\Extensionmanager\Utility\InstallUtility;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 
 /**
- * Load all core extensions and call screenshots generator
+ * Load all core extensions and EXT:screenshots
  */
 class CoreEnvironment extends BackendEnvironment
 {
     /**
-     * Load all core extensions and EXT:screenshots
-     *
      * @var array
      */
     protected $localConfig = [
@@ -80,7 +78,7 @@ class CoreEnvironment extends BackendEnvironment
     ];
 
     /**
-     * Generate screenshots data
+     * Initialize TYPO3 instance
      *
      * @param SuiteEvent $suiteEvent
      */
