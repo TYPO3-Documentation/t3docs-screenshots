@@ -271,6 +271,16 @@ excerpts of code files.
                [
                   {"action": "setCodeSnippetsTargetPath", "path": "CodeSnippets/StyleguideCode"},
                   {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "targetFileName": "CoreBeGroups"},
+                  {
+                     "action": "createCodeSnippet",
+                     "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php",
+                     "targetFileName": "CoreBeGroupsWithHighlights",
+                     "caption": "I am the caption",
+                     "name": "i-am-the-target-name",
+                     "showLineNumbers": true,
+                     "lineStartNumber": 1,
+                     "emphasizeLines": [5,6,7]
+                  }
                   {"action": "createPhpArrayCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "field": "types", "targetFileName": "CoreBeGroupsTypes"},
                   {"action": "createXmlCodeSnippet", "sourceFile": "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml", "field": "T3DataStructure/sheets/sDEF", "targetFileName": "FormFrameworkXmlSheetSDef"}
                ]
