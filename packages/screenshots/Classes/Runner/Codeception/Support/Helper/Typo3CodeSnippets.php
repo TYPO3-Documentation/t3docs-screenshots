@@ -16,6 +16,7 @@ use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
 use TYPO3\CMS\Screenshots\Util\XmlHelper;
 
 /**
@@ -311,12 +312,12 @@ class Typo3CodeSnippets extends Module
         if (count($emphasizeLines) > 0) {
             $options[] = sprintf(':emphasize-lines: %s', implode(',', $emphasizeLines));
         }
-        if (count($options)) {
-            $options = $this->indentCode(implode("\n", $options), '   ') . "\n";
+        if (count($options) > 0) {
+            $options = StringHelper::indentMultilineText(implode("\n", $options), '   ') . "\n";
         } else {
             $options = "";
         }
-        $code = $this->indentCode($code, '   ');
+        $code = StringHelper::indentMultilineText($code, '   ');
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
@@ -330,11 +331,6 @@ NOWDOC;
 
         @mkdir(dirname($path), 0777, true);
         file_put_contents($path, $rst);
-    }
-
-    protected function indentCode(string $code, string $indentation): string
-    {
-        return $indentation . implode("\n$indentation", explode("\n", $code));
     }
 
     public function getTypo3Screenshots(): Typo3Screenshots
