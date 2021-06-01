@@ -50,8 +50,9 @@ Installation
       ddev launch
 
 3. Log into the TYPO3 backend
-4. Optionally activate the page tree of ``EXT:styleguide`` or ``EXT:introduction``:
+4. Optionally activate the page tree of a TYPO3 distribution:
 
+   -  initialize the page tree of ``EXT:examples`` by de- and reactivating this extension - or -
    -  initialize the page tree of ``EXT:introduction`` by de- and reactivating this extension - or -
    -  initialize the page tree of ``EXT:styleguide`` by clicking in the upper right corner
       "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".

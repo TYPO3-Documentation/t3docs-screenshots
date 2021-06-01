@@ -98,5 +98,17 @@ class ExamplesEnvironment extends BackendEnvironment
             Environment::getBackendPath() . '/index.php',
             Environment::isWindows() ? 'WINDOWS' : 'UNIX'
         );
+
+        // The database initialization uses DataHandler for some parts. DataHandler needs an initialized BE user
+        // with admin right and the live workspace.
+        Bootstrap::initializeBackendUser();
+        $GLOBALS['BE_USER']->user['admin'] = 1;
+        $GLOBALS['BE_USER']->user['uid'] = 1;
+        $GLOBALS['BE_USER']->workspace = 0;
+        Bootstrap::initializeLanguageObject();
+
+        $extensionKey = 'examples';
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $objectManager->get(InstallUtility::class)->install($extensionKey);
     }
 }
