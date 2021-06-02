@@ -16,6 +16,7 @@ use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
 use TYPO3\CMS\Screenshots\Util\XmlHelper;
 
 /**
@@ -52,16 +53,39 @@ class Typo3CodeSnippets extends Module
      *                              e.g. "core_be_groups"
      * @param string $language The programming language of the code snippet,
      *                          e.g. "php"
+     * @param string $caption The code snippet caption text
+     * @param string $name Implicit target name that can be referenced in the reST document,
+     *                      e.g. "my-code-snippet"
+     * @param bool $showLineNumbers Enable to generate line numbers for the code block
+     * @param int $lineStartNumber The first line number of the code block
+     * @param int[] $emphasizeLines Emphasize particular lines of the code block
      */
-    public function createCodeSnippet(string $sourceFile, string $targetFileName, string $language = ''): void
-    {
+    public function createCodeSnippet(
+        string $sourceFile,
+        string $targetFileName,
+        string $language = '',
+        string $caption = '',
+        string $name = '',
+        bool $showLineNumbers = false,
+        int $lineStartNumber = 0,
+        array $emphasizeLines = []
+    ): void {
         $language = $language !== '' ? $language : $this->getCodeLanguageByFileExtension($sourceFile);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->read($absoluteSourcePath);
-        $this->write($absoluteTargetPath, $code, $language);
+        $this->write(
+            $absoluteTargetPath,
+            $code,
+            $language,
+            $caption,
+            $name,
+            $showLineNumbers,
+            $lineStartNumber,
+            $emphasizeLines
+        );
     }
 
     /**
@@ -74,15 +98,38 @@ class Typo3CodeSnippets extends Module
      * @param string $field Reduce the PHP array to this field. Use a slash-separated list to specify a field of a
      *                              multidimensional array,
      *                              e.g. "columns/title"
+     * @param string $caption The code snippet caption text
+     * @param string $name Implicit target name that can be referenced in the reST document,
+     *                      e.g. "my-code-snippet"
+     * @param bool $showLineNumbers Enable to generate line numbers for the code block
+     * @param int $lineStartNumber The first line number of the code block
+     * @param int[] $emphasizeLines Emphasize particular lines of the code block
      */
-    public function createPhpArrayCodeSnippet(string $sourceFile, string $targetFileName, string $field = ''): void
-    {
+    public function createPhpArrayCodeSnippet(
+        string $sourceFile,
+        string $targetFileName,
+        string $field = '',
+        string $caption = '',
+        string $name = '',
+        bool $showLineNumbers = false,
+        int $lineStartNumber = 0,
+        array $emphasizeLines = []
+    ): void {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->readPhpArray($absoluteSourcePath, $field);
-        $this->write($absoluteTargetPath, $code, 'php');
+        $this->write(
+            $absoluteTargetPath,
+            $code,
+            'php',
+            $caption,
+            $name,
+            $showLineNumbers,
+            $lineStartNumber,
+            $emphasizeLines
+        );
     }
 
     /**
@@ -95,15 +142,38 @@ class Typo3CodeSnippets extends Module
      * @param string $field Reduce the XML structure to this field. Use a slash-separated list to specify a field in
      *                              depth,
      *                              e.g. "T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle"
+     * @param string $caption The code snippet caption text
+     * @param string $name Implicit target name that can be referenced in the reST document,
+     *                      e.g. "my-code-snippet"
+     * @param bool $showLineNumbers Enable to generate line numbers for the code block
+     * @param int $lineStartNumber The first line number of the code block
+     * @param int[] $emphasizeLines Emphasize particular lines of the code block
      */
-    public function createXmlCodeSnippet(string $sourceFile, string $targetFileName, string $field = ''): void
-    {
+    public function createXmlCodeSnippet(
+        string $sourceFile,
+        string $targetFileName,
+        string $field = '',
+        string $caption = '',
+        string $name = '',
+        bool $showLineNumbers = false,
+        int $lineStartNumber = 0,
+        array $emphasizeLines = []
+    ): void {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->readXml($absoluteSourcePath, $field);
-        $this->write($absoluteTargetPath, $code, 'xml');
+        $this->write(
+            $absoluteTargetPath,
+            $code,
+            'xml',
+            $caption,
+            $name,
+            $showLineNumbers,
+            $lineStartNumber,
+            $emphasizeLines
+        );
     }
 
     protected function getCodeLanguageByFileExtension(string $filePath): string
@@ -216,27 +286,51 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function write(string $path, string $code, string $language): void
-    {
-        $code = $this->indentCode($code, '   ');
+    protected function write(
+        string $path,
+        string $code,
+        string $language,
+        string $caption,
+        string $name,
+        bool $showLineNumbers,
+        int $lineStartNumber,
+        array $emphasizeLines
+    ): void {
+        $options = [];
+        if ($caption !== '') {
+            $options[] = sprintf(':caption: %s', $caption);
+        }
+        if ($name !== '') {
+            $options[] = sprintf(':name: %s', $name);
+        }
+        if ($showLineNumbers) {
+            $options[] = ':linenos:';
+        }
+        if ($lineStartNumber > 0) {
+            $options[] = sprintf(':lineno-start: %s', $lineStartNumber);
+        }
+        if (count($emphasizeLines) > 0) {
+            $options[] = sprintf(':emphasize-lines: %s', implode(',', $emphasizeLines));
+        }
+        if (count($options) > 0) {
+            $options = StringHelper::indentMultilineText(implode("\n", $options), '   ') . "\n";
+        } else {
+            $options = "";
+        }
+        $code = StringHelper::indentMultilineText($code, '   ');
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
 .. code-block:: %s
-
+%s
 %s
 NOWDOC;
 
-        $rst = sprintf($rst, $language, $code);
+        $rst = sprintf($rst, $language, $options, $code);
 
         @mkdir(dirname($path), 0777, true);
         file_put_contents($path, $rst);
-    }
-
-    protected function indentCode(string $code, string $indentation): string
-    {
-        return $indentation . implode("\n$indentation", explode("\n", $code));
     }
 
     public function getTypo3Screenshots(): Typo3Screenshots

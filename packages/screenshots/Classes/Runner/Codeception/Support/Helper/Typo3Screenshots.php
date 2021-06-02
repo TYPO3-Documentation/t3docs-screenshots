@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
 
 /**
  * Helper to provide screenshots of TYPO3 specific backend elements.
@@ -362,17 +363,24 @@ class Typo3Screenshots extends Module
     {
         $relativeRstPath = $this->getRelativeRstPath($fileName);
         $absoluteRstPath = $this->getAbsoluteDocumentationPath($relativeRstPath);
-        $caption = $this->getRstCaption($captionText, $captionReference);
+
+        $options = [];
+        if ($altText !== '') {
+            $options[] = sprintf(':alt: %s', $altText);
+        }
+        $options[] = ':class: with-shadow';
+        $options = StringHelper::indentMultilineText(implode("\n", $options), '   ');
 
         $rst = <<<'NOWDOC'
 .. Automatic screenshot: Remove this line if you want to manually change this file
 
 .. figure:: /%s
-   :alt: %s
-   :class: with-shadow
+%s
 NOWDOC;
 
-        $rst = sprintf($rst, $relativeImagePath, $altText);
+        $rst = sprintf($rst, $relativeImagePath, $options);
+
+        $caption = $this->getRstCaption($captionText, $captionReference);
         if ($caption !== '') {
             $rst .= sprintf("\n\n   %s", $caption);
         }

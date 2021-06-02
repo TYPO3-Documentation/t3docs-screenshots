@@ -279,6 +279,16 @@ class Configuration
                         'actionsIdentifierCodeSnippets' => [
                             ['action' => 'setCodeSnippetsTargetPath', 'path' => "CodeSnippets/StyleguideCode"],
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/TCA/be_groups.php', 'targetFileName' => 'BeGroups'],
+                            [
+                                'action' => 'createCodeSnippet',
+                                'sourceFile' => 'typo3/sysext/core/Configuration/TCA/be_groups.php',
+                                'targetFileName' => 'BeGroupsWithHighlights',
+                                'caption' => 'I am the caption',
+                                'name' => 'i-am-the-target-name',
+                                'showLineNumbers' => true,
+                                'lineStartNumber' => 3,
+                                'emphasizeLines' => [5, 6, 7],
+                            ],
                             ['action' => 'setCodeSnippetsSourcePath', 'path' => "typo3/sysext/core"],
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'BeGroupsWithPresetSourcePath'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'TcaBeGroups'],
