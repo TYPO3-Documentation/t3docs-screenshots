@@ -9,7 +9,7 @@ This project provides a way to take screenshots of the TYPO3 CMS in a scripted w
 
 First, the user browses a TYPO3 instance to take notes of a click path for a new screenshot.
 Next, the click path gets forged to a ``screenshots.json`` file.
-Next, all ``screenshots.json`` files get executed by the screenshots runner which produces the screenshots.
+Then, all ``screenshots.json`` files get executed by the screenshots runner which produces the screenshots.
 Last, the actual screenshots get compared to the original screenshots in the screenshots manager and copied over if
 approved by the user.
 
@@ -57,8 +57,8 @@ Installation
    -  initialize the page tree of ``EXT:styleguide`` by clicking in the upper right corner
       "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
 
-Re-Installation
----------------
+Reinstallation
+--------------
 
 You might want to setup the TYPO3 instance from scratch to initialize it with a distinct page tree. This can be easily
 achieved by running the steps of the installation section again.
@@ -333,7 +333,7 @@ Comments can be inserted to facilitate maintenance work, e.g.
       }
    }
 
-Available Actions
+Available actions
 -----------------
 
 As action all codeception actions are supported including the actions of the packages ``typo3/testing-framework`` and
@@ -346,6 +346,43 @@ compiled into the ``PhotographerActions.php`` by
 .. code-block:: bash
 
    ddev exec vendor/bin/codecept build -c public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml
+
+Custom content elements
+-----------------------
+
+In this project, TYPO3 distributions are used to provide a variety of content elements that can be browsed via actions
+and from which screenshots can be taken. If the documentation author misses a custom content element, even after
+rechecking all included distributions, the author has to
+
+1. determine the most suitable distribution for creating the custom element:
+
+   -  `EXT:examples <https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples>`_
+
+      This distribution is owned by the TYPO3 Documentation Team and is the fallback if no other distribution is more
+      suitable.
+
+   -  `EXT:introduction <https://github.com/TYPO3-Documentation/introduction>`_
+
+      This distribution is aimed at the TYPO3 community and serves in general as a showcase for TYPO3 and in particular
+      as a showcase for the underlying ``EXT:bootstrap_package`` which integrates the Twitter Bootstrap content elements
+      into TYPO3.
+
+   -  `EXT:styleguide <https://github.com/TYPO3-Documentation/styleguide>`_
+
+      This distribution is mainly used in the TYPO3 Core test environment. It generates a lot of content elements for
+      acceptance tests.
+
+2. create a new Git branch in that distribution folder (see subfolders of ``public/typo3conf/ext/``)
+3. install that distribution in the local TYPO3 instance of this project (see section "`Installation <installation_>`_")
+4. create the new content element
+5. export the page tree (see section
+   "`Database Data <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ExtensionArchitecture/CreateNewDistribution/#database-data>`_"
+   of the distribution tutorial)
+6. overwrite the existing ``data.xml`` file and ``data.xml.files`` folder of the distribution folder by the export
+7. commit and push the changes of the distribution folder, create a pull request from it and wait for merging by the
+   TYPO3 Documentation Team.
+
+Once the changes are merged, actions can be added to create the corresponding screenshot.
 
 Make all screenshots
 --------------------
