@@ -12,6 +12,8 @@ namespace TYPO3\CMS\Screenshots\Tests\Unit\Util;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Typo3\CMS\Screenshots\Tests\Unit\Fixtures\ClassWithComments;
+use Typo3\CMS\Screenshots\Tests\Unit\Fixtures\ClassWithNoComments;
 use TYPO3\CMS\Screenshots\Util\ClassHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -30,37 +32,21 @@ class ClassHelperTest extends UnitTestCase
     {
         return [
             [
-                'class' => \TYPO3\CMS\Core\Core\ApplicationContext::class,
+                'class' => ClassWithComments::class,
                 'expected' => <<<'NOWDOC'
 /**
- * The TYPO3 Context object.
- *
- * A TYPO3 Application context is something like "Production", "Development",
- * "Production/StagingSystem", and is set using the TYPO3_CONTEXT environment variable.
- *
- * A context can contain arbitrary sub-contexts, which are delimited with slash
- * ("Production/StagingSystem", "Production/Staging/Server1"). The top-level
- * contexts, however, must be one of "Testing", "Development" and "Production".
- *
- * Mainly, you will use $context->isProduction(), $context->isTesting() and
- * $context->isDevelopment() inside your custom code.
- *
- * This class is derived from the TYPO3 Flow framework.
- * Credits go to the respective authors.
+ * The class with comments.
  */
-class ApplicationContext
+class ClassWithComments
 {
 %s
 }
 NOWDOC
             ],
             [
-                'class' => \TYPO3\CMS\Core\Core\BootService::class,
+                'class' => ClassWithNoComments::class,
                 'expected' => <<<'NOWDOC'
-/**
- * @internal This is NOT an API class, it is for internal use in TYPO3 core only.
- */
-class BootService
+class ClassWithNoComments
 {
 %s
 }
@@ -82,27 +68,25 @@ NOWDOC
     {
         return [
             [
-                'class' => \TYPO3\CMS\Core\Core\ApplicationContext::class,
-                'method' => '__toString',
+                'class' => ClassWithComments::class,
+                'method' => 'getPropertyOne',
                 'expected' => <<<'NOWDOC'
     /**
-     * Returns the full context string, for example "Development", or "Production/LiveSystem"
-     *
      * @return string
      */
-    public function __toString()
+    public function getPropertyOne(): string
     {
-        return $this->contextString;
+        return $this->propertyOne;
     }
 NOWDOC
             ],
             [
-                'class' => \TYPO3\CMS\Core\Core\BootService::class,
-                'method' => 'getContainer',
+                'class' => ClassWithNoComments::class,
+                'method' => 'getPropertyOne',
                 'expected' => <<<'NOWDOC'
-    public function getContainer(bool $allowCaching = true): ContainerInterface
+    public function getPropertyOne(): string
     {
-        return $this->container ?? $this->prepareContainer($allowCaching);
+        return $this->propertyOne;
     }
 NOWDOC
             ]
@@ -122,22 +106,30 @@ NOWDOC
     {
         return [
             [
-                'class' => \TYPO3\CMS\Core\Core\ApplicationContext::class,
-                'property' => 'contextString',
+                'class' => ClassWithComments::class,
+                'property' => 'propertyOne',
                 'expected' => <<<'NOWDOC'
     /**
-     * The (internal) context string; could be something like "Development" or "Development/MyLocalMacBook"
-     *
-     * @var string
+     * @var string Property One
      */
-    protected $contextString;
+    protected string $propertyOne;
 NOWDOC
             ],
             [
-                'class' => \TYPO3\CMS\Core\Core\BootService::class,
-                'property' => 'container',
+                'class' => ClassWithComments::class,
+                'property' => 'propertyWithDefaultValue',
                 'expected' => <<<'NOWDOC'
-    private ?ContainerInterface $container = null;
+    /**
+     * @var string Property with default value
+     */
+    protected string $propertyWithDefaultValue = 'DefaultValue';
+NOWDOC
+            ],
+            [
+                'class' => ClassWithNoComments::class,
+                'property' => 'propertyOne',
+                'expected' => <<<'NOWDOC'
+    protected string $propertyOne;
 NOWDOC
             ]
         ];
