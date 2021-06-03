@@ -38,10 +38,11 @@ class ClassHelper
      * %s
      * }
      *
-     * @param string $class
+     * @param string $class Class name, e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
+     * @param bool $withComment Include comment?
      * @return string
      */
-    public static function getClassSignature(string $class): string
+    public static function getClassSignature(string $class, bool $withComment = true): string
     {
         $classReflection = self::getClassReflection($class);
         $splFileObject = new \SplFileObject($classReflection->getFileName());
@@ -59,7 +60,7 @@ class ClassHelper
         }
 
         $result = [];
-        if ($classReflection->getDocComment() !== false) {
+        if ($withComment && $classReflection->getDocComment() !== false) {
             $result[] = $classReflection->getDocComment() . "\n";
         }
         for ($lineNumber=$startLineSignature; $lineNumber <= $startLineBody; $lineNumber++) {
@@ -110,11 +111,12 @@ class ClassHelper
      *          return 'I am the method code';
      *      }
      *
-     * @param string $class
-     * @param string $method
+     * @param string $class Class name, e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
+     * @param string $method Method name, e.g. "freeze"
+     * @param bool $withComment Include comment?
      * @return string
      */
-    public static function getMethodCode(string $class, string $method): string
+    public static function getMethodCode(string $class, string $method, bool $withComment = true): string
     {
         $methodReflection = self::getMethodReflection($class, $method);
         $splFileObject = new \SplFileObject($methodReflection->getFileName());
@@ -131,7 +133,7 @@ class ClassHelper
         }
 
         $result = [];
-        if ($methodReflection->getDocComment() !== false) {
+        if ($withComment && $methodReflection->getDocComment() !== false) {
             $result[] = $methodReflection->getDocComment() . "\n";
         }
         for ($lineNumber=$startLineSignature; $lineNumber < $endLineBody; $lineNumber++) {
@@ -173,18 +175,19 @@ class ClassHelper
      * Output:
      *      public string $myVariable = 'myValue';
      *
-     * @param string $class
-     * @param string $property
+     * @param string $class Class name, e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
+     * @param string $property Property name, e.g. "frozen"
+     * @param bool $withComment Include comment?
      * @return string
      */
-    public static function getPropertyCode(string $class, string $property): string
+    public static function getPropertyCode(string $class, string $property, bool $withComment = true): string
     {
         $classReflection = self::getClassReflection($class);
         $propertyReflection = $classReflection->getProperty($property);
         $splFileObject = new \SplFileObject($classReflection->getFileName());
 
         $result = [];
-        if ($propertyReflection->getDocComment() !== false) {
+        if ($withComment && $propertyReflection->getDocComment() !== false) {
             $result[] = $propertyReflection->getDocComment() . "\n";
         }
         while (!$splFileObject->eof()) {
