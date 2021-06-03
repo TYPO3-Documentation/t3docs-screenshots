@@ -57,6 +57,31 @@ NOWDOC
 
     /**
      * @test
+     */
+    public function getClassSignatureCanRemoveComment(): void
+    {
+        $class = ClassWithComments::class;
+        $expected = <<<'NOWDOC'
+class ClassWithComments
+{
+%s
+}
+NOWDOC;
+        self::assertEquals($expected, rtrim(ClassHelper::getClassSignature($class, false)));
+    }
+
+    /**
+     * @test
+     */
+    public function getClassSignatureThrowsReflectionExceptionIfClassDoesNotExist(): void
+    {
+        $class = 'ClassDoesNotExist';
+        $this->expectException(\ReflectionException::class);
+        ClassHelper::getClassSignature($class);
+    }
+
+    /**
+     * @test
      * @dataProvider getMethodCodePrintsCodeAsIsInFileDataProvider
      */
     public function getMethodCodePrintsCodeAsIsInFile(string $class, string $method, string $expected): void
@@ -91,6 +116,33 @@ NOWDOC
 NOWDOC
             ]
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function getMethodCodeCanRemoveComment(): void
+    {
+        $class = ClassWithComments::class;
+        $method = 'getPropertyOne';
+        $expected = <<<'NOWDOC'
+    public function getPropertyOne(): string
+    {
+        return $this->propertyOne;
+    }
+NOWDOC;
+        self::assertEquals($expected, rtrim(ClassHelper::getMethodCode($class, $method, false)));
+    }
+
+    /**
+     * @test
+     */
+    public function getMethodCodeThrowsReflectionExceptionIfMethodDoesNotExist(): void
+    {
+        $class = ClassWithComments::class;
+        $method = 'methodDoesNotExist';
+        $this->expectException(\ReflectionException::class);
+        ClassHelper::getMethodCode($class, $method);
     }
 
     /**
@@ -133,5 +185,29 @@ NOWDOC
 NOWDOC
             ]
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function getPropertyCodeCanRemoveComment(): void
+    {
+        $class = ClassWithComments::class;
+        $property = 'propertyOne';
+        $expected = <<<'NOWDOC'
+    protected string $propertyOne;
+NOWDOC;
+        self::assertEquals($expected, rtrim(ClassHelper::getPropertyCode($class, $property, false)));
+    }
+
+    /**
+     * @test
+     */
+    public function getPropertyCodeThrowsReflectionExceptionIfPropertyDoesNotExist(): void
+    {
+        $class = ClassWithComments::class;
+        $property = 'propertyDoesNotExist';
+        $this->expectException(\ReflectionException::class);
+        ClassHelper::getMethodCode($class, $property);
     }
 }
