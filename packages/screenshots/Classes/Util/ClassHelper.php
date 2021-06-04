@@ -209,4 +209,50 @@ class ClassHelper
         $splFileObject = null;
         return implode("", $result);
     }
+
+    /**
+     * Extract constant from class, e.g.
+     *
+     * Input:
+     * class MyClass
+     * {
+     *      protected const MY_CONSTANT = 'MY_CONSTANT';
+     * }
+     * Constant: MY_CONSTANT
+     * Output:
+     *      protected const MY_CONSTANT = 'MY_CONSTANT';
+     *
+     * @param string $class Class name, e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
+     * @param string $constant Constant name, e.g. "SEPARATOR"
+     * @return string
+     */
+    public static function getConstantCode(string $class, string $constant): string
+    {
+        $classReflection = self::getClassReflection($class);
+        $constantReflection = $classReflection->getConstant($constant);
+        if ($constantReflection === false) {
+            throw new \ReflectionException(sprintf('Constant %s does not exist', $constant));
+        }
+        $splFileObject = new \SplFileObject($classReflection->getFileName());
+
+        $result = [];
+        while (!$splFileObject->eof()) {
+            $line = $splFileObject->fgets();
+            if (preg_match(sprintf('#const[\s]*%s\s*=\s*[^;]*;#', $constant), $line) === 1) {
+                $result[] = $line;
+                break;
+            }
+        }
+
+        if (substr($result[0], 0, 1) !== ' ' && isset($result[1])) {
+            preg_match('/^(\s+)/', $result[1], $matches);
+            if (isset($matches[1])) {
+                $result[0] = $matches[1] . $result[0];
+            }
+        }
+
+        // SplFileObject locks the file, so null it when no longer needed
+        $splFileObject = null;
+        return implode("", $result);
+    }
 }

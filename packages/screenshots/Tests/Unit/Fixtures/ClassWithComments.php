@@ -10,6 +10,11 @@ namespace Typo3\CMS\Screenshots\Tests\Unit\Fixtures;
 class ClassWithComments
 {
     /**
+     * This is constant CONSTANT_ONE.
+     */
+    protected const CONSTANT_ONE = 'CONSTANT_ONE';
+
+    /**
      * @var string Property One
      */
     protected string $propertyOne;
