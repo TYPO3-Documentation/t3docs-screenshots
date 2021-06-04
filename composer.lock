@@ -7021,17 +7021,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples.git",
-                "reference": "4d1baf5f215311b384a51695625efdedb607eace"
+                "reference": "f0c7af905d0b2016d22e308b6cb82eec36c785e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Code-Examples/zipball/4d1baf5f215311b384a51695625efdedb607eace",
-                "reference": "4d1baf5f215311b384a51695625efdedb607eace",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Code-Examples/zipball/f0c7af905d0b2016d22e308b6cb82eec36c785e8",
+                "reference": "f0c7af905d0b2016d22e308b6cb82eec36c785e8",
                 "shasum": ""
             },
             "require": {
-                "typo3/cms-core": "^11.0.0",
-                "typo3/cms-fluid-styled-content": "^11.0.0"
+                "typo3/cms-core": "^11.0.0|dev-master",
+                "typo3/cms-fluid-styled-content": "^11.0.0|dev-master"
             },
             "replace": {
                 "typo3-ter/examples": "self.version"
@@ -7065,7 +7065,7 @@
                 "source": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples/tree/master",
                 "issues": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples/issues"
             },
-            "time": "2021-04-19T08:42:54+00:00"
+            "time": "2021-06-04T13:57:04+00:00"
         },
         {
             "name": "theseer/tokenizer",
