@@ -22,6 +22,74 @@ class ClassHelper
     protected static array $reflectors;
 
     /**
+     * Extract constants, properties and methods from class, e.g.
+     *
+     * Input:
+     * class MyClass
+     * {
+     *      protected const MY_CONSTANT = 'MY_CONSTANT';
+     *
+     *      public string $myVariable = 'myValue';
+     *
+     *      public function myMethod(): string
+     *      {
+     *          return 'I am the method code';
+     *      }
+     * }
+     * Members: ["myMethod"]
+     * Output:
+     * class MyClass
+     * {
+     *      public function myMethod(): string
+     *      {
+     *          return 'I am the method code';
+     *      }
+     * }
+     *
+     * @param string $class Class name, e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
+     * @param array $members Constants, properties and methods to extract from class, e.g. ["freeze", "frozen"]
+     * @param bool $withComment Include comments?
+     * @return string
+     */
+    public static function extractMembersFromClass(string $class, array $members, bool $withComment = true): string
+    {
+        $classReflection = self::getClassReflection($class);
+        $classSignature = self::getClassSignature($class, $withComment);
+
+        $code = [];
+        foreach ($members as $member) {
+            if ($classReflection->hasMethod($member)) {
+                $code['methods'][] = self::getMethodCode($class, $member, $withComment);
+            } elseif ($classReflection->hasProperty($member)) {
+                $code['properties'][] = self::getPropertyCode($class, $member, $withComment);
+            } elseif ($classReflection->hasConstant($member)) {
+                $code['constants'][] = self::getConstantCode($class, $member);
+            } else {
+                throw new \ReflectionException(sprintf(
+                    'Cannot extract constant nor property nor method "%s" from class "%s"', $member, $class)
+                );
+            }
+        }
+
+        $classBody = isset($code['constants']) ? implode("", $code['constants']) . "\n" : '';
+        $classBody .= isset($code['properties']) ? implode("\n", $code['properties']) . "\n" : '';
+        $classBody .= isset($code['methods']) ? implode("\n", $code['methods']) . "\n" : '';
+        $classBody = rtrim($classBody);
+
+        return sprintf($classSignature, $classBody);
+    }
+
+    protected static function getClassReflection(string $class): \ReflectionClass
+    {
+        if (!isset(self::$reflectors[$class])) {
+            $reflector = new \ReflectionClass($class);
+            self::$reflectors[$class] = $reflector;
+        }
+
+        return self::$reflectors[$class];
+    }
+
+    /**
      * Extract signature of class, e.g.
      *
      * Input:
@@ -81,16 +149,6 @@ class ClassHelper
         // SplFileObject locks the file, so null it when no longer needed
         $splFileObject = null;
         return implode("", $result);
-    }
-
-    protected static function getClassReflection(string $class): \ReflectionClass
-    {
-        if (!isset(self::$reflectors[$class])) {
-            $reflector = new \ReflectionClass($class);
-            self::$reflectors[$class] = $reflector;
-        }
-
-        return self::$reflectors[$class];
     }
 
     /**

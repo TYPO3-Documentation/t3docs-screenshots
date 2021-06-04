@@ -21,6 +21,97 @@ class ClassHelperTest extends UnitTestCase
 {
     /**
      * @test
+     */
+    public function extractMembersFromClassPrintsCodeAsIsInFile(): void
+    {
+        $class = ClassWithComments::class;
+        $members = [
+            'CONSTANT_ONE',
+            'CONSTANT_ONE_ONE',
+            'propertyOne',
+            'propertyOneOne',
+            'getPropertyOne',
+            'getPropertyOneOne'
+        ];
+        $expected = <<<'NOWDOC'
+/**
+ * The class with comments.
+ */
+class ClassWithComments
+{
+    protected const CONSTANT_ONE = 'CONSTANT_ONE';
+    protected const CONSTANT_ONE_ONE = 'CONSTANT_ONE_ONE';
+
+    /**
+     * @var string Property One
+     */
+    protected string $propertyOne;
+
+    /**
+     * @var string Property One One
+     */
+    protected string $propertyOneOne;
+
+    /**
+     * @return string
+     */
+    public function getPropertyOne(): string
+    {
+        return $this->propertyOne;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPropertyOneOne(): string
+    {
+        return $this->propertyOneOne;
+    }
+}
+NOWDOC;
+        self::assertEquals($expected, rtrim(ClassHelper::extractMembersFromClass($class, $members)));
+    }
+
+    /**
+     * @test
+     */
+    public function extractMembersFromClassCanRemoveComments(): void
+    {
+        $class = ClassWithComments::class;
+        $members = [
+            'CONSTANT_ONE',
+            'propertyOne',
+            'getPropertyOne',
+        ];
+        $expected = <<<'NOWDOC'
+class ClassWithComments
+{
+    protected const CONSTANT_ONE = 'CONSTANT_ONE';
+
+    protected string $propertyOne;
+
+    public function getPropertyOne(): string
+    {
+        return $this->propertyOne;
+    }
+}
+NOWDOC;
+        self::assertEquals($expected, rtrim(ClassHelper::extractMembersFromClass($class, $members, false)));
+    }
+
+    /**
+     * @test
+     */
+    public function extractMembersFromClassThrowsReflectionExceptionIfMemberDoesNotExist(): void
+    {
+        $class = ClassWithComments::class;
+        $members = ['member-does-not-exist'];
+        $this->expectException(\ReflectionException::class);
+        ClassHelper::extractMembersFromClass($class, $members);
+    }
+
+    /**
+     * @test
      * @dataProvider getClassSignaturePrintsSignatureAsIsInFileDataProvider
      */
     public function getClassSignaturePrintsSignatureAsIsInFile(string $class, string $expected): void
