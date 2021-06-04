@@ -6,6 +6,7 @@ namespace Typo3\CMS\Screenshots\Tests\Unit\Fixtures;
 
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
 use TYPO3\CMS\Screenshots\Util\ClassHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
 
 /**
  * The class with comments.
@@ -59,5 +60,21 @@ class ClassWithComments
     public function getPropertyWithDefaultValue(): string
     {
         return $this->propertyWithDefaultValue;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArrayByPath(): array
+    {
+        return ArrayHelper::getArrayByPath(['columns' => ['title' => 'my-title']], 'columns/title');
+    }
+
+    /**
+     * @return string
+     */
+    public function getMultilineTextIndented(): string
+    {
+        return StringHelper::indentMultilineText(':alt: This is a TCA table', '   ');
     }
 }
