@@ -51,7 +51,7 @@ class ClassHelper
      * @param bool $withComment Include comments?
      * @return string
      */
-    public static function extractMembersFromClass(string $class, array $members, bool $withComment = true): string
+    public static function extractMembersFromClass(string $class, array $members, bool $withComment = false): string
     {
         $classReflection = self::getClassReflection($class);
         $classSignature = self::getClassSignature($class, $withComment);
@@ -110,7 +110,7 @@ class ClassHelper
      * @param bool $withComment Include comment?
      * @return string
      */
-    public static function getClassSignature(string $class, bool $withComment = true): string
+    public static function getClassSignature(string $class, bool $withComment = false): string
     {
         $classReflection = self::getClassReflection($class);
         $splFileObject = new \SplFileObject($classReflection->getFileName());
@@ -174,7 +174,7 @@ class ClassHelper
      * @param bool $withComment Include comment?
      * @return string
      */
-    public static function getMethodCode(string $class, string $method, bool $withComment = true): string
+    public static function getMethodCode(string $class, string $method, bool $withComment = false): string
     {
         $methodReflection = self::getMethodReflection($class, $method);
         $splFileObject = new \SplFileObject($methodReflection->getFileName());
@@ -238,7 +238,7 @@ class ClassHelper
      * @param bool $withComment Include comment?
      * @return string
      */
-    public static function getPropertyCode(string $class, string $property, bool $withComment = true): string
+    public static function getPropertyCode(string $class, string $property, bool $withComment = false): string
     {
         $classReflection = self::getClassReflection($class);
         $propertyReflection = $classReflection->getProperty($property);

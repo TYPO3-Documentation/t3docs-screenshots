@@ -34,35 +34,20 @@ class ClassHelperTest extends UnitTestCase
             'getPropertyOneOne'
         ];
         $expected = <<<'NOWDOC'
-/**
- * The class with comments.
- */
 class ClassWithComments
 {
     protected const CONSTANT_ONE = 'CONSTANT_ONE';
     protected const CONSTANT_ONE_ONE = 'CONSTANT_ONE_ONE';
 
-    /**
-     * @var string Property One
-     */
     protected string $propertyOne;
 
-    /**
-     * @var string Property One One
-     */
     protected string $propertyOneOne;
 
-    /**
-     * @return string
-     */
     public function getPropertyOne(): string
     {
         return $this->propertyOne;
     }
 
-    /**
-     * @return string
-     */
     public function getPropertyOneOne(): string
     {
         return $this->propertyOneOne;
@@ -75,7 +60,7 @@ NOWDOC;
     /**
      * @test
      */
-    public function extractMembersFromClassCanRemoveComments(): void
+    public function extractMembersFromClassCanIncludeComments(): void
     {
         $class = ClassWithComments::class;
         $members = [
@@ -83,20 +68,30 @@ NOWDOC;
             'propertyOne',
             'getPropertyOne',
         ];
+        $withComment = true;
         $expected = <<<'NOWDOC'
+/**
+ * The class with comments.
+ */
 class ClassWithComments
 {
     protected const CONSTANT_ONE = 'CONSTANT_ONE';
 
+    /**
+     * @var string Property One
+     */
     protected string $propertyOne;
 
+    /**
+     * @return string
+     */
     public function getPropertyOne(): string
     {
         return $this->propertyOne;
     }
 }
 NOWDOC;
-        self::assertEquals($expected, rtrim(ClassHelper::extractMembersFromClass($class, $members, false)));
+        self::assertEquals($expected, rtrim(ClassHelper::extractMembersFromClass($class, $members, $withComment)));
     }
 
     /**
@@ -125,9 +120,6 @@ NOWDOC;
             [
                 'class' => ClassWithComments::class,
                 'expected' => <<<'NOWDOC'
-/**
- * The class with comments.
- */
 class ClassWithComments
 {
 %s
@@ -149,16 +141,20 @@ NOWDOC
     /**
      * @test
      */
-    public function getClassSignatureCanRemoveComment(): void
+    public function getClassSignatureCanIncludeComment(): void
     {
         $class = ClassWithComments::class;
+        $withComment = true;
         $expected = <<<'NOWDOC'
+/**
+ * The class with comments.
+ */
 class ClassWithComments
 {
 %s
 }
 NOWDOC;
-        self::assertEquals($expected, rtrim(ClassHelper::getClassSignature($class, false)));
+        self::assertEquals($expected, rtrim(ClassHelper::getClassSignature($class, $withComment)));
     }
 
     /**
@@ -187,9 +183,6 @@ NOWDOC;
                 'class' => ClassWithComments::class,
                 'method' => 'getPropertyOne',
                 'expected' => <<<'NOWDOC'
-    /**
-     * @return string
-     */
     public function getPropertyOne(): string
     {
         return $this->propertyOne;
@@ -212,17 +205,21 @@ NOWDOC
     /**
      * @test
      */
-    public function getMethodCodeCanRemoveComment(): void
+    public function getMethodCodeCanIncludeComment(): void
     {
         $class = ClassWithComments::class;
         $method = 'getPropertyOne';
+        $withComment = true;
         $expected = <<<'NOWDOC'
+    /**
+     * @return string
+     */
     public function getPropertyOne(): string
     {
         return $this->propertyOne;
     }
 NOWDOC;
-        self::assertEquals($expected, rtrim(ClassHelper::getMethodCode($class, $method, false)));
+        self::assertEquals($expected, rtrim(ClassHelper::getMethodCode($class, $method, $withComment)));
     }
 
     /**
@@ -252,9 +249,6 @@ NOWDOC;
                 'class' => ClassWithComments::class,
                 'property' => 'propertyOne',
                 'expected' => <<<'NOWDOC'
-    /**
-     * @var string Property One
-     */
     protected string $propertyOne;
 NOWDOC
             ],
@@ -262,9 +256,6 @@ NOWDOC
                 'class' => ClassWithComments::class,
                 'property' => 'propertyWithDefaultValue',
                 'expected' => <<<'NOWDOC'
-    /**
-     * @var string Property with default value
-     */
     protected string $propertyWithDefaultValue = 'DefaultValue';
 NOWDOC
             ],
@@ -281,14 +272,18 @@ NOWDOC
     /**
      * @test
      */
-    public function getPropertyCodeCanRemoveComment(): void
+    public function getPropertyCodeCanIncludeComment(): void
     {
         $class = ClassWithComments::class;
         $property = 'propertyOne';
+        $withComment = true;
         $expected = <<<'NOWDOC'
+    /**
+     * @var string Property One
+     */
     protected string $propertyOne;
 NOWDOC;
-        self::assertEquals($expected, rtrim(ClassHelper::getPropertyCode($class, $property, false)));
+        self::assertEquals($expected, rtrim(ClassHelper::getPropertyCode($class, $property, $withComment)));
     }
 
     /**
@@ -314,6 +309,13 @@ NOWDOC;
     {
         return [
             [
+                'class' => ClassWithComments::class,
+                'constant' => 'CONSTANT_ONE',
+                'expected' => <<<'NOWDOC'
+    protected const CONSTANT_ONE = 'CONSTANT_ONE';
+NOWDOC
+            ],
+            [
                 'class' => ClassWithNoComments::class,
                 'constant' => 'CONSTANT_ONE',
                 'expected' => <<<'NOWDOC'
@@ -321,19 +323,6 @@ NOWDOC;
 NOWDOC
             ]
         ];
-    }
-
-    /**
-     * @test
-     */
-    public function getConstantCodeCannotIncludeComment(): void
-    {
-        $class = ClassWithComments::class;
-        $constant = 'CONSTANT_ONE';
-        $expected = <<<'NOWDOC'
-    protected const CONSTANT_ONE = 'CONSTANT_ONE';
-NOWDOC;
-        self::assertEquals($expected, rtrim(ClassHelper::getConstantCode($class, $constant)));
     }
 
     /**
