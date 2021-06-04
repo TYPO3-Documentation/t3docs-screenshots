@@ -16,6 +16,7 @@ use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\ClassHelper;
 use TYPO3\CMS\Screenshots\Util\StringHelper;
 use TYPO3\CMS\Screenshots\Util\XmlHelper;
 
@@ -120,6 +121,50 @@ class Typo3CodeSnippets extends Module
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
         $code = $this->readPhpArray($absoluteSourcePath, $field);
+        $this->write(
+            $absoluteTargetPath,
+            $code,
+            'php',
+            $caption,
+            $name,
+            $showLineNumbers,
+            $lineStartNumber,
+            $emphasizeLines
+        );
+    }
+
+    /**
+     * Reads a TYPO3 PHP class file and generates a reST file from it for inclusion.
+     *
+     * @param string $class Name of PHP class,
+     *                      e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
+     *                              e.g. "FileBackendFreeze"
+     * @param array $members Extract these members (constants, properties and methods) from the PHP class,
+     *                              e.g. ["frozen", "freeze"]
+     * @param bool $withComment Include comments?
+     * @param string $caption The code snippet caption text
+     * @param string $name Implicit target name that can be referenced in the reST document,
+     *                      e.g. "my-code-snippet"
+     * @param bool $showLineNumbers Enable to generate line numbers for the code block
+     * @param int $lineStartNumber The first line number of the code block
+     * @param int[] $emphasizeLines Emphasize particular lines of the code block
+     */
+    public function createPhpClassCodeSnippet(
+        string $class,
+        string $targetFileName,
+        array $members,
+        bool $withComment = true,
+        string $caption = '',
+        string $name = '',
+        bool $showLineNumbers = false,
+        int $lineStartNumber = 0,
+        array $emphasizeLines = []
+    ): void {
+        $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
+        $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
+
+        $code = $this->readPhpClass($class, $members, $withComment);
         $this->write(
             $absoluteTargetPath,
             $code,
@@ -277,6 +322,11 @@ class Typo3CodeSnippets extends Module
             );
         }
         return $code;
+    }
+
+    protected function readPhpClass(string $class, array $members, bool $withComment): string
+    {
+        return ClassHelper::extractMembersFromClass($class, $members, $withComment);
     }
 
     protected function readXml(string $path, string $field = ''): string
