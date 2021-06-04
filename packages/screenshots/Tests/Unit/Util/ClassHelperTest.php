@@ -210,4 +210,49 @@ NOWDOC;
         $this->expectException(\ReflectionException::class);
         ClassHelper::getMethodCode($class, $property);
     }
+
+    /**
+     * @dataProvider getConstantCodePrintsCodeAsIsInFileDataProvider
+     */
+    public function getConstantCodePrintsCodeAsIsInFile(string $class, string $constant, string $expected): void
+    {
+        self::assertEquals($expected, rtrim(ClassHelper::getConstantCode($class, $constant)));
+    }
+
+    public function getConstantCodePrintsCodeAsIsInFileDataProvider(): array
+    {
+        return [
+            [
+                'class' => ClassWithNoComments::class,
+                'constant' => 'CONSTANT_ONE',
+                'expected' => <<<'NOWDOC'
+    protected const CONSTANT_ONE = 'CONSTANT_ONE';
+NOWDOC
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function getConstantCodeCannotIncludeComment(): void
+    {
+        $class = ClassWithComments::class;
+        $constant = 'CONSTANT_ONE';
+        $expected = <<<'NOWDOC'
+    protected const CONSTANT_ONE = 'CONSTANT_ONE';
+NOWDOC;
+        self::assertEquals($expected, rtrim(ClassHelper::getConstantCode($class, $constant)));
+    }
+
+    /**
+     * @test
+     */
+    public function getConstantCodeThrowsReflectionExceptionIfConstantDoesNotExist(): void
+    {
+        $class = ClassWithComments::class;
+        $constant = 'CONSTANT_DOES_NOT_EXIST';
+        $this->expectException(\ReflectionException::class);
+        ClassHelper::getConstantCode($class, $constant);
+    }
 }
