@@ -154,7 +154,7 @@ class Typo3CodeSnippets extends Module
         string $class,
         string $targetFileName,
         array $members,
-        bool $withComment = true,
+        bool $withComment = false,
         string $caption = '',
         string $name = '',
         bool $showLineNumbers = false,

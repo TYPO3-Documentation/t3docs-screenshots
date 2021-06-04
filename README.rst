@@ -283,7 +283,7 @@ Furthermore there are dedicated actions like ``createPhpArrayCodeSnippet``, ``cr
                      "emphasizeLines": [5,6,7]
                   }
                   {"action": "createPhpArrayCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "field": "types", "targetFileName": "CoreBeGroupsTypes"},
-                  {"action": "createPhpClassCodeSnippet", "class": "TYPO3\\CMS\\Core\\Cache\\Backend\\FileBackend", "members": ["frozen", "freeze"], "targetFileName": "FileBackendFreeze"},
+                  {"action": "createPhpClassCodeSnippet", "class": "TYPO3\\CMS\\Core\\Cache\\Backend\\FileBackend", "members": ["frozen", "freeze"], "withComment": true, "targetFileName": "FileBackendFreezeWithComments"},
                   {"action": "createXmlCodeSnippet", "sourceFile": "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml", "field": "T3DataStructure/sheets/sDEF", "targetFileName": "FormFrameworkXmlSheetSDef"}
                ]
             ]
