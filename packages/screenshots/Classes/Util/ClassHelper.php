@@ -25,7 +25,8 @@ class ClassHelper
      * Extract constants, properties and methods from class, e.g.
      *
      * Input:
-     * use MyOtherNamespace\MyOtherClass;
+     * use MyOtherNamespace\MyFirstClass;
+     * use MyOtherNamespace\MySecondClass;
      *
      * class MyClass
      * {
@@ -38,20 +39,27 @@ class ClassHelper
      *          return 'I am the method code';
      *      }
      *
-     *      public function createMyOtherObject(): MyOtherClass
+     *      public function createMyFirstObject(): MyFirstClass
      *      {
-     *          return new MyOtherClass();
+     *          return new MyFirstClass();
+     *      }
+     *
+     *      public function createMySecondObject(): MySecondClass
+     *      {
+     *          return new MySecondClass();
      *      }
      * }
-     * Members: ["myMethod"]
+     * Members: ["myVariable", "createMyFirstObject"]
      * Output:
-     * use MyOtherNamespace\MyOtherClass;
+     * use MyOtherNamespace\MyFirstClass;
      *
      * class MyClass
      * {
-     *      public function myMethod(): string
+     *      public string $myVariable = 'myValue';
+     *
+     *      public function createMyFirstObject(): MyFirstClass
      *      {
-     *          return 'I am the method code';
+     *          return new MyFirstClass();
      *      }
      * }
      *
@@ -63,8 +71,6 @@ class ClassHelper
     public static function extractMembersFromClass(string $class, array $members, bool $withComment = false): string
     {
         $classReflection = self::getClassReflection($class);
-        $classUseStatements = self::getClassUseStatements($class);
-        $classSignature = self::getClassSignature($class, $withComment);
 
         $code = [];
         foreach ($members as $member) {
@@ -81,15 +87,19 @@ class ClassHelper
             }
         }
 
-        if ($classUseStatements !== '') {
-            $classFrame = $classUseStatements . "\n" . $classSignature;
-        } else {
-            $classFrame = $classSignature;
-        }
         $classBody = isset($code['constants']) ? implode("", $code['constants']) . "\n" : '';
         $classBody .= isset($code['properties']) ? implode("\n", $code['properties']) . "\n" : '';
         $classBody .= isset($code['methods']) ? implode("\n", $code['methods']) . "\n" : '';
         $classBody = rtrim($classBody);
+
+        $useStatements = self::getUseStatementsRequiredByClassBody($class, $classBody);
+        $classSignature = self::getClassSignature($class, $withComment);
+
+        if ($useStatements !== '') {
+            $classFrame = $useStatements . "\n" . $classSignature;
+        } else {
+            $classFrame = $classSignature;
+        }
 
         return sprintf($classFrame, $classBody);
     }
@@ -104,7 +114,22 @@ class ClassHelper
         return self::$reflectors[$class];
     }
 
-    public static function getClassUseStatements(string $class): string
+    protected static function getUseStatementsRequiredByClassBody(string $class, string $classBody): string
+    {
+        $useStatements = explode("\n", trim(self::getUseStatements($class)));
+        $useStatementsRequired = [];
+
+        foreach ($useStatements as $useStatement) {
+            $alias = self::getAliasFromUseStatement($useStatement);
+            if ($alias !== '' && preg_match(sprintf('#\W%s\W#', $alias), $classBody) === 1) {
+                $useStatementsRequired[] = $useStatement . "\n";
+            }
+        }
+
+        return implode("", $useStatementsRequired);
+    }
+
+    public static function getUseStatements(string $class): string
     {
         $classReflection = self::getClassReflection($class);
         $splFileObject = new \SplFileObject($classReflection->getFileName());
@@ -123,6 +148,19 @@ class ClassHelper
         // SplFileObject locks the file, so null it when no longer needed
         $splFileObject = null;
         return implode("", $result);
+    }
+
+    public static function getAliasFromUseStatement(string $useStatement): string
+    {
+        $alias = '';
+        if (preg_match('#use ([\\\\\w]+);#', $useStatement, $matches) === 1) {
+            $segments = explode('\\', $matches[1]);
+            $alias = array_pop($segments);
+        } elseif (preg_match('#use [\\\\\w]+ as (\w+);#', $useStatement, $matches) === 1) {
+            $alias = $matches[1];
+        }
+
+        return $alias;
     }
 
     /**

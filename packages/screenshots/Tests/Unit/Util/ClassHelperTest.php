@@ -31,11 +31,13 @@ class ClassHelperTest extends UnitTestCase
             'propertyOne',
             'propertyOneOne',
             'getPropertyOne',
-            'getPropertyOneOne'
+            'getPropertyOneOne',
+            'getArrayByPath',
+            'getMultilineTextIndented',
         ];
         $expected = <<<'NOWDOC'
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\ClassHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
 
 class ClassWithComments
 {
@@ -55,6 +57,16 @@ class ClassWithComments
     {
         return $this->propertyOneOne;
     }
+
+    public function getArrayByPath(): array
+    {
+        return ArrayHelper::getArrayByPath(['columns' => ['title' => 'my-title']], 'columns/title');
+    }
+
+    public function getMultilineTextIndented(): string
+    {
+        return StringHelper::indentMultilineText(':alt: This is a TCA table', '   ');
+    }
 }
 NOWDOC;
         self::assertEquals($expected, rtrim(ClassHelper::extractMembersFromClass($class, $members)));
@@ -73,9 +85,6 @@ NOWDOC;
         ];
         $withComment = true;
         $expected = <<<'NOWDOC'
-use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\ClassHelper;
-
 /**
  * The class with comments.
  */
@@ -103,6 +112,36 @@ NOWDOC;
     /**
      * @test
      */
+    public function extractMembersFromClassIncludesRequiredUseStatements(): void
+    {
+        $class = ClassWithComments::class;
+        $members = [
+            'getArrayByPath',
+            'getMultilineTextIndented'
+        ];
+        $expected = <<<'NOWDOC'
+use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
+
+class ClassWithComments
+{
+    public function getArrayByPath(): array
+    {
+        return ArrayHelper::getArrayByPath(['columns' => ['title' => 'my-title']], 'columns/title');
+    }
+
+    public function getMultilineTextIndented(): string
+    {
+        return StringHelper::indentMultilineText(':alt: This is a TCA table', '   ');
+    }
+}
+NOWDOC;
+        self::assertEquals($expected, rtrim(ClassHelper::extractMembersFromClass($class, $members)));
+    }
+
+    /**
+     * @test
+     */
     public function extractMembersFromClassThrowsReflectionExceptionIfMemberDoesNotExist(): void
     {
         $class = ClassWithComments::class;
@@ -113,14 +152,14 @@ NOWDOC;
 
     /**
      * @test
-     * @dataProvider getClassUseStatementsPrintsStatementAsIsInFileDataProvider
+     * @dataProvider getUseStatementsPrintsStatementAsIsInFileDataProvider
      */
-    public function getClassUseStatementsPrintsStatementAsIsInFile(string $class, string $expected): void
+    public function getUseStatementsPrintsStatementAsIsInFile(string $class, string $expected): void
     {
-        self::assertEquals($expected, rtrim(ClassHelper::getClassUseStatements($class)));
+        self::assertEquals($expected, rtrim(ClassHelper::getUseStatements($class)));
     }
 
-    public function getClassUseStatementsPrintsStatementAsIsInFileDataProvider(): array
+    public function getUseStatementsPrintsStatementAsIsInFileDataProvider(): array
     {
         return [
             [
@@ -128,6 +167,7 @@ NOWDOC;
                 'expected' => <<<'NOWDOC'
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
 use TYPO3\CMS\Screenshots\Util\ClassHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
 NOWDOC
             ],
             [
@@ -135,7 +175,39 @@ NOWDOC
                 'expected' => <<<'NOWDOC'
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
 use TYPO3\CMS\Screenshots\Util\ClassHelper;
+use TYPO3\CMS\Screenshots\Util\StringHelper;
 NOWDOC
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider getAliasFromUseStatementDataProvider
+     *
+     * @param string $useStatement
+     * @param string $expected
+     * @return void
+     */
+    public function getAliasFromUseStatement(string $useStatement, string $expected): void
+    {
+        self::assertEquals($expected, ClassHelper::getAliasFromUseStatement($useStatement));
+    }
+
+    public function getAliasFromUseStatementDataProvider(): array
+    {
+        return [
+            [
+                'useStatement' => 'use TYPO3\CMS\Screenshots\Util\ArrayHelper;',
+                'expected' => 'ArrayHelper'
+            ],
+            [
+                'useStatement' => 'use TYPO3\CMS\Screenshots\Util\ArrayHelper as MyArrayHelper;',
+                'expected' => 'MyArrayHelper'
+            ],
+            [
+                'useStatement' => 'use MyArrayHelper as MyOtherArrayHelper;',
+                'expected' => 'MyOtherArrayHelper'
             ]
         ];
     }
