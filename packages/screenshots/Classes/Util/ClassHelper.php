@@ -25,6 +25,8 @@ class ClassHelper
      * Extract constants, properties and methods from class, e.g.
      *
      * Input:
+     * use MyOtherNamespace\MyOtherClass;
+     *
      * class MyClass
      * {
      *      protected const MY_CONSTANT = 'MY_CONSTANT';
@@ -35,9 +37,16 @@ class ClassHelper
      *      {
      *          return 'I am the method code';
      *      }
+     *
+     *      public function createMyOtherObject(): MyOtherClass
+     *      {
+     *          return new MyOtherClass();
+     *      }
      * }
      * Members: ["myMethod"]
      * Output:
+     * use MyOtherNamespace\MyOtherClass;
+     *
      * class MyClass
      * {
      *      public function myMethod(): string
@@ -54,6 +63,7 @@ class ClassHelper
     public static function extractMembersFromClass(string $class, array $members, bool $withComment = false): string
     {
         $classReflection = self::getClassReflection($class);
+        $classUseStatements = self::getClassUseStatements($class);
         $classSignature = self::getClassSignature($class, $withComment);
 
         $code = [];
@@ -71,12 +81,17 @@ class ClassHelper
             }
         }
 
+        if ($classUseStatements !== '') {
+            $classFrame = $classUseStatements . "\n" . $classSignature;
+        } else {
+            $classFrame = $classSignature;
+        }
         $classBody = isset($code['constants']) ? implode("", $code['constants']) . "\n" : '';
         $classBody .= isset($code['properties']) ? implode("\n", $code['properties']) . "\n" : '';
         $classBody .= isset($code['methods']) ? implode("\n", $code['methods']) . "\n" : '';
         $classBody = rtrim($classBody);
 
-        return sprintf($classSignature, $classBody);
+        return sprintf($classFrame, $classBody);
     }
 
     protected static function getClassReflection(string $class): \ReflectionClass
@@ -87,6 +102,27 @@ class ClassHelper
         }
 
         return self::$reflectors[$class];
+    }
+
+    public static function getClassUseStatements(string $class): string
+    {
+        $classReflection = self::getClassReflection($class);
+        $splFileObject = new \SplFileObject($classReflection->getFileName());
+
+        $startLineBody = $classReflection->getStartLine();
+
+        $result = [];
+        for ($lineNumber=0; $lineNumber <= $startLineBody; $lineNumber++) {
+            $splFileObject->seek($lineNumber);
+            $line = $splFileObject->current();
+            if (preg_match('#^use [^;]*;#', $line) === 1) {
+                $result[] = $line;
+            }
+        }
+
+        // SplFileObject locks the file, so null it when no longer needed
+        $splFileObject = null;
+        return implode("", $result);
     }
 
     /**

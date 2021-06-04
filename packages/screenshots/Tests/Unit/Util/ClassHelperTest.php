@@ -34,6 +34,9 @@ class ClassHelperTest extends UnitTestCase
             'getPropertyOneOne'
         ];
         $expected = <<<'NOWDOC'
+use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\ClassHelper;
+
 class ClassWithComments
 {
     protected const CONSTANT_ONE = 'CONSTANT_ONE';
@@ -70,6 +73,9 @@ NOWDOC;
         ];
         $withComment = true;
         $expected = <<<'NOWDOC'
+use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\ClassHelper;
+
 /**
  * The class with comments.
  */
@@ -103,6 +109,35 @@ NOWDOC;
         $members = ['member-does-not-exist'];
         $this->expectException(\ReflectionException::class);
         ClassHelper::extractMembersFromClass($class, $members);
+    }
+
+    /**
+     * @test
+     * @dataProvider getClassUseStatementsPrintsStatementAsIsInFileDataProvider
+     */
+    public function getClassUseStatementsPrintsStatementAsIsInFile(string $class, string $expected): void
+    {
+        self::assertEquals($expected, rtrim(ClassHelper::getClassUseStatements($class)));
+    }
+
+    public function getClassUseStatementsPrintsStatementAsIsInFileDataProvider(): array
+    {
+        return [
+            [
+                'class' => ClassWithComments::class,
+                'expected' => <<<'NOWDOC'
+use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\ClassHelper;
+NOWDOC
+            ],
+            [
+                'class' => ClassWithNoComments::class,
+                'expected' => <<<'NOWDOC'
+use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\ClassHelper;
+NOWDOC
+            ]
+        ];
     }
 
     /**

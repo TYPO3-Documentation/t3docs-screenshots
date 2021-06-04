@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Typo3\CMS\Screenshots\Tests\Unit\Fixtures;
 
 
+use TYPO3\CMS\Screenshots\Util\ArrayHelper;
+use TYPO3\CMS\Screenshots\Util\ClassHelper;
+
 /**
  * The class with comments.
  */
