@@ -203,7 +203,7 @@ class ClassHelper
 
         $result = [];
         if ($withComment && $classReflection->getDocComment() !== false) {
-            $result[] = $classReflection->getDocComment() . "\n";
+            $result[] = self::fixDocCommentIndentation($classReflection->getDocComment()) . "\n";
         }
         for ($lineNumber=$startLineSignature; $lineNumber <= $startLineBody; $lineNumber++) {
             $splFileObject->seek($lineNumber);
@@ -213,16 +213,23 @@ class ClassHelper
         $splFileObject->seek($endLineBody-1);
         $result[] = $splFileObject->current();
 
-        if (substr($result[0], 0, 1) !== ' ' && isset($result[1])) {
-            preg_match('/^(\s+)/', $result[1], $matches);
-            if (isset($matches[1])) {
-                $result[0] = $matches[1] . $result[0];
-            }
-        }
-
         // SplFileObject locks the file, so null it when no longer needed
         $splFileObject = null;
         return implode("", $result);
+    }
+
+    /**
+     * The first line of the doc comment returned by PHP Reflection API method getDocComment() is missing the
+     * indentation. Adjust it to the indentation of the second line.
+     *
+     * @param string $docComment
+     * @return string
+     */
+    public static function fixDocCommentIndentation(string $docComment): string
+    {
+        preg_match("/^(\s+)?.*\n(\s+)/", $docComment, $matches);
+        $indentation = str_repeat(' ', strlen($matches[2]) - strlen($matches[1]) - 1);
+        return $indentation . $docComment;
     }
 
     /**
@@ -266,18 +273,11 @@ class ClassHelper
 
         $result = [];
         if ($withComment && $methodReflection->getDocComment() !== false) {
-            $result[] = $methodReflection->getDocComment() . "\n";
+            $result[] = self::fixDocCommentIndentation($methodReflection->getDocComment()) . "\n";
         }
         for ($lineNumber=$startLineSignature; $lineNumber < $endLineBody; $lineNumber++) {
             $splFileObject->seek($lineNumber);
             $result[] = $splFileObject->current();
-        }
-
-        if (substr($result[0], 0, 1) !== ' ' && isset($result[1])) {
-            preg_match('/^(\s+)/', $result[1], $matches);
-            if (isset($matches[1])) {
-                $result[0] = $matches[1] . $result[0];
-            }
         }
 
         // SplFileObject locks the file, so null it when no longer needed
@@ -320,20 +320,13 @@ class ClassHelper
 
         $result = [];
         if ($withComment && $propertyReflection->getDocComment() !== false) {
-            $result[] = $propertyReflection->getDocComment() . "\n";
+            $result[] = self::fixDocCommentIndentation($propertyReflection->getDocComment()) . "\n";
         }
         while (!$splFileObject->eof()) {
             $line = $splFileObject->fgets();
             if (preg_match(sprintf('#(private|protected|public)[^$]*\$%s(\s*=\s*[^;]*)?;#', $property), $line) === 1) {
                 $result[] = $line;
                 break;
-            }
-        }
-
-        if (substr($result[0], 0, 1) !== ' ' && isset($result[1])) {
-            preg_match('/^(\s+)/', $result[1], $matches);
-            if (isset($matches[1])) {
-                $result[0] = $matches[1] . $result[0];
             }
         }
 
@@ -373,13 +366,6 @@ class ClassHelper
             if (preg_match(sprintf('#const[\s]*%s\s*=\s*[^;]*;#', $constant), $line) === 1) {
                 $result[] = $line;
                 break;
-            }
-        }
-
-        if (substr($result[0], 0, 1) !== ' ' && isset($result[1])) {
-            preg_match('/^(\s+)/', $result[1], $matches);
-            if (isset($matches[1])) {
-                $result[0] = $matches[1] . $result[0];
             }
         }
 
