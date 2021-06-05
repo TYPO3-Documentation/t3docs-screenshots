@@ -276,6 +276,57 @@ NOWDOC;
 
     /**
      * @test
+     * @dataProvider fixDocCommentIndentationDataProvider
+     */
+    public function fixDocCommentIndentation(string $docComment, string $expected): void
+    {
+        self::assertEquals($expected, rtrim(ClassHelper::fixDocCommentIndentation($docComment)));
+    }
+
+    public function fixDocCommentIndentationDataProvider(): array
+    {
+        return [
+            [
+                'docComment' => <<<'NOWDOC'
+/**
+ * The class with comments.
+ */
+NOWDOC,
+                'expected' => <<<'NOWDOC'
+/**
+ * The class with comments.
+ */
+NOWDOC
+            ],
+            [
+                'docComment' => <<<'NOWDOC'
+/**
+     * @var string Property with default value
+     */
+NOWDOC,
+                'expected' => <<<'NOWDOC'
+    /**
+     * @var string Property with default value
+     */
+NOWDOC
+            ],
+            [
+                'docComment' => <<<'NOWDOC'
+  /**
+     * @return string
+     */
+NOWDOC,
+                'expected' => <<<'NOWDOC'
+    /**
+     * @return string
+     */
+NOWDOC
+            ]
+        ];
+    }
+
+    /**
+     * @test
      * @dataProvider getMethodCodePrintsCodeAsIsInFileDataProvider
      */
     public function getMethodCodePrintsCodeAsIsInFile(string $class, string $method, string $expected): void
