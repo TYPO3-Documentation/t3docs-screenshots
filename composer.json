@@ -89,7 +89,7 @@
 	"scripts":{
 		"typo3-cms-scripts": [
 			"typo3cms install:fixfolderstructure",
-			"typo3cms install:generatepackagestates"
+			"typo3cms install:generatepackagestates --excluded-extensions t3docs/examples,typo3/cms-introduction,typo3/cms-styleguide"
 		],
 		"post-autoload-dump": [
 			"@typo3-cms-scripts"
