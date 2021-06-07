@@ -33,10 +33,6 @@ use Facebook\WebDriver\WebDriverElement;
  */
 class Typo3Navigation extends Module
 {
-    // Selectors
-    protected string $openedModalSelector = '.modal.show';
-    protected string $openedModalButtonContainerSelector = '.modal.show .modal-footer';
-
     /**
      * Restart the browser with default configuration and navigate to the TYPO3 backend.
      *
@@ -391,15 +387,15 @@ class Typo3Navigation extends Module
         $this->switchToMainFrame();
 
         $webDriver = $this->getWebDriver();
-        $webDriver->waitForElement($this->openedModalSelector);
+        $webDriver->waitForElement(['css' => '.modal.show']);
         $webDriver->wait(0.5);
     }
 
     public function clickButtonInModalDialog(string $buttonLink): void
     {
         $webDriver = $this->getWebDriver();
-        $webDriver->click($buttonLink, $this->openedModalButtonContainerSelector);
-        $webDriver->waitForElementNotVisible($this->openedModalSelector);
+        $webDriver->click($buttonLink, ['css' => '.modal.show .modal-footer']);
+        $webDriver->waitForElementNotVisible(['css' => '.modal.show']);
         $webDriver->wait(0.5);
     }
 
@@ -407,6 +403,54 @@ class Typo3Navigation extends Module
     {
         $this->waitForModalDialogInMainFrame();
         $this->clickButtonInModalDialog($buttonLink);
+    }
+
+    /**
+     * Scroll the modal dialog up to show the given element at the top.
+     *
+     * ``` php
+     * <?php
+     * $I->scrollModalDialogTo("//h4[contains(., 'Install extension \"rsaauth\"')]");
+     * ?>
+     * ```
+     *
+     * @param string $toSelector
+     * @param int $offsetX
+     * @param int $offsetY
+     */
+    public function scrollModalDialogTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    {
+        $frameSelector = ['css' => '.modal.show .modal-body'];
+        $offsetY = $offsetY + $this->_getModalDialogHeaderHeight() + 16 + 10;
+        $this->_scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
+    }
+
+    public function _getModalDialogHeaderHeight(): int
+    {
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['css' => '.modal.show .modal-header']);
+        if (count($elements) > 0) {
+            return $elements[0]->getSize()->getHeight();
+        }
+        return 0;
+    }
+
+    /**
+     * Move the modal dialog of the main frame to top.
+     */
+    public function scrollModalDialogToTop(): void
+    {
+        $frameSelector = ['css' => '.modal.show .modal-body'];
+        $this->_scrollFrameToTop($frameSelector);
+    }
+
+    /**
+     * Move the modal dialog of the main frame to the bottom.
+     */
+    public function scrollModalDialogToBottom(): void
+    {
+        $frameSelector = ['css' => '.modal.show .modal-body'];
+        $this->_scrollFrameToBottom($frameSelector);
     }
 
     protected function getWebDriver(): WebDriver
