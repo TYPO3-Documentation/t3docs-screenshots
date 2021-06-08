@@ -33,6 +33,30 @@ use Facebook\WebDriver\WebDriverElement;
  */
 class Typo3Navigation extends Module
 {
+    protected $config = [
+        'defaults' => [],
+    ];
+
+    public function setNavigationDefaultPid(int $pid): void
+    {
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['pid' => $pid])]));
+    }
+
+    public function setNavigationDefaultTable(string $table): void
+    {
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['table' => $table])]));
+    }
+
+    public function setNavigationDefaultUid(int $uid): void
+    {
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['uid' => $uid])]));
+    }
+
+    public function clearNavigationDefaults(): void
+    {
+        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => []]));
+    }
+
     /**
      * Restart the browser with default configuration and navigate to the TYPO3 backend.
      *
@@ -451,6 +475,119 @@ class Typo3Navigation extends Module
     {
         $frameSelector = ['css' => '.modal.show .modal-body'];
         $this->_scrollFrameToBottom($frameSelector);
+    }
+
+    /**
+     * Navigate directly to a TYPO3 backend records table form.
+     *
+     * The target url is a content frame url, so the view does not contain any main frame elements like the TYPO3
+     * backend header or the module menu. To restore the default TYPO3 backend view with main and content frame
+     * afterwards, use
+     *
+     * ``` php
+     * <?php
+     * $I->reloadBackend();
+     * ?>
+     * ```
+     *
+     * @param int $pid
+     * @param string $table
+     * @throws \Exception
+     *
+     * @see Typo3Navigation::reloadBackend()
+     */
+    public function goToTable(int $pid = -1, string $table = ''): void
+    {
+        [$pid, $table] = $this->resolveTable($pid, $table);
+        $this->getWebDriver()->amOnPage(sprintf(
+                '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
+                urlencode('/module/web/list'), $pid, $table)
+        );
+    }
+
+    protected function resolveTable(int $pid, string $table): array
+    {
+        $pid = $pid !== -1 ? $pid : $this->_getConfig('defaults')['pid'];
+        $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];
+        if ($pid === null || $table === null) {
+            throw new \Exception(
+                'Table cannot be resolved: Set table name and PID explicitly or specify default values.',
+                4001
+            );
+        }
+        $this->debug(sprintf('Use table "%s" of PID "%s".', $table, $pid));
+        return [$pid, $table];
+    }
+
+    /**
+     * Navigate directly to a TYPO3 backend record form.
+     *
+     * The target url is a content frame url, so the view does not contain any main frame elements like the TYPO3
+     * backend header or the module menu. To restore the default TYPO3 backend view with main and content frame
+     * afterwards, use
+     *
+     * ``` php
+     * <?php
+     * $I->reloadBackend();
+     * ?>
+     * ```
+     *
+     * @param string $table
+     * @param int $uid
+     * @throws \Exception
+     *
+     * @see Typo3Navigation::reloadBackend()
+     */
+    public function goToRecord(string $table = '', int $uid = -1): void
+    {
+        [$table, $uid] = $this->resolveRecord($table, $uid);
+        $this->getWebDriver()->amOnPage(sprintf(
+            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit',
+            urlencode('/record/edit'), $table, $uid
+        ));
+    }
+
+    protected function resolveRecord(string $table, int $uid): array
+    {
+        $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];
+        $uid = $uid !== -1 ? $uid : $this->_getConfig('defaults')['uid'];
+        if ($table === null || $uid === null) {
+            throw new \Exception(
+                'Record cannot be resolved: Set table name and UID explicitly or specify default values.',
+                4002
+            );
+        }
+        $this->debug(sprintf('Use record with UID "%s" of table "%s".', $uid, $table));
+        return [$table, $uid];
+    }
+
+    /**
+     * Navigate directly to a TYPO3 backend record form with specific fields only.
+     *
+     * The target url is a content frame url, so the view does not contain any main frame elements like the TYPO3
+     * backend header or the module menu. To restore the default TYPO3 backend view with main and content frame
+     * afterwards, use
+     *
+     * ``` php
+     * <?php
+     * $I->reloadBackend();
+     * ?>
+     * ```
+     *
+     * @param string $fields
+     * @param string $table
+     * @param int $uid
+     * @throws \Exception
+     *
+     * @see Typo3Navigation::reloadBackend()
+     */
+    public function goToField(string $fields, string $table = '', int $uid = -1): void
+    {
+        [$table, $uid] = $this->resolveRecord($table, $uid);
+        $this->getWebDriver()->amOnPage(sprintf(
+            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
+            urlencode('/record/edit'), $table, $uid, $fields
+        ));
     }
 
     protected function getWebDriver(): WebDriver

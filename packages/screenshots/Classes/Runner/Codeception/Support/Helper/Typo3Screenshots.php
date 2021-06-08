@@ -29,7 +29,6 @@ class Typo3Screenshots extends Module
         'imagePath' => 'Images/AutomaticScreenshots',
         'rstPath' => 'Images/Rst',
         'createRstFile' => true,
-        'defaults' => [],
     ];
 
     public function setScreenshotsBasePath(string $path): void
@@ -60,26 +59,6 @@ class Typo3Screenshots extends Module
     public function createScreenshotsRstFile(bool $create): void
     {
         $this->_reconfigure(array_merge($this->_getConfig(), ['createRstFile' => $create]));
-    }
-
-    public function setScreenshotsDefaultPid(int $pid): void
-    {
-        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['pid' => $pid])]));
-    }
-
-    public function setScreenshotsDefaultTable(string $table): void
-    {
-        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['table' => $table])]));
-    }
-
-    public function setScreenshotsDefaultUid(int $uid): void
-    {
-        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['uid' => $uid])]));
-    }
-
-    public function clearScreenshotsDefaults(): void
-    {
-        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => []]));
     }
 
     public function fetchScreenshotsPathFilter(): string
@@ -141,7 +120,7 @@ class Typo3Screenshots extends Module
     }
 
     /**
-     * Take screenshot of a TYPO3 backend table form.
+     * Take screenshot of a TYPO3 backend records table form.
      *
      * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
      * Therefore, replace this action with:
@@ -166,31 +145,8 @@ class Typo3Screenshots extends Module
      */
     public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
-        $this->goToTable($pid, $table);
+        $this->getTypo3Navigation()->goToTable($pid, $table);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
-    }
-
-    public function goToTable(int $pid = -1, string $table = ''): void
-    {
-        [$pid, $table] = $this->resolveTable($pid, $table);
-        $this->getWebDriver()->amOnPage(sprintf(
-                '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
-                urlencode('/module/web/list'), $pid, $table)
-        );
-    }
-
-    protected function resolveTable(int $pid, string $table): array
-    {
-        $pid = $pid !== -1 ? $pid : $this->_getConfig('defaults')['pid'];
-        $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];
-        if ($pid === null || $table === null) {
-            throw new \Exception(
-                'Table cannot be resolved: Set table name and PID explicitly or specify default values.',
-                4001
-            );
-        }
-        $this->debug(sprintf('Use table "%s" of PID "%s".', $table, $pid));
-        return [$pid, $table];
     }
 
     /**
@@ -219,35 +175,12 @@ class Typo3Screenshots extends Module
      */
     public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
-        $this->goToRecord($table, $uid);
+        $this->getTypo3Navigation()->goToRecord($table, $uid);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
     }
 
-    public function goToRecord(string $table = '', int $uid = -1): void
-    {
-        [$table, $uid] = $this->resolveRecord($table, $uid);
-        $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit',
-            urlencode('/record/edit'), $table, $uid
-        ));
-    }
-
-    protected function resolveRecord(string $table, int $uid): array
-    {
-        $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];
-        $uid = $uid !== -1 ? $uid : $this->_getConfig('defaults')['uid'];
-        if ($table === null || $uid === null) {
-            throw new \Exception(
-                'Record cannot be resolved: Set table name and UID explicitly or specify default values.',
-                4002
-            );
-        }
-        $this->debug(sprintf('Use record with UID "%s" of table "%s".', $uid, $table));
-        return [$table, $uid];
-    }
-
     /**
-     * Take screenshot of a TYPO3 backend form field.
+     * Take screenshot of a TYPO3 backend record form with specific fields only.
      *
      * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
      * Therefore, replace this action with:
@@ -273,17 +206,8 @@ class Typo3Screenshots extends Module
      */
     public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '.form-section', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
-        $this->goToField($fields, $table, $uid);
+        $this->getTypo3Navigation()->goToField($fields, $table, $uid);
         $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
-    }
-
-    public function goToField(string $fields, string $table = '', int $uid = -1): void
-    {
-        [$table, $uid] = $this->resolveRecord($table, $uid);
-        $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
-            urlencode('/record/edit'), $table, $uid, $fields
-        ));
     }
 
     /**
