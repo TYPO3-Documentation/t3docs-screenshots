@@ -183,7 +183,8 @@ class ScreenshotsManagerController extends ActionController
         $urlOriginal = '/' . $folderOriginal;
         $urlDiff = '/' . $folderDiff;
 
-        GeneralUtility::rmdir($pathDiff, true);
+        FileHelper::deleteRecursively($pathDiff);
+
         $files = GeneralUtility::removePrefixPathFromList(GeneralUtility::getAllFilesAndFoldersInPath(
             [], $pathActual . '/'
         ), $pathActual);
