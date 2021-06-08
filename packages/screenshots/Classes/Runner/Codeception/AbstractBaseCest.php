@@ -16,9 +16,11 @@ use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationException;
+use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
+use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
+use TYPO3\CMS\Screenshots\Util\FileHelper;
 
 /**
  * Tests the screenshots backend module can be loaded
@@ -40,10 +42,8 @@ abstract class AbstractBaseCest
     protected ConfigurationRepository $configurationRepository;
 
     public function __construct() {
-        $originalPath = '/var/www/html/public/t3docs';
-
         $this->configurationRepository = GeneralUtility::makeInstance(
-            ConfigurationRepository::class, $originalPath
+            ConfigurationRepository::class, $this->getExtensionConfiguration()->getAbsoluteOriginalPath()
         );
         $this->consoleOutput = new ConsoleOutput();
         $this->reflectors = [];
@@ -55,7 +55,7 @@ abstract class AbstractBaseCest
      */
     protected function runSuite(Photographer $I, string $suite): void
     {
-        $actualPath = '/var/www/html/public/t3docs-generated/actual';
+        $actualPath = $this->getExtensionConfiguration()->getAbsoluteActualPath();
         $pathFilter = $I->fetchScreenshotsPathFilter();
         $actionsIdFilter = $I->fetchScreenshotsActionsIdFilter();
 
@@ -71,7 +71,7 @@ abstract class AbstractBaseCest
             $I->restartBrowserAndLoadBackend();
 
             $originalDirectory = $configuration->getPath();
-            $actualDirectory = $actualPath . DIRECTORY_SEPARATOR . basename($originalDirectory);
+            $actualDirectory = FileHelper::getPathBySegments($actualPath, basename($originalDirectory));
             $I->setScreenshotsBasePath($actualDirectory);
 
             $configuration->read();
@@ -160,5 +160,10 @@ abstract class AbstractBaseCest
         }
 
         return $this->reflectors[$class]->getMethod($action);
+    }
+
+    protected function getExtensionConfiguration(): ExtensionConfiguration
+    {
+        return GeneralUtility::makeInstance(ExtensionConfiguration::class);
     }
 }

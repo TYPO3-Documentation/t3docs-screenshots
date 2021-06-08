@@ -83,4 +83,62 @@ class FileHelperTest extends UnitTestCase
         FileHelper::deleteRecursively($root->url());
         self::assertDirectoryDoesNotExist($root->url());
     }
+
+    /**
+     * @test
+     * @dataProvider getPathBySegmentsDataProvider
+     */
+    public function getPathBySegments(array $segments, string $expected): void
+    {
+        self::assertEquals($expected, FileHelper::getPathBySegments(...$segments));
+    }
+
+    public function getPathBySegmentsDataProvider(): array
+    {
+        return [
+            [
+                'segments' => ['/absolute-path', '', 'relative-path/folder'],
+                'expected' => DIRECTORY_SEPARATOR . 'absolute-path' . DIRECTORY_SEPARATOR . 'relative-path' . DIRECTORY_SEPARATOR . 'folder'
+            ],
+            [
+                'segments' => ['relative-path/', '/', '/folder/'],
+                'expected' => 'relative-path' . DIRECTORY_SEPARATOR . 'folder'
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider getUrlBySegmentsDataProvider
+     */
+    public function getUrlBySegments(array $segments, string $expected): void
+    {
+        self::assertEquals($expected, FileHelper::getUrlBySegments(...$segments));
+    }
+
+    public function getUrlBySegmentsDataProvider(): array
+    {
+        return [
+            [
+                'segments' => ['https://', '', 'relative-path/folder'],
+                'expected' => 'https://relative-path/folder'
+            ],
+            [
+                'segments' => ['https://absolute-path', '', 'relative-path/folder'],
+                'expected' => 'https://absolute-path/relative-path/folder'
+            ],
+            [
+                'segments' => ['/', '', 'relative-path/folder'],
+                'expected' => '/relative-path/folder'
+            ],
+            [
+                'segments' => ['/absolute-path', '', 'relative-path/folder'],
+                'expected' => '/absolute-path/relative-path/folder'
+            ],
+            [
+                'segments' => ['relative-path/', '/', '/folder/'],
+                'expected' => 'relative-path/folder'
+            ]
+        ];
+    }
 }

@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Module;
 use Codeception\Module\WebDriver;
+use TYPO3\CMS\Screenshots\Util\FileHelper;
 use TYPO3\CMS\Screenshots\Util\StringHelper;
 
 /**
@@ -249,7 +250,7 @@ class Typo3Screenshots extends Module
 
     protected function getRelativeImagePath(string $fileName): string
     {
-        return $this->_getConfig('imagePath') . DIRECTORY_SEPARATOR . $fileName . '.png';
+        return FileHelper::getPathBySegments($this->_getConfig('imagePath'), $fileName . '.png');
     }
 
     protected function getTemporaryFileName(string $relativePath): string
@@ -260,21 +261,16 @@ class Typo3Screenshots extends Module
 
     protected function getTemporaryPath(string $fileName): string
     {
-        $path = codecept_log_dir() . 'debug';
-        return $path . DIRECTORY_SEPARATOR . $fileName . '.png';
+        return FileHelper::getPathBySegments(codecept_log_dir() . 'debug', $fileName . '.png');
     }
 
     protected function getAbsoluteDocumentationPath(string $relativePath): string
     {
-        $absolutePath = [];
-        if ($this->_getConfig('basePath') !== '') {
-            $absolutePath[] = $this->_getConfig('basePath');
-        }
-        if ($this->_getConfig('documentationPath') !== '') {
-            $absolutePath[] = $this->_getConfig('documentationPath');
-        }
-        $absolutePath[] = $relativePath;
-        return implode(DIRECTORY_SEPARATOR, $absolutePath);
+        return FileHelper::getPathBySegments(
+            $this->_getConfig('basePath'),
+            $this->_getConfig('documentationPath'),
+            $relativePath
+        );
     }
 
     protected function makeRstFile(string $fileName, string $relativeImagePath, string $altText = '', string $captionText = '', string $captionReference = ''): void
@@ -309,7 +305,7 @@ NOWDOC;
 
     protected function getRelativeRstPath(string $fileName): string
     {
-        return $this->_getConfig('rstPath') . DIRECTORY_SEPARATOR . $fileName . '.rst.txt';
+        return FileHelper::getPathBySegments($this->_getConfig('rstPath'), $fileName . '.rst.txt');
     }
 
     protected function getRstCaption(string $captionText = '', string $captionReference = ''): string

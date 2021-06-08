@@ -22,6 +22,7 @@ use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
 use TYPO3\CMS\Screenshots\Comparison\File;
 use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
+use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
 
 class ScreenshotsManagerController extends ActionController
@@ -39,10 +40,8 @@ class ScreenshotsManagerController extends ActionController
 
     public function __construct()
     {
-        $originalPath = '/var/www/html/public/t3docs';
-
         $this->configurationRepository = GeneralUtility::makeInstance(
-            ConfigurationRepository::class, $originalPath
+            ConfigurationRepository::class, $this->getExtensionConfiguration()->getAbsoluteOriginalPath()
         );
     }
 
@@ -57,6 +56,8 @@ class ScreenshotsManagerController extends ActionController
 
     public function indexAction()
     {
+        $this->view->assign('pathOriginal', $this->getExtensionConfiguration()->getOriginalPath());
+        $this->view->assign('pathActual', $this->getExtensionConfiguration()->getActualPath());
     }
 
     public function makeAction(
@@ -171,17 +172,12 @@ class ScreenshotsManagerController extends ActionController
 
     protected function compare(string $search): void
     {
-        $folderOriginal = 't3docs';
-        $folderActual = 't3docs-generated/actual';
-        $folderDiff = 't3docs-generated/diff';
-
-        $pathOriginal = GeneralUtility::getFileAbsFileName($folderOriginal);
-        $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
-        $pathDiff = GeneralUtility::getFileAbsFileName($folderDiff);
-
-        $urlActual = '/' . $folderActual;
-        $urlOriginal = '/' . $folderOriginal;
-        $urlDiff = '/' . $folderDiff;
+        $pathOriginal = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
+        $pathActual = $this->getExtensionConfiguration()->getAbsoluteActualPath();
+        $pathDiff = $this->getExtensionConfiguration()->getAbsoluteDiffPath();
+        $urlOriginal = $this->getExtensionConfiguration()->getAbsoluteOriginalUrl();
+        $urlActual = $this->getExtensionConfiguration()->getAbsoluteActualUrl();
+        $urlDiff = $this->getExtensionConfiguration()->getAbsoluteDiffUrl();
 
         FileHelper::deleteRecursively($pathDiff);
 
@@ -248,13 +244,9 @@ class ScreenshotsManagerController extends ActionController
 
     protected function copy(array $imagesToCopy, array $textFilesToCopy, int $numImages, int $numTextFiles): void
     {
-        $folderOriginal = 't3docs';
-        $folderActual = 't3docs-generated/actual';
-
-        $pathOriginal = GeneralUtility::getFileAbsFileName($folderOriginal);
-        $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
-
-        $urlActual = '/' . $folderActual;
+        $pathOriginal = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
+        $pathActual = $this->getExtensionConfiguration()->getAbsoluteActualPath();
+        $urlActual = $this->getExtensionConfiguration()->getAbsoluteActualUrl();
 
         $files = GeneralUtility::removePrefixPathFromList(GeneralUtility::getAllFilesAndFoldersInPath(
             [], $pathActual . '/'
@@ -336,5 +328,10 @@ class ScreenshotsManagerController extends ActionController
     protected function getBackendUser(): BackendUserAuthentication
     {
         return $GLOBALS['BE_USER'];
+    }
+
+    protected function getExtensionConfiguration(): ExtensionConfiguration
+    {
+        return GeneralUtility::makeInstance(ExtensionConfiguration::class);
     }
 }

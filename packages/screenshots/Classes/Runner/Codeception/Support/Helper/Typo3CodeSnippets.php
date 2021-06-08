@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
 use TYPO3\CMS\Screenshots\Util\ClassHelper;
+use TYPO3\CMS\Screenshots\Util\FileHelper;
 use TYPO3\CMS\Screenshots\Util\StringHelper;
 use TYPO3\CMS\Screenshots\Util\XmlHelper;
 
@@ -262,45 +263,26 @@ class Typo3CodeSnippets extends Module
 
     protected function getRelativeTargetPath(string $filePath): string
     {
-        $relativePath = [];
-        if ($this->_getConfig('targetPath') !== '') {
-            $relativePath[] = $this->_getConfig('targetPath');
-        }
-        $relativePath[] = $filePath;
-        return implode(DIRECTORY_SEPARATOR, $relativePath) . '.rst.txt';
+        return FileHelper::getPathBySegments($this->_getConfig('targetPath'), $filePath . '.rst.txt');
     }
 
     protected function getRelativeSourcePath(string $filePath): string
     {
-        $relativePath = [];
-        if ($this->_getConfig('sourcePath') !== '') {
-            $relativePath[] = $this->_getConfig('sourcePath');
-        }
-        $relativePath[] = $filePath;
-        return implode(DIRECTORY_SEPARATOR, $relativePath);
+        return FileHelper::getPathBySegments($this->_getConfig('sourcePath'), $filePath);
     }
 
     protected function getAbsoluteTypo3Path(string $relativePath): string
     {
-        $absolutePath = [];
-        if (Environment::getPublicPath() !== '') {
-            $absolutePath[] = Environment::getPublicPath();
-        }
-        $absolutePath[] = $relativePath;
-        return implode(DIRECTORY_SEPARATOR, $absolutePath);
+        return FileHelper::getPathBySegments(Environment::getPublicPath(), $relativePath);
     }
 
     protected function getAbsoluteDocumentationPath(string $relativePath): string
     {
-        $absolutePath = [];
-        if ($this->getTypo3Screenshots()->_getConfig('basePath') !== '') {
-            $absolutePath[] = $this->getTypo3Screenshots()->_getConfig('basePath');
-        }
-        if ($this->getTypo3Screenshots()->_getConfig('documentationPath') !== '') {
-            $absolutePath[] = $this->getTypo3Screenshots()->_getConfig('documentationPath');
-        }
-        $absolutePath[] = $relativePath;
-        return implode(DIRECTORY_SEPARATOR, $absolutePath);
+        return FileHelper::getPathBySegments(
+            $this->getTypo3Screenshots()->_getConfig('basePath'),
+            $this->getTypo3Screenshots()->_getConfig('documentationPath'),
+            $relativePath
+        );
     }
 
     protected function read(string $path): string

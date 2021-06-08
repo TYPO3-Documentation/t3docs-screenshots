@@ -17,6 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
 
 class ScreenshotsManagerAjaxController extends ActionController
@@ -24,9 +25,7 @@ class ScreenshotsManagerAjaxController extends ActionController
 
     public function getFolders(ServerRequestInterface $request): ResponseInterface
     {
-        $folderActual = 't3docs-generated/actual';
-
-        $pathActual = GeneralUtility::getFileAbsFileName($folderActual);
+        $pathActual = $this->getExtensionConfiguration()->getAbsoluteActualPath();
 
         $folders = GeneralUtility::removePrefixPathFromList(
             FileHelper::getFoldersRecursively($pathActual), $pathActual
@@ -38,5 +37,10 @@ class ScreenshotsManagerAjaxController extends ActionController
         }
 
         return new JsonResponse($suggestions);
+    }
+
+    protected function getExtensionConfiguration(): ExtensionConfiguration
+    {
+        return GeneralUtility::makeInstance(ExtensionConfiguration::class);
     }
 }
