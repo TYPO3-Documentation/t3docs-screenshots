@@ -96,7 +96,8 @@ Screenshots runner
 
 The runner scans the sub folders of ``public/t3docs``, processes the ``public/t3docs/*/screenshots.json`` files and
 creates the screenshots in ``public/t3docs-generated/actual/*/`` where they get further processed by the screenshots
-manager.
+manager. Please note that ``public/t3docs-generated/actual/*/`` is cleaned up before the run, so it does not contain
+outdated screenshots.
 
 Folders in ``public/t3docs``
 ----------------------------

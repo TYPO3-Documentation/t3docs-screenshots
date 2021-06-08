@@ -1,9 +1,13 @@
 services:
-  TYPO3\CMS\Screenshots\Command\MappingsCommand:
+  TYPO3\CMS\Screenshots\Command\CleanUpCommand:
     tags:
       - name: 'console.command'
-        command: 'screenshots:mappings'
+        command: 'screenshots:cleanup'
   TYPO3\CMS\Screenshots\Command\InitCommand:
     tags:
       - name: 'console.command'
         command: 'screenshots:init'
+  TYPO3\CMS\Screenshots\Command\MappingsCommand:
+    tags:
+      - name: 'console.command'
+        command: 'screenshots:mappings'
