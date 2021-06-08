@@ -269,9 +269,9 @@ class Configuration
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "StylesheetFilelist"],
                         ],
                         'actionsIdentifierScreenshotsOfContentFrameOnly' => [
-                            ['action' => 'setScreenshotsDefaultPid', 'pid' => 22],
-                            ['action' => 'setScreenshotsDefaultTable', 'table' => 'tx_styleguide_elements_basic'],
-                            ['action' => 'setScreenshotsDefaultUid', 'uid' => 1],
+                            ['action' => 'setNavigationDefaultPid', 'pid' => 22],
+                            ['action' => 'setNavigationDefaultTable', 'table' => 'tx_styleguide_elements_basic'],
+                            ['action' => 'setNavigationDefaultUid', 'uid' => 1],
                             ['action' => 'makeScreenshotOfTable', 'fileName' => 'TxStyleguideElementsBasicOfPid22'],
                             ['action' => 'makeScreenshotOfTable', 'pid' => '27', 'table' => 'tx_styleguide_elements_group', 'fileName' => 'TxStyleguideElementsGroupOfPid27'],
                             [
@@ -284,7 +284,7 @@ class Configuration
                             ['action' => 'makeScreenshotOfRecord', 'table' => 'tx_styleguide_elements_group', 'uid' => 3, 'fileName' => 'TxStyleguideElementsGroupWithUid3'],
                             ['action' => 'makeScreenshotOfField', 'fields' => 'input_1', 'fileName' => 'TxStyleguideElementsBasicWithUid1AndFieldInput1'],
                             ['action' => 'makeScreenshotOfField', 'table' => 'tx_styleguide_elements_group', 'uid' => 3, 'fields' => 'group_db_1', 'fileName' => 'TxStyleguideElementsGroupWithUid3AndFieldGroupDb1'],
-                            ['action' => 'clearScreenshotsDefaults'],
+                            ['action' => 'clearNavigationDefaults'],
                             ['action' => 'reloadBackend'],
                         ],
                         'actionsIdentifierCodeSnippets' => [
