@@ -14,7 +14,6 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Module;
 use Codeception\Module\WebDriver;
-use TYPO3\CMS\Screenshots\Util\FileHelper;
 use TYPO3\CMS\Screenshots\Util\StringHelper;
 
 /**
@@ -34,11 +33,6 @@ class Typo3Screenshots extends Module
     public function setScreenshotsBasePath(string $path): void
     {
         $this->_reconfigure(array_merge($this->_getConfig(), ['basePath' => $path]));
-    }
-
-    public function cleanUpScreenshotsBasePath(): void
-    {
-        FileHelper::deleteRecursively($this->_getConfig('basePath'));
     }
 
     public function setScreenshotsDocumentationPath(string $path): void
