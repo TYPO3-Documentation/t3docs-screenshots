@@ -17,7 +17,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Screenshots\Configuration\Configuration;
+use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
 
 /**
  * Command for initializing a basic screenshots.json.
@@ -29,15 +31,14 @@ class InitCommand extends Command
      */
     protected function configure(): void
     {
-        $configuration = new Configuration();
-
         $this
             ->setDescription('Initialize a basic screenshots.json at a given path.')
             ->addArgument(
                 'path',
                 InputArgument::OPTIONAL,
-                sprintf('The relative or absolute path to the folder of the screenshots.json. ' .
-                'For relative paths the base path is %s.', $configuration->getBasePath()),
+                sprintf('The path to the folder of the screenshots.json, relative to base path %s.',
+                    $this->getExtensionConfiguration()->getAbsoluteOriginalPath()
+                ),
                 'My-Manual'
             );
     }
@@ -54,7 +55,9 @@ class InitCommand extends Command
         try {
             $path = (string)$input->getArgument('path');
 
-            $configuration = new Configuration($path);
+            $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath($path);
+
+            $configuration = new Configuration($originalPath);
             $configuration->createBasicConfig();
             $configuration->write();
 
@@ -64,5 +67,10 @@ class InitCommand extends Command
             $io->error(sprintf('%s: %s', $e->getCode(), $e->getMessage()));
             return 1;
         }
+    }
+
+    protected function getExtensionConfiguration(): ExtensionConfiguration
+    {
+        return GeneralUtility::makeInstance(ExtensionConfiguration::class);
     }
 }

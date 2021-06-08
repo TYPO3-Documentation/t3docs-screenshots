@@ -66,4 +66,66 @@ class FileHelper
     {
         return strpos($path, 'vfs://') === 0 ? $path : realpath($path);
     }
+
+    /**
+     * Compose path from segments by
+     *
+     * - dismissing all empty segments
+     * - replacing all separators by the system specific directory separator
+     * - removing superfluous beginning and trailing separators
+     *
+     * @param string ...$segments
+     * @return string
+     */
+    public static function getPathBySegments(string ...$segments): string
+    {
+        $path = [];
+        foreach ($segments as $position => $segment) {
+            if ($segment !== '') {
+                $segment = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $segment);
+                $isFirstAndAbsolute = $position === 0 && strpos($segment, DIRECTORY_SEPARATOR) === 0;
+                if ($isFirstAndAbsolute) {
+                    $segment = substr($segment, -1) === DIRECTORY_SEPARATOR ? substr($segment, 0, -1) : $segment;
+                    $path[] = $segment;
+                } else {
+                    $segment = trim($segment, DIRECTORY_SEPARATOR);
+                    if ($segment !== '') {
+                        $path[] = $segment;
+                    }
+                }
+            }
+        }
+        return implode(DIRECTORY_SEPARATOR, $path);
+    }
+
+    /**
+     * Compose url from segments by
+     *
+     * - dismissing all empty segments
+     * - replacing all separators by the general url separator
+     * - removing superfluous beginning and trailing separators
+     *
+     * @param string ...$segments
+     * @return string
+     */
+    public static function getUrlBySegments(string ...$segments): string
+    {
+        $path = [];
+        foreach ($segments as $position => $segment) {
+            if ($segment !== '') {
+                $segment = str_replace(['/', '\\'], '/', $segment);
+                $isFirstAndAbsolute = $position === 0 && (strpos($segment, '://') !== false || strpos($segment, '/') === 0);
+                if ($isFirstAndAbsolute) {
+                    $segment = substr($segment, -1) === '/' ? substr($segment, 0, -1) : $segment;
+                    $path[] = $segment;
+                } else {
+                    $segment = trim($segment, '/');
+                    if ($segment !== '') {
+                        $path[] = $segment;
+                    }
+                }
+            }
+        }
+        return implode('/', $path);
+    }
 }

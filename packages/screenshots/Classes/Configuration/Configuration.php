@@ -13,14 +13,12 @@ namespace TYPO3\CMS\Screenshots\Configuration;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * Handle screenshots related configuration file "screenshots.json"
  */
 class Configuration
 {
-    protected string $basePath = '/var/www/html/public/t3docs';
     protected string $fileName = 'screenshots.json';
 
     protected string $path;
@@ -29,7 +27,7 @@ class Configuration
 
     public function __construct(string $path = '')
     {
-        $this->path = $this->getAbsolutePath($path);
+        $this->path = $path;
         $this->config = [];
         $this->refresh();
     }
@@ -41,14 +39,6 @@ class Configuration
         } else {
             $this->existing = false;
         }
-    }
-
-    protected function getAbsolutePath(string $path): string
-    {
-        // Absolute paths are e.g. vfs://t3docs or /t3docs
-        $isAbsolute = strpos($path, '/') === 0 || strpos($path, '://') !== false;
-        $path = $isAbsolute ? $path : $this->basePath . '/' . $path;
-        return PathUtility::getCanonicalPath($path);
     }
 
     public function read(): void
@@ -121,11 +111,6 @@ class Configuration
         $configJson = json_encode($config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         $configJson = str_replace(array_keys($replace), array_values($replace), $configJson);
         return $configJson;
-    }
-
-    public function getBasePath(): string
-    {
-        return $this->basePath;
     }
 
     public function getPath(): string
