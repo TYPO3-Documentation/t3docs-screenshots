@@ -55,6 +55,10 @@ fetch_options() {
     fi
 }
 
+cleanup_screenshots() {
+    typo3 screenshots:cleanup
+}
+
 make_screenshots() {
     screenshotsPathFilter=$TARGET_PATH \
     screenshotsActionsIdFilter=$ACTIONS_ID \
@@ -66,4 +70,5 @@ make_screenshots() {
 }
 
 fetch_options $@
+cleanup_screenshots
 make_screenshots

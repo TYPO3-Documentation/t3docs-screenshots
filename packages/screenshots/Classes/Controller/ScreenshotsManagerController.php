@@ -22,6 +22,7 @@ use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
 use TYPO3\CMS\Screenshots\Comparison\File;
 use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
+use TYPO3\CMS\Screenshots\Util\FileHelper;
 
 class ScreenshotsManagerController extends ActionController
 {
@@ -92,21 +93,28 @@ class ScreenshotsManagerController extends ActionController
 
     protected function make(string $pathFilter = '', string $suiteFilter = '', string $actionsIdFilter = ''): void
     {
-        $command = sprintf('screenshotsPathFilter=%s ' .
-            'screenshotsActionsIdFilter=%s ' .
-            'typo3DatabaseName=func_test ' .
-            'typo3DatabaseUsername=root ' .
-            'typo3DatabasePassword=root ' .
-            'typo3DatabaseHost=db ' .
-            '/var/www/html/vendor/bin/codecept run -d ' .
-            '-c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml ' .
-            '%s',
-            $pathFilter, $actionsIdFilter, $suiteFilter
-        );
+        $resultCode = 0;
 
-        $output = sprintf('$ %s', $command) . "\n";
-        exec($command . " 2>&1", $outputArray, $resultCode);
-        $output .= implode("\n", $outputArray);
+        $output = $this->executeCommandAndFetchOutput(
+            'typo3 screenshots:cleanup',
+            $resultCode
+        );
+        $output .= "\n";
+        $output .= $this->executeCommandAndFetchOutput(
+            sprintf(
+                'screenshotsPathFilter=%s ' .
+                'screenshotsActionsIdFilter=%s ' .
+                'typo3DatabaseName=func_test ' .
+                'typo3DatabaseUsername=root ' .
+                'typo3DatabasePassword=root ' .
+                'typo3DatabaseHost=db ' .
+                '/var/www/html/vendor/bin/codecept run -d ' .
+                '-c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml ' .
+                '%s',
+                $pathFilter, $actionsIdFilter, $suiteFilter
+            ),
+            $resultCode
+        );
 
         $converter = new AnsiToHtmlConverter();
         $outputHtml = $converter->convert($output);
@@ -124,6 +132,20 @@ class ScreenshotsManagerController extends ActionController
         }
 
         $this->view->assign('outputHtml', $outputHtml);
+    }
+
+    protected function executeCommandAndFetchOutput(string $command, int &$lastResultCode): string
+    {
+        if ($lastResultCode === 0) {
+            $output = sprintf('$ %s', $command) . "\n";
+            exec($command . " 2>&1", $outputArray, $lastResultCode);
+            $output .= implode("\n", $outputArray);
+        } else {
+            $output = sprintf('$ %s', $command) . "\n";
+            $output .= "=> skip" . "\n";
+        }
+
+        return $output;
     }
 
     public function compareAction(
