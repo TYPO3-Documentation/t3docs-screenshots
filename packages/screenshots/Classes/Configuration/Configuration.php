@@ -23,12 +23,14 @@ class Configuration
 
     protected string $path;
     protected array $config;
+    protected array $configPrepared;
     protected bool $existing;
 
     public function __construct(string $path = '')
     {
         $this->path = $path;
         $this->config = [];
+        $this->configPrepared = [];
         $this->refresh();
     }
 
@@ -43,7 +45,82 @@ class Configuration
 
     public function read(): void
     {
-        $this->config = json_decode(file_get_contents($this->getFilePath()), true) ?? [];
+        $config = json_decode(file_get_contents($this->getFilePath()), true) ?? [];
+        $this->setConfig($config);
+    }
+
+    public function setConfig(array $config): void
+    {
+        $this->config = $config;
+        $this->prepareConfig();
+    }
+
+    protected function prepareConfig(): void
+    {
+        $config = $this->config;
+
+        $this->resolveIncludes($config);
+        $this->removeNotExecutableActionsIds($config);
+
+        $this->configPrepared = $config;
+    }
+
+    protected function resolveIncludes(array &$config): void
+    {
+        if (!empty($config['suites'])) {
+            foreach ($config['suites'] as $suiteId => &$suite) {
+                if (isset($suite['screenshots'])) {
+                    foreach ($suite['screenshots'] as $actionsId => &$actions) {
+                        foreach ($actions as $position => &$action) {
+                            if (isset($action['include']) && count($action) === 1) {
+                                $includeActions = $this->resolveInclude($suiteId, $action['include']);
+                                array_splice($actions, $position, 1, $includeActions);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected function resolveInclude(string $suiteId, string $actionsId): array
+    {
+        if (!isset($this->config['suites'][$suiteId]['screenshots'][$actionsId])) {
+            throw new ConfigurationException(sprintf(
+                'Cannot include actions of ID "%s".', $actionsId
+            ));
+        }
+
+        $actions = $this->config['suites'][$suiteId]['screenshots'][$actionsId];
+
+        foreach ($actions as $position => &$action) {
+            if (isset($action['include']) && count($action) === 1) {
+                $includeActions = $this->resolveInclude($suiteId, $action['include']);
+                array_splice($actions, $position, 1, $includeActions);
+            }
+        }
+
+        return $actions;
+    }
+
+    protected function removeNotExecutableActionsIds(array &$config): void
+    {
+        if (!empty($config['suites'])) {
+            foreach ($config['suites'] as $suiteId => &$suite) {
+                if (isset($suite['screenshots'])) {
+                    foreach ($suite['screenshots'] as $actionsId => &$actions) {
+                        if (!$this->isExecutableActionsId($actionsId)) {
+                            unset($suite['screenshots'][$actionsId]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    protected function isExecutableActionsId($actionsId): bool
+    {
+        return is_numeric($actionsId) || substr($actionsId, 0, 1) !== '_';
     }
 
     public function write(): void
@@ -63,7 +140,7 @@ class Configuration
         return $this->existing;
     }
 
-    public function getActionsIds(): array
+    public function getSelectableActionsIds(): array
     {
         $actionIds = [];
 
@@ -71,7 +148,7 @@ class Configuration
             foreach ($this->config['suites'] as &$suite) {
                 if (isset($suite['screenshots'])) {
                     foreach ($suite['screenshots'] as $actionsId => &$actions) {
-                        if (!is_numeric($actionsId)) {
+                        if ($this->isSelectableActionsId($actionsId)) {
                             $actionIds[] = $actionsId;
                         }
                     }
@@ -80,6 +157,11 @@ class Configuration
         }
 
         return $actionIds;
+    }
+
+    protected function isSelectableActionsId($actionsId): bool
+    {
+        return !is_numeric($actionsId) && substr($actionsId, 0, 1) !== '_';
     }
 
     /**
@@ -123,14 +205,14 @@ class Configuration
         return $this->config;
     }
 
-    public function setConfig(array $config): void
+    public function getConfigPrepared(): array
     {
-        $this->config = $config;
+        return $this->configPrepared;
     }
 
     public function createBasicConfig(): void
     {
-        $this->config = [
+        $this->setConfig([
             'suites' => [
                 'Core' => [
                     'screenshots' => [
@@ -180,11 +262,14 @@ class Configuration
                 ],
                 'Styleguide' => [
                     'screenshots' => [
+                        '_default' => [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
                         'actionsIdentifierScreenshots' => [
                             ['comment' => '********************************************************'],
                             ['comment' => 'Take screenshots configured in a dummy screenshots.json.'],
                             ['comment' => '********************************************************'],
-                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                            ['include' => '_default'],
                             ['action' => 'setScreenshotsDocumentationPath', 'path' => "StyleguideDocumentation"],
                             ['action' => 'setScreenshotsImagePath', 'path' => "Images/StyleguideScreenshots"],
                             ['action' => 'see', 'text' => "List"],
@@ -254,6 +339,7 @@ class Configuration
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguideFilelist"],
                         ],
                         'actionsIdentifierScreenshotsOfContentFrameOnly' => [
+                            ['include' => '_default'],
                             ['action' => 'setNavigationDefaultPid', 'pid' => 22],
                             ['action' => 'setNavigationDefaultTable', 'table' => 'tx_styleguide_elements_basic'],
                             ['action' => 'setNavigationDefaultUid', 'uid' => 1],
@@ -296,6 +382,7 @@ class Configuration
                             ['action' => 'createXmlCodeSnippet', 'sourceFile' => 'typo3/sysext/form/Configuration/FlexForms/FormFramework.xml', 'field' => 'T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle', 'targetFileName' => 'FormFrameworkXmlSheetTitle'],
                         ],
                         'actionsIdentifierDraw' => [
+                            ['include' => '_default'],
                             ['action' => 'switchToMainFrame'],
                             ['action' => 'see', 'text' => "Dashboard"],
                             ['action' => 'click', 'link' => "Dashboard"],
@@ -319,6 +406,6 @@ class Configuration
                     ]
                 ]
             ]
-        ];
+        ]);
     }
 }

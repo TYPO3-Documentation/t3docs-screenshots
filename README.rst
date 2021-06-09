@@ -335,6 +335,34 @@ Comments can be inserted to facilitate maintenance work, e.g.
       }
    }
 
+An action block can be included in another action block of the same suite by assigning a custom identifier to the former
+and using that identifier in the latter with the ``include`` directive, e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Styleguide": {
+            "screenshots": {
+               "_default": [
+                  {"action": "resizeWindow", "width": 1024, "height": 768}
+               ],
+               "list": [
+                  {"include": "_default"},
+                  {"action": "see", "text": "List"},
+               ]
+            }
+         }
+      }
+   }
+
+where the actions with ID "_default" are included and executed at the beginning of the action block with ID "list".
+
+Action blocks will not be executed directly if their custom identifier starts with an underscore. Therefore it is useful
+to use such underscore identifiers for action blocks that are intended for inclusion only.
+
+Included blocks can themselves include other blocks.
+
 Available actions
 -----------------
 
@@ -435,7 +463,9 @@ Make screenshots of TYPO3 + EXT:styleguide
 Make screenshots of TYPO3 + EXT:introduction + Subset of actions
 ----------------------------------------------------------------
 
-A custom identifier can be assigned to a block of actions and then used to execute only that specific subset of actions.
+A custom identifier can be assigned to an action block and then used to execute only that specific subset of actions.
+However, action blocks cannot be executed if their custom identifier begins with an underscore, which is intended for
+inclusion in other action blocks.
 
 .. code-block:: json
 
