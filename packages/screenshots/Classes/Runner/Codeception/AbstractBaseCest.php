@@ -75,7 +75,7 @@ abstract class AbstractBaseCest
             $I->setScreenshotsBasePath($actualDirectory);
 
             $configuration->read();
-            $config = $configuration->getConfig();
+            $config = $configuration->getConfigPrepared();
             if (!empty($config['suites'][$suite]['screenshots'])) {
                 foreach ($config['suites'][$suite]['screenshots'] as $actionsId => $actions) {
                     $isActionsEnabled = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;

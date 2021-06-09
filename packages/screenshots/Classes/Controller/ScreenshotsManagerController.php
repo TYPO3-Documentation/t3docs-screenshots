@@ -76,7 +76,7 @@ class ScreenshotsManagerController extends ActionController
         $actionsIds = [];
         foreach ($configurations as &$configuration) {
             $configuration->read();
-            foreach ($configuration->getActionsIds() as $actionsId) {
+            foreach ($configuration->getSelectableActionsIds() as $actionsId) {
                 if (!isset($actionsIds[$actionsId])) {
                     $actionsIds[$actionsId] = $actionsId;
                 }

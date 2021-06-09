@@ -79,6 +79,49 @@ class ConfigurationTest extends UnitTestCase
     /**
      * @test
      */
+    public function prepareConfigResolvesIncludesAndRemovesNotExecutableActionsIds(): void
+    {
+        $config = [
+            'suites' => [
+                'Introduction' => [
+                    'screenshots' => [
+                        '_include_1' => [
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "introduction_dashboard_1"]
+                        ],
+                        '_include_2' => [
+                            ['include' => '_include_1'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "introduction_dashboard_2"]
+                        ],
+                        'run' => [
+                            ['include' => '_include_2']
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $expected = [
+            'suites' => [
+                'Introduction' => [
+                    'screenshots' => [
+                        'run' => [
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "introduction_dashboard_1"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "introduction_dashboard_2"]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $configuration = new Configuration();
+        $configuration->setConfig($config);
+
+        self::assertEquals($config, $configuration->getConfig());
+        self::assertEquals($expected, $configuration->getConfigPrepared());
+    }
+
+    /**
+     * @test
+     */
     public function isExistingAdaptsAfterWritingTheConfiguration(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['folderCreateMask'] = '0770';
@@ -96,11 +139,11 @@ class ConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function getActionsIds(): void
+    public function getSelectableActionsIds(): void
     {
         $configuration = new Configuration('DummyPath');
         $configuration->createBasicConfig();
-        $actualActionsIds = $configuration->getActionsIds();
+        $actualActionsIds = $configuration->getSelectableActionsIds();
         $expectedActionsIds = [
             'actionsIdentifierUserSwitch',
             'actionsIdentifierScreenshots',
