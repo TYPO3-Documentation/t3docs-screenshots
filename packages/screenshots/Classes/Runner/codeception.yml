@@ -23,6 +23,11 @@ suites:
     extensions:
       enabled:
         - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\ExamplesEnvironment
+  Install:
+    actor: Photographer
+    extensions:
+      enabled:
+        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\InstallEnvironment
   Introduction:
     actor: Photographer
     modules:

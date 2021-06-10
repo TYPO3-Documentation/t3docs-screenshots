@@ -43,6 +43,11 @@ class Configuration
         }
     }
 
+    public function getFilePath(): string
+    {
+        return $this->path . '/' . $this->fileName;
+    }
+
     public function read(): void
     {
         $config = json_decode(file_get_contents($this->getFilePath()), true) ?? [];
@@ -130,16 +135,6 @@ class Configuration
         $this->refresh();
     }
 
-    public function getFilePath(): string
-    {
-        return $this->path . '/' . $this->fileName;
-    }
-
-    public function isExisting(): bool
-    {
-        return $this->existing;
-    }
-
     public function getSelectableActionsIds(): array
     {
         $actionIds = [];
@@ -195,6 +190,11 @@ class Configuration
         return $configJson;
     }
 
+    public function isExisting(): bool
+    {
+        return $this->existing;
+    }
+
     public function getPath(): string
     {
         return $this->path;
@@ -231,6 +231,14 @@ class Configuration
                             ['action' => 'see', 'text' => "List"],
                             ['action' => 'click', 'link' => "List"],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "ExamplesDashboardFullPage"],
+                        ]
+                    ]
+                ],
+                'Install' => [
+                    'screenshots' => [
+                        [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "InstallationWindow"],
                         ]
                     ]
                 ],
