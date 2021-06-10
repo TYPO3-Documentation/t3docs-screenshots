@@ -116,7 +116,7 @@ File ``screenshots.json``
 
 The runner configuration file ``screenshots.json`` must be placed in the root directory of the respective documentation
 folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the TYPO3 environment
-("Core", "Examples", "Introduction" or "Styleguide") where the screenshots are taken, and in the second level
+("Core", "Examples", "Install", "Introduction" or "Styleguide") where the screenshots are taken, and in the second level
 it lists blocks of actions where each block ends with a captured screenshot. Each action is an object, where the key
 ``action`` marks the action name and the remaining keys represent the action parameters.
 
@@ -128,7 +128,7 @@ Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3
 
 where ``folder`` defaults to ``My-Manual`` if left blank.
 
-This is a small runner configuration which takes screenshots of four TYPO3 environments:
+This is a small runner configuration which takes screenshots of five TYPO3 environments:
 
 .. code-block:: json
 
@@ -145,6 +145,13 @@ This is a small runner configuration which takes screenshots of four TYPO3 envir
             "screenshots": [
                [
                   {"action": "makeScreenshotOfFullPage", "fileName": "ExamplesDashboardFullPage"}
+               ]
+            ]
+         },
+         "Install": {
+            "screenshots": [
+               [
+                  {"action": "makeScreenshotOfWindow", "fileName": "InstallationWindow"}
                ]
             ]
          },
@@ -432,36 +439,43 @@ be defined as an absolute path or relative to ``public/t3docs``, e.g. this comma
 
    ddev make-screenshots -t My-Manual
 
-Make screenshots of TYPO3
--------------------------
+Make screenshots of TYPO3 installation process
+----------------------------------------------
+
+.. code-block:: bash
+
+   ddev make-screenshots -s Install
+
+Make screenshots of TYPO3 backend
+---------------------------------
 
 .. code-block:: bash
 
    ddev make-screenshots -s Core
 
-Make screenshots of TYPO3 + EXT:examples
-----------------------------------------
+Make screenshots of TYPO3 backend + EXT:examples
+------------------------------------------------
 
 .. code-block:: bash
 
    ddev make-screenshots -s Examples
 
-Make screenshots of TYPO3 + EXT:introduction
---------------------------------------------
+Make screenshots of TYPO3 backend + EXT:introduction
+----------------------------------------------------
 
 .. code-block:: bash
 
    ddev make-screenshots -s Introduction
 
-Make screenshots of TYPO3 + EXT:styleguide
-------------------------------------------
+Make screenshots of TYPO3 backend + EXT:styleguide
+--------------------------------------------------
 
 .. code-block:: bash
 
    ddev make-screenshots -s Styleguide
 
-Make screenshots of TYPO3 + EXT:introduction + Subset of actions
-----------------------------------------------------------------
+Make screenshots of TYPO3 backend + EXT:introduction + Subset of actions
+------------------------------------------------------------------------
 
 A custom identifier can be assigned to an action block and then used to execute only that specific subset of actions.
 However, action blocks cannot be executed if their custom identifier begins with an underscore, which is intended for

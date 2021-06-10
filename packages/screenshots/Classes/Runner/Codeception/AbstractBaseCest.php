@@ -66,17 +66,14 @@ abstract class AbstractBaseCest
         }
 
         foreach ($configurations as $configuration) {
-            $I->resetCodeSnippetsConfig();
-            $I->resetScreenshotsConfig();
-            $I->restartBrowserAndLoadBackend();
-
             $originalDirectory = $configuration->getPath();
             $actualDirectory = FileHelper::getPathBySegments($actualPath, basename($originalDirectory));
-            $I->setScreenshotsBasePath($actualDirectory);
 
             $configuration->read();
             $config = $configuration->getConfigPrepared();
             if (!empty($config['suites'][$suite]['screenshots'])) {
+                $this->prepareEnvironment($I, $suite);
+                $I->setScreenshotsBasePath($actualDirectory);
                 foreach ($config['suites'][$suite]['screenshots'] as $actionsId => $actions) {
                     $isActionsEnabled = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
                     if ($isActionsEnabled) {
@@ -86,6 +83,19 @@ abstract class AbstractBaseCest
                     }
                 }
             }
+        }
+    }
+
+    protected function prepareEnvironment(Photographer &$I, string $suite): void
+    {
+        $I->resetCodeSnippetsConfig();
+        $I->resetNavigationConfig();
+        $I->resetScreenshotsConfig();
+
+        if ($suite === 'Install') {
+            $I->restartBrowserAndLoadInstallationProcess();
+        } else {
+            $I->restartBrowserAndLoadBackend();
         }
     }
 

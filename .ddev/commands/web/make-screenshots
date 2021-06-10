@@ -3,7 +3,7 @@
 ## Description: Make screenshots via codeception inside the web container
 ## Usage: make-screenshots
 ## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots\nmake-screenshots -t My-Manual
-## Flags: [{"Name":"actions-id","Shorthand":"a","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite","Shorthand":"s","Usage":"Run actions of specific TYPO3 environment suite only (Core, Introduction, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
+## Flags: [{"Name":"actions-id","Shorthand":"a","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite","Shorthand":"s","Usage":"Run actions of specific TYPO3 environment suite only (Core, Examples, Install, Introduction, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
 
 SUITE=""
 TARGET_PATH=""
@@ -62,7 +62,11 @@ cleanup_screenshots() {
 make_screenshots() {
     screenshotsPathFilter=$TARGET_PATH \
     screenshotsActionsIdFilter=$ACTIONS_ID \
-    typo3DatabaseName=func_test \
+    typo3InstallMysqlDatabaseName=screenshots_install \
+    typo3InstallMysqlDatabaseUsername=root \
+    typo3InstallMysqlDatabasePassword=root \
+    typo3InstallMysqlDatabaseHost=db \
+    typo3DatabaseName=screenshots_backend \
     typo3DatabaseUsername=root \
     typo3DatabasePassword=root \
     typo3DatabaseHost=db \

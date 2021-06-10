@@ -83,8 +83,7 @@ class FileHelper
         foreach ($segments as $position => $segment) {
             if ($segment !== '') {
                 $segment = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $segment);
-                $isFirstAndAbsolute = $position === 0 && strpos($segment, DIRECTORY_SEPARATOR) === 0;
-                if ($isFirstAndAbsolute) {
+                if ($position === 0 && self::isAbsolutePath($segment)) {
                     $segment = substr($segment, -1) === DIRECTORY_SEPARATOR ? substr($segment, 0, -1) : $segment;
                     $path[] = $segment;
                 } else {
@@ -96,6 +95,11 @@ class FileHelper
             }
         }
         return implode(DIRECTORY_SEPARATOR, $path);
+    }
+
+    public static function isAbsolutePath(string $path): bool
+    {
+        return strpos($path, '://') !== false || strpos($path, DIRECTORY_SEPARATOR) === 0;
     }
 
     /**
@@ -114,8 +118,7 @@ class FileHelper
         foreach ($segments as $position => $segment) {
             if ($segment !== '') {
                 $segment = str_replace(['/', '\\'], '/', $segment);
-                $isFirstAndAbsolute = $position === 0 && (strpos($segment, '://') !== false || strpos($segment, '/') === 0);
-                if ($isFirstAndAbsolute) {
+                if ($position === 0 && self::isAbsoluteUrl($segment)) {
                     $segment = substr($segment, -1) === '/' ? substr($segment, 0, -1) : $segment;
                     $path[] = $segment;
                 } else {
@@ -127,5 +130,10 @@ class FileHelper
             }
         }
         return implode('/', $path);
+    }
+
+    public static function isAbsoluteUrl(string $url): bool
+    {
+        return strpos($url, '://') !== false || strpos($url, '/') === 0;
     }
 }

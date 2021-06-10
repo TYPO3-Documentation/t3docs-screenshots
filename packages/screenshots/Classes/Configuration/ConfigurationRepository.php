@@ -53,11 +53,21 @@ class ConfigurationRepository implements SingletonInterface
     {
         $configurations = [];
 
-        $configuration = new Configuration($path);
+        $configuration = new Configuration($this->getAbsolutePath($path));
         if ($configuration->isExisting()) {
             $configurations[] = $configuration;
         }
 
         return $configurations;
+    }
+
+    protected function getAbsolutePath(string $path): string
+    {
+        $path = FileHelper::getPathBySegments($path);
+        if (!FileHelper::isAbsolutePath($path)) {
+            $path = FileHelper::getPathBySegments($this->basePath, $path);
+        }
+
+        return $path;
     }
 }

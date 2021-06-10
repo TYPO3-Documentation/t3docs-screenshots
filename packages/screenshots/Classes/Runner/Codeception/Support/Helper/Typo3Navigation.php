@@ -57,6 +57,21 @@ class Typo3Navigation extends Module
         $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => []]));
     }
 
+    public function resetNavigationConfig(): void
+    {
+        $this->_resetConfig();
+    }
+
+    /**
+     * Restart the browser with default configuration and navigate to the TYPO3 installation process.
+     */
+    public function restartBrowserAndLoadInstallationProcess(): void
+    {
+        $this->getWebDriver()->_restart();
+        $this->getWebDriver()->amOnPage('/');
+        $this->getWebDriver()->waitForText('Installing TYPO3 CMS', 5);
+    }
+
     /**
      * Restart the browser with default configuration and navigate to the TYPO3 backend.
      *
