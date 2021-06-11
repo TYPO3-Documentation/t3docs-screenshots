@@ -97,22 +97,12 @@ class ScreenshotsManagerController extends ActionController
         $resultCode = 0;
 
         $output = $this->executeCommandAndFetchOutput(
-            'typo3 screenshots:cleanup',
-            $resultCode
-        );
-        $output .= "\n";
-        $output .= $this->executeCommandAndFetchOutput(
             sprintf(
-                'screenshotsPathFilter=%s ' .
-                'screenshotsActionsIdFilter=%s ' .
-                'typo3DatabaseName=func_test ' .
-                'typo3DatabaseUsername=root ' .
-                'typo3DatabasePassword=root ' .
-                'typo3DatabaseHost=db ' .
-                '/var/www/html/vendor/bin/codecept run -d ' .
-                '-c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml ' .
-                '%s',
-                $pathFilter, $actionsIdFilter, $suiteIdFilter
+                '/var/www/html/.ddev/commands/web/make-screenshots ' .
+                '--target-path=%s ' .
+                '--suite-id=%s ' .
+                '--actions-id=%s',
+                $pathFilter, $suiteIdFilter, $actionsIdFilter
             ),
             $resultCode
         );
