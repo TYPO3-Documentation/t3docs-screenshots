@@ -3,6 +3,10 @@ services:
     tags:
       - name: 'console.command'
         command: 'screenshots:cleanup'
+  TYPO3\CMS\Screenshots\Command\FetchSuitesCommand:
+    tags:
+      - name: 'console.command'
+        command: 'screenshots:fetchsuites'
   TYPO3\CMS\Screenshots\Command\InitCommand:
     tags:
       - name: 'console.command'
