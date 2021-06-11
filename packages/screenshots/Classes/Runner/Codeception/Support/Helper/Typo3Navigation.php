@@ -102,6 +102,11 @@ class Typo3Navigation extends Module
         $webDriver->waitForElementNotVisible('#nprogress', 120);
     }
 
+    public function _isOnInstallationProcessPage(): bool
+    {
+        return count($this->getWebDriver()->_findElements(".install-tool-installer")) > 0;
+    }
+
     /**
      * Check if the browser is in the TYPO3 backend main frame, the one with module menu and top bar.
      *
@@ -150,6 +155,43 @@ class Typo3Navigation extends Module
     /**
      * Calculate the total page size.
      *
+     * @return int[]
+     */
+    public function _getFullPageSize(): array
+    {
+        if ($this->_isOnInstallationProcessPage()) {
+            return $this->getFullPageSizeOfInstallationProcess();
+        } else {
+            return $this->getFullPageSizeOfBackend();
+        }
+    }
+
+    /**
+     * Calculate the total page size of the TYPO3 installation process.
+     *
+     * The total page height is the container height plus twice the Y position of the container.
+     *
+     * @return int[]
+     */
+    protected function getFullPageSizeOfInstallationProcess(): array
+    {
+        $windowSize = $this->_getWindowSize();
+        $windowInnerSize = $this->_getWindowInnerSize();
+
+        $pageHeight = $this->_getInstallationProcessPageHeight();
+
+        $fullPageWidth = $windowSize['width'];
+        $fullPageHeight = ($windowSize['height'] - $windowInnerSize['height']) + $pageHeight;
+
+        return [
+            'width' => $fullPageWidth,
+            'height' => $fullPageHeight
+        ];
+    }
+
+    /**
+     * Calculate the total page size of the TYPO3 backend.
+     *
      * The total page height is the header height plus the maximum of the three columns:
      * - module menu
      * - page tree / file tree
@@ -162,7 +204,7 @@ class Typo3Navigation extends Module
      *
      * @return int[]
      */
-    public function _getFullPageSize(): array
+    protected function getFullPageSizeOfBackend(): array
     {
         $typo3PageTree = $this->getTypo3PageTree();
         $typo3FileTree = $this->getTypo3FileTree();
@@ -228,6 +270,16 @@ class Typo3Navigation extends Module
             'width' => $this->getWebDriver()->executeJS('return window.innerWidth;'),
             'height' => $this->getWebDriver()->executeJS('return window.innerHeight;')
         ];
+    }
+
+    public function _getInstallationProcessPageHeight(): int
+    {
+        /** @var WebDriverElement[] $elements */
+        $elements = $this->getWebDriver()->_findElements(['class' => 'typo3-install-container']);
+        if (count($elements) > 0) {
+            return 2 * $elements[0]->getLocation()->getY() + $elements[0]->getSize()->getHeight();
+        }
+        return 0;
     }
 
     /**
