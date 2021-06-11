@@ -41,11 +41,11 @@ class FetchSuitesCommand extends Command
                 'All folders if empty.'
             )
             ->addOption(
-                'suite',
+                'suite-id',
                 's',
                 InputOption::VALUE_OPTIONAL,
-                'Filter for specific suite (Core, Examples, Install, Introduction, Styleguide). ' .
-                'All suites if empty.'
+                'Filter for specific suite ID (Core, Examples, Install, Introduction, Styleguide). ' .
+                'All suite IDs if empty.'
             )
             ->addOption(
                 'actions-id',
@@ -67,7 +67,7 @@ class FetchSuitesCommand extends Command
 
         try {
             $pathFilter = (string)$input->getOption('target-path');
-            $suiteIdFilter = (string)$input->getOption('suite');
+            $suiteIdFilter = (string)$input->getOption('suite-id');
             $actionsIdFilter = (string)$input->getOption('actions-id');
 
             $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
@@ -86,9 +86,9 @@ class FetchSuitesCommand extends Command
 
                 if (!empty($config['suites'])) {
                     foreach ($config['suites'] as $suiteId => &$suite) {
-                        $isMatchingSuiteFilter = empty($suiteIdFilter) || $suiteId === $suiteIdFilter;
+                        $isMatchingSuiteIdFilter = empty($suiteIdFilter) || $suiteId === $suiteIdFilter;
                         $isMatchingActionsIdFilter = empty($actionsIdFilter) || isset($suite['screenshots'][$actionsIdFilter]);
-                        if ($isMatchingSuiteFilter && $isMatchingActionsIdFilter) {
+                        if ($isMatchingSuiteIdFilter && $isMatchingActionsIdFilter) {
                             $suites[] = [
                                 'path' => $configuration->getPath(),
                                 'suiteId' => $suiteId

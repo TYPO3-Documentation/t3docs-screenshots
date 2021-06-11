@@ -63,12 +63,12 @@ class ScreenshotsManagerController extends ActionController
     public function makeAction(
         string $cmd = 'show',
         string $pathFilter = '',
-        string $suiteFilter = '',
+        string $suiteIdFilter = '',
         string $actionsIdFilter = ''
     ): void
     {
         if ($cmd === 'make') {
-            $this->make($pathFilter, $suiteFilter, $actionsIdFilter);
+            $this->make($pathFilter, $suiteIdFilter, $actionsIdFilter);
         }
 
         $configurations = $this->configurationRepository->findAll();
@@ -85,14 +85,14 @@ class ScreenshotsManagerController extends ActionController
 
         $this->view->assign('cmd', $cmd);
         $this->view->assign('pathFilter', $pathFilter);
-        $this->view->assign('suiteFilter', $suiteFilter);
+        $this->view->assign('suiteIdFilter', $suiteIdFilter);
         $this->view->assign('actionsIdFilter', $actionsIdFilter);
         $this->view->assign('configurations', $configurations);
         $this->view->assign('actionsIds', $actionsIds);
         $this->view->assign('messages', $this->fetchMessages());
     }
 
-    protected function make(string $pathFilter = '', string $suiteFilter = '', string $actionsIdFilter = ''): void
+    protected function make(string $pathFilter = '', string $suiteIdFilter = '', string $actionsIdFilter = ''): void
     {
         $resultCode = 0;
 
@@ -112,7 +112,7 @@ class ScreenshotsManagerController extends ActionController
                 '/var/www/html/vendor/bin/codecept run -d ' .
                 '-c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml ' .
                 '%s',
-                $pathFilter, $actionsIdFilter, $suiteFilter
+                $pathFilter, $actionsIdFilter, $suiteIdFilter
             ),
             $resultCode
         );

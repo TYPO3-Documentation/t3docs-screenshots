@@ -529,7 +529,7 @@ The result is displayed on this page as soon as the runner is finished - which m
 .. image:: docs/screenshots_manager_make.png
 
 To comfortably work with a large number of ``screenhots.json`` and actions, the number of actions can be reduced by
-using the filter at the top of the page: Only actions matching the path, suite and action ID criteria will then be
+using the filter at the top of the page: Only actions matching the path, suite ID and actions ID criteria will then be
 executed.
 
 Compare & copy screenshots
