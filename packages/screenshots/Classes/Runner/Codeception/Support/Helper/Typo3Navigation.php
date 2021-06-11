@@ -63,26 +63,12 @@ class Typo3Navigation extends Module
     }
 
     /**
-     * Restart the browser with default configuration and navigate to the TYPO3 installation process.
+     * Navigate back to the TYPO3 installation process from any url.
      */
-    public function restartBrowserAndLoadInstallationProcess(): void
+    public function reloadInstallationProcess(): void
     {
-        $this->getWebDriver()->_restart();
         $this->getWebDriver()->amOnPage('/');
         $this->getWebDriver()->waitForText('Installing TYPO3 CMS', 5);
-    }
-
-    /**
-     * Restart the browser with default configuration and navigate to the TYPO3 backend.
-     *
-     * On browser restart, the TYPO3 cookies are deleted, but the Codeception WebDriver session snapshot remains.
-     * Clean it up to avoid an "Invalid cookie domain" exception in action `useExistingSession()`.
-     */
-    public function restartBrowserAndLoadBackend(): void
-    {
-        $this->getWebDriver()->_restart();
-        $this->getTypo3Login()->_deleteSession();
-        $this->getTypo3Login()->useExistingSession('admin');
     }
 
     /**
@@ -92,11 +78,7 @@ class Typo3Navigation extends Module
      */
     public function reloadBackend(string $role = ''): void
     {
-        if ($role !== '') {
-            $this->getTypo3Login()->useExistingSession($role);
-        } else {
-            $this->getTypo3Login()->useExistingSession();
-        }
+        $this->getTypo3Login()->useExistingSession($role);
     }
 
     /**

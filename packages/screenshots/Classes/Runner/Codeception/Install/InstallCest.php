@@ -25,6 +25,7 @@ class InstallCest extends AbstractBaseCest
      */
     public function makeScreenshots(Photographer $I): void
     {
+        $I->reloadInstallationProcess();
         parent::runSuite($I, 'Install');
     }
 }
