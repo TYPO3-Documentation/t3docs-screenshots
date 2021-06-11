@@ -242,7 +242,10 @@ class Configuration
                             ['action' => 'click', 'link' => ".btn-success"],
                             ['action' => 'waitForText', 'text' => "Select database"],
                             ['action' => 'resizeToFullPage'],
-                            ['action' => 'makeScreenshotOfElement', 'selector' => ".typo3-install-content", 'fileName' => "InstallationSecondStepElement"],
+                            ['action' => 'drawArrow', 'selector' => '.btn-success', 'position' => 'left-top'],
+                            ['action' => 'makeScreenshotOfElement', 'selector' => ".typo3-install-content", 'fileName' => "InstallationSecondStepWithHighlight"],
+                            ['action' => 'clearDrawings'],
+                            ['action' => 'makeScreenshotOfElement', 'selector' => ".typo3-install-content", 'fileName' => "InstallationSecondStepWithoutHighlight"],
                         ]
                     ]
                 ],
