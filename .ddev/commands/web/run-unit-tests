@@ -12,7 +12,7 @@ fetch_options() {
     local params;
     local exitStatus;
 
-    params=$(getopt --options p:u: --longoptions php-flags:phpunit-flags: --name "$0" -- "$@")
+    params=$(getopt --options p:u: --longoptions php-flags:,phpunit-flags: --name "$0" -- "$@")
 
     exitStatus=$?
     if [ $exitStatus -eq 0 ]; then
