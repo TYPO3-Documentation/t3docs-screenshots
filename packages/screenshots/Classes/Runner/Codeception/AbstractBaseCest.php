@@ -39,12 +39,7 @@ abstract class AbstractBaseCest
      */
     protected array $reflectors;
 
-    protected ConfigurationRepository $configurationRepository;
-
     public function __construct() {
-        $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
-
-        $this->configurationRepository = $this->getConfigurationRepository($originalPath);
         $this->consoleOutput = new ConsoleOutput();
         $this->reflectors = [];
     }
@@ -57,20 +52,22 @@ abstract class AbstractBaseCest
     {
         $pathFilter = $I->fetchScreenshotsPathFilter();
         $actionsIdFilter = $I->fetchScreenshotsActionsIdFilter();
+
+        $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
         $actualPath = $this->getExtensionConfiguration()->getAbsoluteActualPath();
+        $configurationRepository = $this->getConfigurationRepository($originalPath);
+        $configurations = $configurationRepository->findByPath($pathFilter);
 
-        $configurations = $this->configurationRepository->findByPath($pathFilter);
-
-        foreach ($configurations as $configuration) {
+        foreach ($configurations as &$configuration) {
             $originalDirectory = $configuration->getPath();
             $actualDirectory = FileHelper::getPathBySegments($actualPath, basename($originalDirectory));
+            $I->setScreenshotsBasePath($actualDirectory);
 
             $configuration->read();
-
             $config = $configuration->getConfigPrepared();
+
             if (!empty($config['suites'][$suiteId]['screenshots'])) {
-                $I->setScreenshotsBasePath($actualDirectory);
-                foreach ($config['suites'][$suiteId]['screenshots'] as $actionsId => $actions) {
+                foreach ($config['suites'][$suiteId]['screenshots'] as $actionsId => &$actions) {
                     $isMatchingActionsIdFilter = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
                     if ($isMatchingActionsIdFilter) {
                         foreach ($actions as $action) {

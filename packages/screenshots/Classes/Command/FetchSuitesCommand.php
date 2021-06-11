@@ -72,7 +72,6 @@ class FetchSuitesCommand extends Command
 
             $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
             $configurationRepository = $this->getConfigurationRepository($originalPath);
-
             if (!empty($pathFilter)) {
                 $configurations = $configurationRepository->findByPath($pathFilter);
             } else {
