@@ -25,6 +25,7 @@ class ExamplesCest extends AbstractBaseCest
      */
     public function makeScreenshots(Photographer $I): void
     {
+        $I->reloadBackend('admin');
         parent::runSuite($I, 'Examples');
     }
 }

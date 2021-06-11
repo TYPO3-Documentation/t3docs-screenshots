@@ -55,9 +55,9 @@ abstract class AbstractBaseCest
      */
     protected function runSuite(Photographer $I, string $suiteId): void
     {
-        $actualPath = $this->getExtensionConfiguration()->getAbsoluteActualPath();
         $pathFilter = $I->fetchScreenshotsPathFilter();
         $actionsIdFilter = $I->fetchScreenshotsActionsIdFilter();
+        $actualPath = $this->getExtensionConfiguration()->getAbsoluteActualPath();
 
         $configurations = $this->configurationRepository->findByPath($pathFilter);
 
@@ -66,32 +66,19 @@ abstract class AbstractBaseCest
             $actualDirectory = FileHelper::getPathBySegments($actualPath, basename($originalDirectory));
 
             $configuration->read();
+
             $config = $configuration->getConfigPrepared();
             if (!empty($config['suites'][$suiteId]['screenshots'])) {
-                $this->prepareEnvironment($I, $suiteId);
                 $I->setScreenshotsBasePath($actualDirectory);
                 foreach ($config['suites'][$suiteId]['screenshots'] as $actionsId => $actions) {
-                    $isActionsEnabled = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
-                    if ($isActionsEnabled) {
+                    $isMatchingActionsIdFilter = empty($actionsIdFilter) || $actionsId === $actionsIdFilter;
+                    if ($isMatchingActionsIdFilter) {
                         foreach ($actions as $action) {
                             $this->handleAction($I, $action);
                         }
                     }
                 }
             }
-        }
-    }
-
-    protected function prepareEnvironment(Photographer &$I, string $suiteId): void
-    {
-        $I->resetCodeSnippetsConfig();
-        $I->resetNavigationConfig();
-        $I->resetScreenshotsConfig();
-
-        if ($suiteId === 'Install') {
-            $I->restartBrowserAndLoadInstallationProcess();
-        } else {
-            $I->restartBrowserAndLoadBackend();
         }
     }
 
