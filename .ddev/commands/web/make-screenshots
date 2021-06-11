@@ -13,7 +13,7 @@ fetch_options() {
     local params;
     local exitStatus;
 
-    params=$(getopt --options s:a:t: --longoptions suite:,actions-id:target-path: --name "$0" -- "$@")
+    params=$(getopt --options s:a:t: --longoptions suite:,actions-id:,target-path: --name "$0" -- "$@")
 
     exitStatus=$?
     if [ $exitStatus -eq 0 ]; then
