@@ -42,9 +42,9 @@ abstract class AbstractBaseCest
     protected ConfigurationRepository $configurationRepository;
 
     public function __construct() {
-        $this->configurationRepository = GeneralUtility::makeInstance(
-            ConfigurationRepository::class, $this->getExtensionConfiguration()->getAbsoluteOriginalPath()
-        );
+        $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
+
+        $this->configurationRepository = $this->getConfigurationRepository($originalPath);
         $this->consoleOutput = new ConsoleOutput();
         $this->reflectors = [];
     }
@@ -59,11 +59,7 @@ abstract class AbstractBaseCest
         $pathFilter = $I->fetchScreenshotsPathFilter();
         $actionsIdFilter = $I->fetchScreenshotsActionsIdFilter();
 
-        if (!empty($pathFilter)) {
-            $configurations = $this->configurationRepository->findByPath($pathFilter);
-        } else {
-            $configurations = $this->configurationRepository->findAll();
-        }
+        $configurations = $this->configurationRepository->findByPath($pathFilter);
 
         foreach ($configurations as $configuration) {
             $originalDirectory = $configuration->getPath();
@@ -175,5 +171,10 @@ abstract class AbstractBaseCest
     protected function getExtensionConfiguration(): ExtensionConfiguration
     {
         return GeneralUtility::makeInstance(ExtensionConfiguration::class);
+    }
+
+    protected function getConfigurationRepository(string $basePath): ConfigurationRepository
+    {
+        return GeneralUtility::makeInstance(ConfigurationRepository::class, $basePath);
     }
 }

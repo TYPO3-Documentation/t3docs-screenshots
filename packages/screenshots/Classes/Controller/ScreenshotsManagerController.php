@@ -40,9 +40,8 @@ class ScreenshotsManagerController extends ActionController
 
     public function __construct()
     {
-        $this->configurationRepository = GeneralUtility::makeInstance(
-            ConfigurationRepository::class, $this->getExtensionConfiguration()->getAbsoluteOriginalPath()
-        );
+        $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
+        $this->configurationRepository = $this->getConfigurationRepository($originalPath);
     }
 
     protected function initializeView(ViewInterface $view)
@@ -323,5 +322,10 @@ class ScreenshotsManagerController extends ActionController
     protected function getExtensionConfiguration(): ExtensionConfiguration
     {
         return GeneralUtility::makeInstance(ExtensionConfiguration::class);
+    }
+
+    protected function getConfigurationRepository(string $basePath): ConfigurationRepository
+    {
+        return GeneralUtility::makeInstance(ConfigurationRepository::class, $basePath);
     }
 }
