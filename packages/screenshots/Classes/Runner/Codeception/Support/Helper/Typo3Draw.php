@@ -274,6 +274,28 @@ NOWDOC;
     {
         $typo3Navigation = $this->getTypo3Navigation();
 
+        if ($typo3Navigation->_isOnInstallationProcessPage()) {
+            $this->clearDrawingsOfInstallationProcess();
+        } else {
+            $this->clearDrawingsOfBackend();
+        }
+    }
+
+    /**
+     * Clear all drawings of the TYPO3 installation process.
+     */
+    protected function clearDrawingsOfInstallationProcess(): void
+    {
+        $this->clearDrawingsOfIFrame();
+    }
+
+    /**
+     * Clear all drawings of the TYPO3 backend.
+     */
+    protected function clearDrawingsOfBackend(): void
+    {
+        $typo3Navigation = $this->getTypo3Navigation();
+
         if ($typo3Navigation->_isOnMainFrame()) {
             $this->clearDrawingsOfIFrame();
             $typo3Navigation->switchToContentFrame();
