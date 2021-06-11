@@ -151,7 +151,7 @@ This is a small runner configuration which takes screenshots of five TYPO3 envir
          "Install": {
             "screenshots": [
                [
-                  {"action": "makeScreenshotOfWindow", "fileName": "InstallationWindow"}
+                  {"action": "makeScreenshotOfFullPage", "fileName": "InstallationFullPage"}
                ]
             ]
          },

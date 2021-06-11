@@ -237,8 +237,12 @@ class Configuration
                 'Install' => [
                     'screenshots' => [
                         [
-                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
-                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "InstallationWindow"],
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 600],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "InstallationFullPage"],
+                            ['action' => 'click', 'link' => ".btn-success"],
+                            ['action' => 'waitForText', 'text' => "Select database"],
+                            ['action' => 'resizeToFullPage'],
+                            ['action' => 'makeScreenshotOfElement', 'selector' => ".typo3-install-content", 'fileName' => "InstallationSecondStepElement"],
                         ]
                     ]
                 ],
