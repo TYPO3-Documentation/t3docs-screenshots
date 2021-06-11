@@ -3,7 +3,7 @@
 ## Description: Run unit tests of EXT:screenshots
 ## Usage: run-unit-tests
 ## Example: run-unit-tests\nrun-unit-tests -p "-d memory_limit=768M"\nrun-unit-tests -u "-v /var/www/html/packages/screenshots/Tests/Unit"
-## Flags: [{"Name":"php-flags","Shorthand":"p","Usage":"PHP command flags. None if empty."},{"Name":"phpunit-flags","Shorthand":"u","Usage":"PHPUnit command flags. \"/var/www/html/packages/screenshots/Tests/Unit\" if empty."}]
+## Flags: [{"Name":"php-flags","Shorthand":"p","Type":"string","Usage":"PHP command flags. None if empty."},{"Name":"phpunit-flags","Shorthand":"u","Type":"string","Usage":"PHPUnit command flags. \"/var/www/html/packages/screenshots/Tests/Unit\" if empty."}]
 
 PHP_FLAGS=""
 PHPUNIT_FLAGS="/var/www/html/packages/screenshots/Tests/Unit"

@@ -3,7 +3,7 @@
 ## Description: Make screenshots via codeception inside the web container
 ## Usage: make-screenshots
 ## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots\nmake-screenshots -t My-Manual
-## Flags: [{"Name":"actions-id","Shorthand":"a","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite","Shorthand":"s","Usage":"Run actions of specific TYPO3 environment suite only (Core, Examples, Install, Introduction, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
+## Flags: [{"Name":"actions-id","Shorthand":"a","Type":"string","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite","Shorthand":"s","Type":"string","Usage":"Run actions of specific TYPO3 environment suite only (Core, Examples, Install, Introduction, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Type":"string","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
 
 SUITE=""
 TARGET_PATH=""
