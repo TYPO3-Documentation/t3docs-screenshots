@@ -73,6 +73,23 @@ make_screenshots() {
     vendor/bin/codecept run -d -c public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml $SUITE
 }
 
+fetch_suites() {
+    echo $(typo3 screenshots:fetchsuites --target-path=$TARGET_PATH --suite=$SUITE --actions-id=$ACTIONS_ID)
+}
+
+run_suites() {
+    suites=$(fetch_suites)
+
+    if [ "$suites" != "[]" ]; then
+        while read suite; do
+            path=$(jq -r '.path' <<< "$suite")
+            suiteId=$(jq -r '.suiteId' <<< "$suite")
+
+            TARGET_PATH="$path" SUITE="$suiteId" make_screenshots
+        done <<< $(jq -c '.[]' <<< "$suites")
+    fi
+}
+
 fetch_options $@
 cleanup_screenshots
-make_screenshots
+run_suites
