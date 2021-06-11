@@ -31,17 +31,10 @@ class ScreenshotsManagerController extends ActionController
     protected array $imageExtensions = ['gif', 'jpg', 'jpeg', 'png', 'bmp'];
 
     protected PageRenderer $pageRenderer;
-    protected ConfigurationRepository $configurationRepository;
 
     public function injectPageRenderer(PageRenderer $pageRenderer)
     {
         $this->pageRenderer = $pageRenderer;
-    }
-
-    public function __construct()
-    {
-        $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
-        $this->configurationRepository = $this->getConfigurationRepository($originalPath);
     }
 
     protected function initializeView(ViewInterface $view)
@@ -70,7 +63,9 @@ class ScreenshotsManagerController extends ActionController
             $this->make($pathFilter, $suiteIdFilter, $actionsIdFilter);
         }
 
-        $configurations = $this->configurationRepository->findAll();
+        $originalPath = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
+        $configurationRepository = $this->getConfigurationRepository($originalPath);
+        $configurations = $configurationRepository->findAll();
 
         $actionsIds = [];
         foreach ($configurations as &$configuration) {
