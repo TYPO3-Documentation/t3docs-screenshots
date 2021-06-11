@@ -3,7 +3,7 @@
 ## Description: Init basic screenshots.json inside the web container
 ## Usage: init-screenshot-json
 ## Example: init-screenshot-json -t My-Manual\ninit-screenshot-json -t /var/www/html/t3docs/My-Manual
-## Flags: [{"Name":"target-path","Shorthand":"t","Usage":"Target folder by relative or absolute path. \"My-Manual\" if empty."}]
+## Flags: [{"Name":"target-path","Shorthand":"t","Type":"string","Usage":"Target folder by relative or absolute path. \"My-Manual\" if empty."}]
 
 TARGET_PATH=""
 
