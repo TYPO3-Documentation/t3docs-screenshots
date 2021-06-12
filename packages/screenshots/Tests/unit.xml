@@ -1,0 +1,22 @@
+<phpunit cacheResult="false">
+    <testsuites>
+        <testsuite name="screenshots">
+            <directory>Unit</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory>../Classes</directory>
+        </include>
+        <exclude>
+            <directory>../Classes/Runner/Codeception/Core</directory>
+            <directory>../Classes/Runner/Codeception/Examples</directory>
+            <directory>../Classes/Runner/Codeception/Install</directory>
+            <directory>../Classes/Runner/Codeception/Introduction</directory>
+            <directory>../Classes/Runner/Codeception/Styleguide</directory>
+            <directory>../Classes/Runner/Codeception/Support/_generated</directory>
+            <directory>../Classes/Runner/Codeception/Support/Extension</directory>
+            <file>../Classes/Runner/Codeception/Support/Photographer.php</file>
+        </exclude>
+    </coverage>
+</phpunit>

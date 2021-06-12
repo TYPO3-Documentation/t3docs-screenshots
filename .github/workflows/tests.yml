@@ -21,3 +21,42 @@ jobs:
 
       - name: Run unit tests
         run: ddev run-unit-tests
+
+      - name: Run code coverage
+        if: ${{ github.ref == 'refs/heads/main' }}
+        id: code-coverage
+        run: |
+          ddev xdebug on
+          coverage=$(ddev run-unit-tests -c | grep -oE '^\s*Lines:\s*[0-9\.]+%' | grep -oE '[0-9\.]+')
+          ddev xdebug off
+          if (( $(echo "$coverage < 50" | bc -l) )); then
+           color=red
+          elif (( $(echo "$coverage < 80" | bc -l) )); then
+           color=orange
+          else
+           color=green
+          fi
+          echo "::set-output name=coverage::$coverage"
+          echo "::set-output name=color::$color"
+
+#      Third-party GitHub action "Bring Your Own Badge"
+#
+#      This action creates a custom badge by
+#        - creating a common shields.json file in the branch "shields"
+#        - parsing this shields.json and creating the badge on-the-fly at the own server at https://byob.yarr.is
+#          where the server path has to match the GitHub repository path, e.g. for badge with ID "code-coverage"
+#          https://byob.yarr.is/TYPO3-Documentation/t3docs-screenshots/code-coverage
+#          =>
+#          https://github.com/TYPO3-Documentation/t3docs-screenshots/blob/shields/shields.json::code-coverage
+#
+#      Use this third-party action until GitHub provides an internal solution for adding a code coverage badge.
+      - name: Create code coverage badge
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: RubbaBoy/BYOB@v1.2.0
+        with:
+          NAME: code-coverage
+          ICON: 'github'
+          LABEL: 'Coverage'
+          STATUS: ${{ steps.code-coverage.outputs.coverage }}%
+          COLOR: ${{ steps.code-coverage.outputs.color }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
