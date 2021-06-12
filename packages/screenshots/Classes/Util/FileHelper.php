@@ -19,12 +19,14 @@ class FileHelper
         if ($maxDepth > 0) {
             $maxDepth--;
 
-            $subFolders = scandir($path);
-            foreach ($subFolders as $subFolder) {
-                $subPath = self::getRealPath($path . DIRECTORY_SEPARATOR . $subFolder);
-                if (is_dir($subPath) && $subFolder != "." && $subFolder != "..") {
-                    $folders[] = $subPath;
-                    self::getFoldersRecursively($subPath, $maxDepth, $folders);
+            if (is_dir($path)) {
+                $subFolders = scandir($path);
+                foreach ($subFolders as $subFolder) {
+                    $subPath = self::getRealPath($path . DIRECTORY_SEPARATOR . $subFolder);
+                    if (is_dir($subPath) && $subFolder != "." && $subFolder != "..") {
+                        $folders[] = $subPath;
+                        self::getFoldersRecursively($subPath, $maxDepth, $folders);
+                    }
                 }
             }
         }
