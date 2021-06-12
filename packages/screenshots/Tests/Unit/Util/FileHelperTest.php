@@ -44,6 +44,17 @@ class FileHelperTest extends UnitTestCase
     /**
      * @test
      */
+    public function getFoldersRecursivelyHandlesMissingRootFolder(): void
+    {
+        $root = vfsStream::setup('t3docs');
+        $actual = FileHelper::getFoldersRecursively($root->url() . '/FolderDoesNotExist');
+
+        self::assertEquals([], $actual);
+    }
+
+    /**
+     * @test
+     */
     public function getSubFolders(): void
     {
         $folderTree = [
