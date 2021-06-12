@@ -2,17 +2,18 @@
 
 ## Description: Run unit tests of EXT:screenshots
 ## Usage: run-unit-tests
-## Example: run-unit-tests\nrun-unit-tests -p "-d memory_limit=768M"\nrun-unit-tests -u "-v /var/www/html/packages/screenshots/Tests/Unit"
-## Flags: [{"Name":"php-flags","Shorthand":"p","Type":"string","Usage":"PHP command flags. None if empty."},{"Name":"phpunit-flags","Shorthand":"u","Type":"string","Usage":"PHPUnit command flags. \"/var/www/html/packages/screenshots/Tests/Unit\" if empty."}]
+## Example: run-unit-tests\nrun-unit-tests -p "-d memory_limit=768M"\nrun-unit-tests -u "-v -c /var/www/html/packages/screenshots/Tests/unit.xml"
+## Flags: [{"Name":"coverage","Shorthand":"c","Type":"bool","Usage":"Display PHPUnit code coverage (Xdebug required)."},{"Name":"php-flags","Shorthand":"p","Type":"string","Usage":"PHP command flags. None if empty."},{"Name":"phpunit-flags","Shorthand":"u","Type":"string","Usage":"PHPUnit command flags. \"-c /var/www/html/packages/screenshots/Tests/unit.xml\" if empty."}]
 
+CODE_COVERAGE=0
 PHP_FLAGS=""
-PHPUNIT_FLAGS="/var/www/html/packages/screenshots/Tests/Unit"
+PHPUNIT_FLAGS="-c /var/www/html/packages/screenshots/Tests/unit.xml"
 
 fetch_options() {
     local params;
     local exitStatus;
 
-    params=$(getopt --options p:u: --longoptions php-flags:,phpunit-flags: --name "$0" -- "$@")
+    params=$(getopt --options cp:u: --longoptions coverage,php-flags:,phpunit-flags: --name "$0" -- "$@")
 
     exitStatus=$?
     if [ $exitStatus -eq 0 ]; then
@@ -21,6 +22,10 @@ fetch_options() {
         while true
         do
             case "$1" in
+                -c|--coverage)
+                    CODE_COVERAGE=1
+                    shift
+                    ;;
                 -p|--php-flags)
                     PHP_FLAGS=$2
                     shift 2
@@ -51,7 +56,11 @@ fetch_options() {
 }
 
 run_unit_tests() {
-    php $PHP_FLAGS /var/www/html/vendor/bin/phpunit $PHPUNIT_FLAGS
+    if [ $CODE_COVERAGE -eq 0 ]; then
+        php $PHP_FLAGS /var/www/html/vendor/bin/phpunit $PHPUNIT_FLAGS
+    else
+        XDEBUG_MODE=coverage php $PHP_FLAGS /var/www/html/vendor/bin/phpunit --coverage-text $PHPUNIT_FLAGS
+    fi
 }
 
 fetch_options $@

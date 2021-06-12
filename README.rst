@@ -1,5 +1,10 @@
-.. image:: https://github.com/TYPO3-Documentation/t3docs-screenshots/actions/workflows/tests.yml/badge.svg
+|BadgeTestingStatus| |BadgeCodeCoverage|
+
+.. |BadgeTestingStatus| image:: https://github.com/TYPO3-Documentation/t3docs-screenshots/actions/workflows/tests.yml/badge.svg
    :alt: Testing Status
+
+.. |BadgeCodeCoverage| image:: https://byob.yarr.is/TYPO3-Documentation/t3docs-screenshots/code-coverage
+   :alt: Code Coverage
 
 =====================
 TYPO3 CMS Screenshots
@@ -566,3 +571,11 @@ Run unit tests by
 .. code-block:: bash
 
    ddev run-unit-tests
+
+Run unit tests with code coverage by
+
+.. code-block:: bash
+
+   ddev xdebug on
+   ddev run-unit-tests -c
+   ddev xdebug off
