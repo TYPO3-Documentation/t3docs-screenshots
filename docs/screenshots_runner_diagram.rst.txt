@@ -1,10 +1,15 @@
 .. uml::
 
    (*) --> "Screenshots runner" as runner
-   -left->[Read actions from screenshots.json] runner
-   -->[Run action] "Codeception" as codeception
+   -[#b9b9b9]->[(1) Read suite and actions] "screenshots.json"
+   -[#b9b9b9]-> runner
+   -[#b9b9b9]->[(2) Run suite] "New TYPO3 instance" as typo3
+   -[#b9b9b9]-> runner
+   -->[(3) Run suite actions] "Codeception" as codeception
    --> "php-webdriver"
    --> "Selenium WebDriver"
    --> "Chrome Driver"
-   --> "Chrome"
+   --> "Chrome" as chrome
+   --> typo3
+   --> chrome
    --> runner
