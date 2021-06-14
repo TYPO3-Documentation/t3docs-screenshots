@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c41636c256d383d3be69460ee261b25f",
+    "content-hash": "abcaa66f66fac77036c2285ba2fc8f50",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7020,12 +7020,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples.git",
+                "url": "https://github.com/TYPO3-Documentation/t3docs-examples.git",
                 "reference": "f0c7af905d0b2016d22e308b6cb82eec36c785e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Code-Examples/zipball/f0c7af905d0b2016d22e308b6cb82eec36c785e8",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/f0c7af905d0b2016d22e308b6cb82eec36c785e8",
                 "reference": "f0c7af905d0b2016d22e308b6cb82eec36c785e8",
                 "shasum": ""
             },
@@ -7062,8 +7062,8 @@
             ],
             "description": "This extension packages a number of code examples from the Core Documentation.",
             "support": {
-                "source": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples/tree/master",
-                "issues": "https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples/issues"
+                "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/master",
+                "issues": "https://github.com/TYPO3-Documentation/t3docs-examples/issues"
             },
             "time": "2021-06-04T13:57:04+00:00"
         },

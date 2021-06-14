@@ -398,7 +398,7 @@ rechecking all included distributions, the author has to
 
 1. determine the most suitable distribution for creating the custom element:
 
-   -  `EXT:examples <https://github.com/TYPO3-Documentation/TYPO3CMS-Code-Examples>`_
+   -  `EXT:examples <https://github.com/TYPO3-Documentation/t3docs-examples>`_
 
       This distribution is owned by the TYPO3 Documentation Team and is the fallback if no other distribution is more
       suitable.
