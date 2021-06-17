@@ -347,6 +347,28 @@ Comments can be inserted to facilitate maintenance work, e.g.
       }
    }
 
+Files can be created and deleted in the public path of TYPO3 by actions ``writeFileToTypo3PublicPath`` and
+``deleteFileInTypo3PublicPath``, e.g. to bypass access restrictions of the TYPO3 installation process:
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Install": {
+            "screenshots": [
+               [
+                  {"action": "deleteFileInTypo3PublicPath", "filePath": "FIRST_INSTALL"},
+                  {"action": "reloadInstallationProcess"},
+                  {"action": "makeScreenshotOfElement", "selector": ".typo3-install-content", "fileName": "InstallationStep0"},
+                  {"action": "writeFileToTypo3PublicPath", "filePath": "FIRST_INSTALL"},
+                  {"action": "reloadInstallationProcess"},
+                  {"action": "makeScreenshotOfElement", "selector": ".typo3-install-content", "fileName": "InstallationStep1"}
+               ]
+            ]
+         }
+      }
+   }
+
 An action block can be included in another action block of the same suite by assigning a custom identifier to the former
 and using that identifier in the latter with the ``include`` directive, e.g.
 
