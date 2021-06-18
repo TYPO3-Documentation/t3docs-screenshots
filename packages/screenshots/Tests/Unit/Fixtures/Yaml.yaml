@@ -1,0 +1,19 @@
+# Comment
+scalar: 'value'
+
+sequences:
+  -
+    item0key1: 'value'
+
+  - item1key1: 'value'
+
+mappings:
+
+  MyVendor\MyExtension\MyClass:
+    scalar: 'value'
+
+  MyVendor\MyExtension\MyNextClass:
+    array: [ 'value1', 'value2' ]
+
+  MyVendor\MyExtension\MyOtherClass:
+    object: { key1: 'value1', key2: 'value2' }

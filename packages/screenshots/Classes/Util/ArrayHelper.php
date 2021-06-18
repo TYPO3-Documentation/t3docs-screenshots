@@ -45,6 +45,10 @@ class ArrayHelper
      */
     public static function getArrayByPath(array $array, string $path): array
     {
+        if ($path === '') {
+            return $array;
+        }
+
         $result = [];
 
         $value = ArrayUtility::getValueByPath($array, $path);

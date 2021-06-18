@@ -20,6 +20,7 @@ use TYPO3\CMS\Screenshots\Util\ClassHelper;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
 use TYPO3\CMS\Screenshots\Util\StringHelper;
 use TYPO3\CMS\Screenshots\Util\XmlHelper;
+use TYPO3\CMS\Screenshots\Util\YamlHelper;
 
 /**
  * Helper to provide code snippets of TYPO3.
@@ -222,6 +223,52 @@ class Typo3CodeSnippets extends Module
         );
     }
 
+    /**
+     * Reads a TYPO3 YAML file and generates a reST file from it for inclusion.
+     *
+     * @param string $sourceFile File path of YAML file relative to TYPO3 public folder,
+     *                              e.g. "typo3/sysext/core/Configuration/Services.yaml"
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
+     *                              e.g. "CoreServicesYamlDefaults"
+     * @param string $field Reduce the YAML structure to this field. Use a slash-separated list to specify a field in
+     *                              depth,
+     *                              e.g. "services/_defaults"
+     * @param int $inlineLevel The level where you switch to inline YAML
+     * @param string $caption The code snippet caption text
+     * @param string $name Implicit target name that can be referenced in the reST document,
+     *                      e.g. "my-code-snippet"
+     * @param bool $showLineNumbers Enable to generate line numbers for the code block
+     * @param int $lineStartNumber The first line number of the code block
+     * @param int[] $emphasizeLines Emphasize particular lines of the code block
+     */
+    public function createYamlCodeSnippet(
+        string $sourceFile,
+        string $targetFileName,
+        string $field = '',
+        int $inlineLevel = 99,
+        string $caption = '',
+        string $name = '',
+        bool $showLineNumbers = false,
+        int $lineStartNumber = 0,
+        array $emphasizeLines = []
+    ): void {
+        $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
+        $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+
+        $code = $this->readYaml($absoluteSourcePath, $field, $inlineLevel);
+        $this->write(
+            $absoluteTargetPath,
+            $code,
+            'yaml',
+            $caption,
+            $name,
+            $showLineNumbers,
+            $lineStartNumber,
+            $emphasizeLines
+        );
+    }
+
     protected function getCodeLanguageByFileExtension(string $filePath): string
     {
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
@@ -242,6 +289,7 @@ class Typo3CodeSnippets extends Module
                 $language = 'html';
                 break;
             case 'yaml':
+            case 'yml':
                 $language = 'yaml';
                 break;
             case 'php':
@@ -291,7 +339,7 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function readPhpArray(string $path, string $field = ''): string
+    protected function readPhpArray(string $path, string $field): string
     {
         $phpArray = include $path;
 
@@ -311,10 +359,17 @@ class Typo3CodeSnippets extends Module
         return ClassHelper::extractMembersFromClass($class, $members, $withComment);
     }
 
-    protected function readXml(string $path, string $field = ''): string
+    protected function readXml(string $path, string $field): string
     {
         $xml = file_get_contents($path);
         $code = XmlHelper::getXmlByPath($xml, $field);
+        return $code;
+    }
+
+    protected function readYaml(string $path, string $field, int $inlineLevel): string
+    {
+        $yaml = file_get_contents($path);
+        $code = YamlHelper::getYamlByPath($yaml, $field, $inlineLevel);
         return $code;
     }
 

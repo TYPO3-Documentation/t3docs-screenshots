@@ -77,6 +77,12 @@ class Typo3CodeSnippetsTest extends UnitTestCase
                 'targetFileName' => 'code-snippet-xml',
                 'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-xml.rst.txt',
                 'expected' => 'code-block:: xml'
+            ],
+            [
+                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . '/code-snippet.yaml',
+                'targetFileName' => 'code-snippet-yaml',
+                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-yaml.rst.txt',
+                'expected' => 'code-block:: yaml'
             ]
         ];
     }
