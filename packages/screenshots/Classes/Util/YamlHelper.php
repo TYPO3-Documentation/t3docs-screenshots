@@ -17,7 +17,7 @@ use Symfony\Component\Yaml\Yaml;
 class YamlHelper
 {
     /**
-     * Extract field with path from YAML, e.g.
+     * Extract fields from YAML, e.g.
      *
      * Input:
      * mappings:
@@ -25,22 +25,25 @@ class YamlHelper
      *   array: [ 'value1', 'value2' ]
      *   object: { key1: 'value1', key2: 'value2' }
      *
-     * Path: mappings/object/key2
+     * Fields: ["mappings/array", "mappings/object/key2"]
      *
      * Output:
      * mappings:
+     *   array:
+     *     - value1
+     *     - value2
      *   object:
      *     key2: value2
      *
      * @param string $yaml
-     * @param string $path
+     * @param array $fields
      * @param int $inlineLevel The level where you switch to inline YAML
      * @return string
      */
-    public static function getYamlByPath(string $yaml, string $path, int $inlineLevel = 99): string
+    public static function extractFieldsFromYaml(string $yaml, array $fields, int $inlineLevel = 99): string
     {
         $arrayIn = Yaml::parse($yaml);
-        $arrayOut = ArrayHelper::getArrayByPath($arrayIn, $path);
+        $arrayOut = ArrayHelper::extractFieldsFromArray($arrayIn, $fields);
         $indentationSize = 2;
         return Yaml::dump($arrayOut, $inlineLevel, $indentationSize);
     }

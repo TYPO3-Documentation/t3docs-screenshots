@@ -98,9 +98,9 @@ class Typo3CodeSnippets extends Module
      *                              e.g. "typo3/sysext/core/Configuration/TCA/be_groups.php"
      * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
      *                              e.g. "CoreBeGroups"
-     * @param string $field Reduce the PHP array to this field. Use a slash-separated list to specify a field of a
+     * @param array $fields Reduce the PHP array to these fields. Use a slash-separated list to specify a field of a
      *                              multidimensional array,
-     *                              e.g. "columns/title"
+     *                              e.g. ["columns/title/label", "columns/title/config"]
      * @param string $caption The code snippet caption text
      * @param string $name Implicit target name that can be referenced in the reST document,
      *                      e.g. "my-code-snippet"
@@ -111,7 +111,7 @@ class Typo3CodeSnippets extends Module
     public function createPhpArrayCodeSnippet(
         string $sourceFile,
         string $targetFileName,
-        string $field = '',
+        array $fields = [],
         string $caption = '',
         string $name = '',
         bool $showLineNumbers = false,
@@ -122,7 +122,7 @@ class Typo3CodeSnippets extends Module
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
-        $code = $this->readPhpArray($absoluteSourcePath, $field);
+        $code = $this->readPhpArray($absoluteSourcePath, $fields);
         $this->write(
             $absoluteTargetPath,
             $code,
@@ -230,9 +230,9 @@ class Typo3CodeSnippets extends Module
      *                              e.g. "typo3/sysext/core/Configuration/Services.yaml"
      * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
      *                              e.g. "CoreServicesYamlDefaults"
-     * @param string $field Reduce the YAML structure to this field. Use a slash-separated list to specify a field in
-     *                              depth,
-     *                              e.g. "services/_defaults"
+     * @param array $fields Reduce the YAML structure to these fields. Use a slash-separated list to specify a field
+     *                              in depth,
+     *                              e.g. ["services/_defaults", "services/TYPO3\CMS\Core\"]
      * @param int $inlineLevel The level where you switch to inline YAML
      * @param string $caption The code snippet caption text
      * @param string $name Implicit target name that can be referenced in the reST document,
@@ -244,7 +244,7 @@ class Typo3CodeSnippets extends Module
     public function createYamlCodeSnippet(
         string $sourceFile,
         string $targetFileName,
-        string $field = '',
+        array $fields = [],
         int $inlineLevel = 99,
         string $caption = '',
         string $name = '',
@@ -256,7 +256,7 @@ class Typo3CodeSnippets extends Module
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
-        $code = $this->readYaml($absoluteSourcePath, $field, $inlineLevel);
+        $code = $this->readYaml($absoluteSourcePath, $fields, $inlineLevel);
         $this->write(
             $absoluteTargetPath,
             $code,
@@ -339,14 +339,14 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function readPhpArray(string $path, string $field): string
+    protected function readPhpArray(string $path, array $fields): string
     {
         $phpArray = include $path;
 
-        if ($field === '') {
+        if (empty($fields)) {
             $code = ArrayUtility::arrayExport($phpArray);
         } else {
-            $phpArray = ArrayHelper::getArrayByPath($phpArray, $field);
+            $phpArray = ArrayHelper::extractFieldsFromArray($phpArray, $fields);
             $code = sprintf("'%s' => %s\n",
                 key($phpArray), ArrayUtility::arrayExport(current($phpArray))
             );
@@ -366,10 +366,10 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function readYaml(string $path, string $field, int $inlineLevel): string
+    protected function readYaml(string $path, array $fields, int $inlineLevel): string
     {
         $yaml = file_get_contents($path);
-        $code = YamlHelper::getYamlByPath($yaml, $field, $inlineLevel);
+        $code = YamlHelper::extractFieldsFromYaml($yaml, $fields, $inlineLevel);
         return $code;
     }
 

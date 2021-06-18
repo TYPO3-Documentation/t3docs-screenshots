@@ -65,9 +65,9 @@ class ClassWithComments
     /**
      * @return array
      */
-    public function getArrayByPath(): array
+    public function extractFieldsFromArray(): array
     {
-        return ArrayHelper::getArrayByPath(['columns' => ['title' => 'my-title']], 'columns/title');
+        return ArrayHelper::extractFieldsFromArray(['columns' => ['title' => 'my-title']], ['columns/title']);
     }
 
     /**
