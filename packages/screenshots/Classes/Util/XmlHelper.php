@@ -17,7 +17,7 @@ class XmlHelper
     protected static bool $originalUseInternalErrors;
 
     /**
-     * Extract field with path from XML, e.g.
+     * Extract nodes from XML, e.g.
      *
      * Input:
      * <?xml version="1.0"?>
@@ -25,31 +25,35 @@ class XmlHelper
      *  <elem-1>
      *      <child-1>Child 1</child-1>
      *      <child-2>Child 2</child-2>
+     *      <child-3>Child 3</child-3>
      *  </elem-1>
      *  <elem-2>Element 2</elem-2>
      * </T3FlexForms>
      *
-     * Path: /T3FlexForms/elem-1/child-1
+     * XPaths: ["/T3FlexForms/elem-1/child-1", "/T3FlexForms/elem-1/child-2"]
      *
      * Output:
      * <T3FlexForms>
      *  <elem-1>
      *      <child-1>Child 1</child-1>
+     *      <child-2>Child 2</child-2>
      *  </elem-1>
      * </T3FlexForms>
      *
      * @param string $xml
-     * @param string $path
+     * @param array $xPaths
      * @return string
      *
      * @throws \DOMException
      * @throws \Exception
      */
-    public static function getXmlByPath(string $xml, string $path): string
+    public static function extractNodesFromXml(string $xml, array $xPaths): string
     {
-        $absolutePath = self::getAbsolutePath($path);
-
         self::startCollectingXmlErrors();
+
+        if (empty($xPaths)) {
+            $xPaths = ['/'];
+        }
 
         $documentIn = new \DOMDocument();
         $documentOut = new \DOMDocument();
@@ -58,27 +62,30 @@ class XmlHelper
 
         /** @var \DOMNode $node */
         if ($documentIn->loadXML($xml)) {
-            $xPath = new \DOMXPath($documentIn);
-            $nodeList = $xPath->query($absolutePath);
-            if (is_object($nodeList)) {
-                if ($nodeList->count() > 0) {
-                    foreach ($nodeList as $node) {
-                        if ($node->nodeType === XML_DOCUMENT_NODE) {
-                            self::appendNodeDescendants($rootNodeOut, $node);
-                        } elseif ($node->nodeType === XML_ELEMENT_NODE) {
-                            self::appendNodeWithPredecessorsAndDescendants($rootNodeOut, $node);
+            $domXPath = new \DOMXPath($documentIn);
+            foreach ($xPaths as $xPath) {
+                $xPath = self::getValidXPath($xPath);
+                $nodeList = $domXPath->query($xPath);
+                if (is_object($nodeList)) {
+                    if ($nodeList->count() > 0) {
+                        foreach ($nodeList as $node) {
+                            if ($node->nodeType === XML_DOCUMENT_NODE) {
+                                self::appendNodeDescendants($rootNodeOut, $node);
+                            } elseif ($node->nodeType === XML_ELEMENT_NODE) {
+                                self::appendNodeWithPredecessorsAndDescendants($rootNodeOut, $node);
+                            }
                         }
+                    } else {
+                        self::stopCollectingXmlErrors();
+                        throw new \Exception(self::printError(
+                            sprintf('XPath "%s" does not match any XML nodes.', $xPath)),
+                            4003
+                        );
                     }
                 } else {
-                    self::stopCollectingXmlErrors();
-                    throw new \Exception(self::printError(
-                        sprintf('Path "%s" does not match any XML nodes.', $absolutePath)),
-                        4003
-                    );
+                    $errors = self::stopCollectingXmlErrors();
+                    throw new \Exception(self::printXmlErrors($errors), 4002);
                 }
-            } else {
-                $errors = self::stopCollectingXmlErrors();
-                throw new \Exception(self::printXmlErrors($errors), 4002);
             }
         } else {
             $errors = self::stopCollectingXmlErrors();
@@ -92,9 +99,9 @@ class XmlHelper
         return $result;
     }
 
-    protected static function getAbsolutePath(string $path): string
+    protected static function getValidXPath(string $xPath): string
     {
-        return empty($path) || substr($path, 0, 1) !== '/' ? '/' . $path : $path;
+        return empty($xPath) || substr($xPath, 0, 1) !== '/' ? '/' . $xPath : $xPath;
     }
 
     protected static function startCollectingXmlErrors(): void

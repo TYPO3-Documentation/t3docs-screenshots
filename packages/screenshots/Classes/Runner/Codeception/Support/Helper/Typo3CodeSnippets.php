@@ -186,9 +186,9 @@ class Typo3CodeSnippets extends Module
      *                              e.g. "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml"
      * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
      *                              e.g. "FormFrameworkXmlSheetTitle"
-     * @param string $field Reduce the XML structure to this field. Use a slash-separated list to specify a field in
+     * @param array $nodes Reduce the XML structure to these nodes. Use XPath to specify the node in
      *                              depth,
-     *                              e.g. "T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle"
+     *                              e.g. ["T3DataStructure/meta", "T3DataStructure/ROOT"]
      * @param string $caption The code snippet caption text
      * @param string $name Implicit target name that can be referenced in the reST document,
      *                      e.g. "my-code-snippet"
@@ -199,7 +199,7 @@ class Typo3CodeSnippets extends Module
     public function createXmlCodeSnippet(
         string $sourceFile,
         string $targetFileName,
-        string $field = '',
+        array $nodes = [],
         string $caption = '',
         string $name = '',
         bool $showLineNumbers = false,
@@ -210,7 +210,7 @@ class Typo3CodeSnippets extends Module
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
         $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
 
-        $code = $this->readXml($absoluteSourcePath, $field);
+        $code = $this->readXml($absoluteSourcePath, $nodes);
         $this->write(
             $absoluteTargetPath,
             $code,
@@ -359,10 +359,10 @@ class Typo3CodeSnippets extends Module
         return ClassHelper::extractMembersFromClass($class, $members, $withComment);
     }
 
-    protected function readXml(string $path, string $field): string
+    protected function readXml(string $path, array $nodes): string
     {
         $xml = file_get_contents($path);
-        $code = XmlHelper::getXmlByPath($xml, $field);
+        $code = XmlHelper::extractNodesFromXml($xml, $nodes);
         return $code;
     }
 
