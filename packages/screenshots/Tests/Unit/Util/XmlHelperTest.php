@@ -20,7 +20,7 @@ class XmlHelperTest extends UnitTestCase
     /**
      * @test
      */
-    public function getXmlByPathRemovesXmlDeclaration(): void
+    public function extractNodesFromXmlRemovesXmlDeclaration(): void
     {
         $xml = <<<'NOWDOC'
 <?xml version="1.0"?>
@@ -29,15 +29,15 @@ NOWDOC;
         $expected = <<<'NOWDOC'
 <T3FlexForms/>
 NOWDOC;
-        $path = '';
+        $xPaths = [];
 
-        self::assertEquals($expected, trim(XmlHelper::getXmlByPath($xml, $path)));
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $xPaths)));
     }
 
     /**
      * @test
      */
-    public function getXmlByPathIncludesFullDocumentIfPathIsEmpty(): void
+    public function extractNodesFromXmlIncludesFullDocumentIfXPathsAreEmpty(): void
     {
         $xml = <<<'NOWDOC'
 <T3FlexForms>
@@ -51,15 +51,38 @@ NOWDOC;
   <elem-2>Element 2</elem-2>
 </T3FlexForms>
 NOWDOC;
-        $path = '';
+        $xPaths = [];
 
-        self::assertEquals($expected, trim(XmlHelper::getXmlByPath($xml, $path)));
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $xPaths)));
     }
 
     /**
      * @test
      */
-    public function getXmlByPathCanHandlePathMatchingMultipleNodes(): void
+    public function extractNodesFromXmlCanHandleMultipleXPaths(): void
+    {
+        $xml = <<<'NOWDOC'
+<T3FlexForms>
+  <elem-1>Element 1</elem-1>
+  <elem-2>Element 2</elem-2>
+  <elem-3>Element 3</elem-3>
+</T3FlexForms>
+NOWDOC;
+        $expected = <<<'NOWDOC'
+<T3FlexForms>
+  <elem-1>Element 1</elem-1>
+  <elem-2>Element 2</elem-2>
+</T3FlexForms>
+NOWDOC;
+        $xPaths = ['/T3FlexForms/elem-1', '/T3FlexForms/elem-2'];
+
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $xPaths)));
+    }
+
+    /**
+     * @test
+     */
+    public function extractNodesFromXmlCanHandleXPathMatchingMultipleNodes(): void
     {
         $xml = <<<'NOWDOC'
 <T3FlexForms>
@@ -73,15 +96,15 @@ NOWDOC;
   <elem-2>Element 2</elem-2>
 </T3FlexForms>
 NOWDOC;
-        $path = '/T3FlexForms/*';
+        $xPaths = ['/T3FlexForms/*'];
 
-        self::assertEquals($expected, trim(XmlHelper::getXmlByPath($xml, $path)));
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $xPaths)));
     }
 
     /**
      * @test
      */
-    public function getXmlByPathHandlesRelativeLikeAbsolutePath(): void
+    public function extractNodesFromXmlHandlesRelativeLikeAbsoluteXPath(): void
     {
         $xml = <<<'NOWDOC'
 <T3FlexForms>
@@ -94,17 +117,17 @@ NOWDOC;
   <elem-1>Element 1</elem-1>
 </T3FlexForms>
 NOWDOC;
-        $relativePath = 'T3FlexForms/elem-1';
-        $absolutePath = '/T3FlexForms/elem-1';
+        $relativeXPaths = ['T3FlexForms/elem-1'];
+        $absoluteXPaths = ['/T3FlexForms/elem-1'];
 
-        self::assertEquals($expected, trim(XmlHelper::getXmlByPath($xml, $relativePath)));
-        self::assertEquals($expected, trim(XmlHelper::getXmlByPath($xml, $absolutePath)));
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $relativeXPaths)));
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $absoluteXPaths)));
     }
 
     /**
      * @test
      */
-    public function getXmlByPathIncludesLastNodeOfPathWithAllPredecessorsAndDescendants(): void
+    public function extractNodesFromXmlIncludesLastNodeOfXPathWithAllPredecessorsAndDescendants(): void
     {
         $xml = <<<'NOWDOC'
 <T3FlexForms>
@@ -123,15 +146,15 @@ NOWDOC;
   </elem-1>
 </T3FlexForms>
 NOWDOC;
-        $path = '/T3FlexForms/elem-1';
+        $xPaths = ['/T3FlexForms/elem-1'];
 
-        self::assertEquals($expected, trim(XmlHelper::getXmlByPath($xml, $path)));
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $xPaths)));
     }
 
     /**
      * @test
      */
-    public function getXmlByPathIncludesAttributesOfAllNodes(): void
+    public function extractNodesFromXmlIncludesAttributesOfAllNodes(): void
     {
         $xml = <<<'NOWDOC'
 <T3FlexForms attribute-1="value-1">
@@ -149,54 +172,54 @@ NOWDOC;
   </elem-1>
 </T3FlexForms>
 NOWDOC;
-        $path = '/T3FlexForms/elem-1/child-1';
+        $xPaths = ['/T3FlexForms/elem-1/child-1'];
 
-        self::assertEquals($expected, trim(XmlHelper::getXmlByPath($xml, $path)));
+        self::assertEquals($expected, trim(XmlHelper::extractNodesFromXml($xml, $xPaths)));
     }
 
     /**
      * @test
      */
-    public function getXmlByPathTriggersErrorIfXmlIsEmpty(): void
+    public function extractNodesFromXmlTriggersErrorIfXmlIsEmpty(): void
     {
         $xml = '';
-        $path = '/';
+        $xPaths = ['/'];
 
         $this->expectError();
         $this->expectErrorMessage('DOMDocument::loadXML(): Empty string supplied as input');
 
-        XmlHelper::getXmlByPath($xml, $path);
+        XmlHelper::extractNodesFromXml($xml, $xPaths);
     }
 
     /**
      * @test
      */
-    public function getXmlByPathThrowsExceptionOnParsingError(): void
+    public function extractNodesFromXmlThrowsExceptionOnParsingError(): void
     {
         $xml = '<broken';
-        $path = '/';
+        $xPaths = ['/'];
 
         $this->expectExceptionCode(4001);
         $this->expectExceptionMessage('XML Error #73: Couldn\'t find end of Start Tag broken line 1.');
 
-        XmlHelper::getXmlByPath($xml, $path);
+        XmlHelper::extractNodesFromXml($xml, $xPaths);
     }
 
     /**
      * @test
      */
-    public function getXmlByPathThrowsExceptionIfPathDoesNotMatchAnyNodes(): void
+    public function extractNodesFromXmlThrowsExceptionIfXPathDoesNotMatchAnyNodes(): void
     {
         $xml = <<<'NOWDOC'
 <T3FlexForms>
   <elem-1 attribute-1="value-1">text-1</elem-1>
 </T3FlexForms>
 NOWDOC;
-        $path = '/T3FlexForms/elem-not-available';
+        $xPaths = ['/T3FlexForms/elem-not-available'];
 
         $this->expectExceptionCode(4003);
-        $this->expectExceptionMessage('XML Error: Path "/T3FlexForms/elem-not-available" does not match any XML nodes.');
+        $this->expectExceptionMessage('XML Error: XPath "/T3FlexForms/elem-not-available" does not match any XML nodes.');
 
-        XmlHelper::getXmlByPath($xml, $path);
+        XmlHelper::extractNodesFromXml($xml, $xPaths);
     }
 }

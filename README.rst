@@ -297,7 +297,7 @@ Furthermore there are dedicated actions like ``createPhpArrayCodeSnippet``, ``cr
                   }
                   {"action": "createPhpArrayCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "fields": ["types"], "targetFileName": "CoreBeGroupsTypes"},
                   {"action": "createPhpClassCodeSnippet", "class": "TYPO3\\CMS\\Core\\Cache\\Backend\\FileBackend", "members": ["frozen", "freeze"], "withComment": true, "targetFileName": "FileBackendFreezeWithComments"},
-                  {"action": "createXmlCodeSnippet", "sourceFile": "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml", "field": "T3DataStructure/sheets/sDEF", "targetFileName": "FormFrameworkXmlSheetSDef"},
+                  {"action": "createXmlCodeSnippet", "sourceFile": "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml", "nodes": ["T3DataStructure/sheets/sDEF"], "targetFileName": "FormFrameworkXmlSheetSDef"},
                   {"action": "createYamlCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/Services.yaml", "fields": ["services/_defaults"], "targetFileName": "CoreServicesYamlDefaults"}
                ]
             ]

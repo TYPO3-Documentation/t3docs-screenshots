@@ -412,7 +412,7 @@ class Configuration
                             ['action' => 'createPhpClassCodeSnippet', 'class' => 'TYPO3\CMS\Core\Cache\Backend\FileBackend', 'members' => ['setCache', 'frozen', 'freeze'], 'withComment' => true, 'targetFileName' => 'FileBackendFreezeWithComments'],
                             ['action' => 'setCodeSnippetsSourcePath', 'path' => ""],
                             ['action' => 'createXmlCodeSnippet', 'sourceFile' => 'typo3/sysext/form/Configuration/FlexForms/FormFramework.xml', 'targetFileName' => 'FormFrameworkXml'],
-                            ['action' => 'createXmlCodeSnippet', 'sourceFile' => 'typo3/sysext/form/Configuration/FlexForms/FormFramework.xml', 'field' => 'T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle', 'targetFileName' => 'FormFrameworkXmlSheetTitle'],
+                            ['action' => 'createXmlCodeSnippet', 'sourceFile' => 'typo3/sysext/form/Configuration/FlexForms/FormFramework.xml', 'nodes' => ['T3DataStructure/sheets/sDEF/ROOT/TCEforms/sheetTitle'], 'targetFileName' => 'FormFrameworkXmlSheetTitle'],
                             ['action' => 'createYamlCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/Services.yaml', 'targetFileName' => 'CoreServicesYaml'],
                             ['action' => 'createYamlCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/Services.yaml', 'fields' => ['services/_defaults'], 'inlineLevel' => 2, 'targetFileName' => 'CoreServicesYamlDefaults'],
                         ],
