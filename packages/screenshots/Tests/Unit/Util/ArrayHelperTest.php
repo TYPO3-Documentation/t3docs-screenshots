@@ -19,23 +19,24 @@ class ArrayHelperTest extends UnitTestCase
 {
     /**
      * @test
-     * @dataProvider getArrayByPathDataProvider
+     * @dataProvider extractFieldsFromArrayDataProvider
      *
      * @param array $array
-     * @param string $path
+     * @param array $fields
      * @param array $expected
      */
-    public function getArrayByPath(array $array, string $path, array $expected): void
+    public function extractFieldsFromArray(array $array, array $fields, array $expected): void
     {
-        self::assertEquals($expected, ArrayHelper::getArrayByPath($array, $path));
+        self::assertEquals($expected, ArrayHelper::extractFieldsFromArray($array, $fields));
     }
 
-    public function getArrayByPathDataProvider(): array
+    public function extractFieldsFromArrayDataProvider(): array
     {
         $tca = [
             'ctrl' => [],
             'columns' => [
                 'title' => [
+                    'exclude' => 1,
                     'label' => 'title',
                     'config' => [],
                 ],
@@ -45,18 +46,19 @@ class ArrayHelperTest extends UnitTestCase
         return [
             [
                 'array' => $tca,
-                'path' => 'ctrl',
+                'fields' => ['ctrl'],
                 'expected' => [
                     'ctrl' => []
                 ]
             ],
             [
                 'array' => $tca,
-                'path' => 'columns/title/label',
+                'fields' => ['columns/title/exclude', 'columns/title/label'],
                 'expected' => [
                     'columns' => [
                         'title' => [
-                            'label' => 'title'
+                            'exclude' => 1,
+                            'label' => 'title',
                         ]
                     ]
                 ]
@@ -67,7 +69,7 @@ class ArrayHelperTest extends UnitTestCase
     /**
      * @test
      */
-    public function getArrayByPathIncludesFullDataIfPathIsEmpty(): void
+    public function extractFieldsFromArrayIncludesFullDataIfFieldsAreEmpty(): void
     {
         $array = [
             'ctrl' => [],
@@ -78,8 +80,8 @@ class ArrayHelperTest extends UnitTestCase
                 ],
             ]
         ];
-        $path = '';
+        $fields = [];
 
-        self::assertEquals($array, ArrayHelper::getArrayByPath($array, $path));
+        self::assertEquals($array, ArrayHelper::extractFieldsFromArray($array, $fields));
     }
 }

@@ -17,11 +17,22 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 class ArrayHelper
 {
     /**
-     * Extract field with path from array, e.g.
+     * Extract fields from array, e.g.
      *
      * Input:
      *  [
      *      'ctrl' => [],
+     *      'columns' => [
+     *          'title' => [
+     *              'exclude' => 1,
+     *              'label' => 'title',
+     *              'config' => []
+     *          ]
+     *      ]
+     *  ]
+     * Fields: ["columns/title/label", "columns/title/config"]
+     * Output:
+     *  [
      *      'columns' => [
      *          'title' => [
      *              'label' => 'title',
@@ -29,30 +40,35 @@ class ArrayHelper
      *          ]
      *      ]
      *  ]
-     * Path: columns/title/label
-     * Output:
-     *  [
-     *      'columns' => [
-     *          'title' => [
-     *              'label' => 'title'
-     *          ]
-     *      ]
-     *  ]
      *
      * @param array $array
-     * @param string $path
+     * @param array $fields
      * @return array
      */
-    public static function getArrayByPath(array $array, string $path): array
+    public static function extractFieldsFromArray(array $array, array $fields): array
     {
-        if ($path === '') {
+        if (empty($fields)) {
+            return $array;
+        }
+
+        $result = [];
+        foreach ($fields as $field) {
+            $result = array_merge_recursive($result, self::extractFieldFromArray($array, $field));
+        }
+
+        return $result;
+    }
+
+    protected static function extractFieldFromArray(array $array, string $field): array
+    {
+        if ($field === '') {
             return $array;
         }
 
         $result = [];
 
-        $value = ArrayUtility::getValueByPath($array, $path);
-        $path = str_getcsv($path, '/');
+        $value = ArrayUtility::getValueByPath($array, $field);
+        $path = str_getcsv($field, '/');
         $pathReverse = array_reverse($path);
 
         for ($i=0; $i < count($pathReverse); $i++) {

@@ -20,32 +20,32 @@ class YamlHelperTest extends UnitTestCase
 {
     /**
      * @test
-     * @dataProvider getYamlByPathDataProvider
+     * @dataProvider extractFieldsFromYamlDataProvider
      *
      * @param string $yaml
-     * @param string $path
+     * @param array $fields
      * @param string $expected
      */
-    public function getYamlByPath(string $yaml, string $path, string $expected): void
+    public function extractFieldsFromYaml(string $yaml, array $fields, string $expected): void
     {
-        self::assertEquals($expected, trim(YamlHelper::getYamlByPath($yaml, $path)));
+        self::assertEquals($expected, trim(YamlHelper::extractFieldsFromYaml($yaml, $fields)));
     }
 
-    public function getYamlByPathDataProvider(): array
+    public function extractFieldsFromYamlDataProvider(): array
     {
         $yaml = file_get_contents(__DIR__ . '/../Fixtures/Yaml.yaml');
 
         return [
             [
                 'yaml' => $yaml,
-                'path' => 'scalar',
+                'fields' => ['scalar'],
                 'expected' => <<<'NOWDOC'
 scalar: value
 NOWDOC
             ],
             [
                 'yaml' => $yaml,
-                'path' => 'sequences/1',
+                'fields' => ['sequences/1'],
                 'expected' => <<<'NOWDOC'
 sequences:
   1:
@@ -54,7 +54,7 @@ NOWDOC
             ],
             [
                 'yaml' => $yaml,
-                'path' => 'mappings/MyVendor\MyExtension\MyClass',
+                'fields' => ['mappings/MyVendor\MyExtension\MyClass'],
                 'expected' => <<<'NOWDOC'
 mappings:
   MyVendor\MyExtension\MyClass:
@@ -63,9 +63,11 @@ NOWDOC
             ],
             [
                 'yaml' => $yaml,
-                'path' => 'mappings/MyVendor\MyExtension\MyOtherClass/object/key1',
+                'fields' => ['mappings/MyVendor\MyExtension\MyClass', 'mappings/MyVendor\MyExtension\MyOtherClass/object/key1'],
                 'expected' => <<<'NOWDOC'
 mappings:
+  MyVendor\MyExtension\MyClass:
+    scalar: value
   MyVendor\MyExtension\MyOtherClass:
     object:
       key1: value1
@@ -77,24 +79,24 @@ NOWDOC
     /**
      * @test
      */
-    public function getYamlByPathIncludesFullDataIfPathIsEmpty(): void
+    public function extractFieldsFromYamlIncludesFullDataIfFieldsAreEmpty(): void
     {
         $yaml = file_get_contents(__DIR__ . '/../Fixtures/Yaml.yaml');
-        $path = '';
+        $fields = [];
 
-        self::assertEquals(Yaml::parse($yaml), Yaml::parse(YamlHelper::getYamlByPath($yaml, $path)));
+        self::assertEquals(Yaml::parse($yaml), Yaml::parse(YamlHelper::extractFieldsFromYaml($yaml, $fields)));
     }
 
     /**
      * @test
      */
-    public function getYamlByPathTriggersExceptionIfYamlIsEmpty(): void
+    public function extractFieldsFromYamlTriggersExceptionIfYamlIsEmpty(): void
     {
         $yaml = '';
-        $path = '';
+        $fields = [];
 
         $this->expectException(\TypeError::class);
 
-        YamlHelper::getYamlByPath($yaml, $path);
+        YamlHelper::extractFieldsFromYaml($yaml, $fields);
     }
 }
