@@ -63,4 +63,23 @@ class ArrayHelperTest extends UnitTestCase
             ]
         ];
     }
+
+    /**
+     * @test
+     */
+    public function getArrayByPathIncludesFullDataIfPathIsEmpty(): void
+    {
+        $array = [
+            'ctrl' => [],
+            'columns' => [
+                'title' => [
+                    'label' => 'title',
+                    'config' => [],
+                ],
+            ]
+        ];
+        $path = '';
+
+        self::assertEquals($array, ArrayHelper::getArrayByPath($array, $path));
+    }
 }
