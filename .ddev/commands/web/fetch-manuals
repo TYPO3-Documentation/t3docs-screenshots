@@ -28,9 +28,11 @@ clone_manual() {
 [[ ! -d "$TARGET_BASEPATH" ]] && mkdir "$TARGET_BASEPATH"
 cd "$TARGET_BASEPATH"
 
-clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TCA.git" "master" "TYPO3CMS-Reference-TCA"
-clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-GettingStarted" "master" "TYPO3CMS-Tutorial-GettingStarted"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Guide-Installation" "master" "TYPO3CMS-Guide-Installation"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-CoreApi" "master" "TYPO3CMS-Reference-CoreApi"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TCA.git" "master" "TYPO3CMS-Reference-TCA"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TSconfig" "master" "TYPO3CMS-Reference-TSconfig"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-Editors" "master" "TYPO3CMS-Tutorial-Editors"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-GettingStarted" "master" "TYPO3CMS-Tutorial-GettingStarted"
 
 cd - > /dev/null
