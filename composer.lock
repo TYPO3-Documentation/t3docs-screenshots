@@ -7021,12 +7021,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-Documentation/t3docs-examples.git",
-                "reference": "51f73d89325b59d0ebdb0900b67f2a7e7613d5f8"
+                "reference": "1e1147171aaa682056ea88b7dd5424fb70262895"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/51f73d89325b59d0ebdb0900b67f2a7e7613d5f8",
-                "reference": "51f73d89325b59d0ebdb0900b67f2a7e7613d5f8",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/1e1147171aaa682056ea88b7dd5424fb70262895",
+                "reference": "1e1147171aaa682056ea88b7dd5424fb70262895",
                 "shasum": ""
             },
             "require": {
@@ -7051,6 +7051,13 @@
                     "T3docs\\Examples\\": "Classes/"
                 }
             },
+            "scripts": {
+                "prepare-release": [
+                    "rm -rf .github",
+                    "rm .gitignore",
+                    "rm .editorconfig"
+                ]
+            },
             "license": [
                 "GPL-2.0+"
             ],
@@ -7065,7 +7072,7 @@
                 "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/master",
                 "issues": "https://github.com/TYPO3-Documentation/t3docs-examples/issues"
             },
-            "time": "2021-06-14T09:08:04+00:00"
+            "time": "2021-06-21T11:19:40+00:00"
         },
         {
             "name": "theseer/tokenizer",
