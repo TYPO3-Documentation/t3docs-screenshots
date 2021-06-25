@@ -26,6 +26,16 @@
                 </div>
                 <div class="form-text">Enclose the term with # to use regular expressions.</div>
             </div>
+            <div class="col-12 col-md-4" id="screenshotsSuiteContainer">
+                <label for="screenshotsSorting" class="form-label">Sort screenshots by</label>
+                <f:form.select
+                    id="screenshotsSorting"
+                    name="sorting"
+                    options="{difference-desc: 'Difference (higher -> lower)', difference-asc: 'Difference (lower -> higher)', filename-asc: 'Filename (A -> Z)', filename-desc: 'Filename (Z -> A)', path-asc: 'Path (A -> Z)', path-desc: 'Path (Z -> A)'}"
+                    value="{sorting}"
+                    class="form-select"
+                />
+            </div>
         </div>
 
         <div>
