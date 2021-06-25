@@ -136,6 +136,7 @@ class ScreenshotsManagerController extends ActionController
     public function compareAction(
         string $cmd = 'show',
         string $search = '',
+        string $sorting = 'difference-desc',
         array $imagesToCopy = [],
         array $textFilesToCopy = [],
         int $numImages = 0,
@@ -143,18 +144,18 @@ class ScreenshotsManagerController extends ActionController
     ): void
     {
         if ($cmd === 'compare') {
-            $this->compare($search);
+            $this->compare($search, $sorting);
         }
         elseif ($cmd === 'copy') {
             $this->copy($imagesToCopy, $textFilesToCopy, $numImages, $numTextFiles);
-            $this->compare($search);
+            $this->compare($search, $sorting);
         }
 
         $this->view->assign('cmd', $cmd);
         $this->view->assign('messages', $this->fetchMessages());
     }
 
-    protected function compare(string $search): void
+    protected function compare(string $search, string $sorting): void
     {
         $pathOriginal = $this->getExtensionConfiguration()->getAbsoluteOriginalPath();
         $pathActual = $this->getExtensionConfiguration()->getAbsoluteActualPath();
@@ -169,10 +170,9 @@ class ScreenshotsManagerController extends ActionController
             [], $pathActual . '/'
         ), $pathActual);
 
-        $imageExtensionsIndex = array_flip($this->imageExtensions);
-
         $imageComparisons = [];
         $textFiles = [];
+        $imageExtensionsIndex = array_flip($this->imageExtensions);
         $numImagesFilteredOut = 0;
         $numTextFilesFilteredOut = 0;
         foreach ($files as $file) {
@@ -205,11 +205,15 @@ class ScreenshotsManagerController extends ActionController
             }
         }
 
+        $this->sortImageComparisons($imageComparisons, $sorting);
+        $this->sortTextFiles($textFiles, $sorting);
+
         $this->view->assign('imageComparisons', $imageComparisons);
         $this->view->assign('textFiles', $textFiles);
         $this->view->assign('numImagesFilteredOut', $numImagesFilteredOut);
         $this->view->assign('numTextFilesFilteredOut', $numTextFilesFilteredOut);
         $this->view->assign('search', $search);
+        $this->view->assign('sorting', $sorting);
     }
 
     protected function isSearchTermMatchingFilePath(string $search, string $filePath): bool
@@ -223,6 +227,110 @@ class ScreenshotsManagerController extends ActionController
             return preg_match($search, $filePath) === 1;
         } else {
             return strpos($filePath, $search) !== false;
+        }
+    }
+
+    protected function sortImageComparisons(array &$imageComparisons, string $sorting): void
+    {
+        if ($sorting === 'difference-asc') {
+            usort(
+                $imageComparisons,
+                function (ImageComparison $imageComparisonA, ImageComparison $imageComparisonB) {
+                    return $imageComparisonA->getDifference() <= $imageComparisonB->getDifference() ? -1 : 1;
+                }
+            );
+        } elseif ($sorting === 'difference-desc') {
+            usort(
+                $imageComparisons,
+                function(ImageComparison $imageComparisonA, ImageComparison $imageComparisonB) {
+                    return $imageComparisonA->getDifference() <= $imageComparisonB->getDifference() ? 1 : -1;
+                }
+            );
+        } elseif ($sorting === 'filename-asc') {
+            usort(
+                $imageComparisons,
+                function(ImageComparison $imageComparisonA, ImageComparison $imageComparisonB) {
+                    return strcasecmp(
+                        $imageComparisonA->getImageOriginal()->getFileName(),
+                        $imageComparisonB->getImageOriginal()->getFileName()
+                    );
+                }
+            );
+        } elseif ($sorting === 'filename-desc') {
+            usort(
+                $imageComparisons,
+                function(ImageComparison $imageComparisonA, ImageComparison $imageComparisonB) {
+                    return strcasecmp(
+                        $imageComparisonA->getImageOriginal()->getFileName(),
+                        $imageComparisonB->getImageOriginal()->getFileName()
+                    ) * -1;
+                }
+            );
+        } elseif ($sorting === 'path-asc') {
+            usort(
+                $imageComparisons,
+                function(ImageComparison $imageComparisonA, ImageComparison $imageComparisonB) {
+                    return strcasecmp(
+                        $imageComparisonA->getImageOriginal()->getPath(),
+                        $imageComparisonB->getImageOriginal()->getPath()
+                    );
+                }
+            );
+        } elseif ($sorting === 'path-desc') {
+            usort(
+                $imageComparisons,
+                function(ImageComparison $imageComparisonA, ImageComparison $imageComparisonB) {
+                    return strcasecmp(
+                        $imageComparisonA->getImageOriginal()->getPath(),
+                        $imageComparisonB->getImageOriginal()->getPath()
+                    ) * -1;
+                }
+            );
+        }
+    }
+
+    protected function sortTextFiles(array &$textFiles, string $sorting): void
+    {
+        if ($sorting === 'filename-asc') {
+            usort(
+                $textFiles,
+                function(File $textFileA, File $textFileB) {
+                    return strcasecmp(
+                        $textFileA->getFileName(),
+                        $textFileB->getFileName()
+                    );
+                }
+            );
+        } elseif ($sorting === 'filename-desc') {
+            usort(
+                $textFiles,
+                function(File $textFileA, File $textFileB) {
+                    return strcasecmp(
+                            $textFileA->getFileName(),
+                            $textFileB->getFileName()
+                        ) * -1;
+                }
+            );
+        } elseif ($sorting === 'path-asc') {
+            usort(
+                $textFiles,
+                function(File $textFileA, File $textFileB) {
+                    return strcasecmp(
+                        $textFileA->getPath(),
+                        $textFileB->getPath()
+                    );
+                }
+            );
+        } elseif ($sorting === 'path-desc') {
+            usort(
+                $textFiles,
+                function(File $textFileA, File $textFileB) {
+                    return strcasecmp(
+                            $textFileA->getPath(),
+                            $textFileB->getPath()
+                        ) * -1;
+                }
+            );
         }
     }
 
