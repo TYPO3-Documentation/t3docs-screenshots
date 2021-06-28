@@ -14,6 +14,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 
 use Codeception\Module;
 use Codeception\Module\WebDriver;
+use TYPO3\CMS\Screenshots\Util\JsonHelper;
 
 /**
  * Helper to highlight DOM elements for screenshots.
@@ -87,7 +88,7 @@ for (let i = 0; i < elements.length; i++) {
 NOWDOC;
 
         $this->getWebDriver()->executeJS(
-            sprintf($js, json_encode($this->paneCss), json_encode($boxCss)),
+            sprintf($js, JsonHelper::printInlineJson($this->paneCss), JsonHelper::printInlineJson($boxCss)),
             $elements
         );
     }
@@ -169,7 +170,15 @@ for (let i = 0; i < elements.length; i++) {
 NOWDOC;
 
         $this->getWebDriver()->executeJS(
-            sprintf($js, json_encode($this->paneCss), json_encode($arrowCss), $arrowSvgOneLine, $positionX, $positionY, $position),
+            sprintf(
+                $js,
+                JsonHelper::printInlineJson($this->paneCss),
+                JsonHelper::printInlineJson($arrowCss),
+                $arrowSvgOneLine,
+                $positionX,
+                $positionY,
+                $position
+            ),
             $elements
         );
     }
@@ -252,7 +261,13 @@ for (let i = 0; i < elements.length; i++) {
 NOWDOC;
 
         $this->getWebDriver()->executeJS(
-            sprintf($js, json_encode($this->paneCss), $position, $label, json_encode($badgeCss)),
+            sprintf(
+                $js,
+                JsonHelper::printInlineJson($this->paneCss),
+                $position,
+                $label,
+                JsonHelper::printInlineJson($badgeCss)
+            ),
             $elements
         );
     }

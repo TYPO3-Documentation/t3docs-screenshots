@@ -20,6 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
 use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Screenshots\Util\JsonHelper;
 
 /**
  * Command for fetching executable suites by filter
@@ -96,7 +97,7 @@ class FetchSuitesCommand extends Command
                     }
                 }
             }
-            $io->text(json_encode($suites, JSON_PRETTY_PRINT));
+            $io->text(JsonHelper::printPrettyJson($suites));
             return 0;
         } catch (\Exception $e) {
             $io->error(sprintf('%s: %s', $e->getCode(), $e->getMessage()));

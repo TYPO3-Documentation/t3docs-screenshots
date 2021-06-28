@@ -39,12 +39,17 @@ class JsonHelper
      */
     public static function extractFieldsFromJson(string $json, array $fields, int $inlineLevel = 99): string
     {
-        $arrayIn = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $arrayIn = self::parseArrayFromJson($json);
         $arrayOut = ArrayHelper::extractFieldsFromArray($arrayIn, $fields);
         return self::printJson($arrayOut, $inlineLevel);
     }
 
-    protected static function printJson(array $jsonArray, int $inlineLevel = 99): string
+    public static function parseArrayFromJson(string $json): array
+    {
+        return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    public static function printJson(array $jsonArray, int $inlineLevel = 99): string
     {
         $inlineJsons = [];
 
@@ -86,5 +91,15 @@ class JsonHelper
     protected static function addWhitespaceToInlineJson(string $inlineJsons): string
     {
         return preg_replace(["#([0-9\"'}\]],)(\S)#", "#([\"']:)(\S)#"], "\\1 \\2", $inlineJsons);
+    }
+
+    public static function printPrettyJson(array $jsonArray): string
+    {
+        return self::printJson($jsonArray, 99);
+    }
+
+    public static function printInlineJson(array $jsonArray): string
+    {
+        return self::printJson($jsonArray, 0);
     }
 }

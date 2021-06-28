@@ -13,6 +13,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
  */
 
 use Codeception\Module;
+use TYPO3\CMS\Screenshots\Util\JsonHelper;
 
 /**
  * Helper to access TYPO3 CLI commands.
@@ -36,19 +37,34 @@ class Typo3Cli extends Module
 
     protected function loadMappings(string $table, string $fromField, string $toField): void
     {
+        [$resultCode, $output] = $this->fetchMappings($table, $fromField, $toField);
+
+        if ($resultCode !== 0) {
+            throw new \Exception(
+                sprintf('TYPO3 Cli Error #%s: %s', $resultCode, implode('', $output)),
+                4001
+            );
+        }
+
+        try {
+            $result = JsonHelper::parseArrayFromJson(implode('', $output));
+        } catch (\JsonException $e) {
+            throw new \Exception(
+                sprintf('JSON Error #%s: %s', $e->getCode(), $e->getMessage()),
+                4002
+            );
+        }
+
+        $this->mappings[$table][$fromField][$toField] = $result;
+    }
+
+    protected function fetchMappings(string $table, string $fromField, string $toField): array
+    {
         exec(sprintf('typo3/sysext/core/bin/typo3 screenshots:mappings --from=%s --to=%s %s 2>&1',
             $fromField, $toField, $table
         ), $output, $resultCode);
 
-        if ($resultCode === 0) {
-            $result = json_decode(implode('', $output), true);
-            if ($result === NULL) {
-                throw new \Exception(sprintf('JSON Error #%s: %s', json_last_error(), json_last_error_msg()), 4001);
-            }
-            $this->mappings[$table][$fromField][$toField] = $result;
-        } else {
-            throw new \Exception(sprintf('TYPO3 Cli Error #%s: %s', $resultCode, implode('', $output)), 4002);
-        }
+        return [$resultCode, $output];
     }
 
     protected function getMapping(string $table, string $fromField, string $toField, $value): int
