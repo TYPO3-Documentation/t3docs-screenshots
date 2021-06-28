@@ -18,6 +18,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Screenshots\Util\ArrayHelper;
 use TYPO3\CMS\Screenshots\Util\ClassHelper;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
+use TYPO3\CMS\Screenshots\Util\JsonHelper;
 use TYPO3\CMS\Screenshots\Util\StringHelper;
 use TYPO3\CMS\Screenshots\Util\XmlHelper;
 use TYPO3\CMS\Screenshots\Util\YamlHelper;
@@ -83,6 +84,52 @@ class Typo3CodeSnippets extends Module
             $absoluteTargetPath,
             $code,
             $language,
+            $caption,
+            $name,
+            $showLineNumbers,
+            $lineStartNumber,
+            $emphasizeLines
+        );
+    }
+
+    /**
+     * Reads a TYPO3 JSON file and generates a reST file from it for inclusion.
+     *
+     * @param string $sourceFile File path of JSON file relative to TYPO3 public folder,
+     *                              e.g. "typo3/sysext/core/composer.json"
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
+     *                              e.g. "CoreComposerJsonDescription"
+     * @param array $fields Reduce the JSON structure to these fields. Use a slash-separated list to specify a field
+     *                              in depth,
+     *                              e.g. ["name", "support/source"]
+     * @param int $inlineLevel The level where you switch to inline JSON
+     * @param string $caption The code snippet caption text
+     * @param string $name Implicit target name that can be referenced in the reST document,
+     *                      e.g. "my-code-snippet"
+     * @param bool $showLineNumbers Enable to generate line numbers for the code block
+     * @param int $lineStartNumber The first line number of the code block
+     * @param int[] $emphasizeLines Emphasize particular lines of the code block
+     */
+    public function createJsonCodeSnippet(
+        string $sourceFile,
+        string $targetFileName,
+        array $fields = [],
+        int $inlineLevel = 99,
+        string $caption = '',
+        string $name = '',
+        bool $showLineNumbers = false,
+        int $lineStartNumber = 0,
+        array $emphasizeLines = []
+    ): void {
+        $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
+        $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+
+        $code = $this->readJson($absoluteSourcePath, $fields, $inlineLevel);
+        $this->write(
+            $absoluteTargetPath,
+            $code,
+            'json',
             $caption,
             $name,
             $showLineNumbers,
@@ -274,6 +321,9 @@ class Typo3CodeSnippets extends Module
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
         switch ($fileExtension) {
+            case 'json':
+                $language = 'json';
+                break;
             case 'xml':
             case 'xlf':
                 $language = 'xml';
@@ -336,6 +386,13 @@ class Typo3CodeSnippets extends Module
     protected function read(string $path): string
     {
         $code = file_get_contents($path);
+        return $code;
+    }
+
+    protected function readJson(string $path, array $fields, int $inlineLevel): string
+    {
+        $json = file_get_contents($path);
+        $code = JsonHelper::extractFieldsFromJson($json, $fields, $inlineLevel);
         return $code;
     }
 

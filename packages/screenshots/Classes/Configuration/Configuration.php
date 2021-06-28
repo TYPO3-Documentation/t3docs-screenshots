@@ -406,6 +406,8 @@ class Configuration
                             ],
                             ['action' => 'setCodeSnippetsSourcePath', 'path' => "typo3/sysext/core"],
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'BeGroupsWithPresetSourcePath'],
+                            ['action' => 'createJsonCodeSnippet', 'sourceFile' => 'composer.json', 'targetFileName' => 'CoreComposerJson'],
+                            ['action' => 'createJsonCodeSnippet', 'sourceFile' => 'composer.json', 'fields' => ["name", "support/source"], 'inlineLevel' => 1, 'targetFileName' => 'CoreComposerJsonDescription'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'targetFileName' => 'TcaBeGroups'],
                             ['action' => 'createPhpArrayCodeSnippet', 'sourceFile' => 'Configuration/TCA/be_groups.php', 'fields' => ['columns/title'], 'targetFileName' => 'TcaBeGroupsColumnsTitle'],
                             ['action' => 'createPhpClassCodeSnippet', 'class' => 'TYPO3\CMS\Core\Cache\Backend\FileBackend', 'members' => ['setCache', 'frozen', 'freeze'], 'targetFileName' => 'FileBackendFreeze'],

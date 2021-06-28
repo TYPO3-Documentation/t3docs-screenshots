@@ -273,8 +273,9 @@ and can be used to include the screenshot comfortably into a documentation. The 
 Another redundant documentation job besides taking screenshots is to insert and update code snippets. With action
 ``createCodeSnippet`` a specific TYPO3 code source file gets transformed into a reStructuredText file for inclusion and
 gets saved to folder ``Documentation/CodeSnippets``. The folder can be changed by ``setCodeSnippetsTargetPath``.
-Furthermore there are dedicated actions like ``createPhpArrayCodeSnippet``, ``createPhpClassCodeSnippet``,
-``createXmlCodeSnippet`` or ``createYamlCodeSnippet`` to store only excerpts of code files.
+Furthermore there are dedicated actions like ``createJsonCodeSnippet``, ``createPhpArrayCodeSnippet``,
+``createPhpClassCodeSnippet``, ``createXmlCodeSnippet`` or ``createYamlCodeSnippet`` to store only excerpts of code
+files.
 
 .. code-block:: json
 
@@ -295,6 +296,7 @@ Furthermore there are dedicated actions like ``createPhpArrayCodeSnippet``, ``cr
                      "lineStartNumber": 1,
                      "emphasizeLines": [5,6,7]
                   }
+                  {"action": "createJsonCodeSnippet", "sourceFile": "typo3/sysext/core/composer.json", "fields": ["name", "support/source"], "targetFileName": "CoreComposerJsonDescription"},
                   {"action": "createPhpArrayCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "fields": ["types"], "targetFileName": "CoreBeGroupsTypes"},
                   {"action": "createPhpClassCodeSnippet", "class": "TYPO3\\CMS\\Core\\Cache\\Backend\\FileBackend", "members": ["frozen", "freeze"], "withComment": true, "targetFileName": "FileBackendFreezeWithComments"},
                   {"action": "createXmlCodeSnippet", "sourceFile": "typo3/sysext/form/Configuration/FlexForms/FormFramework.xml", "nodes": ["T3DataStructure/sheets/sDEF"], "targetFileName": "FormFrameworkXmlSheetSDef"},
