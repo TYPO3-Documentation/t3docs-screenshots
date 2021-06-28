@@ -13,6 +13,7 @@ namespace TYPO3\CMS\Screenshots\Configuration;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Screenshots\Util\JsonHelper;
 
 /**
  * Handle screenshots related configuration file "screenshots.json"
@@ -50,8 +51,16 @@ class Configuration
 
     public function read(): void
     {
-        $config = json_decode(file_get_contents($this->getFilePath()), true) ?? [];
-        $this->setConfig($config);
+        try {
+            $config = JsonHelper::parseArrayFromJson(file_get_contents($this->getFilePath()));
+            $this->setConfig($config);
+        } catch (\JsonException $e) {
+            throw new \JsonException(
+                sprintf('%s in %s', $e->getMessage(), $this->getFilePath()),
+                $e->getCode(),
+                $e->getPrevious()
+            );
+        }
     }
 
     public function setConfig(array $config): void
@@ -167,27 +176,7 @@ class Configuration
      */
     protected function printAsJson(): string
     {
-        $config = $this->config;
-        $replace = [];
-
-        if (!empty($config['suites'])) {
-            foreach ($config['suites'] as $suiteId => &$suite) {
-                if (isset($suite['screenshots'])) {
-                    foreach ($suite['screenshots'] as $actionsId => &$actions) {
-                        foreach ($actions as $actionId => &$action) {
-                            $actionJson = str_replace(['",', '":'], ['", ', '": '], json_encode($action, JSON_UNESCAPED_SLASHES));
-                            $actionIdentifier = md5(sprintf('%s_%s_%s', $suiteId, $actionsId, $actionId));
-                            $replace["\"$actionIdentifier\""] = $actionJson;
-                            $action = $actionIdentifier;
-                        }
-                    }
-                }
-            }
-        }
-
-        $configJson = json_encode($config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        $configJson = str_replace(array_keys($replace), array_values($replace), $configJson);
-        return $configJson;
+        return JsonHelper::printJson($this->config, 5);
     }
 
     public function isExisting(): bool

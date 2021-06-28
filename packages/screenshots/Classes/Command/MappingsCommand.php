@@ -20,6 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Screenshots\Util\JsonHelper;
 
 /**
  * Command for listing all mappings from one field to another field of a specific database table.
@@ -82,7 +83,7 @@ class MappingsCommand extends Command
                     $mappings[$row[$fromField]] = $row[$toField];
                 }
             }
-            $io->text(json_encode($mappings, JSON_PRETTY_PRINT));
+            $io->text(JsonHelper::printPrettyJson($mappings));
             return 0;
         } catch (\Exception $e) {
             $io->error(sprintf('%s: %s', $e->getCode(), $e->getMessage()));

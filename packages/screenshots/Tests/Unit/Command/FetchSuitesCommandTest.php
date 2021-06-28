@@ -25,7 +25,7 @@ class FetchSuitesCommandTest extends UnitTestCase
     /**
      * @test
      */
-    public function exportCommandReturnsProperJson(): void
+    public function fetchSuitesCommandReturnsProperJson(): void
     {
         $vfsPath = vfsStream::setup('public')->url();
 
@@ -46,6 +46,25 @@ class FetchSuitesCommandTest extends UnitTestCase
                 ['path' => $vfsPath, 'suiteId' => 'Styleguide'],
             ],
             json_decode($tester->getDisplay(), true)
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function fetchSuitesCommandDisplaysExceptionIfJsonIsMalformed(): void
+    {
+        $vfsPath = vfsStream::setup('public')->url();
+
+        file_put_contents($vfsPath . '/screenshots.json', "{'i-am-a': 'malformed-json',}");
+
+        $tester = new CommandTester(new FetchSuitesCommand());
+        $tester->execute(['--target-path' => $vfsPath], []);
+
+        self::assertEquals(1, $tester->getStatusCode());
+        self::assertEquals(
+            '[ERROR] 4: Syntax error in vfs://public/screenshots.json',
+            trim($tester->getDisplay())
         );
     }
 }

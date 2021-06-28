@@ -116,7 +116,7 @@ class Typo3CodeSnippetsTest extends UnitTestCase
 
         $typo3CodeSnippets = $this->getMockBuilder(Typo3CodeSnippets::class)
             ->setConstructorArgs([$this->getModuleContainerStub()])
-            ->setMethods(['getTypo3Screenshots'])
+            ->onlyMethods(['getTypo3Screenshots'])
             ->getMock();
         $typo3CodeSnippets->expects(self::any())->method('getTypo3Screenshots')->willReturn($typo3Screenshots);
 

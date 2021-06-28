@@ -21,6 +21,7 @@ use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
 use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
+use TYPO3\CMS\Screenshots\Util\JsonHelper;
 
 /**
  * Tests the screenshots backend module can be loaded
@@ -87,7 +88,8 @@ abstract class AbstractBaseCest
             $this->runAction($I, $action);
         } else {
             throw new ConfigurationException(sprintf(
-                'Parameter "action" or "comment" is missing in configuration "%s".', json_encode($action)
+                'Parameter "action" or "comment" is missing in configuration "%s".',
+                JsonHelper::printInlineJson($action)
             ));
         }
     }
