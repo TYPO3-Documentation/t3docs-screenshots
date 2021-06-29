@@ -74,19 +74,34 @@ make_screenshots() {
 }
 
 fetch_suites() {
-    echo $(typo3 screenshots:fetchsuites --target-path=$TARGET_PATH --suite-id=$SUITE_ID --actions-id=$ACTIONS_ID)
+    local suites;
+    local exitStatus;
+
+    suites=$(typo3 screenshots:fetchsuites --target-path=$TARGET_PATH --suite-id=$SUITE_ID --actions-id=$ACTIONS_ID)
+    exitStatus=$?
+
+    echo $suites
+    exit $exitStatus
 }
 
 run_suites() {
+    local suites;
+    local exitStatus;
+
     suites=$(fetch_suites)
+    exitStatus=$?
 
-    if [ "$suites" != "[]" ]; then
-        while read suite; do
-            path=$(jq -r '.path' <<< "$suite")
-            suiteId=$(jq -r '.suiteId' <<< "$suite")
+    if [ "$exitStatus" -eq 0 ]; then
+        if [ "$suites" != "[]" ]; then
+            while read suite; do
+                path=$(jq -r '.path' <<< "$suite")
+                suiteId=$(jq -r '.suiteId' <<< "$suite")
 
-            TARGET_PATH="$path" SUITE_ID="$suiteId" make_screenshots
-        done <<< $(jq -c '.[]' <<< "$suites")
+                TARGET_PATH="$path" SUITE_ID="$suiteId" make_screenshots
+            done <<< $(jq -c '.[]' <<< "$suites")
+        fi
+    else
+        echo $suites
     fi
 }
 
