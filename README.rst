@@ -569,9 +569,8 @@ On this page you compare the newly created screenshots of the runner with the or
 current state on the left, the original state on the right and the difference map in the middle. At the top it shows
 the difference as a number.
 
-Each screenshot is selected for copying by default, but can be deselected individually and in aggregation. All text
-files such as the screenshot reST include files or the code snippets cannot be compared, but can only be selected or
-deselected for copying in bundles: They must be handled externally by the Git comparison tools.
+Each screenshot is selected for copying by default, but can be deselected individually and in the aggregation. The same
+applies to text files such as the screenshot reST include files or the code snippets.
 
 .. image:: docs/screenshots_manager_compare.png
 
@@ -580,6 +579,8 @@ a path in the search field at the top of the page: Only files with a matching pa
 expressions are supported and automatic suggestion of available paths is enabled.
 
 .. image:: docs/screenshots_manager_compare_searchbox.png
+
+Optionally sort the list by criteria, such as difference, file name or file path.
 
 When you have confirmed the changes, pressing the "Copy screenshots" button will copy the screenshots to the original
 location.
