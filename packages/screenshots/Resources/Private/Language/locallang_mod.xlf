@@ -13,7 +13,7 @@
 				<source>Screenshots</source>
 			</trans-unit>
 			<trans-unit id="button.copyscreenshots" resname="button.copyscreenshots">
-				<source>Copy %d screenshots &amp; %d files</source>
+				<source>Copy %d screenshots &amp; %d text files</source>
 			</trans-unit>
 		</body>
 	</file>

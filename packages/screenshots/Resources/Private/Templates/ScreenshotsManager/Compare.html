@@ -1,5 +1,4 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
-      xmlns:screenshots="http://typo3.org/ns/TYPO3/CMS/Screenshots/ViewHelpers"
       data-namespace-typo3-fluid="true">
 <f:layout name="Screenshots" />
 <f:section name="Content">
@@ -13,7 +12,7 @@
 
         <div class="row pt-2 pb-3">
             <div class="col-12 col-xl-4 col-lg-6 col-md-8" id="screenshotsSearchContainer">
-                <label for="screenshotsSearch" class="form-label">Filter screenshots &amp; files by path</label>
+                <label for="screenshotsSearch" class="form-label">Filter screenshots &amp; text files by path</label>
                 <div class="input-group">
                     <f:form.textfield
                         id="screenshotsSearch"
@@ -27,7 +26,7 @@
                 <div class="form-text">Enclose the term with # to use regular expressions.</div>
             </div>
             <div class="col-12 col-md-4" id="screenshotsSuiteContainer">
-                <label for="screenshotsSorting" class="form-label">Sort screenshots &amp; files by</label>
+                <label for="screenshotsSorting" class="form-label">Sort screenshots &amp; text files by</label>
                 <f:form.select
                     id="screenshotsSorting"
                     name="sorting"
@@ -39,174 +38,24 @@
         </div>
 
         <div>
-            <f:form.button name="cmd" value="compare" type="submit" class="btn btn-primary">
-                Compare screenshots
-            </f:form.button>
-            <f:if condition="{cmd} != 'show'">
-                <f:form.button name="cmd" value="copy" type="submit" class="btn btn-success float-end button-copy-screenshots">
-                    <f:translate
-                        key="LLL:EXT:screenshots/Resources/Private/Language/locallang_mod.xlf:button.copyscreenshots"
-                        arguments="{0: numImages, 1: numTextFiles}"
-                    />
-                </f:form.button>
-            </f:if>
+            <f:render partial="Compare/Buttons" arguments="{_all}" />
         </div>
 
-        <h2>Results</h2>
         <f:if condition="{cmd} == 'show'">
             <f:then>
+                <h2>Results</h2>
                 <f:be.infobox state="-2">
-                    Nothing done yet. Click button "Compare screenshots" to start the comparison.
+                    Nothing done yet. Click button "Compare screenshots &amp; text files" to start the comparison.
                 </f:be.infobox>
             </f:then>
             <f:else>
                 <f:if condition="{messages}">
                     <f:render partial="Messages" arguments="{messages:messages}" />
                 </f:if>
-                <div class="row">
-                    <f:if condition="{numTextFiles} > 0">
-                        <f:then>
-                            <div class="col-8">
-                                <f:if condition="{numTextFiles} == 1">
-                                    <f:then>
-                                        <h2>
-                                            1 code snippet or reST include file to copy
-                                            <f:if condition="{numTextFilesFilteredOut} > 0">
-                                                <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
-                                            </f:if>
-                                        </h2>
-                                    </f:then>
-                                    <f:else>
-                                        <h2>
-                                            {numTextFiles} code snippets and reST include files to copy
-                                            <f:if condition="{numTextFilesFilteredOut} > 0">
-                                                <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
-                                            </f:if>
-                                        </h2>
-                                    </f:else>
-                                </f:if>
-                            </div>
-                            <div class="col-4 pt-4">
-                                <div class="form-check form-switch float-end pt-1 pe-2">
-                                    <input type="checkbox"
-                                           class="form-check-input smjs-toggle-all"
-                                           data-toggle-selector='.text-files-to-copy'
-                                           id="toggleTextFilesToCopy"
-                                           checked="checked"
-                                           role="button"
-                                    />
-                                    <label
-                                        class="form-check-label form"
-                                        for="toggleTextFilesToCopy"
-                                        role="button"
-                                    >
-                                        Copy all
-                                    </label>
-                                </div>
-                            </div>
-                        </f:then>
-                        <f:else>
-                            <div class="col-12">
-                                <h2>
-                                    No code snippet or reST include file to copy
-                                    <f:if condition="{numTextFilesFilteredOut} > 0">
-                                        <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
-                                    </f:if>
-                                </h2>
-                                <p>
-                                    All generated text files match with the original files.
-                                </p>
-                            </div>
-                        </f:else>
-                    </f:if>
-                </div>
 
-                <f:for each="{textFileComparisons}" as="textFileComparison" iteration="iteration">
-                    <div class="panel panel-default">
-                        <div class="table-fit">
-                            <table class="table">
-                                <tr>
-                                    <th>
-                                        <span class="badge bg-primary fs-5">{iteration.cycle} / {numTextFiles}</span>
-                                    </th>
-                                    <th>
-                                        <div class="form-check form-switch float-end">
-                                            <label
-                                                class="form-check-label"
-                                                for="textFile_{textFileComparison.fileActual.hash}"
-                                                role="button"
-                                            >
-                                                Copy
-                                            </label>
-                                            <f:form.checkbox
-                                                class="form-check-input text-files-to-copy"
-                                                id="textFile_{textFileComparison.fileActual.hash}"
-                                                name="textFilesToCopy[]"
-                                                value="{textFileComparison.fileActual.hash}"
-                                                checked="checked"
-                                                additionalAttributes="{role:'button'}"
-                                            />
-                                        </div>
-                                    </th>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="table-fit">
-                            <table class="table table-striped col-min">
-                                <tr>
-                                    <td style="width:1%;">Filename:</td>
-                                    <td>{textFileComparison.fileActual.fileName}</td>
-                                </tr>
-                                <tr>
-                                    <td>Actual path:</td>
-                                    <td>{textFileComparison.fileActual.uri}</td>
-                                </tr>
-                                <tr>
-                                    <td>Original path:</td>
-                                    <td>{textFileComparison.fileOriginal.uri}</td>
-                                </tr>
-                                <tr>
-                                    <td>Difference:</td>
-                                    <td>
-                                        <f:if condition="{textFileComparison.difference} == 1">
-                                            <f:then>
-                                                {textFileComparison.difference} (new)
-                                            </f:then>
-                                            <f:else>
-                                                {textFileComparison.difference} (changed)
-                                            </f:else>
-                                        </f:if>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="table-fit">
-                            <table class="table table-striped">
-                                <tr>
-                                    <td>Diff</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <f:if condition="{textFileComparison.fileDiff.existing}">
-                                            <f:then>
-                                                <pre><code class="m-0"><f:format.nl2br>{textFileComparison.fileDiff.content}</f:format.nl2br></code></pre>
-                                            </f:then>
-                                            <f:else>
-                                                <screenshots:placeholder width="100%" height="{textFileComparison.maxHeight}px">
-                                                    Nothing to compare.
-                                                </screenshots:placeholder>
-                                            </f:else>
-                                        </f:if>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </f:for>
-
-                <div class="row">
-                    <f:if condition="{numImages} > 0">
-                        <f:then>
+                <f:if condition="{numImages} > 0">
+                    <f:then>
+                        <div class="row">
                             <div class="col-8">
                                 <f:if condition="{numImages} == 1">
                                     <f:then>
@@ -230,11 +79,11 @@
                             <div class="col-4 pt-4">
                                 <div class="form-check form-switch float-end pt-1 pe-2">
                                     <input type="checkbox"
-                                        class="form-check-input smjs-toggle-all"
-                                        data-toggle-selector='.images-to-copy'
-                                        id="toggleImagesToCopy"
-                                        checked="checked"
-                                        role="button"
+                                           class="form-check-input smjs-toggle-all"
+                                           data-toggle-selector='.images-to-copy'
+                                           id="toggleImagesToCopy"
+                                           checked="checked"
+                                           role="button"
                                     />
                                     <label
                                         class="form-check-label form"
@@ -245,8 +94,16 @@
                                     </label>
                                 </div>
                             </div>
-                        </f:then>
-                        <f:else>
+                        </div>
+                        <f:for each="{imageComparisons}" as="imageComparison" iteration="iteration">
+                            <f:render partial="Compare/ImageComparison" arguments="{_all}" />
+                        </f:for>
+                        <div>
+                            <f:render partial="Compare/Buttons" arguments="{_all}" />
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <div class="row">
                             <div class="col-12">
                                 <h2>
                                     No screenshots to compare & copy
@@ -258,119 +115,76 @@
                                     All generated images match with the original images.
                                 </p>
                             </div>
-                        </f:else>
-                    </f:if>
-                </div>
+                        </div>
+                    </f:else>
+                </f:if>
 
-                <f:for each="{imageComparisons}" as="imageComparison" iteration="iteration">
-                    <div class="panel panel-default">
-                        <div class="table-fit">
-                            <table class="table">
-                                <tr>
-                                    <th>
-                                        <span class="badge bg-primary fs-5">{iteration.cycle} / {numImages}</span>
-                                    </th>
-                                    <th>
-                                        <div class="form-check form-switch float-end">
-                                            <label
-                                                class="form-check-label"
-                                                for="image_{imageComparison.imageActual.hash}"
-                                                role="button"
-                                            >
-                                                Copy
-                                            </label>
-                                            <f:form.checkbox
-                                                class="form-check-input images-to-copy"
-                                                id="image_{imageComparison.imageActual.hash}"
-                                                name="imagesToCopy[]"
-                                                value="{imageComparison.imageActual.hash}"
-                                                checked="checked"
-                                                additionalAttributes="{role:'button'}"
-                                            />
-                                        </div>
-                                    </th>
-                                </tr>
-                            </table>
+                <f:if condition="{numTextFiles} > 0">
+                    <f:then>
+                        <div class="row">
+                            <div class="col-8">
+                                <f:if condition="{numTextFiles} == 1">
+                                    <f:then>
+                                        <h2>
+                                            1 text file to compare & copy
+                                            <f:if condition="{numTextFilesFilteredOut} > 0">
+                                                <br><small>{numTextFilesFilteredOut} text files filtered out</small>
+                                            </f:if>
+                                        </h2>
+                                    </f:then>
+                                    <f:else>
+                                        <h2>
+                                            {numTextFiles} text files to compare & copy
+                                            <f:if condition="{numTextFilesFilteredOut} > 0">
+                                                <br><small>{numTextFilesFilteredOut} text files filtered out</small>
+                                            </f:if>
+                                        </h2>
+                                    </f:else>
+                                </f:if>
+                            </div>
+                            <div class="col-4 pt-4">
+                                <div class="form-check form-switch float-end pt-1 pe-2">
+                                    <input type="checkbox"
+                                           class="form-check-input smjs-toggle-all"
+                                           data-toggle-selector='.text-files-to-copy'
+                                           id="toggleTextFilesToCopy"
+                                           checked="checked"
+                                           role="button"
+                                    />
+                                    <label
+                                        class="form-check-label form"
+                                        for="toggleTextFilesToCopy"
+                                        role="button"
+                                    >
+                                        Copy all
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="table-fit">
-                            <table class="table table-striped col-min">
-                                <tr>
-                                    <td style="width:1%;">Filename:</td>
-                                    <td>{imageComparison.imageActual.fileName}</td>
-                                </tr>
-                                <tr>
-                                    <td>Actual path:</td>
-                                    <td>{imageComparison.imageActual.uri}</td>
-                                </tr>
-                                <tr>
-                                    <td>Original path:</td>
-                                    <td>{imageComparison.imageOriginal.uri}</td>
-                                </tr>
-                                <tr>
-                                    <td>Difference:</td>
-                                    <td>
-                                        <f:if condition="{imageComparison.difference} == 1">
-                                            <f:then>
-                                                {imageComparison.difference} (new)
-                                            </f:then>
-                                            <f:else>
-                                                {imageComparison.difference} (changed)
-                                            </f:else>
-                                        </f:if>
-                                    </td>
-                                </tr>
-                            </table>
+                        <f:for each="{textFileComparisons}" as="textFileComparison" iteration="iteration">
+                            <f:render partial="Compare/TextFileComparison" arguments="{_all}" />
+                        </f:for>
+                        <div>
+                            <f:render partial="Compare/Buttons" arguments="{_all}" />
                         </div>
-                        <div class="table-fit">
-                            <table class="table table-striped">
-                                <tr>
-                                    <td>Actual</td>
-                                    <td>Diff</td>
-                                    <td>Original</td>
-                                </tr>
-                                <tr>
-                                    <td><img src="{imageComparison.imageActual.uriWithCacheBust}" alt="" /></td>
-                                    <td>
-                                        <f:if condition="{imageComparison.imageDiff.existing}">
-                                            <f:then>
-                                                <img src="{imageComparison.imageDiff.uriWithCacheBust}" alt="" />
-                                            </f:then>
-                                            <f:else>
-                                                <screenshots:placeholder width="100%" height="{imageComparison.maxHeight}px">
-                                                    Nothing to compare.
-                                                </screenshots:placeholder>
-                                            </f:else>
-                                        </f:if>
-                                    </td>
-                                    <td>
-                                        <f:if condition="{imageComparison.imageOriginal.existing}">
-                                            <f:then>
-                                                <img src="{imageComparison.imageOriginal.uriWithCacheBust}" alt="" />
-                                            </f:then>
-                                            <f:else>
-                                                <screenshots:placeholder width="100%" height="{imageComparison.maxHeight}px">
-                                                    Does not exist yet.
-                                                </screenshots:placeholder>
-                                            </f:else>
-                                        </f:if>
-                                    </td>
-                                </tr>
-                            </table>
+                    </f:then>
+                    <f:else>
+                        <div class="row">
+                            <div class="col-12">
+                                <h2>
+                                    No text file to compare & copy
+                                    <f:if condition="{numTextFilesFilteredOut} > 0">
+                                        <br><small>{numTextFilesFilteredOut} text files filtered out</small>
+                                    </f:if>
+                                </h2>
+                                <p>
+                                    All generated text files (code snippets and screenshot include files) match with the
+                                    original files.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </f:for>
-
-                <div class="pt-3">
-                    <f:form.button name="cmd" value="compare" type="submit" class="btn btn-primary">
-                        Compare screenshots
-                    </f:form.button>
-                    <f:form.button name="cmd" value="copy" type="submit" class="btn btn-success float-end button-copy-screenshots">
-                        <f:translate
-                            key="LLL:EXT:screenshots/Resources/Private/Language/locallang_mod.xlf:button.copyscreenshots"
-                            arguments="{0: numImages, 1: numTextFiles}"
-                        />
-                    </f:form.button>
-                </div>
+                    </f:else>
+                </f:if>
             </f:else>
         </f:if>
     </f:form>

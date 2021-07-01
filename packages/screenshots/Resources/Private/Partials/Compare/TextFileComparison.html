@@ -1,0 +1,83 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:screenshots="http://typo3.org/ns/TYPO3/CMS/Screenshots/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+<div class="panel panel-default">
+    <div class="table-fit">
+        <table class="table">
+            <tr>
+                <th>
+                    <span class="badge bg-primary fs-5">{iteration.cycle} / {numTextFiles}</span>
+                </th>
+                <th>
+                    <div class="form-check form-switch float-end">
+                        <label
+                            class="form-check-label"
+                            for="textFile_{textFileComparison.fileActual.hash}"
+                            role="button"
+                        >
+                            Copy
+                        </label>
+                        <f:form.checkbox
+                            class="form-check-input text-files-to-copy"
+                            id="textFile_{textFileComparison.fileActual.hash}"
+                            name="textFilesToCopy[]"
+                            value="{textFileComparison.fileActual.hash}"
+                            checked="checked"
+                            additionalAttributes="{role:'button'}"
+                        />
+                    </div>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="table-fit">
+        <table class="table table-striped col-min">
+            <tr>
+                <td style="width:1%;">Filename:</td>
+                <td>{textFileComparison.fileActual.fileName}</td>
+            </tr>
+            <tr>
+                <td>Actual path:</td>
+                <td>{textFileComparison.fileActual.uri}</td>
+            </tr>
+            <tr>
+                <td>Original path:</td>
+                <td>{textFileComparison.fileOriginal.uri}</td>
+            </tr>
+            <tr>
+                <td>Difference:</td>
+                <td>
+                    <f:if condition="{textFileComparison.difference} == 1">
+                        <f:then>
+                            {textFileComparison.difference} (new)
+                        </f:then>
+                        <f:else>
+                            {textFileComparison.difference} (changed)
+                        </f:else>
+                    </f:if>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table-fit">
+        <table class="table table-striped">
+            <tr>
+                <td>Diff</td>
+            </tr>
+            <tr>
+                <td>
+                    <f:if condition="{textFileComparison.fileDiff.existing}">
+                        <f:then>
+                            <pre><code class="m-0"><f:format.nl2br>{textFileComparison.fileDiff.content}</f:format.nl2br></code></pre>
+                        </f:then>
+                        <f:else>
+                            <screenshots:placeholder width="100%" height="{textFileComparison.maxHeight}px">
+                                Nothing to compare.
+                            </screenshots:placeholder>
+                        </f:else>
+                    </f:if>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
