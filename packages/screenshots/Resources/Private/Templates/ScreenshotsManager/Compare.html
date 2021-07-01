@@ -4,7 +4,7 @@
 <f:layout name="Screenshots" />
 <f:section name="Content">
     <f:variable name="numImages">{imageComparisons -> f:count()}</f:variable>
-    <f:variable name="numTextFiles">{textFiles -> f:count()}</f:variable>
+    <f:variable name="numTextFiles">{textFileComparisons -> f:count()}</f:variable>
 
     <h1>TYPO3 Screenshots :: Compare &amp; Copy</h1>
     <f:form method="post" action="compare">
@@ -27,7 +27,7 @@
                 <div class="form-text">Enclose the term with # to use regular expressions.</div>
             </div>
             <div class="col-12 col-md-4" id="screenshotsSuiteContainer">
-                <label for="screenshotsSorting" class="form-label">Sort screenshots by</label>
+                <label for="screenshotsSorting" class="form-label">Sort screenshots &amp; files by</label>
                 <f:form.select
                     id="screenshotsSorting"
                     name="sorting"
@@ -102,9 +102,6 @@
                                     >
                                         Copy all
                                     </label>
-                                    <f:for each="{textFiles}" as="textFile">
-                                        <f:form.hidden name="textFilesToCopy[]" value="{textFile.hash}" class="text-files-to-copy" />
-                                    </f:for>
                                 </div>
                             </div>
                         </f:then>
@@ -116,15 +113,96 @@
                                         <br><small>{numTextFilesFilteredOut} code snippets filtered out</small>
                                     </f:if>
                                 </h2>
+                                <p>
+                                    All generated text files match with the original files.
+                                </p>
                             </div>
                         </f:else>
                     </f:if>
-                    <p>
-                        Code snippets and reST include files are copied in a bundle and cannot be selected individually.
-                        They can be conveniently compared in the Git comparison tools before the changes are eventually
-                        committed.
-                    </p>
                 </div>
+
+                <f:for each="{textFileComparisons}" as="textFileComparison" iteration="iteration">
+                    <div class="panel panel-default">
+                        <div class="table-fit">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        <span class="badge bg-primary fs-5">{iteration.cycle} / {numTextFiles}</span>
+                                    </th>
+                                    <th>
+                                        <div class="form-check form-switch float-end">
+                                            <label
+                                                class="form-check-label"
+                                                for="textFile_{textFileComparison.fileActual.hash}"
+                                                role="button"
+                                            >
+                                                Copy
+                                            </label>
+                                            <f:form.checkbox
+                                                class="form-check-input text-files-to-copy"
+                                                id="textFile_{textFileComparison.fileActual.hash}"
+                                                name="textFilesToCopy[]"
+                                                value="{textFileComparison.fileActual.hash}"
+                                                checked="checked"
+                                                additionalAttributes="{role:'button'}"
+                                            />
+                                        </div>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="table-fit">
+                            <table class="table table-striped col-min">
+                                <tr>
+                                    <td style="width:1%;">Filename:</td>
+                                    <td>{textFileComparison.fileActual.fileName}</td>
+                                </tr>
+                                <tr>
+                                    <td>Actual path:</td>
+                                    <td>{textFileComparison.fileActual.uri}</td>
+                                </tr>
+                                <tr>
+                                    <td>Original path:</td>
+                                    <td>{textFileComparison.fileOriginal.uri}</td>
+                                </tr>
+                                <tr>
+                                    <td>Difference:</td>
+                                    <td>
+                                        <f:if condition="{textFileComparison.difference} == 1">
+                                            <f:then>
+                                                {textFileComparison.difference} (new)
+                                            </f:then>
+                                            <f:else>
+                                                {textFileComparison.difference} (changed)
+                                            </f:else>
+                                        </f:if>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="table-fit">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Diff</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <f:if condition="{textFileComparison.fileDiff.existing}">
+                                            <f:then>
+                                                <pre><code class="m-0"><f:format.nl2br>{textFileComparison.fileDiff.content}</f:format.nl2br></code></pre>
+                                            </f:then>
+                                            <f:else>
+                                                <screenshots:placeholder width="100%" height="{textFileComparison.maxHeight}px">
+                                                    Nothing to compare.
+                                                </screenshots:placeholder>
+                                            </f:else>
+                                        </f:if>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </f:for>
 
                 <div class="row">
                     <f:if condition="{numImages} > 0">
@@ -230,7 +308,16 @@
                                 </tr>
                                 <tr>
                                     <td>Difference:</td>
-                                    <td>{imageComparison.difference}</td>
+                                    <td>
+                                        <f:if condition="{imageComparison.difference} == 1">
+                                            <f:then>
+                                                {imageComparison.difference} (new)
+                                            </f:then>
+                                            <f:else>
+                                                {imageComparison.difference} (changed)
+                                            </f:else>
+                                        </f:if>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
