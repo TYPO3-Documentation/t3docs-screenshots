@@ -1,0 +1,12 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:form.button name="cmd" value="compare" type="submit" class="btn btn-primary">
+    Compare screenshots &amp; text files
+</f:form.button>
+<f:if condition="{cmd} != 'show'">
+    <f:form.button name="cmd" value="copy" type="submit" class="btn btn-success float-end button-copy-screenshots">
+        <f:translate
+            key="LLL:EXT:screenshots/Resources/Private/Language/locallang_mod.xlf:button.copyscreenshots"
+            arguments="{0: numImages, 1: numTextFiles}"
+        />
+    </f:form.button>
+</f:if>

@@ -1,0 +1,98 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:screenshots="http://typo3.org/ns/TYPO3/CMS/Screenshots/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+<div class="panel panel-default">
+    <div class="table-fit">
+        <table class="table">
+            <tr>
+                <th>
+                    <span class="badge bg-primary fs-5">{iteration.cycle} / {numImages}</span>
+                </th>
+                <th>
+                    <div class="form-check form-switch float-end">
+                        <label
+                            class="form-check-label"
+                            for="image_{imageComparison.imageActual.hash}"
+                            role="button"
+                        >
+                            Copy
+                        </label>
+                        <f:form.checkbox
+                            class="form-check-input images-to-copy"
+                            id="image_{imageComparison.imageActual.hash}"
+                            name="imagesToCopy[]"
+                            value="{imageComparison.imageActual.hash}"
+                            checked="checked"
+                            additionalAttributes="{role:'button'}"
+                        />
+                    </div>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="table-fit">
+        <table class="table table-striped col-min">
+            <tr>
+                <td style="width:1%;">Filename:</td>
+                <td>{imageComparison.imageActual.fileName}</td>
+            </tr>
+            <tr>
+                <td>Actual path:</td>
+                <td>{imageComparison.imageActual.uri}</td>
+            </tr>
+            <tr>
+                <td>Original path:</td>
+                <td>{imageComparison.imageOriginal.uri}</td>
+            </tr>
+            <tr>
+                <td>Difference:</td>
+                <td>
+                    <f:if condition="{imageComparison.difference} == 1">
+                        <f:then>
+                            {imageComparison.difference} (new)
+                        </f:then>
+                        <f:else>
+                            {imageComparison.difference} (changed)
+                        </f:else>
+                    </f:if>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table-fit">
+        <table class="table table-striped">
+            <tr>
+                <td>Actual</td>
+                <td>Diff</td>
+                <td>Original</td>
+            </tr>
+            <tr>
+                <td><img src="{imageComparison.imageActual.uriWithCacheBust}" alt="" /></td>
+                <td>
+                    <f:if condition="{imageComparison.imageDiff.existing}">
+                        <f:then>
+                            <img src="{imageComparison.imageDiff.uriWithCacheBust}" alt="" />
+                        </f:then>
+                        <f:else>
+                            <screenshots:placeholder width="100%" height="{imageComparison.maxHeight}px">
+                                Nothing to compare.
+                            </screenshots:placeholder>
+                        </f:else>
+                    </f:if>
+                </td>
+                <td>
+                    <f:if condition="{imageComparison.imageOriginal.existing}">
+                        <f:then>
+                            <img src="{imageComparison.imageOriginal.uriWithCacheBust}" alt="" />
+                        </f:then>
+                        <f:else>
+                            <screenshots:placeholder width="100%" height="{imageComparison.maxHeight}px">
+                                Does not exist yet.
+                            </screenshots:placeholder>
+                        </f:else>
+                    </f:if>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
