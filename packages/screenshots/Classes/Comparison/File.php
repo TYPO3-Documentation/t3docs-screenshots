@@ -86,4 +86,13 @@ class File
     {
         return md5($this->path);
     }
+
+    public function getContent(): string
+    {
+        if ($this->existing) {
+            return trim(file_get_contents($this->path));
+        } else {
+            return '';
+        }
+    }
 }

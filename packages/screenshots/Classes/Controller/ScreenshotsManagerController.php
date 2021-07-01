@@ -21,6 +21,7 @@ use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
 use TYPO3\CMS\Screenshots\Comparison\File;
 use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
+use TYPO3\CMS\Screenshots\Comparison\TextFileComparison;
 use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
 use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
@@ -171,7 +172,7 @@ class ScreenshotsManagerController extends ActionController
         ), $pathActual);
 
         $imageComparisons = [];
-        $textFiles = [];
+        $textFileComparisons = [];
         $imageExtensionsIndex = array_flip($this->imageExtensions);
         $numImagesFilteredOut = 0;
         $numTextFilesFilteredOut = 0;
@@ -198,7 +199,18 @@ class ScreenshotsManagerController extends ActionController
                 }
             } else {
                 if ($this->isSearchTermMatchingFilePath($search, $file)) {
-                    $textFiles[] = new File($pathActual . $file, $urlActual . $file);
+                    $textFileComparison = new TextFileComparison(
+                        $pathActual . $file,
+                        $pathOriginal . $file,
+                        $pathDiff . $file,
+                        $urlActual . $file,
+                        $urlOriginal . $file,
+                        $urlDiff . $file
+                    );
+                    $textFileComparison->process();
+                    if ($textFileComparison->getDifference() > 0) {
+                        $textFileComparisons[] = $textFileComparison;
+                    }
                 } else {
                     $numTextFilesFilteredOut++;
                 }
@@ -206,10 +218,10 @@ class ScreenshotsManagerController extends ActionController
         }
 
         $this->sortImageComparisons($imageComparisons, $sorting);
-        $this->sortTextFiles($textFiles, $sorting);
+        $this->sortTextFileComparisons($textFileComparisons, $sorting);
 
         $this->view->assign('imageComparisons', $imageComparisons);
-        $this->view->assign('textFiles', $textFiles);
+        $this->view->assign('textFileComparisons', $textFileComparisons);
         $this->view->assign('numImagesFilteredOut', $numImagesFilteredOut);
         $this->view->assign('numTextFilesFilteredOut', $numTextFilesFilteredOut);
         $this->view->assign('search', $search);
@@ -289,45 +301,59 @@ class ScreenshotsManagerController extends ActionController
         }
     }
 
-    protected function sortTextFiles(array &$textFiles, string $sorting): void
+    protected function sortTextFileComparisons(array &$textFileComparisons, string $sorting): void
     {
-        if ($sorting === 'filename-asc') {
+        if ($sorting === 'difference-asc') {
             usort(
-                $textFiles,
-                function(File $textFileA, File $textFileB) {
+                $textFileComparisons,
+                function (TextFileComparison $textFileComparisonA, TextFileComparison $textFileComparisonB) {
+                    return $textFileComparisonA->getDifference() <= $textFileComparisonB->getDifference() ? -1 : 1;
+                }
+            );
+        } elseif ($sorting === 'difference-desc') {
+            usort(
+                $textFileComparisons,
+                function (TextFileComparison $textFileComparisonA, TextFileComparison $textFileComparisonB) {
+                    return $textFileComparisonA->getDifference() <= $textFileComparisonB->getDifference() ? 1 : -1;
+                }
+            );
+        } elseif ($sorting === 'filename-asc') {
+            usort(
+                $textFileComparisons,
+                function(TextFileComparison $textFileComparisonA, TextFileComparison $textFileComparisonB) {
                     return strcasecmp(
-                        $textFileA->getFileName(),
-                        $textFileB->getFileName()
+                        $textFileComparisonA->getFileOriginal()->getFileName(),
+                        $textFileComparisonB->getFileOriginal()->getFileName()
                     );
                 }
             );
         } elseif ($sorting === 'filename-desc') {
             usort(
-                $textFiles,
-                function(File $textFileA, File $textFileB) {
+                $textFileComparisons,
+                function(TextFileComparison $textFileComparisonA, TextFileComparison $textFileComparisonB) {
                     return strcasecmp(
-                            $textFileA->getFileName(),
-                            $textFileB->getFileName()
+                            $textFileComparisonA->getFileOriginal()->getFileName(),
+                            $textFileComparisonB->getFileOriginal()->getFileName()
                         ) * -1;
                 }
             );
         } elseif ($sorting === 'path-asc') {
             usort(
-                $textFiles,
-                function(File $textFileA, File $textFileB) {
+                $textFileComparisons,
+                function(TextFileComparison $textFileComparisonA, TextFileComparison $textFileComparisonB) {
                     return strcasecmp(
-                        $textFileA->getPath(),
-                        $textFileB->getPath()
+                        $textFileComparisonA->getFileOriginal()->getPath(),
+                        $textFileComparisonB->getFileOriginal()->getPath()
                     );
                 }
             );
         } elseif ($sorting === 'path-desc') {
             usort(
-                $textFiles,
-                function(File $textFileA, File $textFileB) {
+                $textFileComparisons,
+                function(TextFileComparison $textFileComparisonA, TextFileComparison $textFileComparisonB) {
                     return strcasecmp(
-                            $textFileA->getPath(),
-                            $textFileB->getPath()
+                            $textFileComparisonA->getFileOriginal()->getPath(),
+                            $textFileComparisonB->getFileOriginal()->getPath()
                         ) * -1;
                 }
             );
@@ -374,9 +400,9 @@ class ScreenshotsManagerController extends ActionController
             $message = sprintf('%d of %d images ', $numCopiedImages, $numImages);
         }
         if ($numCopiedFiles === 1) {
-            $message .= sprintf('and %d of %d code snippet and reST include file copied.', $numCopiedFiles, $numTextFiles);
+            $message .= sprintf('and %d of %d text file copied.', $numCopiedFiles, $numTextFiles);
         } else {
-            $message .= sprintf('and %d of %d code snippets and reST include files copied.', $numCopiedFiles, $numTextFiles);
+            $message .= sprintf('and %d of %d text files copied.', $numCopiedFiles, $numTextFiles);
         }
         $this->pushMessage($message, InfoboxViewHelper::STATE_OK);
     }

@@ -13,7 +13,7 @@ define(['jquery', 'jquery/autocomplete', 'TYPO3/CMS/Backend/Input/Clearable'], f
 
   ScreenshotsManager.updateCopyButtonLabel = function() {
     let numImagesToCopy = $('.images-to-copy').filter(':checked').length;
-    let numTextFilesToCopy = $('.text-files-to-copy').filter(':not(:disabled)').length;
+    let numTextFilesToCopy = $('.text-files-to-copy').filter(':checked').length;
     let label = TYPO3.lang['button.copyscreenshots'].replace('%d', numImagesToCopy).replace('%d', numTextFilesToCopy);
     $('.button-copy-screenshots').text(label);
   };
@@ -25,7 +25,7 @@ define(['jquery', 'jquery/autocomplete', 'TYPO3/CMS/Backend/Input/Clearable'], f
 
   ScreenshotsManager.toggleAllTextFilesToCopy = function() {
     let checked = $('#toggleTextFilesToCopy').prop('checked');
-    $('.text-files-to-copy').prop('disabled', !checked);
+    $('.text-files-to-copy').prop('checked', checked);
   }
 
   ScreenshotsManager.makeInputFieldClearable = function(selector) {
@@ -71,6 +71,9 @@ define(['jquery', 'jquery/autocomplete', 'TYPO3/CMS/Backend/Input/Clearable'], f
     });
     $('#toggleImagesToCopy').on('click', function(){
       ScreenshotsManager.toggleAllImagesToCopy();
+      ScreenshotsManager.updateCopyButtonLabel();
+    });
+    $('.text-files-to-copy').on('click', function(){
       ScreenshotsManager.updateCopyButtonLabel();
     });
     $('#toggleTextFilesToCopy').on('click', function(){
