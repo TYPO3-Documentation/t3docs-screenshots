@@ -15,8 +15,8 @@ This project provides a way to take screenshots of the TYPO3 CMS in a scripted w
 First, the user browses a TYPO3 instance to take notes of a click path for a new screenshot.
 Next, the click path gets forged to a ``screenshots.json`` file.
 Then, all ``screenshots.json`` files get executed by the screenshots runner which produces the screenshots.
-Last, the actual screenshots get compared to the original screenshots in the screenshots manager and copied over if
-approved by the user.
+Last, the user compares the actual screenshots to the original screenshots in the screenshots manager and copies over if
+approved.
 
 Activity of the screenshots runner:
 
@@ -36,6 +36,8 @@ Install
 3.  `DDEV <https://ddev.readthedocs.io/en/stable/>`_
 
 
+.. _installation:
+
 Installation
 ============
 
@@ -45,58 +47,35 @@ Installation
 
       ddev install
 
-2. Navigate in your browser to the website and complete the installation:
+2. Navigate the browser to the website and complete the installation:
 
    .. code-block:: bash
 
       ddev launch
 
-3. Log into the TYPO3 backend
-4. Optionally activate the page tree of a TYPO3 distribution:
+3. Test the installation by
 
-   -  initialize the page tree of ``EXT:examples`` by activating this extension - or -
-   -  initialize the page tree of ``EXT:introduction`` by activating this extension - or -
-   -  initialize the page tree of ``EXT:styleguide`` by activating this extension and clicking in the upper right corner
-      "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
-
-5. Test the installation by
-
-   -  creating a dummy ``screenshots.json`` with example entries at ``public/t3docs/My-Manual`` by
+   a. creating a dummy ``screenshots.json`` with example entries at ``public/t3docs/My-Manual`` by
 
       .. code-block:: bash
 
          ddev init-screenshot-json -t My-Manual
 
-   -  running the dummy ``screenshots.json`` by
+   b. running the dummy ``screenshots.json`` by
 
       .. code-block:: bash
 
          ddev make-screenshots -t My-Manual
 
-   -  approving your installation by confirming that the screenshots have been created in ``public/t3docs/My-Manual``
+   c. approving your installation by confirming that the screenshots have been created in ``public/t3docs/My-Manual``.
 
-Now you are ready to create custom ``screenshots.json`` and generate screenshots from them.
+Now you are ready to browse the TYPO3 backend, create custom ``screenshots.json`` and generate screenshots from them.
 
 
-Browsable TYPO3 instance
-========================
+Maintenance
+===========
 
-[TODO]
-
-Reinstallation
---------------
-
-You might want to setup the TYPO3 instance from scratch to initialize it with a distinct page tree. This can be easily
-achieved by running the steps of the installation section again.
-
-Stop
-----
-
-Stop the TYPO3 instance by
-
-.. code-block:: bash
-
-   ddev stop
+Below is a list of common commands for handling the TYPO3 instance.
 
 Start
 -----
@@ -107,6 +86,22 @@ Start the TYPO3 instance by
 
    ddev start
 
+Stop
+----
+
+Stop the TYPO3 instance by
+
+.. code-block:: bash
+
+   ddev stop
+
+Reinstallation
+--------------
+
+You might want to setup the TYPO3 instance from scratch to initialize it with a distinct page tree
+(read about activating page trees in section "`Browsable TYPO3 instance <browsable-typo3-instance_>`_").
+This can be reliably achieved by running the steps of the section "`Installation <installation_>`_" again.
+
 Uninstallation
 --------------
 
@@ -115,6 +110,25 @@ Remove the TYPO3 instance by
 .. code-block:: bash
 
    ddev delete -yO
+
+
+.. _browsable-typo3-instance:
+
+Browsable TYPO3 instance
+========================
+
+1. Start the TYPO3 instance - if not already present.
+2. Navigate the browser to the TYPO3 backend at https://t3docs-screenshots.ddev.site/typo3 .
+3. Log in to the TYPO3 backend - the credentials were created during the installation process.
+4. Optionally activate the page tree of a TYPO3 distribution:
+
+   -  Initialize the page tree of ``EXT:examples`` by activating this extension - or -
+   -  initialize the page tree of ``EXT:introduction`` by activating this extension - or -
+   -  initialize the page tree of ``EXT:styleguide`` by activating this extension and clicking in the upper right corner
+      "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
+
+Now you are ready to browse the TYPO3 backend and look up element selectors for use in actions of your
+``screenshots.json``.
 
 
 Screenshots runner
@@ -144,7 +158,8 @@ The runner configuration file ``screenshots.json`` must be placed in the root di
 folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the TYPO3 environment
 ("Core", "Examples", "Install", "Introduction" or "Styleguide") where the screenshots are taken, and in the second level
 it lists blocks of actions where each block ends with a captured screenshot. Each action is an object, where the key
-``action`` marks the action name and the remaining keys represent the action parameters.
+``action`` marks the action name and the remaining keys represent the action parameters. Actions are mainly about
+navigating the TYPO3 instance and taking screenshots.
 
 Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3docs`` by
 
@@ -609,6 +624,7 @@ location.
 .. image:: docs/screenshots_manager_copy.png
 
 Eventually, the original screenshots were updated and the changes can be committed and pushed.
+
 
 Development
 ===========
