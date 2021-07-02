@@ -36,11 +36,8 @@ Install
 3.  `DDEV <https://ddev.readthedocs.io/en/stable/>`_
 
 
-Browsable TYPO3 instance
-========================
-
 Installation
-------------
+============
 
 1. Build the environment by
 
@@ -61,6 +58,30 @@ Installation
    -  initialize the page tree of ``EXT:introduction`` by activating this extension - or -
    -  initialize the page tree of ``EXT:styleguide`` by activating this extension and clicking in the upper right corner
       "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
+
+5. Test the installation by
+
+   -  creating a dummy ``screenshots.json`` with example entries at ``public/t3docs/My-Manual`` by
+
+      .. code-block:: bash
+
+         ddev init-screenshot-json -t My-Manual
+
+   -  running the dummy ``screenshots.json`` by
+
+      .. code-block:: bash
+
+         ddev make-screenshots -t My-Manual
+
+   -  approving your installation by confirming that the screenshots have been created in ``public/t3docs/My-Manual``
+
+Now you are ready to create custom ``screenshots.json`` and generate screenshots from them.
+
+
+Browsable TYPO3 instance
+========================
+
+[TODO]
 
 Reinstallation
 --------------
