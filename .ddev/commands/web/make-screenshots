@@ -3,8 +3,9 @@
 ## Description: Make screenshots via codeception inside the web container
 ## Usage: make-screenshots
 ## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots\nmake-screenshots -t My-Manual
-## Flags: [{"Name":"actions-id","Shorthand":"a","Type":"string","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Run actions of specific TYPO3 environment suite ID only (Core, Examples, Install, Introduction, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Type":"string","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
+## Flags: [{"Name":"actions-id","Shorthand":"a","Type":"string","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"browser","Shorthand":"b","Type":"string","Usage":"Run actions in specific browser (chrome, firefox). Firefox if empty."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Run actions of specific TYPO3 environment suite ID only (Core, Examples, Install, Introduction, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Type":"string","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
 
+BROWSER="firefox"
 SUITE_ID=""
 TARGET_PATH=""
 ACTIONS_ID=""
@@ -13,7 +14,7 @@ fetch_options() {
     local params;
     local exitStatus;
 
-    params=$(getopt --options s:a:t: --longoptions suite-id:,actions-id:,target-path: --name "$0" -- "$@")
+    params=$(getopt --options b:s:a:t: --longoptions browser:,suite-id:,actions-id:,target-path: --name "$0" -- "$@")
 
     exitStatus=$?
     if [ $exitStatus -eq 0 ]; then
@@ -22,6 +23,10 @@ fetch_options() {
         while true
         do
             case "$1" in
+                -b|--browser)
+                    BROWSER=$2
+                    shift 2
+                    ;;
                 -s|--suite-id)
                     SUITE_ID=$2
                     shift 2
@@ -70,7 +75,7 @@ make_screenshots() {
     typo3DatabaseUsername=root \
     typo3DatabasePassword=root \
     typo3DatabaseHost=db \
-    /var/www/html/vendor/bin/codecept run -d -c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml $SUITE_ID
+    /var/www/html/vendor/bin/codecept run -d --env $BROWSER -c /var/www/html/public/typo3conf/ext/screenshots/Classes/Runner/codeception.yml $SUITE_ID
 }
 
 fetch_suites() {

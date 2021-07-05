@@ -1,0 +1,10 @@
+version: '3.6'
+
+services:
+  firefox:
+    container_name: ddev-${DDEV_SITENAME}-firefox
+    image: selenium/standalone-firefox:4.0
+    volumes:
+      - /dev/shm:/dev/shm
+    external_links:
+      - ddev-router:$DDEV_HOSTNAME
