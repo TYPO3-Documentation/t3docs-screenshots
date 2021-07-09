@@ -28,11 +28,17 @@ clone_manual() {
 [[ ! -d "$TARGET_BASEPATH" ]] && mkdir "$TARGET_BASEPATH"
 cd "$TARGET_BASEPATH"
 
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Book-ExtbaseFluid" "master" "TYPO3CMS-Book-ExtbaseFluid"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Guide-ContributionWorkflow" "master" "TYPO3CMS-Guide-ContributionWorkflow"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Guide-HowToDocument" "master" "TYPO3CMS-Guide-HowToDocument"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Guide-Installation" "master" "TYPO3CMS-Guide-Installation"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-CoreApi" "master" "TYPO3CMS-Reference-CoreApi"
-clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TCA.git" "master" "TYPO3CMS-Reference-TCA"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TCA" "master" "TYPO3CMS-Reference-TCA"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-TSconfig" "master" "TYPO3CMS-Reference-TSconfig"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Reference-Typoscript" "master" "TYPO3CMS-Reference-Typoscript"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-Editors" "master" "TYPO3CMS-Tutorial-Editors"
 clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-GettingStarted" "master" "TYPO3CMS-Tutorial-GettingStarted"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage" "master" "TYPO3CMS-Tutorial-SitePackage"
+clone_manual "git@github.com:TYPO3-Documentation/TYPO3CMS-Tutorial-Typoscript45Minutes" "master" "TYPO3CMS-Tutorial-Typoscript45Minutes"
 
 cd - > /dev/null
