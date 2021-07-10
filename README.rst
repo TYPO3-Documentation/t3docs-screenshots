@@ -216,6 +216,32 @@ This is a small runner configuration which takes screenshots of five TYPO3 envir
       }
    }
 
+Screenshots are mainly made by the actions ``makeScreenshotOfWindow``, ``makeScreenshotOfFullPage`` and
+``makeScreenshotOfElement``, the first one taking a screenshot of the browser window, the second one taking a screenshot
+of the whole TYPO3 page and the last one of a specific DOM element. A special use case for ``makeScreenshotOfElement``
+is to take a screenshot of the TYPO3 backend content frame, which is often the most interesting part for documentation,
+e.g.
+
+.. code-block:: json
+
+   {
+       "suites": {
+           "Core": {
+               "screenshots": [
+                   [
+                       {"action": "see", "text": "List"},
+                       {"action": "click", "link": "List"},
+                       {"action": "waitForText", "text": "New TYPO3 site"},
+                       {"action": "makeScreenshotOfWindow", "fileName": "Typo3ListWindow"},
+                       {"action": "makeScreenshotOfFullPage", "fileName": "Typo3ListFullPage"},
+                       {"action": "makeScreenshotOfElement", "selector": "#typo3-contentIframe", "fileName": "Typo3ListContentFrameOnly"},
+                       {"action": "makeScreenshotOfElement", "selector": ".topbar-header-site", "fileName": "Typo3ListElementOnly"}
+                   ]
+               ]
+           }
+       }
+   }
+
 The target folder of the screenshots is ``Documentation/Images/AutomaticScreenshots`` by default and is calculated
 relative to the ``screenshots.json``. The path can be adapted by the actions ``setScreenshotsDocumentationPath`` and
 ``setScreenshotsImagePath`` respectively, e.g.

@@ -209,7 +209,11 @@ class Configuration
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                             ['action' => 'see', 'text' => "List"],
                             ['action' => 'click', 'link' => "List"],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "Typo3DashboardFullPage"],
+                            ['action' => 'waitForText', 'text' => "New TYPO3 site"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "Typo3ListWindow"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "Typo3ListFullPage"],
+                            ['action' => 'makeScreenshotOfElement', 'selector' => "#typo3-contentIframe", 'fileName' => "Typo3ListContentFrameOnly"],
+                            ['action' => 'makeScreenshotOfElement', 'selector' => ".topbar-header-site", 'fileName' => "Typo3ListElementOnly"],
                         ]
                     ]
                 ],
