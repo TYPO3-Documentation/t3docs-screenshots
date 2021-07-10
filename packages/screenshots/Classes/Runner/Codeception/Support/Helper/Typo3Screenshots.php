@@ -208,6 +208,13 @@ class Typo3Screenshots extends Module
     /**
      * Take screenshot of the browser window or of a DOM element - if $selector is specified.
      *
+     * Also use this action to take a screenshot of only the TYPO3 backend content frame with:
+     * ``` php
+     * <?php
+     * $I->makeScreenshotOfElement("Typo3ContentFrameOnly", "#typo3-contentIframe");
+     * ?>
+     * ```
+     *
      * Attention: If the screenshot of a DOM element looks broken, resize the window to full page before taking the
      * screenshot. Therefore, replace this action with:
      * ``` php
