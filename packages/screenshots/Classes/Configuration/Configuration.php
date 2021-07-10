@@ -210,10 +210,12 @@ class Configuration
                             ['action' => 'see', 'text' => "List"],
                             ['action' => 'click', 'link' => "List"],
                             ['action' => 'waitForText', 'text' => "New TYPO3 site"],
-                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "Typo3ListWindow"],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "Typo3ListFullPage"],
-                            ['action' => 'makeScreenshotOfElement', 'selector' => "#typo3-contentIframe", 'fileName' => "Typo3ListContentFrameOnly"],
-                            ['action' => 'makeScreenshotOfElement', 'selector' => ".topbar-header-site", 'fileName' => "Typo3ListElementOnly"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "Typo3Window"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "Typo3FullPage"],
+                            ['action' => 'makeScreenshotOfElement', 'selector' => ".topbar-header-site", 'fileName' => "Typo3ElementOnly"],
+                            ['action' => 'makeScreenshotOfContentFrame', 'fileName' => "Typo3ContentFrameInMainFrame"],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'makeScreenshotOfContentFrame', 'fileName' => "Typo3ContentFrameInContentFrame"],
                         ]
                     ]
                 ],
