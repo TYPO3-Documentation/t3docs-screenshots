@@ -115,6 +115,23 @@ class Typo3Screenshots extends Module
     }
 
     /**
+     * Take screenshot of the TYPO3 backend content frame.
+     *
+     * @param string $fileName
+     * @param string $altText
+     * @param string $captionText
+     * @param string $captionReference
+     */
+    public function makeScreenshotOfContentFrame(string $fileName, string $altText = '', string $captionText = '', string $captionReference = ''): void
+    {
+        if ($this->getTypo3Navigation()->_isOnMainFrame()) {
+            $this->makeScreenshotOfElement($fileName, '[name=list_frame]', $altText, $captionText, $captionReference);
+        } else {
+            $this->makeScreenshotOfElement($fileName, 'body', $altText, $captionText, $captionReference);
+        }
+    }
+
+    /**
      * Take screenshot of a TYPO3 backend records table form.
      *
      * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
@@ -207,13 +224,6 @@ class Typo3Screenshots extends Module
 
     /**
      * Take screenshot of the browser window or of a DOM element - if $selector is specified.
-     *
-     * Also use this action to take a screenshot of only the TYPO3 backend content frame with:
-     * ``` php
-     * <?php
-     * $I->makeScreenshotOfElement("Typo3ContentFrameOnly", "#typo3-contentIframe");
-     * ?>
-     * ```
      *
      * Attention: If the screenshot of a DOM element looks broken, resize the window to full page before taking the
      * screenshot. Therefore, replace this action with:

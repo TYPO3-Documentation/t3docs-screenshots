@@ -216,11 +216,10 @@ This is a small runner configuration which takes screenshots of five TYPO3 envir
       }
    }
 
-Screenshots are mainly made by the actions ``makeScreenshotOfWindow``, ``makeScreenshotOfFullPage`` and
-``makeScreenshotOfElement``, the first one taking a screenshot of the browser window, the second one taking a screenshot
-of the whole TYPO3 page and the last one of a specific DOM element. A special use case for ``makeScreenshotOfElement``
-is to take a screenshot of the TYPO3 backend content frame, which is often the most interesting part for documentation,
-e.g.
+Screenshots are mainly made by the actions ``makeScreenshotOfWindow``, ``makeScreenshotOfFullPage``,
+``makeScreenshotOfContentFrame`` and ``makeScreenshotOfElement``, the first one taking a screenshot of the browser
+window, the second one taking a screenshot of the whole TYPO3 page, the third one only of the TYPO3 backend content
+frame and the last one of a specific DOM element, e.g.
 
 .. code-block:: json
 
@@ -232,10 +231,10 @@ e.g.
                        {"action": "see", "text": "List"},
                        {"action": "click", "link": "List"},
                        {"action": "waitForText", "text": "New TYPO3 site"},
-                       {"action": "makeScreenshotOfWindow", "fileName": "Typo3ListWindow"},
-                       {"action": "makeScreenshotOfFullPage", "fileName": "Typo3ListFullPage"},
-                       {"action": "makeScreenshotOfElement", "selector": "#typo3-contentIframe", "fileName": "Typo3ListContentFrameOnly"},
-                       {"action": "makeScreenshotOfElement", "selector": ".topbar-header-site", "fileName": "Typo3ListElementOnly"}
+                       {"action": "makeScreenshotOfWindow", "fileName": "Typo3Window"},
+                       {"action": "makeScreenshotOfFullPage", "fileName": "Typo3FullPage"},
+                       {"action": "makeScreenshotOfContentFrame", "fileName": "Typo3ContentFrameOnly"},
+                       {"action": "makeScreenshotOfElement", "selector": ".topbar-header-site", "fileName": "Typo3ElementOnly"}
                    ]
                ]
            }
