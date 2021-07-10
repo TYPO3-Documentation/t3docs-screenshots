@@ -440,7 +440,19 @@ class Configuration
                             ['action' => 'clickButtonInModalDialog', 'buttonLink' => "Cancel"],
                             ['action' => 'clearDrawings'],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "TxStyleguideElementsBasicWithClearedHighlightsAndFullpage"],
-                        ]
+                            ['action' => 'reloadBackend'],
+                        ],
+                        'actionsIdentifierCrop' => [
+                            ['include' => '_default'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "StyleguideDashboardCropTop"],
+                            ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropTop", 'height' => 400],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "StyleguideDashboardCropBottom"],
+                            ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropBottom", 'position' => 'left-bottom', 'height' => 400],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "StyleguideDashboardCropRightTop"],
+                            ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropRightTop", 'position' => 'right-top', 'height' => 400, 'width' => 400],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "StyleguideDashboardCropRightBottom"],
+                            ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropRightBottom", 'position' => 'right-bottom', 'height' => 400, 'width' => 400],
+                        ],
                     ]
                 ]
             ]

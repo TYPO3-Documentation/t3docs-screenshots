@@ -241,6 +241,25 @@ frame and the last one of a specific DOM element, e.g.
        }
    }
 
+The captured screenshot might contain too much information that is not needed for the documentation. Therefore it can
+be cropped for the purpose of the documentation - or the width of the documentation page - with ``cropScreenshot``,
+e.g.
+
+.. code-block:: json
+
+   {
+      "suites": {
+         "Introduction": {
+            "screenshots": [
+               [
+                    {"action": "makeScreenshotOfFullPage", "fileName": "IntroductionCropRightTop"},
+                    {"action": "cropScreenshot", "fileName": "IntroductionCropRightTop", "position": "right-top", "height": 400, "width": 400},
+               ]
+            ]
+         }
+      }
+   }
+
 The target folder of the screenshots is ``Documentation/Images/AutomaticScreenshots`` by default and is calculated
 relative to the ``screenshots.json``. The path can be adapted by the actions ``setScreenshotsDocumentationPath`` and
 ``setScreenshotsImagePath`` respectively, e.g.
