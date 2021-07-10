@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
 use TYPO3\CMS\Screenshots\Util\FileHelper;
+use TYPO3\CMS\Screenshots\Util\MathHelper;
 use TYPO3\CMS\Screenshots\Util\StringHelper;
 
 /**
@@ -22,6 +23,11 @@ use TYPO3\CMS\Screenshots\Util\StringHelper;
  */
 class Typo3Screenshots extends Module
 {
+    public const POSITION_LEFT_TOP = 'left-top';
+    public const POSITION_LEFT_BOTTOM = 'left-bottom';
+    public const POSITION_RIGHT_TOP = 'right-top';
+    public const POSITION_RIGHT_BOTTOM = 'right-bottom';
+
     protected $config = [
         'actionsIdFilter' => '',
         'basePath' => '',
@@ -334,6 +340,49 @@ NOWDOC;
         } else {
             return '';
         }
+    }
+
+    /**
+     * Crop the screenshot along a specified cropping range given by position, width and height.
+     *
+     * If width is 0, the entire width of the image is taken into account. The same is true for height.
+     *
+     * @param string $fileName
+     * @param string $position
+     * @param int $width
+     * @param int $height
+     * @throws \ImagickException
+     */
+    public function cropScreenshot(string $fileName, string $position = self::POSITION_LEFT_TOP, int $width = 0, int $height = 0): void
+    {
+        if (!$this->isValidCroppingPosition($position)) {
+            throw new \Exception(sprintf('Cropping position "%s" is invalid.', $position), 4001);
+        }
+
+        $relativeImagePath = $this->getRelativeImagePath($fileName);
+        $absoluteImagePath = $this->getAbsoluteDocumentationPath($relativeImagePath);
+
+        $imagick = new \Imagick($absoluteImagePath);
+        $cropArea = MathHelper::getRectangleInRectangle(
+            in_array($position, [self::POSITION_LEFT_TOP, self::POSITION_LEFT_BOTTOM]) ? 0 : -$width,
+            in_array($position, [self::POSITION_LEFT_TOP, self::POSITION_RIGHT_TOP]) ? 0 : -$height,
+            $width,
+            $height,
+            $imagick->getImageWidth(),
+            $imagick->getImageHeight()
+        );
+        $imagick->cropImage($cropArea['width'], $cropArea['height'], $cropArea['x'], $cropArea['y']);
+        file_put_contents($absoluteImagePath, $imagick->getImageBlob());
+    }
+
+    protected function isValidCroppingPosition(string $position): bool
+    {
+        return in_array($position, [
+            self::POSITION_LEFT_TOP,
+            self::POSITION_LEFT_BOTTOM,
+            self::POSITION_RIGHT_BOTTOM,
+            self::POSITION_RIGHT_TOP
+        ]);
     }
 
     protected function getWebDriver(): WebDriver

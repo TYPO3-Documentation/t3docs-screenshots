@@ -150,6 +150,7 @@ class ConfigurationTest extends UnitTestCase
             'actionsIdentifierScreenshotsOfContentFrameOnly',
             'actionsIdentifierCodeSnippets',
             'actionsIdentifierDraw',
+            'actionsIdentifierCrop',
         ];
         self::assertEquals($expectedActionsIds, $actualActionsIds);
     }
