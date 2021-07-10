@@ -427,6 +427,11 @@ class Configuration
                             ['action' => 'drawBox', 'selector' => 'h1'],
                             ['action' => 'drawArrow', 'selector' => 'h1', 'position' => 'center-bottom'],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "TxStyleguideElementsBasicWithHighlightsAndFullpage"],
+                            ['action' => 'click', 'link' => "(//*[contains(@class, \"t3js-record-delete\")])[1]"],
+                            ['action' => 'waitForModalDialogInMainFrame'],
+                            ['action' => 'drawArrow', 'selector' => 'button[name="cancel"]', 'position' => 'left-middle'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "TxStyleguideElementsBasicWithModalHighlights"],
+                            ['action' => 'clickButtonInModalDialog', 'buttonLink' => "Cancel"],
                             ['action' => 'clearDrawings'],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "TxStyleguideElementsBasicWithClearedHighlightsAndFullpage"],
                         ]

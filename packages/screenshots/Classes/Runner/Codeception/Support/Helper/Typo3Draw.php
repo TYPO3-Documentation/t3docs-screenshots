@@ -44,7 +44,7 @@ class Typo3Draw extends Module
         "position" => "absolute",
         "top" => 0,
         "left" => 0,
-        "z-index" => 1001,
+        "z-index" => 1011,
         "pointer-events" => "none",
     ];
 
