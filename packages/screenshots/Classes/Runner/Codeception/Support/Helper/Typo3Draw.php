@@ -23,19 +23,18 @@ use TYPO3\CMS\Screenshots\Util\JsonHelper;
  */
 class Typo3Draw extends Module
 {
-    public const ARROW_LEFT_TOP = 'left-top';
-    public const ARROW_LEFT_MIDDLE = 'left-middle';
-    public const ARROW_LEFT_BOTTOM = 'left-bottom';
-    public const ARROW_CENTER_TOP = 'center-top';
-    public const ARROW_CENTER_BOTTOM = 'center-bottom';
-    public const ARROW_RIGHT_TOP = 'right-top';
-    public const ARROW_RIGHT_MIDDLE = 'right-middle';
-    public const ARROW_RIGHT_BOTTOM = 'right-bottom';
-
-    public const BADGE_RIGHT = 'right';
-    public const BADGE_LEFT = 'left';
-    public const BADGE_TOP = 'top';
-    public const BADGE_BOTTOM = 'bottom';
+    public const POSITION_LEFT = 'left';
+    public const POSITION_RIGHT = 'right';
+    public const POSITION_TOP = 'top';
+    public const POSITION_BOTTOM = 'bottom';
+    public const POSITION_LEFT_TOP = 'left-top';
+    public const POSITION_LEFT_MIDDLE = 'left-middle';
+    public const POSITION_LEFT_BOTTOM = 'left-bottom';
+    public const POSITION_CENTER_TOP = 'center-top';
+    public const POSITION_CENTER_BOTTOM = 'center-bottom';
+    public const POSITION_RIGHT_TOP = 'right-top';
+    public const POSITION_RIGHT_MIDDLE = 'right-middle';
+    public const POSITION_RIGHT_BOTTOM = 'right-bottom';
 
     /**
      * @var string[]
@@ -112,7 +111,7 @@ NOWDOC;
      *                          "left-bottom", "center-top", "center-bottom", "right-top", "right-middle",
      *                          "right-bottom".
      */
-    public function drawArrow(string $selector, string $position = self::ARROW_RIGHT_TOP): void
+    public function drawArrow(string $selector, string $position = self::POSITION_RIGHT_TOP): void
     {
         if (!$this->isValidArrowPosition($position)) {
             throw new \Exception(sprintf('Arrow position "%s" is invalid.', $position), 4001);
@@ -186,14 +185,14 @@ NOWDOC;
     protected function isValidArrowPosition(string $position): bool
     {
         return in_array($position, [
-            self::ARROW_LEFT_TOP,
-            self::ARROW_LEFT_MIDDLE,
-            self::ARROW_LEFT_BOTTOM,
-            self::ARROW_CENTER_TOP,
-            self::ARROW_CENTER_BOTTOM,
-            self::ARROW_RIGHT_TOP,
-            self::ARROW_RIGHT_MIDDLE,
-            self::ARROW_RIGHT_BOTTOM,
+            self::POSITION_LEFT_TOP,
+            self::POSITION_LEFT_MIDDLE,
+            self::POSITION_LEFT_BOTTOM,
+            self::POSITION_CENTER_TOP,
+            self::POSITION_CENTER_BOTTOM,
+            self::POSITION_RIGHT_TOP,
+            self::POSITION_RIGHT_MIDDLE,
+            self::POSITION_RIGHT_BOTTOM,
         ]);
     }
 
@@ -206,7 +205,7 @@ NOWDOC;
      * @param string $label The badge text, e.g. "Click here" or "#1".
      * @param string $position The position of the badge regarding the element: "left", "top", "right" or "bottom".
      */
-    public function drawBadge(string $selector, string $label, string $position = self::BADGE_BOTTOM): void
+    public function drawBadge(string $selector, string $label, string $position = self::POSITION_BOTTOM): void
     {
         if (!$this->isValidBadgePosition($position)) {
             throw new \Exception(sprintf('Badge position "%s" is invalid.', $position), 4002);
@@ -275,10 +274,10 @@ NOWDOC;
     protected function isValidBadgePosition(string $position): bool
     {
         return in_array($position, [
-            self::BADGE_LEFT,
-            self::BADGE_RIGHT,
-            self::BADGE_TOP,
-            self::BADGE_BOTTOM,
+            self::POSITION_LEFT,
+            self::POSITION_RIGHT,
+            self::POSITION_TOP,
+            self::POSITION_BOTTOM,
         ]);
     }
 
