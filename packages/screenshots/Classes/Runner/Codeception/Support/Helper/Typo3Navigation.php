@@ -456,171 +456,6 @@ class Typo3Navigation extends Module
     }
 
     /**
-     * Check if there is a TYPO3 backend modal dialog frame.
-     *
-     * The modal dialog either contains the content directly in its body or in an Iframe of its body.
-     *
-     * @return bool
-     */
-    public function _hasModalDialogFrame(): bool
-    {
-        $frameSelector = ['css' => '.modal.show .modal-body [name=modal_frame]'];
-        return count($this->getWebDriver()->_findElements($frameSelector)) > 0;
-    }
-
-    /**
-     * Switch to TYPO3 backend modal dialog frame, the one with the modal content.
-     */
-    public function switchToModalDialogFrame(): void
-    {
-        $webDriver = $this->getWebDriver();
-        $webDriver->switchToIFrame('modal_frame');
-    }
-
-    public function waitForAndClickModalDialogInMainFrame(string $buttonLink): void
-    {
-        $this->waitForModalDialogInMainFrame();
-        $this->clickButtonInModalDialog($buttonLink);
-    }
-
-    public function waitForModalDialogInMainFrame(): void
-    {
-        $this->switchToMainFrame();
-
-        $webDriver = $this->getWebDriver();
-        $webDriver->waitForElement(['css' => '.modal.show']);
-        $webDriver->wait(0.5);
-    }
-
-    public function clickButtonInModalDialog(string $buttonLink): void
-    {
-        $webDriver = $this->getWebDriver();
-        $webDriver->click($buttonLink, ['css' => '.modal.show .modal-footer']);
-        $webDriver->waitForElementNotVisible(['css' => '.modal.show']);
-        $webDriver->wait(0.5);
-    }
-
-    public function closeModalDialog(): void
-    {
-        $webDriver = $this->getWebDriver();
-        $webDriver->click('.close', ['css' => '.modal.show .modal-header']);
-        $webDriver->waitForElementNotVisible(['css' => '.modal.show']);
-        $webDriver->wait(0.5);
-    }
-
-    /**
-     * Scroll the modal dialog up to show the given element at the top.
-     *
-     * ``` php
-     * <?php
-     * $I->scrollModalDialogTo("//h4[contains(., 'Install extension \"rsaauth\"')]");
-     * ?>
-     * ```
-     *
-     * @param string $toSelector
-     * @param int $offsetX
-     * @param int $offsetY
-     */
-    public function scrollModalDialogTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
-    {
-        if ($this->_hasModalDialogFrame()) {
-            $this->scrollModalDialogFrameTo($toSelector, $offsetX, $offsetY);
-        } else {
-            $this->scrollModalDialogBodyTo($toSelector, $offsetX, $offsetY);
-        }
-    }
-
-    public function scrollModalDialogFrameTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
-    {
-        $frameSelector = ['css' => '.module'];
-        $offsetY = $offsetY + 10;
-        $this->switchToModalDialogFrame();
-        $this->_scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
-        $this->switchToMainFrame();
-    }
-
-    public function scrollModalDialogBodyTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
-    {
-        $frameSelector = ['css' => '.modal.show .modal-body'];
-        $offsetY = $offsetY + $this->_getModalDialogHeaderHeight() + 16 + 10;
-        $this->_scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
-    }
-
-    public function _getModalDialogHeaderHeight(): int
-    {
-        /** @var WebDriverElement[] $elements */
-        $elements = $this->getWebDriver()->_findElements(['css' => '.modal.show .modal-header']);
-        if (count($elements) > 0) {
-            return $elements[0]->getSize()->getHeight();
-        }
-        return 0;
-    }
-
-    /**
-     * Move the modal dialog of the main frame to top.
-     */
-    public function scrollModalDialogToTop(): void
-    {
-        if ($this->_hasModalDialogFrame()) {
-            $this->scrollModalDialogFrameToTop();
-        } else {
-            $this->scrollModalDialogBodyToTop();
-        }
-    }
-
-    /**
-     * Move the modal dialog of the main frame to top.
-     */
-    protected function scrollModalDialogFrameToTop(): void
-    {
-        $frameSelector = ['css' => '.module'];
-        $this->switchToModalDialogFrame();
-        $this->_scrollFrameToTop($frameSelector);
-        $this->switchToMainFrame();
-    }
-
-    /**
-     * Move the modal dialog of the main frame to top.
-     */
-    public function scrollModalDialogBodyToTop(): void
-    {
-        $frameSelector = ['css' => '.modal.show .modal-body'];
-        $this->_scrollFrameToTop($frameSelector);
-    }
-
-    /**
-     * Move the modal dialog of the main frame to the bottom.
-     */
-    public function scrollModalDialogToBottom(): void
-    {
-        if ($this->_hasModalDialogFrame()) {
-            $this->scrollModalDialogFrameToBottom();
-        } else {
-            $this->scrollModalDialogBodyToBottom();
-        }
-    }
-
-    /**
-     * Move the modal dialog of the main frame to the bottom.
-     */
-    protected function scrollModalDialogFrameToBottom(): void
-    {
-        $frameSelector = ['css' => '.module'];
-        $this->switchToModalDialogFrame();
-        $this->_scrollFrameToBottom($frameSelector);
-        $this->switchToMainFrame();
-    }
-
-    /**
-     * Move the modal dialog of the main frame to the bottom.
-     */
-    protected function scrollModalDialogBodyToBottom(): void
-    {
-        $frameSelector = ['css' => '.modal.show .modal-body'];
-        $this->_scrollFrameToBottom($frameSelector);
-    }
-
-    /**
      * Navigate directly to a TYPO3 backend records table form.
      *
      * The target url is a content frame url, so the view does not contain any main frame elements like the TYPO3
@@ -738,12 +573,12 @@ class Typo3Navigation extends Module
         return $this->getModule('WebDriver');
     }
 
-    public function getTypo3PageTree(): Typo3PageTree
+    protected function getTypo3PageTree(): Typo3PageTree
     {
         return $this->getModule(Typo3PageTree::class);
     }
 
-    public function getTypo3FileTree(): Typo3FileTree
+    protected function getTypo3FileTree(): Typo3FileTree
     {
         return $this->getModule(Typo3FileTree::class);
     }
