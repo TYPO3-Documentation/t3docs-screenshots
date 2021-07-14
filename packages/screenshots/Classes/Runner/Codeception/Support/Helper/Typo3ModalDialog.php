@@ -19,6 +19,12 @@ use Facebook\WebDriver\WebDriverElement;
 /**
  * Helper to support comfortable navigation of the TYPO3 backend modal dialog.
  *
+ * The modal dialog is located in the TYPO3 backend main frame. It contains the content
+ * either in the modal body or in the modal frame. With the latter, one must first switch
+ * to the modal frame before performing any further actions on the content, such as
+ * scrolling or drawing. After that, one has to switch back to the main frame before
+ * clicking buttons of the header or footer of the modal dialog.
+ *
  * This helper contains an adapted copy of class ModalDialog of the typo3/core package.
  * It should be integrated in the typo3/testing-framework ideally. Currently it differs by:
  * - adding the actions to the actor instead of providing an own class
@@ -61,33 +67,11 @@ class Typo3ModalDialog extends Module
     }
 
     /**
-     * Check if there is a TYPO3 backend modal dialog frame.
-     *
-     * The modal dialog either contains the content directly in its body or in an Iframe of its body.
-     *
-     * @return bool
-     */
-    public function _hasModalDialogFrame(): bool
-    {
-        $frameSelector = ['css' => '.modal.show .modal-body [name=modal_frame]'];
-        return count($this->getWebDriver()->_findElements($frameSelector)) > 0;
-    }
-
-    /**
-     * Switch to TYPO3 backend modal dialog frame, the one with the modal content.
-     */
-    public function switchToModalDialogFrame(): void
-    {
-        $webDriver = $this->getWebDriver();
-        $webDriver->switchToIFrame('modal_frame');
-    }
-
-    /**
-     * Scroll the modal dialog up to show the given element at the top.
+     * Scroll the modal dialog body up to show the given element at the top.
      *
      * ``` php
      * <?php
-     * $I->scrollModalDialogTo("//h4[contains(., 'Install extension \"rsaauth\"')]");
+     * $I->scrollModalDialogBodyTo("//h4[contains(., 'Install extension \"rsaauth\"')]");
      * ?>
      * ```
      *
@@ -95,36 +79,15 @@ class Typo3ModalDialog extends Module
      * @param int $offsetX
      * @param int $offsetY
      */
-    public function scrollModalDialogTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
-    {
-        if ($this->_hasModalDialogFrame()) {
-            $this->scrollModalDialogFrameTo($toSelector, $offsetX, $offsetY);
-        } else {
-            $this->scrollModalDialogBodyTo($toSelector, $offsetX, $offsetY);
-        }
-    }
-
-    protected function scrollModalDialogFrameTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
-    {
-        $typo3Navigation = $this->getTypo3Navigation();
-
-        $frameSelector = ['css' => '.module'];
-        $offsetY = $offsetY + 10;
-
-        $this->switchToModalDialogFrame();
-        $typo3Navigation->_scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
-        $typo3Navigation->switchToMainFrame();
-    }
-
-    protected function scrollModalDialogBodyTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    public function scrollModalDialogBodyTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
     {
         $frameSelector = ['css' => '.modal.show .modal-body'];
-        $offsetY = $offsetY + $this->_getModalDialogHeaderHeight() + 16 + 10;
+        $offsetY = $offsetY + $this->getModalDialogHeaderHeight() + 16 + 10;
 
         $this->getTypo3Navigation()->_scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
     }
 
-    public function _getModalDialogHeaderHeight(): int
+    protected function getModalDialogHeaderHeight(): int
     {
         /** @var WebDriverElement[] $elements */
         $elements = $this->getWebDriver()->_findElements(['css' => '.modal.show .modal-header']);
@@ -135,63 +98,68 @@ class Typo3ModalDialog extends Module
     }
 
     /**
-     * Scroll the modal dialog of the main frame to top.
+     * Scroll the modal dialog body to top.
      */
-    public function scrollModalDialogToTop(): void
-    {
-        if ($this->_hasModalDialogFrame()) {
-            $this->scrollModalDialogFrameToTop();
-        } else {
-            $this->scrollModalDialogBodyToTop();
-        }
-    }
-
-    protected function scrollModalDialogFrameToTop(): void
-    {
-        $typo3Navigation = $this->getTypo3Navigation();
-
-        $frameSelector = ['css' => '.module'];
-
-        $this->switchToModalDialogFrame();
-        $typo3Navigation->_scrollFrameToTop($frameSelector);
-        $typo3Navigation->switchToMainFrame();
-    }
-
-    protected function scrollModalDialogBodyToTop(): void
+    public function scrollModalDialogBodyToTop(): void
     {
         $frameSelector = ['css' => '.modal.show .modal-body'];
         $this->getTypo3Navigation()->_scrollFrameToTop($frameSelector);
     }
 
     /**
-     * Scroll the modal dialog of the main frame to the bottom.
+     * Scroll the modal dialog body to the bottom.
      */
-    public function scrollModalDialogToBottom(): void
+    public function scrollModalDialogBodyToBottom(): void
     {
-        if ($this->_hasModalDialogFrame()) {
-            $this->scrollModalDialogFrameToBottom();
-        } else {
-            $this->scrollModalDialogBodyToBottom();
-        }
-    }
-
-    protected function scrollModalDialogFrameToBottom(): void
-    {
-        $typo3Navigation = $this->getTypo3Navigation();
-
-        $frameSelector = ['css' => '.module'];
-
-        $this->switchToModalDialogFrame();
-        $typo3Navigation->_scrollFrameToBottom($frameSelector);
-        $typo3Navigation->switchToMainFrame();
+        $frameSelector = ['css' => '.modal.show .modal-body'];
+        $this->getTypo3Navigation()->_scrollFrameToBottom($frameSelector);
     }
 
     /**
-     * Move the modal dialog of the main frame to the bottom.
+     * Switch to modal dialog frame, the one with the modal content.
+     *
+     * Note 1: Not every modal dialog has a frame. The content might be in the modal dialog body instead.
+     * Note 2: Switch back to the main frame when being done in the modal dialog frame.
+     *
+     * @see Typo3Navigation::switchToMainFrame()
      */
-    protected function scrollModalDialogBodyToBottom(): void
+    public function switchToModalDialogFrame(): void
     {
-        $frameSelector = ['css' => '.modal.show .modal-body'];
+        $this->getWebDriver()->switchToIFrame('modal_frame');
+    }
+
+    /**
+     * Scroll the modal dialog frame up to show the given element at the top.
+     *
+     * ``` php
+     * <?php
+     * $I->scrollModalDialogFrameTo("table");
+     * ?>
+     * ```
+     *
+     * @param string $toSelector
+     * @param int $offsetX
+     * @param int $offsetY
+     */
+    public function scrollModalDialogFrameTo(string $toSelector, int $offsetX = 0, int $offsetY = 0): void
+    {
+        $frameSelector = ['css' => '.module'];
+        $offsetY = $offsetY + 10;
+
+        $this->getTypo3Navigation()->_scrollFrameTo($frameSelector, $toSelector, $offsetX, $offsetY);
+    }
+
+    public function scrollModalDialogFrameToTop(): void
+    {
+        $frameSelector = ['css' => '.module'];
+
+        $this->getTypo3Navigation()->_scrollFrameToTop($frameSelector);
+    }
+
+    public function scrollModalDialogFrameToBottom(): void
+    {
+        $frameSelector = ['css' => '.module'];
+
         $this->getTypo3Navigation()->_scrollFrameToBottom($frameSelector);
     }
 
