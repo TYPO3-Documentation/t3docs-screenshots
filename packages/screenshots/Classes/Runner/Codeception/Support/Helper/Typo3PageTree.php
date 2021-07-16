@@ -21,6 +21,8 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
  *   to prevent additional injections in testing classes
  * - considering the configuration param "wait" of module "WebDriver"
  *   when opening the page tree path and the page tree is not visible immediately
+ * - waits 0.1s per page tree level before opening the next page tree node
+ *   as the levels get loaded via AJAX
  *
  * @see \TYPO3\TestingFramework\Core\Acceptance\Helper\AbstractPageTree
  */
