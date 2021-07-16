@@ -126,6 +126,7 @@ abstract class AbstractTypo3Tree extends Module
         $node = $tree->findElement(WebDriverBy::xpath('//*[text()=\'' . $nodeText . '\']/..'));
         try {
             $node->findElement(WebDriverBy::cssSelector('.chevron.collapsed'))->click();
+            $webDriver->wait(0.1);
         } catch (NoSuchElementException $e) {
             // element not found so it may be already opened...
         } catch (ElementNotInteractableException $e) {
