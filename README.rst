@@ -67,7 +67,8 @@ Installation
 
          ddev make-screenshots -t My-Manual
 
-   c. approving your installation by confirming that the screenshots have been created in ``public/t3docs/My-Manual``.
+   c. approving your installation by confirming that the screenshots have been created in
+      ``public/t3docs-generated/actual/My-Manual``.
 
 Now you are ready to browse the TYPO3 backend, create custom ``screenshots.json`` and generate screenshots from them.
 
