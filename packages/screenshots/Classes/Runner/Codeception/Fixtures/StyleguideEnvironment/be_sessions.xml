@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- See https://github.com/TYPO3/TYPO3.CMS/blob/master/typo3/sysext/core/Tests/Acceptance/Fixtures/be_sessions.xml -->
+<!-- See https://github.com/typo3/typo3/blob/master/typo3/sysext/core/Tests/Acceptance/Fixtures/be_sessions.xml -->
 <dataset>
 	<be_sessions>
         <!-- hash_hmac('sha256', '886526ce72b86870739cc41991144ec1', sha1('iAmInvalid' . 'core-session-backend')) -->
