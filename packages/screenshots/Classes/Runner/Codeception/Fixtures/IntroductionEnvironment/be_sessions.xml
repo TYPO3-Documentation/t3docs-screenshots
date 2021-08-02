@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- See https://github.com/TYPO3/TYPO3.CMS/blob/master/typo3/sysext/core/Tests/Acceptance/Fixtures/be_sessions.xml -->
+<!-- See https://github.com/typo3/typo3/blob/master/typo3/sysext/core/Tests/Acceptance/Fixtures/be_sessions.xml -->
 <!-- See \TYPO3\CMS\Core\Session\UserSessionManager::createSessionId() -->
 <dataset>
 	<be_sessions>
