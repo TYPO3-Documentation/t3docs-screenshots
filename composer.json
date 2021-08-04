@@ -22,10 +22,6 @@
 			"url": "https://github.com/TYPO3-Documentation/introduction"
 		},
 		{
-			"type": "vcs",
-			"url": "https://github.com/TYPO3-Documentation/styleguide"
-		},
-		{
 			"type": "path",
 			"url": "./packages/*"
 		}

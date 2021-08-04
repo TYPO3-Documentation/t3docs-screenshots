@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd3836c5485c513af70f878e7ab1e9c5",
+    "content-hash": "5f65e3c21440a61556793ebcd0685953",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7341,12 +7341,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-Documentation/t3docs-examples.git",
-                "reference": "7f53b3f306f709465eae2d2b82f248c7395533ed"
+                "reference": "4e30d710ae0e6e452085d7c59c97f583ddbd1b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/7f53b3f306f709465eae2d2b82f248c7395533ed",
-                "reference": "7f53b3f306f709465eae2d2b82f248c7395533ed",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/4e30d710ae0e6e452085d7c59c97f583ddbd1b8e",
+                "reference": "4e30d710ae0e6e452085d7c59c97f583ddbd1b8e",
                 "shasum": ""
             },
             "require": {
@@ -7392,7 +7392,7 @@
                 "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/master",
                 "issues": "https://github.com/TYPO3-Documentation/t3docs-examples/issues"
             },
-            "time": "2021-06-29T09:25:50+00:00"
+            "time": "2021-08-03T08:33:41+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -9606,18 +9606,19 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/TYPO3-Documentation/styleguide.git",
-                "reference": "bad458e32b6ce7260862995d0fd61d755920930c"
+                "url": "https://github.com/TYPO3/styleguide.git",
+                "reference": "f61663d9c491839fcd129acf9c1555d9c81c4c33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/styleguide/zipball/bad458e32b6ce7260862995d0fd61d755920930c",
-                "reference": "bad458e32b6ce7260862995d0fd61d755920930c",
+                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/f61663d9c491839fcd129acf9c1555d9c81c4c33",
+                "reference": "f61663d9c491839fcd129acf9c1555d9c81c4c33",
                 "shasum": ""
             },
             "require-dev": {
                 "codeception/codeception": "^4.1",
                 "codeception/module-asserts": "^1.2",
+                "codeception/module-cli": "^1.1",
                 "codeception/module-webdriver": "^1.1",
                 "phpstan/phpstan": "^0.12.37",
                 "typo3/cms-about": "dev-master",
@@ -9642,29 +9643,20 @@
                     "TYPO3\\CMS\\Styleguide\\": "Classes/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "TYPO3\\CMS\\Styleguide\\Tests\\": "Tests"
-                }
-            },
-            "scripts": {
-                "post-autoload-dump": [
-                    "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
             "authors": [
                 {
                     "name": "TYPO3 CMS Core Team",
-                    "role": "Developer",
-                    "homepage": "https://forge.typo3.org/projects/typo3cms-core"
+                    "homepage": "https://forge.typo3.org/projects/typo3cms-core",
+                    "role": "Developer"
                 },
                 {
                     "name": "The TYPO3 Community",
-                    "role": "Contributor",
-                    "homepage": "https://typo3.org/community/"
+                    "homepage": "https://typo3.org/community/",
+                    "role": "Contributor"
                 }
             ],
             "description": "TYPO3 extension to showcase TYPO3 Backend capabilities",
@@ -9676,9 +9668,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TYPO3/styleguide/issues",
-                "source": "https://github.com/TYPO3-Documentation/styleguide/tree/master"
+                "source": "https://github.com/TYPO3/styleguide/tree/master"
             },
-            "time": "2021-06-30T23:50:27+00:00"
+            "time": "2021-07-30T12:46:35+00:00"
         },
         {
             "name": "typo3/cms-sys-note",
