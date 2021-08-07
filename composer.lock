@@ -7341,12 +7341,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-Documentation/t3docs-examples.git",
-                "reference": "68d653d964b63c61e7acae561c02b5278aa5637c"
+                "reference": "19fb45f292c49836002da3207be5b4a9348a10dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/68d653d964b63c61e7acae561c02b5278aa5637c",
-                "reference": "68d653d964b63c61e7acae561c02b5278aa5637c",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/19fb45f292c49836002da3207be5b4a9348a10dc",
+                "reference": "19fb45f292c49836002da3207be5b4a9348a10dc",
                 "shasum": ""
             },
             "require": {
@@ -7392,7 +7392,7 @@
                 "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/master",
                 "issues": "https://github.com/TYPO3-Documentation/t3docs-examples/issues"
             },
-            "time": "2021-08-06T14:49:01+00:00"
+            "time": "2021-08-07T07:38:36+00:00"
         },
         {
             "name": "theseer/tokenizer",
