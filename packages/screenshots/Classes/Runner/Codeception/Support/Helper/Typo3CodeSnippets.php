@@ -345,6 +345,9 @@ class Typo3CodeSnippets extends Module
             case 'php':
                 $language = 'php';
                 break;
+            case 'js':
+                $language = 'javascript';
+                break;
             default:
                 throw new \Exception(
                     sprintf(
