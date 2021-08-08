@@ -76,7 +76,7 @@
 		"typo3/cms-introduction": "dev-master",
 		"typo3/cms-styleguide": "dev-master",
 		"typo3/screenshots": "@dev",
-		"typo3/testing-framework": "^6.8.0"
+		"typo3/testing-framework": "^6.9.0"
 	},
 	"autoload-dev": {
 		"psr-4": {

@@ -15,6 +15,7 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 use Codeception\Module;
 use Codeception\Module\WebDriver;
 use Facebook\WebDriver\WebDriverElement;
+use TYPO3\TestingFramework\Core\Acceptance\Helper\Login;
 
 /**
  * Helper to support comfortable navigation of the TYPO3 backend.
@@ -78,7 +79,7 @@ class Typo3Navigation extends Module
      */
     public function reloadBackend(string $role = ''): void
     {
-        $this->getTypo3Login()->useExistingSession($role);
+        $this->getLogin()->useExistingSession($role);
     }
 
     /**
@@ -583,8 +584,8 @@ class Typo3Navigation extends Module
         return $this->getModule(Typo3FileTree::class);
     }
 
-    protected function getTypo3Login(): Typo3Login
+    protected function getLogin(): Login
     {
-        return $this->getModule(Typo3Login::class);
+        return $this->getModule(Login::class);
     }
 }
