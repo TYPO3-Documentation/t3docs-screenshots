@@ -72,13 +72,13 @@ settings:
 modules:
   enabled:
     - WebDriver:
-        url: http://web/typo3temp/var/tests/acceptance
+        url: https://t3docs-screenshots.ddev.site/typo3temp/var/tests/acceptance
         browser: chrome
         wait: 1
-        host: chrome
+        host: host.docker.internal
         capabilities:
           chromeOptions:
-            args: [ "headless" ]
+            args: [ ]
     - TYPO3\TestingFramework\Core\Acceptance\Helper\Acceptance
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Cli
     - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3CodeSnippets
