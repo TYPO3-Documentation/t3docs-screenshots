@@ -72,7 +72,7 @@ settings:
 modules:
   enabled:
     - WebDriver:
-        url: https://t3docs-screenshots.ddev.site/typo3temp/var/tests/acceptance
+        url: https://t3docs-screenshots-tests.ddev.site/typo3temp/var/tests/acceptance
         browser: chrome
         wait: 1
         host: host.docker.internal
