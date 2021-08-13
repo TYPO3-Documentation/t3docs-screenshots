@@ -348,6 +348,7 @@ class Configuration
                             ['action' => 'waitForText', 'text' => 'Maintenance', 'timeout' => 5],
                             ['action' => 'click', 'link' => 'Manage languages'],
                             ['action' => 'waitForModalDialogInMainFrame'],
+                            ['action' => 'waitForElement', 'element' => '.t3js-languagePacks-mainContent'],
                             ['action' => 'scrollModalDialogBodyTo', 'toSelector' => '.t3js-languagePacks-mainContent'],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "ModalDialogBodyScrolledToElement"],
                             ['action' => 'closeModalDialog'],
