@@ -11,10 +11,6 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/TYPO3-Documentation/bootstrap_package"
-		},
-		{
-			"type": "vcs",
 			"url": "https://github.com/TYPO3-Documentation/t3docs-examples"
 		},
 		{
