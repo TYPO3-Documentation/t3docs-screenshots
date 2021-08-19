@@ -11,10 +11,6 @@
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "https://github.com/TYPO3-Documentation/bootstrap_package"
-		},
-		{
-			"type": "vcs",
 			"url": "https://github.com/TYPO3-Documentation/t3docs-examples"
 		},
 		{
@@ -31,6 +27,13 @@
 		"ext-imagick": "*",
 		"ext-json": "*",
 		"ext-libxml": "*",
+		"codeception/codeception": "^4.1.12",
+		"codeception/module-webdriver": "^1.1.4",
+		"cweagans/composer-patches": "^1.7",
+		"helhum/typo3-console": "dev-latest",
+		"sebastian/diff": "^4.0",
+		"sensiolabs/ansi-to-html": "^1.2",
+		"t3docs/examples": "dev-master",
 		"typo3/cms-adminpanel": "dev-master as 11.3.1",
 		"typo3/cms-backend": "dev-master as 11.3.1",
 		"typo3/cms-belog": "dev-master as 11.3.1",
@@ -50,6 +53,8 @@
 		"typo3/cms-indexed-search": "dev-master as 11.3.1",
 		"typo3/cms-info": "dev-master as 11.3.1",
 		"typo3/cms-install": "dev-master as 11.3.1",
+		"typo3/cms-introduction": "dev-master",
+		"bk2k/bootstrap-package": "dev-BP_12-0",
 		"typo3/cms-linkvalidator": "dev-master as 11.3.1",
 		"typo3/cms-lowlevel": "dev-master as 11.3.1",
 		"typo3/cms-opendocs": "dev-master as 11.3.1",
@@ -61,21 +66,12 @@
 		"typo3/cms-scheduler": "dev-master as 11.3.1",
 		"typo3/cms-seo": "dev-master as 11.3.1",
 		"typo3/cms-setup": "dev-master as 11.3.1",
+		"typo3/cms-styleguide": "dev-master",
 		"typo3/cms-sys-note": "dev-master as 11.3.1",
 		"typo3/cms-t3editor": "dev-master as 11.3.1",
 		"typo3/cms-tstemplate": "dev-master as 11.3.1",
 		"typo3/cms-viewpage": "dev-master as 11.3.1",
-		"bk2k/bootstrap-package": "dev-master",
-		"codeception/codeception": "^4.1.12",
-		"codeception/module-webdriver": "^1.1.4",
-		"cweagans/composer-patches": "^1.7",
-		"helhum/typo3-console": "dev-latest",
-		"sebastian/diff": "^4.0",
-		"sensiolabs/ansi-to-html": "^1.2",
-		"t3docs/examples": "dev-master",
-		"typo3/cms-introduction": "dev-master",
-		"typo3/cms-styleguide": "dev-master",
-		"typo3/screenshots": "@dev",
+		"typo3/screenshots": "dev-main",
 		"typo3/testing-framework": "^6.9.0"
 	},
 	"autoload-dev": {
