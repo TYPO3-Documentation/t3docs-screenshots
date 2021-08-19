@@ -221,7 +221,33 @@ class Configuration
                 ],
                 'Examples' => [
                     'screenshots' => [
-                        [
+                        "_default"=> [
+                            ["action"=> "resizeWindow", "width"=> 640,"height"=> 640],
+                            ["action"=> "setScreenshotsDocumentationPath", "path"=> "Documentation"],
+                            ["action"=> "setScreenshotsImagePath","path"=> "Images/AutomaticScreenshots"],
+                            ["action"=> "setScreenshotsRstPath","path"=> "Images/AutomaticScreenshots"],
+                            ["action"=> "setCodeSnippetsSourcePath","path"=> "typo3conf/ext/examples"],
+                            ["action"=> "setCodeSnippetsTargetPath", "path"=> "CodeSnippets"]
+                        ],
+                        "frontend" => [
+                            ["include" => "_default"],
+                            [
+                                "action" => "resizeWindow",
+                                "width" => 480,
+                                "height" => 640
+                            ],
+                            [
+                                "action" => "amOnPage",
+                                "page" => "/hmenu-special-userfunc"
+                            ],
+                            ["action" => "wait", "timeout" => 1],
+                            [
+                                "action" => "makeScreenshotOfElement",
+                                "fileName" => "ExamplesFrontend",
+                                "altText" => "Output of the example frontend"
+                            ]
+                        ],
+                        "dashboard" => [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                             ['action' => 'see', 'text' => "List"],
                             ['action' => 'click', 'link' => "List"],
@@ -269,6 +295,64 @@ class Configuration
                             ['action' => 'see', 'text' => "List"],
                             ['action' => 'click', 'link' => "List"],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionDashboardFullPage"],
+                        ],
+                        "startpage" => [
+                            [
+                                "action" => "setScreenshotsImagePath",
+                                "path" => "Images/AutomaticScreenshots/IntroductionPackage"
+                            ],
+                            [
+                                "action" => "setScreenshotsRstPath",
+                                "path" => "Images/AutomaticScreenshots/IntroductionPackage"
+                            ],
+                            [
+                                "action" => "resizeWindow",
+                                "width" => 1024,
+                                "height" => 512
+                            ],
+                            [
+                                "action" => "see",
+                                "text" => "Page"
+                            ],
+                            [
+                                "action" => "click",
+                                "link" => "Page"
+                            ],
+                            [
+                                "action" => "openPageTreePath",
+                                "path" => ["Congratulations"]
+                            ],
+                            ["action" => "switchToContentFrame"],
+                            [
+                                "action" => "waitForText",
+                                "text" => "Congratulations",
+                                "timeout" => 5
+                            ],
+                            [
+                                "action" => "makeScreenshotOfElement",
+                                "fileName" => "IntroductionBackend"
+                            ],
+
+                            [
+                                "action" => "resizeWindow",
+                                "width" => 1024,
+                                "height" => 2048
+                            ],
+                            [
+                                "action" => "amOnPage",
+                                "page" => "/?id=1"
+                            ],
+                            [
+                                "action" => "wait",
+                                "timeout" => 1
+                            ],
+                            [
+                                "action" => "makeScreenshotOfWindow",
+                                "fileName" => "IntroductionFrontend",
+                                "altText" => "Frontend of the Introduction Package",
+                                "captionText" => "The Introduction Package provides a fully operational website based on bootstrap"
+                            ],
+                            ["action" => "reloadBackend"]
                         ],
                         'actionsIdentifierUserSwitch' => [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],

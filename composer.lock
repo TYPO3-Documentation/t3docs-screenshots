@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0361cb598a37891ad577f61d0a164663",
+    "content-hash": "1dfc86b2ac7efd070e32c5de71d2c362",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7380,16 +7380,16 @@
         },
         {
             "name": "t3docs/examples",
-            "version": "dev-master",
+            "version": "dev-lwolf-add-sitepackage",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-Documentation/t3docs-examples.git",
-                "reference": "8710b4dde83cd44204a19f5b0d689f14d9efa6f2"
+                "reference": "50561decfc4a68fd6a5a6fc9556a6aca16ba9a4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/8710b4dde83cd44204a19f5b0d689f14d9efa6f2",
-                "reference": "8710b4dde83cd44204a19f5b0d689f14d9efa6f2",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/50561decfc4a68fd6a5a6fc9556a6aca16ba9a4b",
+                "reference": "50561decfc4a68fd6a5a6fc9556a6aca16ba9a4b",
                 "shasum": ""
             },
             "require": {
@@ -7399,7 +7399,6 @@
             "replace": {
                 "typo3-ter/examples": "self.version"
             },
-            "default-branch": true,
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
@@ -7432,10 +7431,10 @@
             ],
             "description": "This extension packages a number of code examples from the Core Documentation.",
             "support": {
-                "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/master",
+                "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/lwolf-add-sitepackage",
                 "issues": "https://github.com/TYPO3-Documentation/t3docs-examples/issues"
             },
-            "time": "2021-08-12T12:26:58+00:00"
+            "time": "2021-08-19T10:41:26+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -10514,6 +10513,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "bk2k/bootstrap-package": 20,
         "helhum/typo3-console": 20,
         "t3docs/examples": 20,
         "typo3/cms-adminpanel": 20,
@@ -10536,7 +10536,6 @@
         "typo3/cms-info": 20,
         "typo3/cms-install": 20,
         "typo3/cms-introduction": 20,
-        "bk2k/bootstrap-package": 20,
         "typo3/cms-linkvalidator": 20,
         "typo3/cms-lowlevel": 20,
         "typo3/cms-opendocs": 20,
