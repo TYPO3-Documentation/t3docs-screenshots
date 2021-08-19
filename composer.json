@@ -22,7 +22,6 @@
 			"url": "./packages/*"
 		}
 	],
-	"minimum-stability": "dev",
 	"require": {
 		"ext-dom": "*",
 		"ext-imagick": "*",
@@ -55,6 +54,7 @@
 		"typo3/cms-info": "dev-master as 11.3.1",
 		"typo3/cms-install": "dev-master as 11.3.1",
 		"typo3/cms-introduction": "dev-master",
+		"bk2k/bootstrap-package": "dev-BP_12-0",
 		"typo3/cms-linkvalidator": "dev-master as 11.3.1",
 		"typo3/cms-lowlevel": "dev-master as 11.3.1",
 		"typo3/cms-opendocs": "dev-master as 11.3.1",
