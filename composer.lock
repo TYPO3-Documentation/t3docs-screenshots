@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62f50b9bb39642876cad0878a8acf976",
+    "content-hash": "a8e4c8c4285f4de0c2bfe9c329046244",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -10084,7 +10084,7 @@
         },
         {
             "name": "typo3/screenshots",
-            "version": "dev-lwolf-update-bootstrap",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/screenshots",
