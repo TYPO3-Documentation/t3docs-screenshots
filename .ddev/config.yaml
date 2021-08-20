@@ -1,4 +1,4 @@
-name: sig-screen-examples
+name: t3docs-screenshots
 type: typo3
 docroot: public
 php_version: "7.4"
