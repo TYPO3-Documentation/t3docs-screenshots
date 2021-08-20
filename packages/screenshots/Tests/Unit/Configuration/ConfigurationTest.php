@@ -145,6 +145,9 @@ class ConfigurationTest extends UnitTestCase
         $configuration->createBasicConfig();
         $actualActionsIds = $configuration->getSelectableActionsIds();
         $expectedActionsIds = [
+            'frontend',
+            'dashboard',
+            'startpage',
             'actionsIdentifierUserSwitch',
             'actionsIdentifierScreenshots',
             'actionsIdentifierScreenshotsOfContentFrameOnly',
