@@ -238,14 +238,15 @@ class Configuration
                             ],
                             [
                                 "action" => "amOnPage",
-                                "page" => "/hmenu-special-userfunc"
+                                "page" => "/?id=1"
                             ],
                             ["action" => "wait", "timeout" => 1],
                             [
                                 "action" => "makeScreenshotOfElement",
                                 "fileName" => "ExamplesFrontend",
                                 "altText" => "Output of the example frontend"
-                            ]
+                            ],
+                            ["action" => "reloadBackend"]
                         ],
                         "dashboard" => [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],

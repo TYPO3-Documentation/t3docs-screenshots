@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1dfc86b2ac7efd070e32c5de71d2c362",
+    "content-hash": "25e17c65117ee5f5f22e6b497486f472",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -129,12 +129,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/benjaminkott/bootstrap_package.git",
-                "reference": "f9fccd09ffd71014722586576f0670c623a38157"
+                "reference": "7dafab16438333eb23861d56cdd45d31ac98d0b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/benjaminkott/bootstrap_package/zipball/f9fccd09ffd71014722586576f0670c623a38157",
-                "reference": "f9fccd09ffd71014722586576f0670c623a38157",
+                "url": "https://api.github.com/repos/benjaminkott/bootstrap_package/zipball/7dafab16438333eb23861d56cdd45d31ac98d0b9",
+                "reference": "7dafab16438333eb23861d56cdd45d31ac98d0b9",
                 "shasum": ""
             },
             "require": {
@@ -230,7 +230,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-08-18T09:00:31+00:00"
+            "time": "2021-08-19T19:46:21+00:00"
         },
         {
             "name": "christian-riesen/base32",
@@ -442,16 +442,16 @@
         },
         {
             "name": "codeception/module-webdriver",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/module-webdriver.git",
-                "reference": "ebbe729c630415e8caf6b0087e457906f0c6c0c6"
+                "reference": "fdf7051a8ba7b69f1f5bb1a85e2d7eab84775a3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/module-webdriver/zipball/ebbe729c630415e8caf6b0087e457906f0c6c0c6",
-                "reference": "ebbe729c630415e8caf6b0087e457906f0c6c0c6",
+                "url": "https://api.github.com/repos/Codeception/module-webdriver/zipball/fdf7051a8ba7b69f1f5bb1a85e2d7eab84775a3e",
+                "reference": "fdf7051a8ba7b69f1f5bb1a85e2d7eab84775a3e",
                 "shasum": ""
             },
             "require": {
@@ -492,9 +492,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/module-webdriver/issues",
-                "source": "https://github.com/Codeception/module-webdriver/tree/1.2.1"
+                "source": "https://github.com/Codeception/module-webdriver/tree/1.2.2"
             },
-            "time": "2021-04-23T17:30:57+00:00"
+            "time": "2021-08-19T11:04:22+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
@@ -7380,16 +7380,16 @@
         },
         {
             "name": "t3docs/examples",
-            "version": "dev-lwolf-add-sitepackage",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-Documentation/t3docs-examples.git",
-                "reference": "50561decfc4a68fd6a5a6fc9556a6aca16ba9a4b"
+                "reference": "8710b4dde83cd44204a19f5b0d689f14d9efa6f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/50561decfc4a68fd6a5a6fc9556a6aca16ba9a4b",
-                "reference": "50561decfc4a68fd6a5a6fc9556a6aca16ba9a4b",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/8710b4dde83cd44204a19f5b0d689f14d9efa6f2",
+                "reference": "8710b4dde83cd44204a19f5b0d689f14d9efa6f2",
                 "shasum": ""
             },
             "require": {
@@ -7399,6 +7399,7 @@
             "replace": {
                 "typo3-ter/examples": "self.version"
             },
+            "default-branch": true,
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
@@ -7431,10 +7432,10 @@
             ],
             "description": "This extension packages a number of code examples from the Core Documentation.",
             "support": {
-                "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/lwolf-add-sitepackage",
+                "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/master",
                 "issues": "https://github.com/TYPO3-Documentation/t3docs-examples/issues"
             },
-            "time": "2021-08-19T10:41:26+00:00"
+            "time": "2021-08-12T12:26:58+00:00"
         },
         {
             "name": "theseer/tokenizer",
