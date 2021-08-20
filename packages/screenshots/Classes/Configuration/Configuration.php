@@ -232,11 +232,6 @@ class Configuration
                         "frontend" => [
                             ["include" => "_default"],
                             [
-                                "action" => "resizeWindow",
-                                "width" => 480,
-                                "height" => 640
-                            ],
-                            [
                                 "action" => "amOnPage",
                                 "page" => "/?id=1"
                             ],
