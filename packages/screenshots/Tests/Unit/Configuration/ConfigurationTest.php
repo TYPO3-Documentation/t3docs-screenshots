@@ -145,12 +145,16 @@ class ConfigurationTest extends UnitTestCase
         $configuration->createBasicConfig();
         $actualActionsIds = $configuration->getSelectableActionsIds();
         $expectedActionsIds = [
-            'actionsIdentifierUserSwitch',
-            'actionsIdentifierScreenshots',
-            'actionsIdentifierScreenshotsOfContentFrameOnly',
-            'actionsIdentifierCodeSnippets',
-            'actionsIdentifierDraw',
-            'actionsIdentifierCrop',
+            'actionsIdentifierExamplesFrontend',
+            'actionsIdentifierExamplesBackend',
+            'actionsIdentifierIntroductionFrontend',
+            'actionsIdentifierIntroductionBackend',
+            'actionsIdentifierIntroductionUserSwitch',
+            'actionsIdentifierStyleguideScreenshots',
+            'actionsIdentifierStyleguideScreenshotsOfContentFrameOnly',
+            'actionsIdentifierStyleguideCodeSnippets',
+            'actionsIdentifierStyleguideDraw',
+            'actionsIdentifierStyleguideCrop',
         ];
         self::assertEquals($expectedActionsIds, $actualActionsIds);
     }

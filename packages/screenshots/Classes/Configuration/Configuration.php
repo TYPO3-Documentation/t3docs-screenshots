@@ -221,11 +221,21 @@ class Configuration
                 ],
                 'Examples' => [
                     'screenshots' => [
-                        [
+                        '_default'=> [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
-                            ['action' => 'see', 'text' => "List"],
-                            ['action' => 'click', 'link' => "List"],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "ExamplesDashboardFullPage"],
+                        ],
+                        'actionsIdentifierExamplesFrontend' => [
+                            ['include' => '_default'],
+                            ['action' => 'amOnPage', 'page' => '/?id=1'],
+                            ['action' => 'waitForText', 'text' => 'The TYPO3 Documentation Team'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => 'ExamplesFrontend'],
+                            ['action' => 'reloadBackend']
+                        ],
+                        'actionsIdentifierExamplesBackend' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'List'],
+                            ['action' => 'click', 'link' => 'List'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'ExamplesBackendFullPage'],
                         ]
                     ]
                 ],
@@ -264,27 +274,41 @@ class Configuration
                 ],
                 'Introduction' => [
                     'screenshots' => [
-                        [
+                        '_default' => [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
-                            ['action' => 'see', 'text' => "List"],
-                            ['action' => 'click', 'link' => "List"],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionDashboardFullPage"],
                         ],
-                        'actionsIdentifierUserSwitch' => [
-                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
-                            ['action' => 'see', 'text' => "Backend Users"],
-                            ['action' => 'click', 'link' => "Backend Users"],
+                        'actionsIdentifierIntroductionFrontend' => [
+                            ['include' => '_default'],
+                            ['action' => 'amOnPage', 'page' => '/?id=1'],
+                            ['action' => 'wait', 'timeout' => 1],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => 'IntroductionFrontend'],
+                            ['action' => 'reloadBackend']
+                        ],
+                        'actionsIdentifierIntroductionBackend' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Page'],
+                            ['action' => 'click', 'link' => 'Page'],
+                            ['action' => 'openPageTreePath', 'path' => ['Congratulations']],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'waitForText', 'text' => 'Congratulations', 'timeout' => 5],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'IntroductionBackendFullPage'],
+                            ['action' => 'reloadBackend']
+                        ],
+                        'actionsIdentifierIntroductionUserSwitch' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Backend Users'],
+                            ['action' => 'click', 'link' => 'Backend Users'],
                             ['action' => 'switchToContentFrame'],
                             ['action' => 'waitForElement', 'element' => '[name="BackendUserModuleMenu"]', 'timeout' => 5],
                             ['action' => 'reloadBackend', 'role' => 'simple-editor'],
                             ['action' => 'waitForText', 'text' => 'simple-editor', 'timeout' => 5],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionSimpleEditorSwitch"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'IntroductionSimpleEditorSwitch'],
                             ['action' => 'reloadBackend', 'role' => 'advanced-editor'],
                             ['action' => 'waitForText', 'text' => 'advanced-editor', 'timeout' => 5],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionAdvancedEditorSwitch"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'IntroductionAdvancedEditorSwitch'],
                             ['action' => 'reloadBackend', 'role' => 'admin'],
                             ['action' => 'waitForText', 'text' => 'Klaus Admin', 'timeout' => 5],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => "IntroductionAdminSwitch"],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'IntroductionAdminSwitch'],
                         ]
                     ]
                 ],
@@ -293,7 +317,7 @@ class Configuration
                         '_default' => [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                         ],
-                        'actionsIdentifierScreenshots' => [
+                        'actionsIdentifierStyleguideScreenshots' => [
                             ['comment' => '********************************************************'],
                             ['comment' => 'Take screenshots configured in a dummy screenshots.json.'],
                             ['comment' => '********************************************************'],
@@ -378,7 +402,7 @@ class Configuration
                             ['action' => 'wait', 'timeout' => 1],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguideFilelist"],
                         ],
-                        'actionsIdentifierScreenshotsOfContentFrameOnly' => [
+                        'actionsIdentifierStyleguideScreenshotsOfContentFrameOnly' => [
                             ['include' => '_default'],
                             ['action' => 'setNavigationDefaultPid', 'pid' => 22],
                             ['action' => 'setNavigationDefaultTable', 'table' => 'tx_styleguide_elements_basic'],
@@ -398,7 +422,7 @@ class Configuration
                             ['action' => 'clearNavigationDefaults'],
                             ['action' => 'reloadBackend'],
                         ],
-                        'actionsIdentifierCodeSnippets' => [
+                        'actionsIdentifierStyleguideCodeSnippets' => [
                             ['action' => 'setCodeSnippetsTargetPath', 'path' => "CodeSnippets/StyleguideCode"],
                             ['action' => 'createCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/TCA/be_groups.php', 'targetFileName' => 'BeGroups'],
                             [
@@ -425,7 +449,7 @@ class Configuration
                             ['action' => 'createYamlCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/Services.yaml', 'targetFileName' => 'CoreServicesYaml'],
                             ['action' => 'createYamlCodeSnippet', 'sourceFile' => 'typo3/sysext/core/Configuration/Services.yaml', 'fields' => ['services/_defaults'], 'inlineLevel' => 2, 'targetFileName' => 'CoreServicesYamlDefaults'],
                         ],
-                        'actionsIdentifierDraw' => [
+                        'actionsIdentifierStyleguideDraw' => [
                             ['include' => '_default'],
                             ['action' => 'switchToMainFrame'],
                             ['action' => 'see', 'text' => "Dashboard"],
@@ -453,7 +477,7 @@ class Configuration
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "TxStyleguideElementsBasicWithClearedHighlightsAndFullpage"],
                             ['action' => 'reloadBackend'],
                         ],
-                        'actionsIdentifierCrop' => [
+                        'actionsIdentifierStyleguideCrop' => [
                             ['include' => '_default'],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "StyleguideDashboardCropTop"],
                             ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropTop", 'height' => 400],
