@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25e17c65117ee5f5f22e6b497486f472",
+    "content-hash": "91ee0941bfe7f0795d41da6d37531155",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -10096,6 +10096,54 @@
             }
         },
         {
+            "name": "typo3/site-package",
+            "version": "dev-lwolf-v11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code.git",
+                "reference": "d466917f90901bbc71ea2cf609a9e2165cbcd777"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/zipball/d466917f90901bbc71ea2cf609a9e2165cbcd777",
+                "reference": "d466917f90901bbc71ea2cf609a9e2165cbcd777",
+                "shasum": ""
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "site_package"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "TYPO3 CMS Documentation Team",
+                    "role": "Developer",
+                    "homepage": "https://typo3.org/community/teams/documentation"
+                },
+                {
+                    "name": "The TYPO3 Community",
+                    "role": "Contributor",
+                    "homepage": "https://typo3.org/community/"
+                }
+            ],
+            "description": "Example site package from the site package tutorial",
+            "homepage": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code",
+            "keywords": [
+                "documentation",
+                "site package",
+                "typo3"
+            ],
+            "support": {
+                "issues": "https://github.com/TYPO3-Documentation/t3docs-screenshots/issues",
+                "source": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/tree/lwolf-v11"
+            },
+            "time": "2021-09-11T21:05:53+00:00"
+        },
+        {
             "name": "typo3/symfony-psr-event-dispatcher-adapter",
             "version": "v2.1.0",
             "source": {
@@ -10553,7 +10601,8 @@
         "typo3/cms-t3editor": 20,
         "typo3/cms-tstemplate": 20,
         "typo3/cms-viewpage": 20,
-        "typo3/screenshots": 20
+        "typo3/screenshots": 20,
+        "typo3/site-package": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

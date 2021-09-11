@@ -15,6 +15,10 @@
 		},
 		{
 			"type": "vcs",
+			"url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code"
+		},
+		{
+			"type": "vcs",
 			"url": "https://github.com/TYPO3-Documentation/introduction"
 		},
 		{
@@ -72,6 +76,7 @@
 		"typo3/cms-tstemplate": "dev-master as 11.3.1",
 		"typo3/cms-viewpage": "dev-master as 11.3.1",
 		"typo3/screenshots": "dev-main",
+		"typo3/site-package": "dev-lwolf-v11",
 		"typo3/testing-framework": "^6.9.0"
 	},
 	"autoload-dev": {
