@@ -12,7 +12,6 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Codeception\Event\SuiteEvent;
 use Codeception\Event\TestEvent;
 use TYPO3\CMS\Core\Core\ApplicationContext;
 use TYPO3\CMS\Core\Core\Environment;
@@ -34,6 +33,46 @@ use TYPO3\TestingFramework\Core\Testbase;
  */
 class InstallEnvironment extends InstallMysqlCoreEnvironment
 {
+    protected array $localConfig = [
+        // Order matters: Align sorting of core extensions with /public/typo3conf/PackageStates.php
+        'coreExtensionsToLoad' => [
+            'core',
+            'scheduler',
+            'extbase',
+            'fluid',
+            'frontend',
+            'fluid_styled_content',
+            'filelist',
+            'impexp',
+            'form',
+            'install',
+            'info',
+            'linkvalidator',
+            'reports',
+            'redirects',
+            'recordlist',
+            'backend',
+            'indexed_search',
+            'recycler',
+            'setup',
+            'rte_ckeditor',
+            'adminpanel',
+            'belog',
+            'beuser',
+            'dashboard',
+            'extensionmanager',
+            'felogin',
+            'filemetadata',
+            'lowlevel',
+            'opendocs',
+            'seo',
+            'sys_note',
+            't3editor',
+            'tstemplate',
+            'viewpage',
+        ],
+    ];
+
     /**
      * Initialize TYPO3 instance
      *
@@ -46,6 +85,7 @@ class InstallEnvironment extends InstallMysqlCoreEnvironment
         $instancePath = getenv('TYPO3_PATH_ROOT');
 
         $testbase = new Testbase();
+        $testbase->setUpPackageStates($instancePath, [], $this->localConfig['coreExtensionsToLoad'], [], []);
         $testbase->setUpBasicTypo3Bootstrap($instancePath);
 
         Environment::initialize(
