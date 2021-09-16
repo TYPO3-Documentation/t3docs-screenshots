@@ -239,19 +239,6 @@ class Configuration
                         ]
                     ]
                 ],
-                'SitePackage' => [
-                    'screenshots' => [
-                        '_default'=> [
-                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
-                        ],
-                        'actionsIdentifierExamplesBackend' => [
-                            ['include' => '_default'],
-                            ['action' => 'see', 'text' => 'Page'],
-                            ['action' => 'click', 'link' => 'Page'],
-                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'SitePackageBackendFullPage'],
-                        ]
-                    ]
-                ],
                 'Install' => [
                     'screenshots' => [
                         [
@@ -322,6 +309,19 @@ class Configuration
                             ['action' => 'reloadBackend', 'role' => 'admin'],
                             ['action' => 'waitForText', 'text' => 'Klaus Admin', 'timeout' => 5],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'IntroductionAdminSwitch'],
+                        ]
+                    ]
+                ],
+                'SitePackage' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierSitePackageBackend' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Page'],
+                            ['action' => 'click', 'link' => 'Page'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'SitePackageBackendFullPage'],
                         ]
                     ]
                 ],
