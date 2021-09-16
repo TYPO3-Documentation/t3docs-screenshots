@@ -6,6 +6,7 @@
 ## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"}]
 
 # Initialize local variables
+SUITE_ID=""
 FORCE=""
 CHOICE=""
 
@@ -18,10 +19,30 @@ reset_project () {
     ddev delete -Oy
 }
 
+activate_extensions () {
+    local result;
+
+    extensions="-e typo3conf/ext/screenshots"
+    if [ "$SUITE_ID" = "Examples" ]; then
+        extensions+=" -e typo3conf/ext/examples"
+    elif [ "$SUITE_ID" = "Introduction" ]; then
+        extensions+=" -e typo3conf/ext/bootstrap_package -e typo3conf/ext/introduction"
+    elif [ "$SUITE_ID" = "Styleguide" ]; then
+        extensions+=" -e typo3conf/ext/styleguide"
+    elif [ ! "$SUITE_ID" = "" ]; then
+        echo "Invalid suite \"$SUITE_ID\". Please select either Core, Examples, Install, Introduction or Styleguide."
+    fi
+
+    result=$(ddev exec typo3 screenshots:activateextensions "${extensions}")
+
+    echo $result
+}
+
 install_project () {
     reset_project
     ddev start
     ddev composer install --no-interaction
+    activate_extensions
     ddev config --project-type=typo3 --docroot=public
     ddev exec touch public/FIRST_INSTALL
 }
@@ -30,6 +51,10 @@ install_project () {
 # Parse options and arguments
 while :; do
     case ${1:-} in
+        -s|--suite-id)
+            SUITE_ID=$2
+            shift 2
+            ;;
         -f|--force)
             FORCE=true
             ;;
