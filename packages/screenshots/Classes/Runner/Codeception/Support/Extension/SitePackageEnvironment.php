@@ -22,7 +22,7 @@ use TYPO3\CMS\Extensionmanager\Utility\InstallUtility;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 
 /**
- * Load all core extensions and EXT:examples and EXT:screenshots
+ * Load all core extensions and EXT:site_package and EXT:screenshots
  */
 class SitePackageEnvironment extends BackendEnvironment
 {
@@ -68,6 +68,7 @@ class SitePackageEnvironment extends BackendEnvironment
             'viewpage',
         ],
         'testExtensionsToLoad' => [
+            'typo3conf/ext/screenshots',
             'typo3conf/ext/site_package',
         ],
         'xmlDatabaseFixtures' => [
@@ -97,17 +98,5 @@ class SitePackageEnvironment extends BackendEnvironment
             Environment::getBackendPath() . '/index.php',
             Environment::isWindows() ? 'WINDOWS' : 'UNIX'
         );
-
-        // The database initialization uses DataHandler for some parts. DataHandler needs an initialized BE user
-        // with admin right and the live workspace.
-        Bootstrap::initializeBackendUser();
-        $GLOBALS['BE_USER']->user['admin'] = 1;
-        $GLOBALS['BE_USER']->user['uid'] = 1;
-        $GLOBALS['BE_USER']->workspace = 0;
-        Bootstrap::initializeLanguageObject();
-
-        $extensionKey = 'examples';
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $objectManager->get(InstallUtility::class)->install($extensionKey);
     }
 }

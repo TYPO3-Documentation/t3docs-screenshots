@@ -157,10 +157,10 @@ File ``screenshots.json``
 
 The runner configuration file ``screenshots.json`` must be placed in the root directory of the respective documentation
 folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the TYPO3 environment
-("Core", "Examples", "Install", "Introduction" or "Styleguide") where the screenshots are taken, and in the second level
-it lists blocks of actions where each block ends with a captured screenshot. Each action is an object, where the key
-``action`` marks the action name and the remaining keys represent the action parameters. Actions are mainly about
-navigating the TYPO3 instance and taking screenshots.
+("Core", "Examples", "Install", "Introduction", "SitePackage" or "Styleguide") where the screenshots are taken,
+and in the second level it lists blocks of actions where each block ends with a captured screenshot. Each action is an
+object, where the key ``action`` marks the action name and the remaining keys represent the action parameters.
+Actions are mainly about navigating the TYPO3 instance and taking screenshots.
 
 Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3docs`` by
 
@@ -170,7 +170,7 @@ Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3
 
 where ``folder`` defaults to ``My-Manual`` if left blank.
 
-This is a small runner configuration which takes screenshots of five TYPO3 environments:
+This is a small runner configuration which takes screenshots of all available TYPO3 environments:
 
 .. code-block:: json
 
@@ -201,6 +201,13 @@ This is a small runner configuration which takes screenshots of five TYPO3 envir
             "screenshots": [
                [
                   {"action": "makeScreenshotOfFullPage", "fileName": "IntroductionDashboardFullPage"}
+               ]
+            ]
+         },
+         "SitePackage": {
+            "screenshots": [
+               [
+                  {"action": "makeScreenshotOfFullPage", "fileName": "SitePackageDashboardFullPage"}
                ]
             ]
          },
@@ -577,6 +584,13 @@ Make screenshots of TYPO3 backend + EXT:introduction
 .. code-block:: bash
 
    ddev make-screenshots -s Introduction
+
+Make screenshots of TYPO3 backend + EXT:site_package
+----------------------------------------------------
+
+.. code-block:: bash
+
+   ddev make-screenshots -s SitePackage
 
 Make screenshots of TYPO3 backend + EXT:styleguide
 --------------------------------------------------
