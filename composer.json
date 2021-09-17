@@ -8,12 +8,12 @@
         },
         "sort-packages": true
     },
-    "repositories": [
-        {
+    "repositories": {
+        "example": {
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/t3docs-examples"
         },
-        {
+        "introduction": {
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code"
         },
@@ -21,11 +21,11 @@
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/introduction"
         },
-        {
+        "packages": {
             "type": "path",
-            "url": "./packages/*"
+            "url": "packages/*"
         }
-    ],
+    },
     "require": {
         "ext-dom": "*",
         "ext-imagick": "*",
