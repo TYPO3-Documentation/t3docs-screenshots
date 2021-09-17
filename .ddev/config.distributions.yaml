@@ -1,0 +1,6 @@
+additional_hostnames:
+    - "examples.distribution"
+    - "install.distribution"
+    - "introduction.distribution"
+    - "site-package.distribution"
+    - "styleguide.distribution"

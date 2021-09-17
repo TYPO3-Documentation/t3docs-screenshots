@@ -1,0 +1,9 @@
+{
+    "name": "typo3/t3docs-screenshots-distributions",
+    "description": "Helper package to manage distributions",
+    "autoload": {
+        "psr-4": {
+            "TYPO3\\Documentation\\Screenshots\\Distributions\\": "src"
+        }
+    }
+}

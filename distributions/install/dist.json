@@ -1,0 +1,29 @@
+{
+    "name": "typo3/t3docs-screenshots-introduction",
+    "description" : "TYPO3 CMS Screenshots Introduction",
+    "repositories": {
+        "introduction": {
+            "type": "path",
+            "url": "../../public/typo3conf/ext/introduction"
+        },
+        "example": {
+            "type": "path",
+            "url": "../../public/typo3conf/ext/examples"
+        },
+        "packages": {
+            "type": "path",
+            "url": "../../packages/*"
+        }
+    },
+    "require-dev": {
+        "typo3/cms-introduction": "@dev"
+    },
+    "scripts": {
+        "setup-distribution": [
+            "touch public/FIRST_INSTALL",
+            "mkdir -p public/typo3conf",
+            "cp res/AdditionalConfiguration.php public/typo3conf/"
+        ]
+    },
+    "extra": []
+}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cc0474a7210f66396ce22470dc215c2",
+    "content-hash": "672249b72cc58a991a0989f0fe3f2920",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2331,16 +2331,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0"
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30f38bffc6f24293dadd1823936372dfa9e86e2f",
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f",
                 "shasum": ""
             },
             "require": {
@@ -2348,7 +2348,8 @@
                 "phpdocumentor/reflection-common": "^2.0"
             },
             "require-dev": {
-                "ext-tokenizer": "*"
+                "ext-tokenizer": "*",
+                "psalm/phar": "^4.8"
             },
             "type": "library",
             "extra": {
@@ -2374,9 +2375,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.4.0"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.5.0"
             },
-            "time": "2020-09-17T18:55:26+00:00"
+            "time": "2021-09-17T15:28:14+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -9887,10 +9888,10 @@
         },
         {
             "name": "typo3/screenshots",
-            "version": "dev-master",
+            "version": "dev-auto-create-distributions",
             "dist": {
                 "type": "path",
-                "url": "packages/screenshots",
+                "url": "../../packages/screenshots",
                 "reference": "7fe522bf1e6c4896f9a15bdc1e4469550f3008a7"
             },
             "type": "typo3-cms-extension",
@@ -9982,10 +9983,10 @@
         },
         {
             "name": "typo3/t3docs-screenshots-distributions",
-            "version": "dev-master",
+            "version": "dev-auto-create-distributions",
             "dist": {
                 "type": "path",
-                "url": "packages/distributions",
+                "url": "../../packages/distributions",
                 "reference": "7a73f7a3b883037acb932d691bfde1904dfee5c6"
             },
             "type": "library",
@@ -10170,77 +10171,12 @@
     ],
     "packages-dev": [
         {
-            "name": "t3docs/examples",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-Documentation/t3docs-examples.git",
-                "reference": "d5e41c2b038c21d6bc90ae3187f8a907c0e02366"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/t3docs-examples/zipball/d5e41c2b038c21d6bc90ae3187f8a907c0e02366",
-                "reference": "d5e41c2b038c21d6bc90ae3187f8a907c0e02366",
-                "shasum": ""
-            },
-            "require": {
-                "typo3/cms-core": "^11.0.0|dev-master",
-                "typo3/cms-fluid-styled-content": "^11.0.0|dev-master"
-            },
-            "replace": {
-                "typo3-ter/examples": "self.version"
-            },
-            "default-branch": true,
-            "type": "typo3-cms-extension",
-            "extra": {
-                "typo3/cms": {
-                    "extension-key": "examples"
-                },
-                "branch-alias": {
-                    "dev-master": "11.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "T3docs\\Examples\\": "Classes/"
-                }
-            },
-            "scripts": {
-                "prepare-release": [
-                    "rm -rf .github",
-                    "rm .gitignore",
-                    "rm .editorconfig"
-                ]
-            },
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Documentation Team",
-                    "role": "Developer"
-                }
-            ],
-            "description": "This extension packages a number of code examples from the Core Documentation.",
-            "support": {
-                "source": "https://github.com/TYPO3-Documentation/t3docs-examples/tree/master",
-                "issues": "https://github.com/TYPO3-Documentation/t3docs-examples/issues"
-            },
-            "time": "2021-08-20T08:52:16+00:00"
-        },
-        {
             "name": "typo3/cms-introduction",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-Documentation/introduction.git",
-                "reference": "c0566cfdec0ea3162a6ecf6a99bf80c19d9e5f9b"
-            },
+            "version": "dev-auto-create-distributions",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/introduction/zipball/c0566cfdec0ea3162a6ecf6a99bf80c19d9e5f9b",
-                "reference": "c0566cfdec0ea3162a6ecf6a99bf80c19d9e5f9b",
-                "shasum": ""
+                "type": "path",
+                "url": "../../public/typo3conf/ext/introduction",
+                "reference": "76b6ae18ecdb923cc88dd9ad12fc5d5af59b9b51"
             },
             "require": {
                 "bk2k/bootstrap-package": "dev-BP_12-0",
@@ -10250,7 +10186,6 @@
                 "typo3/cms-impexp": "^11.3",
                 "typo3/cms-indexed-search": "^11.3"
             },
-            "default-branch": true,
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
@@ -10262,129 +10197,9 @@
             ],
             "description": "TYPO3 Introduction Package",
             "homepage": "https://typo3.org",
-            "support": {
-                "source": "https://github.com/TYPO3-Documentation/introduction/tree/master"
-            },
-            "time": "2021-08-19T08:42:49+00:00"
-        },
-        {
-            "name": "typo3/cms-styleguide",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/styleguide.git",
-                "reference": "ac8515f2faa9ca504d62b71b71d76338eead7a9e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/styleguide/zipball/ac8515f2faa9ca504d62b71b71d76338eead7a9e",
-                "reference": "ac8515f2faa9ca504d62b71b71d76338eead7a9e",
-                "shasum": ""
-            },
-            "require-dev": {
-                "codeception/codeception": "^4.1",
-                "codeception/module-asserts": "^1.2",
-                "codeception/module-cli": "^1.1",
-                "codeception/module-webdriver": "^1.1",
-                "phpstan/phpstan": "^0.12.37",
-                "typo3/cms-about": "dev-master",
-                "typo3/cms-core": "dev-master",
-                "typo3/cms-frontend": "dev-master",
-                "typo3/cms-install": "dev-master",
-                "typo3/coding-standards": "^0.3.0",
-                "typo3/tailor": "^1.2",
-                "typo3/testing-framework": "^6.10.1"
-            },
-            "default-branch": true,
-            "type": "typo3-cms-extension",
-            "extra": {
-                "typo3/cms": {
-                    "app-dir": ".Build",
-                    "web-dir": ".Build/Web",
-                    "extension-key": "styleguide"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "TYPO3\\CMS\\Styleguide\\": "Classes/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "TYPO3 CMS Core Team",
-                    "homepage": "https://forge.typo3.org/projects/typo3cms-core",
-                    "role": "Developer"
-                },
-                {
-                    "name": "The TYPO3 Community",
-                    "homepage": "https://typo3.org/community/",
-                    "role": "Contributor"
-                }
-            ],
-            "description": "TYPO3 extension to showcase TYPO3 Backend capabilities",
-            "homepage": "https://github.com/TYPO3/styleguide",
-            "keywords": [
-                "style guide",
-                "typo3",
-                "typo3 backend"
-            ],
-            "support": {
-                "issues": "https://github.com/TYPO3/styleguide/issues",
-                "source": "https://github.com/TYPO3/styleguide/tree/master"
-            },
-            "time": "2021-09-13T13:59:23+00:00"
-        },
-        {
-            "name": "typo3/site-package",
-            "version": "dev-lwolf-v11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code.git",
-                "reference": "1ba6d4dc86eff4d1bf8f5112f9bb0a31761a8d74"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/zipball/1ba6d4dc86eff4d1bf8f5112f9bb0a31761a8d74",
-                "reference": "1ba6d4dc86eff4d1bf8f5112f9bb0a31761a8d74",
-                "shasum": ""
-            },
-            "type": "typo3-cms-extension",
-            "extra": {
-                "typo3/cms": {
-                    "extension-key": "site_package"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "TYPO3 CMS Documentation Team",
-                    "role": "Developer",
-                    "homepage": "https://typo3.org/community/teams/documentation"
-                },
-                {
-                    "name": "The TYPO3 Community",
-                    "role": "Contributor",
-                    "homepage": "https://typo3.org/community/"
-                }
-            ],
-            "description": "Example site package from the site package tutorial",
-            "homepage": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code",
-            "keywords": [
-                "documentation",
-                "site package",
-                "typo3"
-            ],
-            "support": {
-                "issues": "https://github.com/TYPO3-Documentation/t3docs-screenshots/issues",
-                "source": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/tree/lwolf-v11"
-            },
-            "time": "2021-09-14T14:47:05+00:00"
+            "transport-options": {
+                "relative": true
+            }
         }
     ],
     "aliases": [
@@ -10633,10 +10448,7 @@
         "typo3/cms-viewpage": 20,
         "typo3/screenshots": 20,
         "typo3/t3docs-screenshots-distributions": 20,
-        "t3docs/examples": 20,
-        "typo3/cms-introduction": 20,
-        "typo3/cms-styleguide": 20,
-        "typo3/site-package": 20
+        "typo3/cms-introduction": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
