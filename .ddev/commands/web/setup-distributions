@@ -1,0 +1,34 @@
+#!/bin/bash
+
+## Description: Set up distribution TYPO3 installations
+## Usage: setup-distributions <optional-distribution-id>
+## Example: setup-distributions introduction
+
+DIST_PATH="/var/www/html/distributions"
+
+setup-distribution() {
+    local distName=$1
+    local distPath=$DIST_PATH/$distName
+    local dbName=db_${distName//-/_}
+
+    echo "Setting up '$distName'"
+
+    rm -f public/typo3conf/LocalConfiguration.php
+    echo "Installing files with Composer. This may take a while."
+    composer ins -d $distPath >/dev/null 2>&1
+    TYPO3_INSTALL_DB_DBNAME="$dbName" TYPO3_INSTALL_SITE_NAME="T3docs Screenshots $distName" composer setup-distribution -d $distPath
+}
+
+# Install main project in case it has not happened yet
+[ -d /var/www/html/vendor ] || composer install -d /var/www/html
+
+
+if [[ -z "$1" ]]
+then
+  for dist in $DIST_PATH/*/dist.json
+  do
+      setup-distribution $(basename $(dirname $dist))
+  done
+else
+    setup-distribution $1
+fi

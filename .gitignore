@@ -8,4 +8,8 @@ nbproject
 /public/*
 
 /distributions/*/*
-!/distributions/*/composer.json
+!/distributions/*/composer.*
+!/distributions/*/dist.json
+/distributions/local-*
+/distributions/install/*
+!/distributions/install/res

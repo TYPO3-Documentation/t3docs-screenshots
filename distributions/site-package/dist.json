@@ -1,0 +1,23 @@
+{
+    "name": "typo3/t3docs-screenshots-introduction",
+    "description" : "TYPO3 CMS Screenshots Introduction",
+    "repositories": {
+        "site-package": {
+            "type": "path",
+            "url": "../../public/typo3conf/ext/site_package"
+        },
+        "packages": {
+            "type": "path",
+            "url": "../../packages/*"
+        }
+    },
+    "require-dev": {
+        "typo3/site-package": "@dev"
+    },
+    "scripts": {
+        "setup-distribution": [
+            "typo3cms install:setup --no-interaction --database-user-name root --database-user-password root --database-host-name db --admin-user-name admin --admin-password password --site-setup-type site"
+        ]
+    },
+    "extra": []
+}
