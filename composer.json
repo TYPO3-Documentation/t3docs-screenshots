@@ -13,11 +13,11 @@
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/t3docs-examples"
         },
-        "introduction": {
+        "site-package": {
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code"
         },
-        {
+        "introduction": {
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/introduction"
         },
@@ -38,7 +38,6 @@
         "helhum/typo3-console": "dev-latest",
         "sebastian/diff": "^4.0",
         "sensiolabs/ansi-to-html": "^1.2",
-        "t3docs/examples": "dev-master",
         "typo3/cms-adminpanel": "dev-master as 11.4.0",
         "typo3/cms-backend": "dev-master as 11.4.0",
         "typo3/cms-belog": "dev-master as 11.4.0",
@@ -58,7 +57,6 @@
         "typo3/cms-indexed-search": "dev-master as 11.4.0",
         "typo3/cms-info": "dev-master as 11.4.0",
         "typo3/cms-install": "dev-master as 11.4.0",
-        "typo3/cms-introduction": "dev-master",
         "typo3/cms-linkvalidator": "dev-master as 11.4.0",
         "typo3/cms-lowlevel": "dev-master as 11.4.0",
         "typo3/cms-opendocs": "dev-master as 11.4.0",
@@ -70,7 +68,6 @@
         "typo3/cms-scheduler": "dev-master as 11.4.0",
         "typo3/cms-seo": "dev-master as 11.4.0",
         "typo3/cms-setup": "dev-master as 11.4.0",
-        "typo3/cms-styleguide": "dev-master",
         "typo3/cms-sys-note": "dev-master as 11.4.0",
         "typo3/cms-t3editor": "dev-master as 11.4.0",
         "typo3/cms-tstemplate": "dev-master as 11.4.0",
@@ -98,5 +95,10 @@
                 "Dirty: Disable form protection for easy url hopping": "patches/DisableFormProtection.patch"
             }
         }
+    },
+    "require-dev": {
+        "t3docs/examples": "dev-master",
+        "typo3/cms-introduction": "dev-master",
+        "typo3/cms-styleguide": "dev-master"
     }
 }
