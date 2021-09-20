@@ -1,5 +1,5 @@
 {
-  "name": "typo3/screenshots",
+  "name": "t3docs/screenshots",
   "type": "typo3-cms-extension",
   "description": "Provide tools and runner to take scripted screenshots of the TYPO3 CMS.",
   "authors": [

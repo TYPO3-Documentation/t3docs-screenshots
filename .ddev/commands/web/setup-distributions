@@ -4,7 +4,7 @@
 ## Usage: setup-distributions <optional-distribution-id>
 ## Example: setup-distributions introduction
 
-DIST_PATH="/var/www/html/distributions"
+DIST_PATH="/var/www/html/suites"
 
 setup-distribution() {
     local distName=$1
@@ -16,7 +16,7 @@ setup-distribution() {
     rm -f public/typo3conf/LocalConfiguration.php
     echo "Installing files with Composer. This may take a while."
     composer ins -d $distPath >/dev/null 2>&1
-    TYPO3_INSTALL_DB_DBNAME="$dbName" TYPO3_INSTALL_SITE_NAME="T3docs Screenshots $distName" composer setup-distribution -d $distPath
+    TYPO3_INSTALL_DB_DBNAME="$dbName" TYPO3_INSTALL_SITE_NAME="Screenshots suite $distName" composer setup-distribution -d $distPath
 }
 
 # Install main project in case it has not happened yet
