@@ -7,9 +7,9 @@ nbproject
 /vendor
 /public/*
 
-/distributions/*/*
-!/distributions/*/composer.*
-!/distributions/*/dist.json
-/distributions/local-*
-/distributions/install/*
-!/distributions/install/res
+/suites/*/*
+!/suites/*/composer.*
+!/suites/*/dist.json
+/suites/local-*
+/suites/install/*
+!/suites/install/res

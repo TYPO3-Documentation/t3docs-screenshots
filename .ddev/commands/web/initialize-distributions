@@ -4,7 +4,7 @@
 ## Usage: initialize-distributions
 ## Example: initialize-distributions
 
-DIST_PATH="/var/www/html/distributions"
+DIST_PATH="/var/www/html/suites"
 
 initialize-distribution() {
     local distName=$1
@@ -19,7 +19,7 @@ initialize-distribution() {
 # Install main project in case it has not happened yet
 [ -d /var/www/html/vendor ] || composer install -d /var/www/html
 
-composer intitialize-distributions
+composer initialize-suites
 
 for dist in $DIST_PATH/*/dist.json
 do

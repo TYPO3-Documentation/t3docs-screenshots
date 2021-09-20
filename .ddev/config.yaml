@@ -167,11 +167,6 @@ web_environment: []
 # - SOMEENV=somevalue
 # - SOMEOTHERENV=someothervalue
 
-# You can inject environment variables into the web container with:
-# web_environment:
-# - SOMEENV=somevalue
-# - SOMEOTHERENV=someothervalue
-
 # no_project_mount: false
 # (Experimental) If true, ddev will not mount the project into the web container;
 # the user is responsible for mounting it manually or via a script.

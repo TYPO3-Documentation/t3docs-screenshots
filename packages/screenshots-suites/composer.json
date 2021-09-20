@@ -1,0 +1,9 @@
+{
+    "name": "t3docs/screenshots-suites",
+    "description": "Helper package to manage suites",
+    "autoload": {
+        "psr-4": {
+            "TYPO3\\Documentation\\ScreenshotsSuites\\": "src"
+        }
+    }
+}

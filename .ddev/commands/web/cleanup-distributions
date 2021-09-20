@@ -4,7 +4,7 @@
 ## Usage: cleanup-distributions <optional-distribution-id>
 ## Example: cleanup-distributions introduction
 
-DIST_PATH="/var/www/html/distributions"
+DIST_PATH="/var/www/html/suites"
 
 cleanup-distribution() {
     local distName=$1

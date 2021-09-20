@@ -1,5 +1,5 @@
 {
-    "name": "typo3/t3docs-screenshots",
+    "name": "t3docs/screenshots-app",
     "description": "TYPO3 CMS Screenshots",
     "license": "MIT",
     "config": {
@@ -37,6 +37,8 @@
         "helhum/typo3-console": "dev-latest",
         "sebastian/diff": "^4.0",
         "sensiolabs/ansi-to-html": "^1.2",
+        "t3docs/screenshots": "dev-main",
+        "t3docs/screenshots-suites": "dev-main",
         "typo3/cms-adminpanel": "dev-master as 11.4.0",
         "typo3/cms-backend": "dev-master as 11.4.0",
         "typo3/cms-belog": "dev-master as 11.4.0",
@@ -71,8 +73,6 @@
         "typo3/cms-t3editor": "dev-master as 11.4.0",
         "typo3/cms-tstemplate": "dev-master as 11.4.0",
         "typo3/cms-viewpage": "dev-master as 11.4.0",
-        "typo3/screenshots": "@dev",
-        "typo3/t3docs-screenshots-distributions": "@dev",
         "typo3/testing-framework": "^6.9.0"
     },
     "require-dev": {
@@ -90,8 +90,8 @@
         "typo3-cms-scripts": [
             "typo3cms install:fixfolderstructure"
         ],
-        "intitialize-distributions": [
-            "TYPO3\\Documentation\\Screenshots\\Distributions\\DistributionHelper::setupComposerJsonFiles"
+        "initialize-suites": [
+            "TYPO3\\Documentation\\ScreenshotsSuites\\SuiteHelper::setupComposerJsonFiles"
         ],
         "post-autoload-dump": [
             "@typo3-cms-scripts"

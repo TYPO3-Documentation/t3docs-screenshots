@@ -492,7 +492,7 @@ Available actions
 -----------------
 
 As action all codeception actions are supported including the actions of the packages ``typo3/testing-framework`` and
-``typo3/screenshots``. All available actions get compiled into
+``t3docs/screenshots``. All available actions get compiled into
 ``packages/screenshots/Classes/Runner/Codeception/Support/_generated/PhotographerActions.php`` - ready for lookup.
 
 A new action should be added to the files of ``packages/screenshots/Classes/Runner/Codeception/Support/Helper`` and then be
