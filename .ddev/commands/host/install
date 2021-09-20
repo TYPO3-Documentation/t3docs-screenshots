@@ -8,8 +8,29 @@
 # Initialize local variables
 FORCE=""
 CHOICE=""
+DIST_PATH="distributions"
 
 # Functions
+reset_suite () {
+    local distName=$1
+    local distPath=$DIST_PATH/$distName
+
+    echo "Cleaning up '$distName'"
+
+    rm -rf $distPath/config
+    rm -rf $distPath/public
+    rm -rf $distPath/var
+    rm -rf $distPath/vendor
+}
+
+reset_suites () {
+    for dist in $DIST_PATH/*/dist.json
+    do
+        distName=$(basename $(dirname $dist));
+        reset_suite $distName
+    done
+}
+
 reset_project () {
     rm -rf config
     rm -rf public
@@ -18,14 +39,74 @@ reset_project () {
     ddev delete -Oy
 }
 
-install_project () {
-    reset_project
+start_project () {
     ddev start
+}
+
+initialize_project () {
+    echo "Initializing project"
+
     ddev composer install --no-interaction
+}
+
+initialize_suite () {
+    local distName=$1
+    local distPath=$DIST_PATH/$distName
+
+    echo "Initializing '$distName'"
+
+    ddev composer up -d $distPath --no-install
+}
+
+initialize_suites () {
+    ddev composer intitialize-distributions
+
+    for dist in $DIST_PATH/*/dist.json
+    do
+        distName=$(basename $(dirname $dist));
+        initialize_suite $distName
+    done
+}
+
+setup_project () {
+    echo "Setting up project"
+
     ddev config --project-type=typo3 --docroot=public
     ddev exec touch public/FIRST_INSTALL
 }
 
+setup_suite () {
+    local distName=$1
+    local distPath=$DIST_PATH/$distName
+    local dbName=db_${distName//-/_}
+
+    echo "Setting up '$distName'"
+    echo "Installing files with Composer. This may take a while."
+
+    rm -f public/typo3conf/LocalConfiguration.php
+    ddev composer ins -d $distPath >/dev/null 2>&1
+    ddev exec "TYPO3_INSTALL_DB_DBNAME=\"$dbName\" TYPO3_INSTALL_SITE_NAME=\"T3docs Screenshots $distName\" composer setup-distribution -d $distPath"
+}
+
+setup_suites () {
+    ddev composer intitialize-distributions
+
+    for dist in $DIST_PATH/*/dist.json
+    do
+        distName=$(basename $(dirname $dist));
+        setup_suite $distName
+    done
+}
+
+install_project () {
+    reset_suites
+    reset_project
+    start_project
+    initialize_project
+    initialize_suites
+    setup_project
+    setup_suites
+}
 
 # Parse options and arguments
 while :; do
