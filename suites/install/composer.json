@@ -9,14 +9,6 @@
         "sort-packages": true
     },
     "repositories": {
-        "introduction": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/introduction"
-        },
-        "example": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/examples"
-        },
         "packages": {
             "type": "path",
             "url": "../../packages/*"
@@ -71,9 +63,7 @@
         "typo3/cms-viewpage": "dev-master as 11.4.0",
         "typo3/testing-framework": "^6.9.0"
     },
-    "require-dev": {
-        "typo3/cms-introduction": "@dev"
-    },
+    "require-dev": [],
     "autoload-dev": {
         "psr-4": {
             "Typo3\\CMS\\Screenshots\\Tests\\Unit\\": "packages/screenshots/Tests/Unit/"
