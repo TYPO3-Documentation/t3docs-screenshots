@@ -10173,39 +10173,7 @@
             "time": "2021-03-09T10:59:23+00:00"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "typo3/cms-introduction",
-            "version": "dev-auto-create-distributions",
-            "dist": {
-                "type": "path",
-                "url": "../../public/typo3conf/ext/introduction",
-                "reference": "76b6ae18ecdb923cc88dd9ad12fc5d5af59b9b51"
-            },
-            "require": {
-                "bk2k/bootstrap-package": "dev-BP_12-0",
-                "typo3/cms-core": "^11.3",
-                "typo3/cms-felogin": "^11.3",
-                "typo3/cms-form": "^11.3",
-                "typo3/cms-impexp": "^11.3",
-                "typo3/cms-indexed-search": "^11.3"
-            },
-            "type": "typo3-cms-extension",
-            "extra": {
-                "typo3/cms": {
-                    "extension-key": "introduction"
-                }
-            },
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "TYPO3 Introduction Package",
-            "homepage": "https://typo3.org",
-            "transport-options": {
-                "relative": true
-            }
-        }
-    ],
+    "packages-dev": [],
     "aliases": [
         {
             "package": "typo3/cms-adminpanel",
@@ -10451,8 +10419,7 @@
         "typo3/cms-sys-note": 20,
         "typo3/cms-t3editor": 20,
         "typo3/cms-tstemplate": 20,
-        "typo3/cms-viewpage": 20,
-        "typo3/cms-introduction": 20
+        "typo3/cms-viewpage": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

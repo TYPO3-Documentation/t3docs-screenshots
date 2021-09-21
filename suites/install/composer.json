@@ -63,7 +63,6 @@
         "typo3/cms-viewpage": "dev-master as 11.4.0",
         "typo3/testing-framework": "^6.9.0"
     },
-    "require-dev": [],
     "autoload-dev": {
         "psr-4": {
             "Typo3\\CMS\\Screenshots\\Tests\\Unit\\": "packages/screenshots/Tests/Unit/"
@@ -75,6 +74,5 @@
             "mkdir -p public/typo3conf",
             "cp res/AdditionalConfiguration.php public/typo3conf/"
         ]
-    },
-    "extra": []
+    }
 }

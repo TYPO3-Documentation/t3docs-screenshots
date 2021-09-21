@@ -23,6 +23,12 @@ class SuiteHelper
             $targetDistJsonFile = new JsonFile(dirname($distFile) . '/composer.json');
             $targetJsonConfig = $rootJsonConfig;
             foreach ($distJsonFile->read() as $key => $value) {
+                // Composer fails if parameter requires object but array is passed
+                // - remove parameter instead
+                if (is_array($value) && empty($value)) {
+                    unset($targetJsonConfig[$key]);
+                    continue;
+                }
                 $targetJsonConfig[$key] = $value;
             }
             $targetDistJsonFile->write($targetJsonConfig);
