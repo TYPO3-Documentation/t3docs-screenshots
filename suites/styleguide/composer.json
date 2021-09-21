@@ -9,6 +9,10 @@
         "sort-packages": true
     },
     "repositories": {
+        "styleguide": {
+            "type": "path",
+            "url": "../../public/typo3conf/ext/styleguide"
+        },
         "packages": {
             "type": "path",
             "url": "../../packages/*"
@@ -64,7 +68,7 @@
         "typo3/testing-framework": "^6.9.0"
     },
     "require-dev": {
-        "typo3/cms-styleguide": "dev-master"
+        "typo3/cms-styleguide": "@dev"
     },
     "autoload-dev": {
         "psr-4": {

@@ -2,13 +2,17 @@
     "name": "t3docs/screenshots-styleguide",
     "description" : "TYPO3 Screenshots Styleguide",
     "repositories": {
+		"styleguide": {
+			"type": "path",
+			"url": "../../public/typo3conf/ext/styleguide"
+		},
         "packages": {
             "type": "path",
             "url": "../../packages/*"
         }
     },
     "require-dev": {
-        "typo3/cms-styleguide": "dev-master"
+        "typo3/cms-styleguide": "@dev"
     },
     "scripts": {
         "setup-suite": [
