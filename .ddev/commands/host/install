@@ -74,7 +74,7 @@ setup_project () {
     echo "Setting up project"
 
     ddev config --project-type=typo3 --docroot=public
-    ddev exec touch public/FIRST_INSTALL
+    ddev exec "TYPO3_INSTALL_DB_DBNAME=\"db\" TYPO3_INSTALL_SITE_NAME=\"Screenshots manager\" composer setup-project"
 }
 
 setup_suite () {
@@ -85,7 +85,6 @@ setup_suite () {
     echo "Setting up '$suiteId'"
     echo "Installing files with Composer. This may take a while."
 
-    rm -f public/typo3conf/LocalConfiguration.php
     ddev composer ins -d $suitePath >/dev/null 2>&1
     ddev exec "TYPO3_INSTALL_DB_DBNAME=\"$dbName\" TYPO3_INSTALL_SITE_NAME=\"Screenshots suite $suiteId\" composer setup-suite -d $suitePath"
 }
