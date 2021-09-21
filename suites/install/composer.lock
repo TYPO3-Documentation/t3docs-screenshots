@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b1e2f8d918dc899640c7d76e7240627",
+    "content-hash": "4a1abaa105c4a94abf58bc7b83364bd9",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7643,12 +7643,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-CMS/backend.git",
-                "reference": "ae069569931b37062f6020d111fd2d6a95f4fa7e"
+                "reference": "9c65d530f25840cc761c69adfeeead13e412a878"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/backend/zipball/ae069569931b37062f6020d111fd2d6a95f4fa7e",
-                "reference": "ae069569931b37062f6020d111fd2d6a95f4fa7e",
+                "url": "https://api.github.com/repos/TYPO3-CMS/backend/zipball/9c65d530f25840cc761c69adfeeead13e412a878",
+                "reference": "9c65d530f25840cc761c69adfeeead13e412a878",
                 "shasum": ""
             },
             "require": {
@@ -7710,7 +7710,7 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-21T10:03:49+00:00"
+            "time": "2021-09-21T15:09:10+00:00"
         },
         {
             "name": "typo3/cms-belog",

@@ -1,6 +1,6 @@
 {
-    "name": "t3docs/screenshots-introduction",
-    "description" : "TYPO3 CMS Screenshots Introduction",
+    "name": "t3docs/screenshots-install",
+    "description" : "TYPO3 Screenshots Installation",
     "repositories": {
         "introduction": {
             "type": "path",
