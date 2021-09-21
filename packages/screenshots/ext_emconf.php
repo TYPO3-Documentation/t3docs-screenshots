@@ -1,7 +1,7 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'TYPO3 CMS Screenshots',
+    'title' => 'TYPO3 Screenshots',
     'description' => 'Provide tools and runner to take scripted screenshots of the TYPO3 CMS.',
     'category' => 'plugin',
     'author' => 'TYPO3 Documentation Team',

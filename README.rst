@@ -6,9 +6,9 @@
 .. |BadgeCodeCoverage| image:: https://byob.yarr.is/TYPO3-Documentation/t3docs-screenshots/code-coverage
    :alt: Code Coverage
 
-=====================
-TYPO3 CMS Screenshots
-=====================
+=================
+TYPO3 Screenshots
+=================
 
 This project provides a way to take screenshots of the TYPO3 CMS in a scripted way.
 

@@ -1,6 +1,6 @@
 {
     "name": "t3docs/screenshots-styleguide",
-    "description": "TYPO3 CMS Screenshots Styleguide",
+    "description": "TYPO3 Screenshots Styleguide",
     "license": "MIT",
     "config": {
         "platform": {

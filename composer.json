@@ -1,6 +1,6 @@
 {
     "name": "t3docs/screenshots-app",
-    "description": "TYPO3 CMS Screenshots",
+    "description": "TYPO3 Screenshots",
     "license": "MIT",
     "config": {
         "platform": {
