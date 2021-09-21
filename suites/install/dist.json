@@ -2,22 +2,12 @@
     "name": "t3docs/screenshots-install",
     "description" : "TYPO3 Screenshots Installation",
     "repositories": {
-        "introduction": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/introduction"
-        },
-        "example": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/examples"
-        },
         "packages": {
             "type": "path",
             "url": "../../packages/*"
         }
     },
-    "require-dev": {
-        "typo3/cms-introduction": "@dev"
-    },
+    "require-dev": [],
     "scripts": {
         "setup-suite": [
             "touch public/FIRST_INSTALL",
