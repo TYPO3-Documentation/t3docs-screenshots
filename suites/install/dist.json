@@ -7,7 +7,7 @@
             "url": "../../packages/*"
         }
     },
-    "require-dev": [],
+    "require-dev": {},
     "scripts": {
         "setup-suite": [
             "touch public/FIRST_INSTALL",
