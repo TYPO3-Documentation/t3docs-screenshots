@@ -18,15 +18,7 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-libxml": "*",
-        "bk2k/bootstrap-package": "dev-BP_12-0",
-        "codeception/codeception": "^4.1.12",
-        "codeception/module-webdriver": "^1.1.4",
-        "cweagans/composer-patches": "^1.7",
         "helhum/typo3-console": "dev-latest",
-        "sebastian/diff": "^4.0",
-        "sensiolabs/ansi-to-html": "^1.2",
-        "t3docs/screenshots": "dev-main",
-        "t3docs/screenshots-suites": "dev-main",
         "typo3/cms-adminpanel": "dev-master as 11.4.0",
         "typo3/cms-backend": "dev-master as 11.4.0",
         "typo3/cms-belog": "dev-master as 11.4.0",
@@ -60,8 +52,7 @@
         "typo3/cms-sys-note": "dev-master as 11.4.0",
         "typo3/cms-t3editor": "dev-master as 11.4.0",
         "typo3/cms-tstemplate": "dev-master as 11.4.0",
-        "typo3/cms-viewpage": "dev-master as 11.4.0",
-        "typo3/testing-framework": "^6.9.0"
+        "typo3/cms-viewpage": "dev-master as 11.4.0"
     },
     "autoload-dev": {
         "psr-4": {
