@@ -3,7 +3,7 @@
 ## Description: (Re-)install the project or a single suite
 ## Usage: install [flags]
 ## Example: ddev install\nddev install --force\nddev install --suite-id site-package
-## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install this suite only (examples, install, introduction, site-package, styleguide). The full project if empty."}]
+## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install this suite only (core, examples, install, introduction, site-package, styleguide). The full project if empty."}]
 
 # Initialize local variables
 FORCE=""
