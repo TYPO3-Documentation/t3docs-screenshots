@@ -28,6 +28,7 @@
     },
     "require": {
         "ext-dom": "*",
+        "ext-imagick": "*",
         "ext-json": "*",
         "ext-libxml": "*",
 		"helhum/typo3-console": "dev-latest",
