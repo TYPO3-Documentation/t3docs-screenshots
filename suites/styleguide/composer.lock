@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "549167c788b26a64ea04efc857630ee6",
+    "content-hash": "06e3d1f4cd4e989aa10285c7ca07897e",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5081,12 +5081,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-CMS/backend.git",
-                "reference": "9219d305833c8e4c662462bbb3f9daf99892db4e"
+                "reference": "dc3122950dcbd95c9e8126a6b85637b8bb5138e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/backend/zipball/9219d305833c8e4c662462bbb3f9daf99892db4e",
-                "reference": "9219d305833c8e4c662462bbb3f9daf99892db4e",
+                "url": "https://api.github.com/repos/TYPO3-CMS/backend/zipball/dc3122950dcbd95c9e8126a6b85637b8bb5138e6",
+                "reference": "dc3122950dcbd95c9e8126a6b85637b8bb5138e6",
                 "shasum": ""
             },
             "require": {
@@ -5148,7 +5148,7 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T08:00:28+00:00"
+            "time": "2021-09-22T11:17:37+00:00"
         },
         {
             "name": "typo3/cms-belog",
@@ -6329,12 +6329,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-CMS/install.git",
-                "reference": "10247455783e25f4a0a26f21000e77fb85bc2b37"
+                "reference": "828b6a78a85e03a82d62cca91f07371c94b2803b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/install/zipball/10247455783e25f4a0a26f21000e77fb85bc2b37",
-                "reference": "10247455783e25f4a0a26f21000e77fb85bc2b37",
+                "url": "https://api.github.com/repos/TYPO3-CMS/install/zipball/828b6a78a85e03a82d62cca91f07371c94b2803b",
+                "reference": "828b6a78a85e03a82d62cca91f07371c94b2803b",
                 "shasum": ""
             },
             "require": {
@@ -6389,7 +6389,7 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T06:47:14+00:00"
+            "time": "2021-09-22T11:17:37+00:00"
         },
         {
             "name": "typo3/cms-linkvalidator",
@@ -7864,6 +7864,7 @@
     "prefer-lowest": false,
     "platform": {
         "ext-dom": "*",
+        "ext-imagick": "*",
         "ext-json": "*",
         "ext-libxml": "*"
     },

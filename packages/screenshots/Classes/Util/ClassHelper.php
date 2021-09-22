@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Util;
+namespace TYPO3\Documentation\Screenshots\Util;
 
 /*
  * This file is part of the TYPO3 project.
@@ -11,8 +11,6 @@ namespace TYPO3\CMS\Screenshots\Util;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
-use TYPO3\CMS\Screenshots\Reflection\ReflectionClass;
 
 class ClassHelper
 {

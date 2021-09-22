@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Controller;
+namespace TYPO3\Documentation\Screenshots\Controller;
 
 /*
  * This file is part of the TYPO3 project.
@@ -17,8 +17,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Screenshots\Util\FileHelper;
+use TYPO3\Documentation\Screenshots\Configuration\ExtensionConfiguration;
+use TYPO3\Documentation\Screenshots\Util\FileHelper;
 
 class ScreenshotsManagerAjaxController extends ActionController
 {

@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Unit\Runner\Codeception\Support\Helper;
+namespace TYPO3\Documentation\Screenshots\Tests\Unit\Runner\Codeception\Support\Helper;
 
 /*
  * This file is part of the TYPO3 project.
@@ -16,8 +16,8 @@ use Codeception\Lib\ModuleContainer;
 use org\bovigo\vfs\vfsStream;
 use TYPO3\CMS\Core\Core\ApplicationContext;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3CodeSnippets;
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots;
+use TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3CodeSnippets;
+use TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class Typo3CodeSnippetsTest extends UnitTestCase

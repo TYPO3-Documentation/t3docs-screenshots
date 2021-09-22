@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Runner\Codeception;
+namespace TYPO3\Documentation\Screenshots\Runner\Codeception;
 
 /*
  * This file is part of the TYPO3 project.
@@ -16,12 +16,12 @@ use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Screenshots\Configuration\ConfigurationException;
-use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
-use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Photographer;
-use TYPO3\CMS\Screenshots\Util\FileHelper;
-use TYPO3\CMS\Screenshots\Util\JsonHelper;
+use TYPO3\Documentation\Screenshots\Configuration\ConfigurationException;
+use TYPO3\Documentation\Screenshots\Configuration\ConfigurationRepository;
+use TYPO3\Documentation\Screenshots\Configuration\ExtensionConfiguration;
+use TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Photographer;
+use TYPO3\Documentation\Screenshots\Util\FileHelper;
+use TYPO3\Documentation\Screenshots\Util\JsonHelper;
 
 /**
  * Tests the screenshots backend module can be loaded

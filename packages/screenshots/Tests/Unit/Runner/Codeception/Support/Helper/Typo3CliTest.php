@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Unit\Runner\Codeception\Support\Helper;
+namespace TYPO3\Documentation\Screenshots\Tests\Unit\Runner\Codeception\Support\Helper;
 
 /*
  * This file is part of the TYPO3 project.
@@ -13,7 +13,7 @@ namespace TYPO3\CMS\Screenshots\Tests\Unit\Runner\Codeception\Support\Helper;
  */
 
 use Codeception\Lib\ModuleContainer;
-use TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Cli;
+use TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3Cli;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class Typo3CliTest extends UnitTestCase

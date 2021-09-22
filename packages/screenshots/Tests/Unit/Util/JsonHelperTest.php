@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Unit\Util;
+namespace TYPO3\Documentation\Screenshots\Tests\Unit\Util;
 
 /*
  * This file is part of the TYPO3 project.
@@ -12,7 +12,7 @@ namespace TYPO3\CMS\Screenshots\Tests\Unit\Util;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Screenshots\Util\JsonHelper;
+use TYPO3\Documentation\Screenshots\Util\JsonHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class JsonHelperTest extends UnitTestCase

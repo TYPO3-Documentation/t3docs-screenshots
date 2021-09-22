@@ -84,7 +84,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Typo3\\CMS\\Screenshots\\Tests\\Unit\\": "packages/screenshots/Tests/Unit/"
+            "TYPO3\\Documentation\\Screenshots\\Tests\\Unit\\": "packages/screenshots/Tests/Unit/"
         }
     },
     "scripts": {

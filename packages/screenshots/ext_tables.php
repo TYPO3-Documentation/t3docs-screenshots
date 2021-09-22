@@ -9,7 +9,7 @@ if (\TYPO3\CMS\Core\Core\Environment::getContext()->isTesting() === false) {
         'screenshots',
         '',
         [
-            \TYPO3\CMS\Screenshots\Controller\ScreenshotsManagerController::class => 'index, make, compare',
+            \TYPO3\Documentation\Screenshots\Controller\ScreenshotsManagerController::class => 'index, make, compare',
         ],
         [
             'access' => 'user,group',

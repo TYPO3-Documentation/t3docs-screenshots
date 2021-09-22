@@ -10,7 +10,7 @@ suites:
               editor: ff83dfd81e20b34c27d3e97771a4525a
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\CoreEnvironment
+        - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension\CoreEnvironment
   Examples:
     actor: Photographer
     modules:
@@ -22,12 +22,12 @@ suites:
               editor: ff83dfd81e20b34c27d3e97771a4525a
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\ExamplesEnvironment
+        - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension\ExamplesEnvironment
   Install:
     actor: Photographer
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\InstallEnvironment
+        - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension\InstallEnvironment
   Introduction:
     actor: Photographer
     modules:
@@ -40,7 +40,7 @@ suites:
               advanced-editor: c2c7a8af91f0204dbc4155127170d976
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\IntroductionEnvironment
+        - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension\IntroductionEnvironment
   SitePackage:
     actor: Photographer
     modules:
@@ -52,7 +52,7 @@ suites:
               editor: ff83dfd81e20b34c27d3e97771a4525a
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\SitePackageEnvironment
+        - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension\SitePackageEnvironment
   Styleguide:
     actor: Photographer
     modules:
@@ -64,9 +64,9 @@ suites:
               editor: ff83dfd81e20b34c27d3e97771a4525a
     extensions:
       enabled:
-        - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Extension\StyleguideEnvironment
+        - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension\StyleguideEnvironment
 
-namespace: TYPO3\CMS\Screenshots\Runner\Codeception\Support
+namespace: TYPO3\Documentation\Screenshots\Runner\Codeception\Support
 
 paths:
   tests: Codeception
@@ -92,15 +92,15 @@ modules:
           chromeOptions:
             args: [ "headless" ]
     - TYPO3\TestingFramework\Core\Acceptance\Helper\Acceptance
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Cli
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3CodeSnippets
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Draw
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3FileSystem
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3FileTree
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3ModalDialog
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Navigation
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3PageTree
-    - TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots:
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3Cli
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3CodeSnippets
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3Draw
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3FileSystem
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3FileTree
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3ModalDialog
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3Navigation
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3PageTree
+    - TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper\Typo3Screenshots:
         pathFilter: "%screenshotsPathFilter%"
         actionsIdFilter: "%screenshotsActionsIdFilter%"
 

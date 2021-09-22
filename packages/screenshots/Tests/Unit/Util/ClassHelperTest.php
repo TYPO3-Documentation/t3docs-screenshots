@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Unit\Util;
+namespace TYPO3\Documentation\Screenshots\Tests\Unit\Util;
 
 /*
  * This file is part of the TYPO3 project.
@@ -12,9 +12,9 @@ namespace TYPO3\CMS\Screenshots\Tests\Unit\Util;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Typo3\CMS\Screenshots\Tests\Unit\Fixtures\ClassWithComments;
-use Typo3\CMS\Screenshots\Tests\Unit\Fixtures\ClassWithNoComments;
-use TYPO3\CMS\Screenshots\Util\ClassHelper;
+use TYPO3\Documentation\Screenshots\Tests\Unit\Fixtures\ClassWithComments;
+use TYPO3\Documentation\Screenshots\Tests\Unit\Fixtures\ClassWithNoComments;
+use TYPO3\Documentation\Screenshots\Util\ClassHelper;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ClassHelperTest extends UnitTestCase
@@ -36,8 +36,8 @@ class ClassHelperTest extends UnitTestCase
             'getMultilineTextIndented',
         ];
         $expected = <<<'NOWDOC'
-use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\StringHelper;
+use TYPO3\Documentation\Screenshots\Util\ArrayHelper;
+use TYPO3\Documentation\Screenshots\Util\StringHelper;
 
 class ClassWithComments
 {
@@ -120,8 +120,8 @@ NOWDOC;
             'getMultilineTextIndented'
         ];
         $expected = <<<'NOWDOC'
-use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\StringHelper;
+use TYPO3\Documentation\Screenshots\Util\ArrayHelper;
+use TYPO3\Documentation\Screenshots\Util\StringHelper;
 
 class ClassWithComments
 {
@@ -165,17 +165,17 @@ NOWDOC;
             [
                 'class' => ClassWithComments::class,
                 'expected' => <<<'NOWDOC'
-use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\ClassHelper;
-use TYPO3\CMS\Screenshots\Util\StringHelper;
+use TYPO3\Documentation\Screenshots\Util\ArrayHelper;
+use TYPO3\Documentation\Screenshots\Util\ClassHelper;
+use TYPO3\Documentation\Screenshots\Util\StringHelper;
 NOWDOC
             ],
             [
                 'class' => ClassWithNoComments::class,
                 'expected' => <<<'NOWDOC'
-use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\ClassHelper;
-use TYPO3\CMS\Screenshots\Util\StringHelper;
+use TYPO3\Documentation\Screenshots\Util\ArrayHelper;
+use TYPO3\Documentation\Screenshots\Util\ClassHelper;
+use TYPO3\Documentation\Screenshots\Util\StringHelper;
 NOWDOC
             ]
         ];
@@ -198,11 +198,11 @@ NOWDOC
     {
         return [
             [
-                'useStatement' => 'use TYPO3\CMS\Screenshots\Util\ArrayHelper;',
+                'useStatement' => 'use TYPO3\Documentation\Screenshots\Util\ArrayHelper;',
                 'expected' => 'ArrayHelper'
             ],
             [
-                'useStatement' => 'use TYPO3\CMS\Screenshots\Util\ArrayHelper as MyArrayHelper;',
+                'useStatement' => 'use TYPO3\Documentation\Screenshots\Util\ArrayHelper as MyArrayHelper;',
                 'expected' => 'MyArrayHelper'
             ],
             [

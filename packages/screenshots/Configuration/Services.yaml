@@ -1,17 +1,17 @@
 services:
-  TYPO3\CMS\Screenshots\Command\CleanUpCommand:
+  TYPO3\Documentation\Screenshots\Command\CleanUpCommand:
     tags:
       - name: 'console.command'
         command: 'screenshots:cleanup'
-  TYPO3\CMS\Screenshots\Command\FetchSuitesCommand:
+  TYPO3\Documentation\Screenshots\Command\FetchSuitesCommand:
     tags:
       - name: 'console.command'
         command: 'screenshots:fetchsuites'
-  TYPO3\CMS\Screenshots\Command\InitCommand:
+  TYPO3\Documentation\Screenshots\Command\InitCommand:
     tags:
       - name: 'console.command'
         command: 'screenshots:init'
-  TYPO3\CMS\Screenshots\Command\MappingsCommand:
+  TYPO3\Documentation\Screenshots\Command\MappingsCommand:
     tags:
       - name: 'console.command'
         command: 'screenshots:mappings'
