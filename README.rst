@@ -12,11 +12,15 @@ TYPO3 Screenshots
 
 This project provides a way to take screenshots of the TYPO3 CMS in a scripted way.
 
-First, the user browses a TYPO3 instance to take notes of a click path for a new screenshot.
+First, the user browses TYPO3 instances to take notes of a click path for a new screenshot.
 Next, the click path gets forged to a ``screenshots.json`` file.
 Then, all ``screenshots.json`` files get executed by the screenshots runner which produces the screenshots.
 Last, the user compares the actual screenshots to the original screenshots in the screenshots manager and copies over if
 approved.
+
+In order to provide a wide range of screenshots, this project comes with a set of pre-configured TYPO3 environments with
+initialized page trees, so-called *suites*. Each TYPO3 instance of a suite can be accessed at a specific URL and
+configured for use by the screenshot runner in the ``screenshots.json` file.
 
 Activity of the screenshots runner:
 
@@ -41,19 +45,13 @@ Install
 Installation
 ============
 
-1. Build the environment by
+1. Install the project by
 
    .. code-block:: bash
 
       ddev install
 
-2. Navigate the browser to the website and complete the installation:
-
-   .. code-block:: bash
-
-      ddev launch
-
-3. Test the installation by
+2. Test the project by
 
    a. creating a dummy ``screenshots.json`` with example entries at ``public/t3docs/My-Manual`` by
 
@@ -70,18 +68,19 @@ Installation
    c. approving your installation by confirming that the screenshots have been created in
       ``public/t3docs-generated/actual/My-Manual``.
 
-Now you are ready to browse the TYPO3 backend, create custom ``screenshots.json`` and generate screenshots from them.
+Now you are ready to browse the suite TYPO3 instances, create custom ``screenshots.json`` files and generate screenshots
+from them.
 
 
 Maintenance
 ===========
 
-Below is a list of common commands for handling the TYPO3 instance.
+Below is a list of common commands for handling the project.
 
 Start
 -----
 
-Start the TYPO3 instance by
+Start the project by
 
 .. code-block:: bash
 
@@ -90,7 +89,7 @@ Start the TYPO3 instance by
 Stop
 ----
 
-Stop the TYPO3 instance by
+Stop the project by
 
 .. code-block:: bash
 
@@ -99,36 +98,50 @@ Stop the TYPO3 instance by
 Reinstallation
 --------------
 
-You might want to setup the TYPO3 instance from scratch to initialize it with a distinct page tree
-(read about activating page trees in section "`Browsable TYPO3 instance <browsable-typo3-instance_>`_").
-This can be reliably achieved by running the steps of the section "`Installation <installation_>`_" again.
+You might want to setup the project or a single suite TYPO3 instance from scratch to remove all temporary changes of it.
+This can be reliably achieved by resetting the project with
+
+.. code-block:: bash
+
+   ddev install
+
+or by resetting a single suite TYPO3 instance with
+
+.. code-block:: bash
+
+   ddev install -s [suite-id]
+
+again. Available suite IDs are "core", "examples", "install", "introduction", "site-package" and "styleguide".
 
 Uninstallation
 --------------
 
-Remove the TYPO3 instance by
+Remove the project by
 
 .. code-block:: bash
 
    ddev delete -yO
 
 
-.. _browsable-typo3-instance:
+.. _browsable-typo3-instances:
 
-Browsable TYPO3 instance
-========================
+Browsable TYPO3 instances
+=========================
 
-1. Start the TYPO3 instance - if not already present.
-2. Navigate the browser to the TYPO3 backend at https://t3docs-screenshots.ddev.site/typo3 .
-3. Log in to the TYPO3 backend - the credentials were created during the installation process.
-4. Optionally activate the page tree of a TYPO3 distribution:
+1. Start the project - if not already present.
+2. Navigate the browser to one or more of these URLs:
 
-   -  Initialize the page tree of ``EXT:examples`` by activating this extension - or -
-   -  initialize the page tree of ``EXT:introduction`` by activating this extension - or -
-   -  initialize the page tree of ``EXT:styleguide`` by activating this extension and clicking in the upper right corner
-      "(?)" -> "Styleguide" -> "TCA / Records" -> "Create styleguide page tree with data".
+   -  Screenshots manager: https://t3docs-screenshots.ddev.site/typo3
+   -  Suite "Core": https://core.t3docs-screenshots.ddev.site/typo3
+   -  Suite "Examples": https://examples.t3docs-screenshots.ddev.site/typo3
+   -  Suite "Install": https://install.t3docs-screenshots.ddev.site/typo3
+   -  Suite "Introduction": https://introduction.t3docs-screenshots.ddev.site/typo3
+   -  Suite "Site Package": https://site-package.t3docs-screenshots.ddev.site/typo3
+   -  Suite "Styleguide": https://styleguide.t3docs-screenshots.ddev.site/typo3
 
-Now you are ready to browse the TYPO3 backend and look up element selectors for use in actions of your
+3. Log in to the TYPO3 backend with credentials "admin" and "password".
+
+Now you are ready to browse the suite TYPO3 backends and look up element selectors for use in actions of your
 ``screenshots.json``.
 
 
@@ -156,11 +169,11 @@ File ``screenshots.json``
 -------------------------
 
 The runner configuration file ``screenshots.json`` must be placed in the root directory of the respective documentation
-folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the TYPO3 environment
+folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the suite
 ("Core", "Examples", "Install", "Introduction", "SitePackage" or "Styleguide") where the screenshots are taken,
-and in the second level it lists blocks of actions where each block ends with a captured screenshot. Each action is an
-object, where the key ``action`` marks the action name and the remaining keys represent the action parameters.
-Actions are mainly about navigating the TYPO3 instance and taking screenshots.
+and in the second level it lists blocks of browser actions. Each action is an object, where the key ``action`` marks
+the action name and the remaining keys represent the action parameters.
+Actions are mainly about navigating the suite TYPO3 instance and taking screenshots.
 
 Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3docs`` by
 
@@ -170,7 +183,7 @@ Create a basic ``screenshots.json`` in an arbitrary manual folder at ``public/t3
 
 where ``folder`` defaults to ``My-Manual`` if left blank.
 
-This is a small runner configuration which takes screenshots of all available TYPO3 environments:
+This is a small runner configuration which takes screenshots of all available suites:
 
 .. code-block:: json
 
@@ -528,7 +541,7 @@ rechecking all included distributions, the author has to
       acceptance tests.
 
 2. create a new Git branch in that distribution folder (see subfolders of ``public/typo3conf/ext/``)
-3. install that distribution in the local TYPO3 instance of this project (see section "`Installation <installation_>`_")
+3. log into the suite TYPO3 instance which uses that distribution (see URLs in section "`Browsable TYPO3 Instances <browsable-typo3-instances_>`_")
 4. create the new content element
 5. export the page tree (see section
    "`Database Data <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ExtensionArchitecture/CreateNewDistribution/#database-data>`_"
@@ -631,9 +644,10 @@ inclusion in other action blocks.
 Screenshots manager
 ===================
 
-To manage the created screenshots the TYPO3 instance backend provides a module "Screenshots" which can be found in the
-module menu at Admin Tools > Screenshots. It provides three functions: Starting the screenshots runner, comparing actual
-and original screenshots and copying screenshots from the actual path to the original path.
+To manage the created screenshots, the TYPO3 instance backend of the screenshots manager
+(see URL in section "`Browsable TYPO3 Instances <browsable-typo3-instances_>`_") provides a module "Screenshots", which
+can be found in the module menu under Admin Tools > Screenshots. It provides three functions: Starting the screenshot
+runner, comparing actual and original screenshots and copying screenshots from the actual path to the original path.
 
 Welcome
 -------
