@@ -13,13 +13,13 @@
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/t3docs-examples"
         },
-        "site-package": {
-            "type": "vcs",
-            "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code"
-        },
         "introduction": {
             "type": "vcs",
             "url": "https://github.com/TYPO3-Documentation/introduction"
+        },
+        "site-package": {
+            "type": "vcs",
+            "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code"
         },
         "packages": {
             "type": "path",
