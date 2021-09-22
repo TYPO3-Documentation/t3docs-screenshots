@@ -1,19 +1,21 @@
 #!/bin/bash
 
-## Description: (Re-)install the project
+## Description: (Re-)install the project or a single suite
 ## Usage: install [flags]
-## Example: ddev install\nddev install --force
-## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"}]
+## Example: ddev install\nddev install --force\nddev install --suite-id site-package
+## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install this suite only (examples, install, introduction, site-package, styleguide). The full project if empty."}]
 
 # Initialize local variables
 FORCE=""
 CHOICE=""
 SUITES_PATH="suites"
+SUITE_ID=""
 
 # Functions
 reset_suite () {
     local suiteId=$1
     local suitePath=$SUITES_PATH/$suiteId
+    local dbName=db_${suiteId//-/_}
 
     echo "Cleaning up '$suiteId'"
 
@@ -21,6 +23,7 @@ reset_suite () {
     rm -rf $suitePath/public
     rm -rf $suitePath/var
     rm -rf $suitePath/vendor
+    echo "DROP DATABASE IF EXISTS $dbName;" | ddev mysql -uroot -proot
 }
 
 reset_suites () {
@@ -107,9 +110,21 @@ install_project () {
     setup_suites
 }
 
+install_suite () {
+    local suiteId=$1
+
+    reset_suite $suiteId
+    initialize_suite $suiteId
+    setup_suite $suiteId
+}
+
 # Parse options and arguments
 while :; do
     case ${1:-} in
+        -s|--suite-id)
+            SUITE_ID=$2
+            shift 2
+            ;;
         -f|--force)
             FORCE=true
             ;;
@@ -122,10 +137,18 @@ done
 
 # Set user confirmation if force option not set
 if [ ! "${FORCE}" = "true" ] ; then
-    printf "Warning, this will reset the project and remove all changes. Continue [yes/no]? "
+    if [ -z "${SUITE_ID}" ] ; then
+        printf "Warning, this will reset the project and remove all changes. Continue [yes/no]? "
+    else
+        printf "Warning, this will reset the suite \"%s\" and remove all changes. Continue [yes/no]? " "${SUITE_ID}"
+    fi
     read CHOICE
 fi
 
 if [ "${CHOICE}" = "yes" ] || [ "${FORCE}" = "true" ] ; then
-    install_project
+    if [ -z "${SUITE_ID}" ] ; then
+        install_project
+    else
+        install_suite $SUITE_ID
+    fi
 fi
