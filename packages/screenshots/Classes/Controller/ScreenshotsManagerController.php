@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Controller;
+namespace TYPO3\Documentation\Screenshots\Controller;
 
 /*
  * This file is part of the TYPO3 project.
@@ -19,12 +19,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\InfoboxViewHelper;
-use TYPO3\CMS\Screenshots\Comparison\File;
-use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
-use TYPO3\CMS\Screenshots\Comparison\TextFileComparison;
-use TYPO3\CMS\Screenshots\Configuration\ConfigurationRepository;
-use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Screenshots\Util\FileHelper;
+use TYPO3\Documentation\Screenshots\Comparison\File;
+use TYPO3\Documentation\Screenshots\Comparison\ImageComparison;
+use TYPO3\Documentation\Screenshots\Comparison\TextFileComparison;
+use TYPO3\Documentation\Screenshots\Configuration\ConfigurationRepository;
+use TYPO3\Documentation\Screenshots\Configuration\ExtensionConfiguration;
+use TYPO3\Documentation\Screenshots\Util\FileHelper;
 
 class ScreenshotsManagerController extends ActionController
 {
@@ -44,7 +44,7 @@ class ScreenshotsManagerController extends ActionController
 
         $this->pageRenderer->addInlineLanguageLabelFile('EXT:screenshots/Resources/Private/Language/locallang_mod.xlf');
         $this->pageRenderer->addCssFile('EXT:screenshots/Resources/Public/Css/screenshots-manager.css');
-        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Screenshots/ScreenshotsManager');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/Documentation/Screenshots/ScreenshotsManager');
     }
 
     public function indexAction()

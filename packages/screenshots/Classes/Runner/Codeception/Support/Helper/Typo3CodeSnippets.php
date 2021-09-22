@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
+namespace TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper;
 
 /*
  * This file is part of the TYPO3 project.
@@ -15,13 +15,13 @@ namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
 use Codeception\Module;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\ClassHelper;
-use TYPO3\CMS\Screenshots\Util\FileHelper;
-use TYPO3\CMS\Screenshots\Util\JsonHelper;
-use TYPO3\CMS\Screenshots\Util\StringHelper;
-use TYPO3\CMS\Screenshots\Util\XmlHelper;
-use TYPO3\CMS\Screenshots\Util\YamlHelper;
+use TYPO3\Documentation\Screenshots\Util\ArrayHelper;
+use TYPO3\Documentation\Screenshots\Util\ClassHelper;
+use TYPO3\Documentation\Screenshots\Util\FileHelper;
+use TYPO3\Documentation\Screenshots\Util\JsonHelper;
+use TYPO3\Documentation\Screenshots\Util\StringHelper;
+use TYPO3\Documentation\Screenshots\Util\XmlHelper;
+use TYPO3\Documentation\Screenshots\Util\YamlHelper;
 
 /**
  * Helper to provide code snippets of TYPO3.

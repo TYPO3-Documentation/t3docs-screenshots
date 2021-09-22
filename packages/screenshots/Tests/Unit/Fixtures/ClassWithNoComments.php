@@ -1,12 +1,12 @@
 <?php
 
 declare(strict_types=1);
-namespace Typo3\CMS\Screenshots\Tests\Unit\Fixtures;
+namespace TYPO3\Documentation\Screenshots\Tests\Unit\Fixtures;
 
 
-use TYPO3\CMS\Screenshots\Util\ArrayHelper;
-use TYPO3\CMS\Screenshots\Util\ClassHelper;
-use TYPO3\CMS\Screenshots\Util\StringHelper;
+use TYPO3\Documentation\Screenshots\Util\ArrayHelper;
+use TYPO3\Documentation\Screenshots\Util\ClassHelper;
+use TYPO3\Documentation\Screenshots\Util\StringHelper;
 
 class ClassWithNoComments
 {

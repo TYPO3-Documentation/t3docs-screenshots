@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Tests\Unit\Comparison;
+namespace TYPO3\Documentation\Screenshots\Tests\Unit\Comparison;
 
 /*
  * This file is part of the TYPO3 project.
@@ -15,7 +15,7 @@ namespace TYPO3\CMS\Screenshots\Tests\Unit\Comparison;
 use org\bovigo\vfs\vfsStream;
 use TYPO3\CMS\Core\Core\ApplicationContext;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Screenshots\Comparison\ImageComparison;
+use TYPO3\Documentation\Screenshots\Comparison\ImageComparison;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImageComparisonTest extends UnitTestCase

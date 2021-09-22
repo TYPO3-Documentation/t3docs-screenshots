@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Command;
+namespace TYPO3\Documentation\Screenshots\Command;
 
 /*
  * This file is part of the TYPO3 project.
@@ -17,8 +17,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Screenshots\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Screenshots\Util\FileHelper;
+use TYPO3\Documentation\Screenshots\Configuration\ExtensionConfiguration;
+use TYPO3\Documentation\Screenshots\Util\FileHelper;
 
 /**
  * Command for cleaning up the screenshots of the former run.

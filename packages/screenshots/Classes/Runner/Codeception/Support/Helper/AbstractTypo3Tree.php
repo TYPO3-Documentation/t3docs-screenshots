@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\Runner\Codeception\Support\Helper;
+namespace TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Helper;
 
 /*
  * This file is part of the TYPO3 project.

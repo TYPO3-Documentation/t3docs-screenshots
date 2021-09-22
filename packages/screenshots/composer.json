@@ -25,12 +25,12 @@
   },
   "autoload": {
     "psr-4": {
-      "TYPO3\\CMS\\Screenshots\\": "Classes/"
+      "TYPO3\\Documentation\\Screenshots\\": "Classes/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-        "TYPO3\\CMS\\Screenshots\\Tests\\Unit\\": "Tests/Unit/"
+        "TYPO3\\Documentation\\Screenshots\\Tests\\Unit\\": "Tests/Unit/"
     }
   },
   "extra": {

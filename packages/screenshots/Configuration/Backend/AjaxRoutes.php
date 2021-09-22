@@ -8,6 +8,6 @@ return [
     'screenshots_folders' => [
         'path' => '/screenshots/folders',
         'access' => 'public',
-        'target' => \TYPO3\CMS\Screenshots\Controller\ScreenshotsManagerAjaxController::class . '::getFolders'
+        'target' => \TYPO3\Documentation\Screenshots\Controller\ScreenshotsManagerAjaxController::class . '::getFolders'
     ]
 ];

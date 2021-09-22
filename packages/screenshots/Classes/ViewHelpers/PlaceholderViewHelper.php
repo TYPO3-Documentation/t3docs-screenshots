@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace TYPO3\CMS\Screenshots\ViewHelpers;
+namespace TYPO3\Documentation\Screenshots\ViewHelpers;
 
 /*
  * This file is part of the TYPO3 project.
