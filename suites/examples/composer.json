@@ -12,10 +12,6 @@
         "examples": {
             "type": "path",
             "url": "../../public/typo3conf/ext/examples"
-        },
-        "packages": {
-            "type": "path",
-            "url": "../../packages/*"
         }
     },
     "require": {

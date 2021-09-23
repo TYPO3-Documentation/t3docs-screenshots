@@ -8,12 +8,6 @@
         },
         "sort-packages": true
     },
-    "repositories": {
-        "packages": {
-            "type": "path",
-            "url": "../../packages/*"
-        }
-    },
     "require": {
         "ext-dom": "*",
         "ext-imagick": "*",
