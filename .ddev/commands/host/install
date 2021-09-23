@@ -48,35 +48,11 @@ start_project () {
     ddev start
 }
 
-initialize_project () {
-    echo "Initializing project"
-
-    ddev composer install --no-interaction
-}
-
-initialize_suite () {
-    local suiteId=$1
-    local suitePath=$SUITES_PATH/$suiteId
-
-    echo "Initializing '$suiteId'"
-
-    ddev composer up -d $suitePath --no-install
-}
-
-initialize_suites () {
-    ddev composer initialize-suites
-
-    for dist in $SUITES_PATH/*/dist.json
-    do
-        suiteId=$(basename $(dirname $dist));
-        initialize_suite $suiteId
-    done
-}
-
 setup_project () {
     echo "Setting up project"
 
     ddev config --project-type=typo3 --docroot=public
+    ddev composer install --no-interaction
     ddev exec "TYPO3_INSTALL_DB_DBNAME=\"db\" TYPO3_INSTALL_SITE_NAME=\"Screenshots manager\" composer setup-project"
 }
 
@@ -88,7 +64,7 @@ setup_suite () {
     echo "Setting up '$suiteId'"
     echo "Installing files with Composer. This may take a while."
 
-    ddev composer ins -d $suitePath >/dev/null 2>&1
+    ddev composer install -d $suitePath >/dev/null 2>&1
     ddev exec "TYPO3_INSTALL_DB_DBNAME=\"$dbName\" TYPO3_INSTALL_SITE_NAME=\"Screenshots suite $suiteId\" composer setup-suite -d $suitePath"
 }
 
@@ -104,8 +80,6 @@ install_project () {
     reset_suites
     reset_project
     start_project
-    initialize_project
-    initialize_suites
     setup_project
     setup_suites
 }
@@ -114,7 +88,6 @@ install_suite () {
     local suiteId=$1
 
     reset_suite $suiteId
-    initialize_suite $suiteId
     setup_suite $suiteId
 }
 
