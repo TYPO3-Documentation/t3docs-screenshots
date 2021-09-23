@@ -1,12 +1,7 @@
 {
     "name": "t3docs/screenshots-core",
     "description" : "TYPO3 Screenshots Core",
-    "repositories": {
-        "packages": {
-            "type": "path",
-            "url": "../../packages/*"
-        }
-    },
+    "repositories": {},
     "require-dev": {},
     "scripts": {
         "setup-suite": [

@@ -1,12 +1,7 @@
 {
     "name": "t3docs/screenshots-install",
     "description" : "TYPO3 Screenshots Installation",
-    "repositories": {
-        "packages": {
-            "type": "path",
-            "url": "../../packages/*"
-        }
-    },
+    "repositories": {},
     "require-dev": {},
     "scripts": {
         "setup-suite": [

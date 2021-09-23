@@ -9,10 +9,6 @@
         "introduction": {
             "type": "path",
             "url": "../../public/typo3conf/ext/introduction"
-        },
-        "packages": {
-            "type": "path",
-            "url": "../../packages/*"
         }
     },
     "require-dev": {

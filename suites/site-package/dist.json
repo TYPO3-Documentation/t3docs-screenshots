@@ -5,10 +5,6 @@
         "site-package": {
             "type": "path",
             "url": "../../public/typo3conf/ext/site_package"
-        },
-        "packages": {
-            "type": "path",
-            "url": "../../packages/*"
         }
     },
     "require-dev": {

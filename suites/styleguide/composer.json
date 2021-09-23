@@ -12,10 +12,6 @@
         "styleguide": {
             "type": "path",
             "url": "../../public/typo3conf/ext/styleguide"
-        },
-        "packages": {
-            "type": "path",
-            "url": "../../packages/*"
         }
     },
     "require": {
