@@ -58,7 +58,8 @@
         "setup-suite": [
             "touch public/FIRST_INSTALL",
             "mkdir -p public/typo3conf",
-            "cp res/AdditionalConfiguration.php public/typo3conf/"
+            "cp res/AdditionalConfiguration.php public/typo3conf/",
+            "echo \"CREATE DATABASE IF NOT EXISTS db_install CHARACTER SET='utf8mb4' COLLATE='utf8mb4_general_ci'\" | mysql -uroot -proot"
         ]
     }
 }
