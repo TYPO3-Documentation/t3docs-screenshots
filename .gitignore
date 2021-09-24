@@ -10,7 +10,6 @@ nbproject
 /public/*
 
 /suites/*/*
-!/suites/*/composer.*
 !/suites/*/dist.json
 /suites/local-*
 /suites/install/*
