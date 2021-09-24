@@ -1,9 +1,16 @@
 {
     "name": "t3docs/screenshots-suites",
     "description": "Helper package to manage suites",
+    "type": "composer-plugin",
+    "require": {
+        "composer-plugin-api": "^2.1.0"
+    },
     "autoload": {
         "psr-4": {
             "TYPO3\\Documentation\\ScreenshotsSuites\\": "src"
         }
+    },
+    "extra": {
+        "class": "TYPO3\\Documentation\\ScreenshotsSuites\\ComposerPlugin"
     }
 }
