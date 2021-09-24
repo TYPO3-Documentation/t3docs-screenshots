@@ -1,7 +1,6 @@
 {
     "name": "t3docs/screenshots-install",
     "description" : "TYPO3 Screenshots Installation",
-    "repositories": {},
     "require-dev": {},
     "scripts": {
         "setup-suite": [
@@ -11,5 +10,5 @@
             "echo \"CREATE DATABASE IF NOT EXISTS db_install CHARACTER SET='utf8mb4' COLLATE='utf8mb4_general_ci'\" | mysql -uroot -proot"
         ]
     },
-    "extra": []
+    "extra": {}
 }

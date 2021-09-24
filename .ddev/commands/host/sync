@@ -1,9 +1,8 @@
 #!/bin/bash
 
 ## Description: Sync the packages of the project with the suite instances
-## Usage: sync [flags]
-## Example: ddev sync\nddev sync --force\nddev sync --suite-id introduction
-## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Sync with this suite only (core, examples, install, introduction, site-package, styleguide). The full project if empty."}]
+## Usage: sync
+## Example: ddev sync
 
 # Initialize local variables
 FORCE=""
@@ -21,47 +20,10 @@ sync_suite () {
     ddev composer update -d $suitePath --no-install
 }
 
-sync_suites () {
-    ddev composer initialize-suites
+ddev composer initialize-suites
 
-    for dist in $SUITES_PATH/*/dist.json
-    do
-        suiteId=$(basename $(dirname $dist));
-        sync_suite $suiteId
-    done
-}
-
-# Parse options and arguments
-while :; do
-    case ${1:-} in
-        -s|--suite-id)
-            SUITE_ID=$2
-            shift 2
-            ;;
-        -f|--force)
-            FORCE=true
-            ;;
-        *) # Default case: No more options, so break out of the loop.
-            break
-    esac
-
-    shift
+for dist in $SUITES_PATH/*/dist.json
+do
+    suiteId=$(basename $(dirname $dist));
+    sync_suite $suiteId
 done
-
-# Set user confirmation if force option not set
-if [ ! "${FORCE}" = "true" ] ; then
-    if [ -z "${SUITE_ID}" ] ; then
-        printf "Warning, this will sync the packages of the project with all suite instances. Continue [yes/no]? "
-    else
-        printf "Warning, this will sync the packages of the project with the suite \"%s\". Continue [yes/no]? " "${SUITE_ID}"
-    fi
-    read CHOICE
-fi
-
-if [ "${CHOICE}" = "yes" ] || [ "${FORCE}" = "true" ] ; then
-    if [ -z "${SUITE_ID}" ] ; then
-        sync_suites
-    else
-        sync_suite $SUITE_ID
-    fi
-fi

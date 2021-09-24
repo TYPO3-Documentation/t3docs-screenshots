@@ -1,14 +1,8 @@
 {
     "name": "t3docs/screenshots-site-package",
     "description" : "TYPO3 Screenshots Site Package",
-    "repositories": {
-        "site-package": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/site_package"
-        }
-    },
     "require-dev": {
-        "typo3/site-package": "@dev"
+        "typo3/site-package": "dev-lwolf-v11"
     },
     "scripts": {
         "setup-suite": [

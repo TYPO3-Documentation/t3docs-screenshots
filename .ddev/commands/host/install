@@ -77,6 +77,7 @@ setup_suites () {
 }
 
 install_project () {
+    ddev sync
     reset_suites
     reset_project
     start_project
@@ -122,6 +123,7 @@ if [ "${CHOICE}" = "yes" ] || [ "${FORCE}" = "true" ] ; then
     if [ -z "${SUITE_ID}" ] ; then
         install_project
     else
+        ddev sync
         install_suite $SUITE_ID
     fi
 fi
