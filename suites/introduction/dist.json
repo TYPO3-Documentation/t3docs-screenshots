@@ -1,18 +1,18 @@
 {
     "name": "t3docs/screenshots-introduction",
-    "description" : "TYPO3 Screenshots Introduction",
+    "description": "TYPO3 Screenshots Introduction",
     "repositories": {
-		"bootstrap-package": {
-			"type": "path",
-			"url": "../../public/typo3conf/ext/bootstrap_package"
-		},
+        "bootstrap-package": {
+            "type": "path",
+            "url": "../../public/typo3conf/ext/bootstrap_package"
+        },
         "introduction": {
             "type": "path",
             "url": "../../public/typo3conf/ext/introduction"
         }
     },
     "require-dev": {
-		"bk2k/bootstrap-package": "dev-main as dev-BP_12-0",
+        "bk2k/bootstrap-package": "dev-main as dev-BP_12-0",
         "typo3/cms-introduction": "@dev"
     },
     "scripts": {
