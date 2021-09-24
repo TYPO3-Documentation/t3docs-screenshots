@@ -64,7 +64,7 @@ setup_suite () {
     echo "Setting up '$suiteId'"
     echo "Installing files with Composer. This may take a while."
 
-    ddev composer install -d $suitePath >/dev/null 2>&1
+    ddev composer update -d $suitePath >/dev/null 2>&1
     ddev exec "TYPO3_INSTALL_DB_DBNAME=\"$dbName\" TYPO3_INSTALL_SITE_NAME=\"Screenshots suite $suiteId\" composer setup-suite -d $suitePath"
 }
 
@@ -77,7 +77,7 @@ setup_suites () {
 }
 
 install_project () {
-    ddev sync
+    ddev composer initialize-suites
     reset_suites
     reset_project
     start_project
@@ -123,7 +123,7 @@ if [ "${CHOICE}" = "yes" ] || [ "${FORCE}" = "true" ] ; then
     if [ -z "${SUITE_ID}" ] ; then
         install_project
     else
-        ddev sync
+        ddev composer initialize-suites
         install_suite $SUITE_ID
     fi
 fi
