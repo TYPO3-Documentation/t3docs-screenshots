@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7a20faddca50726d723cca23b4d3f2a",
+    "content-hash": "b709292a044f44024c13548f1481fe4a",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
             "version": "2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "f73543ac4e1def05f1a70bcd1525c8a157a1ad09"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/f73543ac4e1def05f1a70bcd1525c8a157a1ad09",
-                "reference": "f73543ac4e1def05f1a70bcd1525c8a157a1ad09",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/bacon/bacon-qr-code",
+                "reference": "f73543ac4e1def05f1a70bcd1525c8a157a1ad09"
             },
             "require": {
                 "dasprid/enum": "^1.0.3",
@@ -39,7 +33,6 @@
                     "BaconQrCode\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-2-Clause"
             ],
@@ -62,16 +55,10 @@
         {
             "name": "christian-riesen/base32",
             "version": "1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ChristianRiesen/base32.git",
-                "reference": "2e82dab3baa008e24a505649b0d583c31d31e894"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ChristianRiesen/base32/zipball/2e82dab3baa008e24a505649b0d583c31d31e894",
-                "reference": "2e82dab3baa008e24a505649b0d583c31d31e894",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/christian-riesen/base32",
+                "reference": "2e82dab3baa008e24a505649b0d583c31d31e894"
             },
             "require": {
                 "php": "^7.2 || ^8.0"
@@ -92,7 +79,6 @@
                     "Base32\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -121,16 +107,10 @@
         {
             "name": "cogpowered/finediff",
             "version": "0.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cogpowered/FineDiff.git",
-                "reference": "339ddc8c3afb656efed4f2f0a80e5c3d026f8ea8"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cogpowered/FineDiff/zipball/339ddc8c3afb656efed4f2f0a80e5c3d026f8ea8",
-                "reference": "339ddc8c3afb656efed4f2f0a80e5c3d026f8ea8",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/cogpowered/finediff",
+                "reference": "339ddc8c3afb656efed4f2f0a80e5c3d026f8ea8"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -145,7 +125,6 @@
                     "cogpowered\\FineDiff": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -176,16 +155,10 @@
         {
             "name": "dasprid/enum",
             "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DASPRiD/Enum.git",
-                "reference": "5abf82f213618696dda8e3bf6f64dd042d8542b2"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/5abf82f213618696dda8e3bf6f64dd042d8542b2",
-                "reference": "5abf82f213618696dda8e3bf6f64dd042d8542b2",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/dasprid/enum",
+                "reference": "5abf82f213618696dda8e3bf6f64dd042d8542b2"
             },
             "require-dev": {
                 "phpunit/phpunit": "^7 | ^8 | ^9",
@@ -197,7 +170,6 @@
                     "DASPRiD\\Enum\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-2-Clause"
             ],
@@ -223,16 +195,10 @@
         {
             "name": "doctrine/annotations",
             "version": "1.13.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/annotations.git",
-                "reference": "5b668aef16090008790395c02c893b1ba13f7e08"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/5b668aef16090008790395c02c893b1ba13f7e08",
-                "reference": "5b668aef16090008790395c02c893b1ba13f7e08",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/doctrine/annotations",
+                "reference": "5b668aef16090008790395c02c893b1ba13f7e08"
             },
             "require": {
                 "doctrine/lexer": "1.*",
@@ -253,7 +219,6 @@
                     "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -295,16 +260,10 @@
         {
             "name": "doctrine/cache",
             "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/cache.git",
-                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/331b4d5dbaeab3827976273e9356b3b453c300ce",
-                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/doctrine/cache",
+                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce"
             },
             "require": {
                 "php": "~7.1 || ^8.0"
@@ -332,7 +291,6 @@
                     "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -394,16 +352,10 @@
         {
             "name": "doctrine/dbal",
             "version": "2.13.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/dbal.git",
-                "reference": "0d7adf4cadfee6f70850e5b163e6cdd706417838"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/0d7adf4cadfee6f70850e5b163e6cdd706417838",
-                "reference": "0d7adf4cadfee6f70850e5b163e6cdd706417838",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/doctrine/dbal",
+                "reference": "0d7adf4cadfee6f70850e5b163e6cdd706417838"
             },
             "require": {
                 "doctrine/cache": "^1.0|^2.0",
@@ -435,7 +387,6 @@
                     "Doctrine\\DBAL\\": "lib/Doctrine/DBAL"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -503,16 +454,10 @@
         {
             "name": "doctrine/deprecations",
             "version": "v0.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "9504165960a1f83cc1480e2be1dd0a0478561314"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/9504165960a1f83cc1480e2be1dd0a0478561314",
-                "reference": "9504165960a1f83cc1480e2be1dd0a0478561314",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/doctrine/deprecations",
+                "reference": "9504165960a1f83cc1480e2be1dd0a0478561314"
             },
             "require": {
                 "php": "^7.1|^8.0"
@@ -531,7 +476,6 @@
                     "Doctrine\\Deprecations\\": "lib/Doctrine/Deprecations"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -546,16 +490,10 @@
         {
             "name": "doctrine/event-manager",
             "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/event-manager.git",
-                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/event-manager/zipball/41370af6a30faa9dc0368c4a6814d596e81aba7f",
-                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/doctrine/event-manager",
+                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f"
             },
             "require": {
                 "php": "^7.1 || ^8.0"
@@ -578,7 +516,6 @@
                     "Doctrine\\Common\\": "lib/Doctrine/Common"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -640,16 +577,10 @@
         {
             "name": "doctrine/instantiator",
             "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "d56bf6102915de5702778fe20f2de3b2fe570b5b"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/d56bf6102915de5702778fe20f2de3b2fe570b5b",
-                "reference": "d56bf6102915de5702778fe20f2de3b2fe570b5b",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/doctrine/instantiator",
+                "reference": "d56bf6102915de5702778fe20f2de3b2fe570b5b"
             },
             "require": {
                 "php": "^7.1 || ^8.0"
@@ -669,7 +600,6 @@
                     "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -709,16 +639,10 @@
         {
             "name": "doctrine/lexer",
             "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doctrine/lexer.git",
-                "reference": "e864bbf5904cb8f5bb334f99209b48018522f042"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/lexer/zipball/e864bbf5904cb8f5bb334f99209b48018522f042",
-                "reference": "e864bbf5904cb8f5bb334f99209b48018522f042",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/doctrine/lexer",
+                "reference": "e864bbf5904cb8f5bb334f99209b48018522f042"
             },
             "require": {
                 "php": "^7.2 || ^8.0"
@@ -739,7 +663,6 @@
                     "Doctrine\\Common\\Lexer\\": "lib/Doctrine/Common/Lexer"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -789,16 +712,10 @@
         {
             "name": "egulias/email-validator",
             "version": "3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "c81f18a3efb941d8c4d2e025f6183b5c6d697307"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/c81f18a3efb941d8c4d2e025f6183b5c6d697307",
-                "reference": "c81f18a3efb941d8c4d2e025f6183b5c6d697307",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/egulias/email-validator",
+                "reference": "c81f18a3efb941d8c4d2e025f6183b5c6d697307"
             },
             "require": {
                 "doctrine/lexer": "^1.2",
@@ -824,7 +741,6 @@
                     "Egulias\\EmailValidator\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -857,16 +773,10 @@
         {
             "name": "enshrined/svg-sanitize",
             "version": "0.14.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "307b42066fb0b76b5119f5e1f0826e18fefabe95"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/307b42066fb0b76b5119f5e1f0826e18fefabe95",
-                "reference": "307b42066fb0b76b5119f5e1f0826e18fefabe95",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/enshrined/svg-sanitize",
+                "reference": "307b42066fb0b76b5119f5e1f0826e18fefabe95"
             },
             "require": {
                 "ext-dom": "*",
@@ -883,7 +793,6 @@
                     "enshrined\\svgSanitize\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -903,16 +812,10 @@
         {
             "name": "guzzlehttp/guzzle",
             "version": "7.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "7008573787b430c1c1f650e3722d9bba59967628"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/7008573787b430c1c1f650e3722d9bba59967628",
-                "reference": "7008573787b430c1c1f650e3722d9bba59967628",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/guzzlehttp/guzzle",
+                "reference": "7008573787b430c1c1f650e3722d9bba59967628"
             },
             "require": {
                 "ext-json": "*",
@@ -950,7 +853,6 @@
                     "src/functions_include.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1006,16 +908,10 @@
         {
             "name": "guzzlehttp/promises",
             "version": "1.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/promises.git",
-                "reference": "8e7d04f1f6450fef59366c399cfad4b9383aa30d"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/8e7d04f1f6450fef59366c399cfad4b9383aa30d",
-                "reference": "8e7d04f1f6450fef59366c399cfad4b9383aa30d",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/guzzlehttp/promises",
+                "reference": "8e7d04f1f6450fef59366c399cfad4b9383aa30d"
             },
             "require": {
                 "php": ">=5.5"
@@ -1037,7 +933,6 @@
                     "src/functions_include.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1061,16 +956,10 @@
         {
             "name": "guzzlehttp/psr7",
             "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/guzzle/psr7.git",
-                "reference": "1dc8d9cba3897165e16d12bb13d813afb1eb3fe7"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/1dc8d9cba3897165e16d12bb13d813afb1eb3fe7",
-                "reference": "1dc8d9cba3897165e16d12bb13d813afb1eb3fe7",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/guzzlehttp/psr7",
+                "reference": "1dc8d9cba3897165e16d12bb13d813afb1eb3fe7"
             },
             "require": {
                 "php": "^7.2.5 || ^8.0",
@@ -1101,7 +990,6 @@
                     "GuzzleHttp\\Psr7\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1141,16 +1029,10 @@
         {
             "name": "helhum/config-loader",
             "version": "v0.12.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/helhum/config-loader.git",
-                "reference": "4bd2cdb1d81ae0eedbc1ce9d2af1e81eea444e70"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/helhum/config-loader/zipball/4bd2cdb1d81ae0eedbc1ce9d2af1e81eea444e70",
-                "reference": "4bd2cdb1d81ae0eedbc1ce9d2af1e81eea444e70",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/helhum/config-loader",
+                "reference": "4bd2cdb1d81ae0eedbc1ce9d2af1e81eea444e70"
             },
             "require": {
                 "php": ">7.0"
@@ -1175,7 +1057,6 @@
                     "Helhum\\ConfigLoader\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1199,16 +1080,10 @@
         {
             "name": "helhum/typo3-console",
             "version": "dev-latest",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-Console/TYPO3-Console.git",
-                "reference": "bf88651235465849bd1676f65293caa496726e22"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Console/TYPO3-Console/zipball/bf88651235465849bd1676f65293caa496726e22",
-                "reference": "bf88651235465849bd1676f65293caa496726e22",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/helhum/typo3-console",
+                "reference": "bf88651235465849bd1676f65293caa496726e22"
             },
             "require": {
                 "helhum/config-loader": ">=0.9 <0.13",
@@ -1263,7 +1138,6 @@
                     ]
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1303,16 +1177,10 @@
         {
             "name": "masterminds/html5",
             "version": "2.7.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Masterminds/html5-php.git",
-                "reference": "f640ac1bdddff06ea333a920c95bbad8872429ab"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/f640ac1bdddff06ea333a920c95bbad8872429ab",
-                "reference": "f640ac1bdddff06ea333a920c95bbad8872429ab",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/masterminds/html5",
+                "reference": "f640ac1bdddff06ea333a920c95bbad8872429ab"
             },
             "require": {
                 "ext-ctype": "*",
@@ -1334,7 +1202,6 @@
                     "Masterminds\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1372,16 +1239,10 @@
         {
             "name": "nikic/php-parser",
             "version": "v4.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50953a2691a922aa1769461637869a0a2faa3f53",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/nikic/php-parser",
+                "reference": "50953a2691a922aa1769461637869a0a2faa3f53"
             },
             "require": {
                 "ext-tokenizer": "*",
@@ -1405,7 +1266,6 @@
                     "PhpParser\\": "lib/PhpParser"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1428,16 +1288,10 @@
         {
             "name": "phpdocumentor/reflection-common",
             "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionCommon.git",
-                "reference": "1d01c49d4ed62f25aa84a747ad35d5a16924662b"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionCommon/zipball/1d01c49d4ed62f25aa84a747ad35d5a16924662b",
-                "reference": "1d01c49d4ed62f25aa84a747ad35d5a16924662b",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/phpdocumentor/reflection-common",
+                "reference": "1d01c49d4ed62f25aa84a747ad35d5a16924662b"
             },
             "require": {
                 "php": "^7.2 || ^8.0"
@@ -1453,7 +1307,6 @@
                     "phpDocumentor\\Reflection\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1481,16 +1334,10 @@
         {
             "name": "phpdocumentor/reflection-docblock",
             "version": "5.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/069a785b2141f5bcf49f3e353548dc1cce6df556",
-                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/phpdocumentor/reflection-docblock",
+                "reference": "069a785b2141f5bcf49f3e353548dc1cce6df556"
             },
             "require": {
                 "ext-filter": "*",
@@ -1513,7 +1360,6 @@
                     "phpDocumentor\\Reflection\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1537,16 +1383,10 @@
         {
             "name": "phpdocumentor/type-resolver",
             "version": "1.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30f38bffc6f24293dadd1823936372dfa9e86e2f",
-                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/phpdocumentor/type-resolver",
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
             },
             "require": {
                 "php": "^7.2 || ^8.0",
@@ -1567,7 +1407,6 @@
                     "phpDocumentor\\Reflection\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1587,16 +1426,10 @@
         {
             "name": "psr/cache",
             "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/cache.git",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
-                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/cache",
+                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -1612,7 +1445,6 @@
                     "Psr\\Cache\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1636,16 +1468,10 @@
         {
             "name": "psr/container",
             "version": "1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/8622567409010282b7aeebe4bb841fe98b58dcaf",
-                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/container",
+                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf"
             },
             "require": {
                 "php": ">=7.2.0"
@@ -1656,7 +1482,6 @@
                     "Psr\\Container\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1684,16 +1509,10 @@
         {
             "name": "psr/event-dispatcher",
             "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/event-dispatcher.git",
-                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/dbefd12671e8a14ec7f180cab83036ed26714bb0",
-                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/event-dispatcher",
+                "reference": "dbefd12671e8a14ec7f180cab83036ed26714bb0"
             },
             "require": {
                 "php": ">=7.2.0"
@@ -1709,7 +1528,6 @@
                     "Psr\\EventDispatcher\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1734,16 +1552,10 @@
         {
             "name": "psr/http-client",
             "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-client.git",
-                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-client/zipball/2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
-                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/http-client",
+                "reference": "2dfb5f6c5eff0e91e20e913f8c5452ed95b86621"
             },
             "require": {
                 "php": "^7.0 || ^8.0",
@@ -1760,7 +1572,6 @@
                     "Psr\\Http\\Client\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1786,16 +1597,10 @@
         {
             "name": "psr/http-factory",
             "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/http-factory",
+                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
             },
             "require": {
                 "php": ">=7.0.0",
@@ -1812,7 +1617,6 @@
                     "Psr\\Http\\Message\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1841,16 +1645,10 @@
         {
             "name": "psr/http-message",
             "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-message.git",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/http-message",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -1866,7 +1664,6 @@
                     "Psr\\Http\\Message\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1894,16 +1691,10 @@
         {
             "name": "psr/http-server-handler",
             "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-server-handler.git",
-                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
-                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/http-server-handler",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
             },
             "require": {
                 "php": ">=7.0",
@@ -1920,7 +1711,6 @@
                     "Psr\\Http\\Server\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1951,16 +1741,10 @@
         {
             "name": "psr/http-server-middleware",
             "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-server-middleware.git",
-                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/2296f45510945530b9dceb8bcedb5cb84d40c5f5",
-                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/http-server-middleware",
+                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5"
             },
             "require": {
                 "php": ">=7.0",
@@ -1978,7 +1762,6 @@
                     "Psr\\Http\\Server\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2008,16 +1791,10 @@
         {
             "name": "psr/log",
             "version": "1.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/psr/log",
+                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -2033,7 +1810,6 @@
                     "Psr\\Log\\": "Psr/Log/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2058,16 +1834,10 @@
         {
             "name": "ralouphie/getallheaders",
             "version": "3.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ralouphie/getallheaders.git",
-                "reference": "120b605dfeb996808c31b6477290a714d356e822"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/120b605dfeb996808c31b6477290a714d356e822",
-                "reference": "120b605dfeb996808c31b6477290a714d356e822",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/ralouphie/getallheaders",
+                "reference": "120b605dfeb996808c31b6477290a714d356e822"
             },
             "require": {
                 "php": ">=5.6"
@@ -2082,7 +1852,6 @@
                     "src/getallheaders.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2102,16 +1871,10 @@
         {
             "name": "symfony/cache",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/cache.git",
-                "reference": "864867b13bd67347497ce956f4b253f8fe18b80c"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/864867b13bd67347497ce956f4b253f8fe18b80c",
-                "reference": "864867b13bd67347497ce956f4b253f8fe18b80c",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/cache",
+                "reference": "864867b13bd67347497ce956f4b253f8fe18b80c"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2157,7 +1920,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2199,16 +1961,10 @@
         {
             "name": "symfony/cache-contracts",
             "version": "v2.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/cache-contracts.git",
-                "reference": "c0446463729b89dd4fa62e9aeecc80287323615d"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/c0446463729b89dd4fa62e9aeecc80287323615d",
-                "reference": "c0446463729b89dd4fa62e9aeecc80287323615d",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/cache-contracts",
+                "reference": "c0446463729b89dd4fa62e9aeecc80287323615d"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2232,7 +1988,6 @@
                     "Symfony\\Contracts\\Cache\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2278,16 +2033,10 @@
         {
             "name": "symfony/config",
             "version": "v5.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/config.git",
-                "reference": "4268f3059c904c61636275182707f81645517a37"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/4268f3059c904c61636275182707f81645517a37",
-                "reference": "4268f3059c904c61636275182707f81645517a37",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/config",
+                "reference": "4268f3059c904c61636275182707f81645517a37"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2319,7 +2068,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2357,16 +2105,10 @@
         {
             "name": "symfony/console",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/console.git",
-                "reference": "8b1008344647462ae6ec57559da166c2bfa5e16a"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/8b1008344647462ae6ec57559da166c2bfa5e16a",
-                "reference": "8b1008344647462ae6ec57559da166c2bfa5e16a",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/console",
+                "reference": "8b1008344647462ae6ec57559da166c2bfa5e16a"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2412,7 +2154,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2456,16 +2197,10 @@
         {
             "name": "symfony/dependency-injection",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "a665946279f566d94ed5eb98999cfa65c6fa5a78"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/a665946279f566d94ed5eb98999cfa65c6fa5a78",
-                "reference": "a665946279f566d94ed5eb98999cfa65c6fa5a78",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/dependency-injection",
+                "reference": "a665946279f566d94ed5eb98999cfa65c6fa5a78"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2506,7 +2241,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2544,16 +2278,10 @@
         {
             "name": "symfony/deprecation-contracts",
             "version": "v2.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5f38c8804a9e97d23e0c8d63341088cd8a22d627",
-                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/deprecation-contracts",
+                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627"
             },
             "require": {
                 "php": ">=7.1"
@@ -2573,7 +2301,6 @@
                     "function.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2611,16 +2338,10 @@
         {
             "name": "symfony/event-dispatcher",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "ce7b20d69c66a20939d8952b617506a44d102130"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/ce7b20d69c66a20939d8952b617506a44d102130",
-                "reference": "ce7b20d69c66a20939d8952b617506a44d102130",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/event-dispatcher",
+                "reference": "ce7b20d69c66a20939d8952b617506a44d102130"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2658,7 +2379,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2696,16 +2416,10 @@
         {
             "name": "symfony/event-dispatcher-contracts",
             "version": "v2.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "69fee1ad2332a7cbab3aca13591953da9cdb7a11"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/69fee1ad2332a7cbab3aca13591953da9cdb7a11",
-                "reference": "69fee1ad2332a7cbab3aca13591953da9cdb7a11",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/event-dispatcher-contracts",
+                "reference": "69fee1ad2332a7cbab3aca13591953da9cdb7a11"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2729,7 +2443,6 @@
                     "Symfony\\Contracts\\EventDispatcher\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2775,16 +2488,10 @@
         {
             "name": "symfony/expression-language",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/expression-language.git",
-                "reference": "fe696e2669cb47507e5635223ac4b64500339658"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/expression-language/zipball/fe696e2669cb47507e5635223ac4b64500339658",
-                "reference": "fe696e2669cb47507e5635223ac4b64500339658",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/expression-language",
+                "reference": "fe696e2669cb47507e5635223ac4b64500339658"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2800,7 +2507,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2838,16 +2544,10 @@
         {
             "name": "symfony/filesystem",
             "version": "v5.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "343f4fe324383ca46792cae728a3b6e2f708fb32"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/343f4fe324383ca46792cae728a3b6e2f708fb32",
-                "reference": "343f4fe324383ca46792cae728a3b6e2f708fb32",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/filesystem",
+                "reference": "343f4fe324383ca46792cae728a3b6e2f708fb32"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2863,7 +2563,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2901,16 +2600,10 @@
         {
             "name": "symfony/finder",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/finder.git",
-                "reference": "a10000ada1e600d109a6c7632e9ac42e8bf2fb93"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/a10000ada1e600d109a6c7632e9ac42e8bf2fb93",
-                "reference": "a10000ada1e600d109a6c7632e9ac42e8bf2fb93",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/finder",
+                "reference": "a10000ada1e600d109a6c7632e9ac42e8bf2fb93"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2925,7 +2618,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2963,16 +2655,10 @@
         {
             "name": "symfony/http-foundation",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "e36c8e5502b4f3f0190c675f1c1f1248a64f04e5"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/e36c8e5502b4f3f0190c675f1c1f1248a64f04e5",
-                "reference": "e36c8e5502b4f3f0190c675f1c1f1248a64f04e5",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/http-foundation",
+                "reference": "e36c8e5502b4f3f0190c675f1c1f1248a64f04e5"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -2998,7 +2684,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3036,16 +2721,10 @@
         {
             "name": "symfony/lock",
             "version": "v5.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/lock.git",
-                "reference": "a78fda52b1b6f74d60e642e91d0e0133b08a8546"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lock/zipball/a78fda52b1b6f74d60e642e91d0e0133b08a8546",
-                "reference": "a78fda52b1b6f74d60e642e91d0e0133b08a8546",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/lock",
+                "reference": "a78fda52b1b6f74d60e642e91d0e0133b08a8546"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -3070,7 +2749,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3116,16 +2794,10 @@
         {
             "name": "symfony/mailer",
             "version": "v5.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/mailer.git",
-                "reference": "c1f83da2296741110be35dd779f2a9e412cec466"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/c1f83da2296741110be35dd779f2a9e412cec466",
-                "reference": "c1f83da2296741110be35dd779f2a9e412cec466",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/mailer",
+                "reference": "c1f83da2296741110be35dd779f2a9e412cec466"
             },
             "require": {
                 "egulias/email-validator": "^2.1.10|^3",
@@ -3153,7 +2825,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3191,16 +2862,10 @@
         {
             "name": "symfony/mime",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/mime.git",
-                "reference": "ae887cb3b044658676129f5e97aeb7e9eb69c2d8"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/ae887cb3b044658676129f5e97aeb7e9eb69c2d8",
-                "reference": "ae887cb3b044658676129f5e97aeb7e9eb69c2d8",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/mime",
+                "reference": "ae887cb3b044658676129f5e97aeb7e9eb69c2d8"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -3232,7 +2897,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3274,16 +2938,10 @@
         {
             "name": "symfony/options-resolver",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "4b78e55b179003a42523a362cc0e8327f7a69b5e"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/4b78e55b179003a42523a362cc0e8327f7a69b5e",
-                "reference": "4b78e55b179003a42523a362cc0e8327f7a69b5e",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/options-resolver",
+                "reference": "4b78e55b179003a42523a362cc0e8327f7a69b5e"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -3300,7 +2958,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3343,16 +3000,10 @@
         {
             "name": "symfony/polyfill-ctype",
             "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "46cd95797e9df938fdd2b03693b5fca5e64b01ce"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/46cd95797e9df938fdd2b03693b5fca5e64b01ce",
-                "reference": "46cd95797e9df938fdd2b03693b5fca5e64b01ce",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-ctype",
+                "reference": "46cd95797e9df938fdd2b03693b5fca5e64b01ce"
             },
             "require": {
                 "php": ">=7.1"
@@ -3378,7 +3029,6 @@
                     "bootstrap.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3422,16 +3072,10 @@
         {
             "name": "symfony/polyfill-intl-grapheme",
             "version": "v1.23.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-intl-grapheme.git",
-                "reference": "16880ba9c5ebe3642d1995ab866db29270b36535"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-grapheme/zipball/16880ba9c5ebe3642d1995ab866db29270b36535",
-                "reference": "16880ba9c5ebe3642d1995ab866db29270b36535",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-intl-grapheme",
+                "reference": "16880ba9c5ebe3642d1995ab866db29270b36535"
             },
             "require": {
                 "php": ">=7.1"
@@ -3457,7 +3101,6 @@
                     "bootstrap.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3503,16 +3146,10 @@
         {
             "name": "symfony/polyfill-intl-icu",
             "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-intl-icu.git",
-                "reference": "4a80a521d6176870b6445cfb469c130f9cae1dda"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-icu/zipball/4a80a521d6176870b6445cfb469c130f9cae1dda",
-                "reference": "4a80a521d6176870b6445cfb469c130f9cae1dda",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-intl-icu",
+                "reference": "4a80a521d6176870b6445cfb469c130f9cae1dda"
             },
             "require": {
                 "php": ">=7.1"
@@ -3544,7 +3181,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3590,16 +3226,10 @@
         {
             "name": "symfony/polyfill-intl-idn",
             "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "65bd267525e82759e7d8c4e8ceea44f398838e65"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/65bd267525e82759e7d8c4e8ceea44f398838e65",
-                "reference": "65bd267525e82759e7d8c4e8ceea44f398838e65",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-intl-idn",
+                "reference": "65bd267525e82759e7d8c4e8ceea44f398838e65"
             },
             "require": {
                 "php": ">=7.1",
@@ -3627,7 +3257,6 @@
                     "bootstrap.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3677,16 +3306,10 @@
         {
             "name": "symfony/polyfill-intl-normalizer",
             "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-intl-normalizer.git",
-                "reference": "8590a5f561694770bdcd3f9b5c69dde6945028e8"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-normalizer/zipball/8590a5f561694770bdcd3f9b5c69dde6945028e8",
-                "reference": "8590a5f561694770bdcd3f9b5c69dde6945028e8",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-intl-normalizer",
+                "reference": "8590a5f561694770bdcd3f9b5c69dde6945028e8"
             },
             "require": {
                 "php": ">=7.1"
@@ -3715,7 +3338,6 @@
                     "Resources/stubs"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3761,16 +3383,10 @@
         {
             "name": "symfony/polyfill-mbstring",
             "version": "v1.23.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/9174a3d80210dca8daa7f31fec659150bbeabfc6",
-                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-mbstring",
+                "reference": "9174a3d80210dca8daa7f31fec659150bbeabfc6"
             },
             "require": {
                 "php": ">=7.1"
@@ -3796,7 +3412,6 @@
                     "bootstrap.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3841,16 +3456,10 @@
         {
             "name": "symfony/polyfill-php72",
             "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9a142215a36a3888e30d0a9eeea9766764e96976",
-                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-php72",
+                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976"
             },
             "require": {
                 "php": ">=7.1"
@@ -3873,7 +3482,6 @@
                     "bootstrap.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3917,16 +3525,10 @@
         {
             "name": "symfony/polyfill-php73",
             "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php73.git",
-                "reference": "fba8933c384d6476ab14fb7b8526e5287ca7e010"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/fba8933c384d6476ab14fb7b8526e5287ca7e010",
-                "reference": "fba8933c384d6476ab14fb7b8526e5287ca7e010",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-php73",
+                "reference": "fba8933c384d6476ab14fb7b8526e5287ca7e010"
             },
             "require": {
                 "php": ">=7.1"
@@ -3952,7 +3554,6 @@
                     "Resources/stubs"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3996,16 +3597,10 @@
         {
             "name": "symfony/polyfill-php80",
             "version": "v1.23.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php80.git",
-                "reference": "1100343ed1a92e3a38f9ae122fc0eb21602547be"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/1100343ed1a92e3a38f9ae122fc0eb21602547be",
-                "reference": "1100343ed1a92e3a38f9ae122fc0eb21602547be",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-php80",
+                "reference": "1100343ed1a92e3a38f9ae122fc0eb21602547be"
             },
             "require": {
                 "php": ">=7.1"
@@ -4031,7 +3626,6 @@
                     "Resources/stubs"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4079,16 +3673,10 @@
         {
             "name": "symfony/polyfill-php81",
             "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php81.git",
-                "reference": "e66119f3de95efc359483f810c4c3e6436279436"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php81/zipball/e66119f3de95efc359483f810c4c3e6436279436",
-                "reference": "e66119f3de95efc359483f810c4c3e6436279436",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/polyfill-php81",
+                "reference": "e66119f3de95efc359483f810c4c3e6436279436"
             },
             "require": {
                 "php": ">=7.1"
@@ -4114,7 +3702,6 @@
                     "Resources/stubs"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4158,16 +3745,10 @@
         {
             "name": "symfony/process",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/process.git",
-                "reference": "38f26c7d6ed535217ea393e05634cb0b244a1967"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/38f26c7d6ed535217ea393e05634cb0b244a1967",
-                "reference": "38f26c7d6ed535217ea393e05634cb0b244a1967",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/process",
+                "reference": "38f26c7d6ed535217ea393e05634cb0b244a1967"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4182,7 +3763,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4220,16 +3800,10 @@
         {
             "name": "symfony/property-access",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/property-access.git",
-                "reference": "a4bbf09b8f3e2d2c89cc2c8b3d6682bf4c3d5589"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/a4bbf09b8f3e2d2c89cc2c8b3d6682bf4c3d5589",
-                "reference": "a4bbf09b8f3e2d2c89cc2c8b3d6682bf4c3d5589",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/property-access",
+                "reference": "a4bbf09b8f3e2d2c89cc2c8b3d6682bf4c3d5589"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4252,7 +3826,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4301,16 +3874,10 @@
         {
             "name": "symfony/property-info",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/property-info.git",
-                "reference": "7202b6c93a07df5df83eb58e3757dffb77fc5d90"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-info/zipball/7202b6c93a07df5df83eb58e3757dffb77fc5d90",
-                "reference": "7202b6c93a07df5df83eb58e3757dffb77fc5d90",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/property-info",
+                "reference": "7202b6c93a07df5df83eb58e3757dffb77fc5d90"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4345,7 +3912,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4391,16 +3957,10 @@
         {
             "name": "symfony/rate-limiter",
             "version": "v5.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/rate-limiter.git",
-                "reference": "d00d756e2c9f9c8cc7964c19e619bfe19702559a"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/rate-limiter/zipball/d00d756e2c9f9c8cc7964c19e619bfe19702559a",
-                "reference": "d00d756e2c9f9c8cc7964c19e619bfe19702559a",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/rate-limiter",
+                "reference": "d00d756e2c9f9c8cc7964c19e619bfe19702559a"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4419,7 +3979,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4461,16 +4020,10 @@
         {
             "name": "symfony/routing",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/routing.git",
-                "reference": "be865017746fe869007d94220ad3f5297951811b"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/be865017746fe869007d94220ad3f5297951811b",
-                "reference": "be865017746fe869007d94220ad3f5297951811b",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/routing",
+                "reference": "be865017746fe869007d94220ad3f5297951811b"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4507,7 +4060,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4551,16 +4103,10 @@
         {
             "name": "symfony/service-contracts",
             "version": "v2.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb",
-                "reference": "f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/service-contracts",
+                "reference": "f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4584,7 +4130,6 @@
                     "Symfony\\Contracts\\Service\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4630,16 +4175,10 @@
         {
             "name": "symfony/string",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/string.git",
-                "reference": "8d224396e28d30f81969f083a58763b8b9ceb0a5"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/8d224396e28d30f81969f083a58763b8b9ceb0a5",
-                "reference": "8d224396e28d30f81969f083a58763b8b9ceb0a5",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/string",
+                "reference": "8d224396e28d30f81969f083a58763b8b9ceb0a5"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4667,7 +4206,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4713,16 +4251,10 @@
         {
             "name": "symfony/var-dumper",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "3ad5af4aed07d0a0201bbcfc42658fe6c5b2fb8f"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/3ad5af4aed07d0a0201bbcfc42658fe6c5b2fb8f",
-                "reference": "3ad5af4aed07d0a0201bbcfc42658fe6c5b2fb8f",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/var-dumper",
+                "reference": "3ad5af4aed07d0a0201bbcfc42658fe6c5b2fb8f"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4759,7 +4291,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4801,16 +4332,10 @@
         {
             "name": "symfony/var-exporter",
             "version": "v5.3.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "2ded877ab0574d8b646f4eb3f716f8ed7ee7f392"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/2ded877ab0574d8b646f4eb3f716f8ed7ee7f392",
-                "reference": "2ded877ab0574d8b646f4eb3f716f8ed7ee7f392",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/var-exporter",
+                "reference": "2ded877ab0574d8b646f4eb3f716f8ed7ee7f392"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4828,7 +4353,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4874,16 +4398,10 @@
         {
             "name": "symfony/yaml",
             "version": "v5.3.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/yaml.git",
-                "reference": "4500fe63dc9c6ffc32d3b1cb0448c329f9c814b7"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/4500fe63dc9c6ffc32d3b1cb0448c329f9c814b7",
-                "reference": "4500fe63dc9c6ffc32d3b1cb0448c329f9c814b7",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/symfony/yaml",
+                "reference": "4500fe63dc9c6ffc32d3b1cb0448c329f9c814b7"
             },
             "require": {
                 "php": ">=7.2.5",
@@ -4911,7 +4429,6 @@
                     "/Tests/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4949,16 +4466,10 @@
         {
             "name": "typo3/class-alias-loader",
             "version": "v1.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/class-alias-loader.git",
-                "reference": "575f59581541f299f3a86a95b1db001ee6e1d2e0"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/class-alias-loader/zipball/575f59581541f299f3a86a95b1db001ee6e1d2e0",
-                "reference": "575f59581541f299f3a86a95b1db001ee6e1d2e0",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/typo3/class-alias-loader",
+                "reference": "575f59581541f299f3a86a95b1db001ee6e1d2e0"
             },
             "require": {
                 "composer-plugin-api": "^1.0 || ^2.0",
@@ -4984,7 +4495,6 @@
                     "TYPO3\\ClassAliasLoader\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -5011,16 +4521,10 @@
         {
             "name": "typo3/cms-adminpanel",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/adminpanel.git",
-                "reference": "80f408827a665145423f33d6fe83583fa855aaaa"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/adminpanel/zipball/80f408827a665145423f33d6fe83583fa855aaaa",
-                "reference": "80f408827a665145423f33d6fe83583fa855aaaa",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/adminpanel",
+                "reference": "80f408827a665145423f33d6fe83583fa855aaaa"
             },
             "require": {
                 "psr/http-message": "^1.0",
@@ -5054,7 +4558,6 @@
                     "TYPO3\\CMS\\Adminpanel\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5078,16 +4581,10 @@
         {
             "name": "typo3/cms-backend",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/backend.git",
-                "reference": "35ee4ccec7401b9f63e0b87635adc5d2615d3e32"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/backend/zipball/35ee4ccec7401b9f63e0b87635adc5d2615d3e32",
-                "reference": "35ee4ccec7401b9f63e0b87635adc5d2615d3e32",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/backend",
+                "reference": "dc3122950dcbd95c9e8126a6b85637b8bb5138e6"
             },
             "require": {
                 "psr/event-dispatcher": "^1.0",
@@ -5129,7 +4626,6 @@
                     "TYPO3\\CMS\\Backend\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5148,21 +4644,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-23T08:43:58+00:00"
+            "time": "2021-09-22T11:17:37+00:00"
         },
         {
             "name": "typo3/cms-belog",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/belog.git",
-                "reference": "9744fee94830249aa0b7e6e5f445b22a350215f0"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/belog/zipball/9744fee94830249aa0b7e6e5f445b22a350215f0",
-                "reference": "9744fee94830249aa0b7e6e5f445b22a350215f0",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/belog",
+                "reference": "9744fee94830249aa0b7e6e5f445b22a350215f0"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -5188,7 +4678,6 @@
                     "TYPO3\\CMS\\Belog\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5212,16 +4701,10 @@
         {
             "name": "typo3/cms-beuser",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/beuser.git",
-                "reference": "d4cf628f4f1a898f9e2f5fc0c8849ad54cac1e26"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/beuser/zipball/d4cf628f4f1a898f9e2f5fc0c8849ad54cac1e26",
-                "reference": "d4cf628f4f1a898f9e2f5fc0c8849ad54cac1e26",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/beuser",
+                "reference": "d4cf628f4f1a898f9e2f5fc0c8849ad54cac1e26"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -5247,7 +4730,6 @@
                     "TYPO3\\CMS\\Beuser\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5271,16 +4753,10 @@
         {
             "name": "typo3/cms-cli",
             "version": "3.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/cms-cli.git",
-                "reference": "1572143c88ec08d238e417de55c9813fb949e783"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/cms-cli/zipball/1572143c88ec08d238e417de55c9813fb949e783",
-                "reference": "1572143c88ec08d238e417de55c9813fb949e783",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/typo3/cms-cli",
+                "reference": "1572143c88ec08d238e417de55c9813fb949e783"
             },
             "require": {
                 "php": "^7.0 || ^8.0"
@@ -5289,7 +4765,6 @@
                 "typo3"
             ],
             "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5304,16 +4779,10 @@
         {
             "name": "typo3/cms-composer-installers",
             "version": "v3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/CmsComposerInstallers.git",
-                "reference": "3092660e3cb629782b364266985b5b9b1f51f165"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/CmsComposerInstallers/zipball/3092660e3cb629782b364266985b5b9b1f51f165",
-                "reference": "3092660e3cb629782b364266985b5b9b1f51f165",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/typo3/cms-composer-installers",
+                "reference": "3092660e3cb629782b364266985b5b9b1f51f165"
             },
             "require": {
                 "composer-plugin-api": "^1.0.0 || ^2.0.0",
@@ -5344,7 +4813,6 @@
                     "TYPO3\\CMS\\Composer\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5379,16 +4847,10 @@
         {
             "name": "typo3/cms-core",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/core.git",
-                "reference": "533880398afe36c3efa3bb81aedd4a4f01eb5104"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/core/zipball/533880398afe36c3efa3bb81aedd4a4f01eb5104",
-                "reference": "533880398afe36c3efa3bb81aedd4a4f01eb5104",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/core",
+                "reference": "6b2f15e8c1930f8a82abf42be6227890ac2d9b43"
             },
             "require": {
                 "bacon/bacon-qr-code": "^2.0",
@@ -5483,6 +4945,9 @@
                         "partOfMinimalUsableSystem": true
                     },
                     "extension-key": "core"
+                },
+                "patches_applied": {
+                    "Dirty: Disable form protection for easy url hopping": "patches/DisableFormProtection.patch"
                 }
             },
             "autoload": {
@@ -5496,7 +4961,6 @@
                     "Resources/PHP/GlobalDebugFunctions.php"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5515,21 +4979,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T20:38:29+00:00"
+            "time": "2021-09-22T07:53:22+00:00"
         },
         {
             "name": "typo3/cms-dashboard",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/dashboard.git",
-                "reference": "05d204863aa81ed5b389f96c78cd603701a09e14"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/dashboard/zipball/05d204863aa81ed5b389f96c78cd603701a09e14",
-                "reference": "05d204863aa81ed5b389f96c78cd603701a09e14",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/dashboard",
+                "reference": "05d204863aa81ed5b389f96c78cd603701a09e14"
             },
             "require": {
                 "typo3/cms-backend": "11.5.*@dev",
@@ -5560,7 +5018,6 @@
                     "TYPO3\\CMS\\Dashboard\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5584,16 +5041,10 @@
         {
             "name": "typo3/cms-extbase",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/extbase.git",
-                "reference": "2a9b4883efa298d4eeceff3a8c71819c928d702c"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/extbase/zipball/2a9b4883efa298d4eeceff3a8c71819c928d702c",
-                "reference": "2a9b4883efa298d4eeceff3a8c71819c928d702c",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/extbase",
+                "reference": "126d2e465e582f24145bdd0b679ceb5cdf668158"
             },
             "require": {
                 "phpdocumentor/reflection-docblock": "^5.2",
@@ -5630,7 +5081,6 @@
                     "TYPO3\\CMS\\Extbase\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5649,21 +5099,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T15:43:20+00:00"
+            "time": "2021-09-22T06:47:14+00:00"
         },
         {
             "name": "typo3/cms-extensionmanager",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/extensionmanager.git",
-                "reference": "d1b627b622a67359013cb4b074c2c93352b93edd"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/extensionmanager/zipball/d1b627b622a67359013cb4b074c2c93352b93edd",
-                "reference": "d1b627b622a67359013cb4b074c2c93352b93edd",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/extensionmanager",
+                "reference": "b9e2b345b6a0b44b7dafafecf2c00cdf786a573d"
             },
             "require": {
                 "ext-libxml": "*",
@@ -5692,7 +5136,6 @@
                     "TYPO3\\CMS\\Extensionmanager\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5711,21 +5154,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T19:00:54+00:00"
+            "time": "2021-09-22T06:47:14+00:00"
         },
         {
             "name": "typo3/cms-felogin",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/felogin.git",
-                "reference": "2683a44f87f09fe226d388b31f11fe2911ac160e"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/felogin/zipball/2683a44f87f09fe226d388b31f11fe2911ac160e",
-                "reference": "2683a44f87f09fe226d388b31f11fe2911ac160e",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/felogin",
+                "reference": "2683a44f87f09fe226d388b31f11fe2911ac160e"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -5751,7 +5188,6 @@
                     "TYPO3\\CMS\\FrontendLogin\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5775,16 +5211,10 @@
         {
             "name": "typo3/cms-filelist",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/filelist.git",
-                "reference": "9332174809fdc8aa173c91b0b10cf621cb2b2602"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/filelist/zipball/9332174809fdc8aa173c91b0b10cf621cb2b2602",
-                "reference": "9332174809fdc8aa173c91b0b10cf621cb2b2602",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/filelist",
+                "reference": "dcfbd19417dacfda60915f9051140781d2aadd66"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -5812,7 +5242,6 @@
                     "TYPO3\\CMS\\Filelist\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5831,21 +5260,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T15:52:42+00:00"
+            "time": "2021-09-21T16:10:30+00:00"
         },
         {
             "name": "typo3/cms-filemetadata",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/filemetadata.git",
-                "reference": "aeefe3a8dcafdfd30fefff183de88cd339f2c8aa"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/filemetadata/zipball/aeefe3a8dcafdfd30fefff183de88cd339f2c8aa",
-                "reference": "aeefe3a8dcafdfd30fefff183de88cd339f2c8aa",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/filemetadata",
+                "reference": "aeefe3a8dcafdfd30fefff183de88cd339f2c8aa"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -5863,7 +5286,6 @@
                     "extension-key": "filemetadata"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5887,16 +5309,10 @@
         {
             "name": "typo3/cms-fluid",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/fluid.git",
-                "reference": "38090df2ad8730323c9941f0c0aefe1218d70d50"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/fluid/zipball/38090df2ad8730323c9941f0c0aefe1218d70d50",
-                "reference": "38090df2ad8730323c9941f0c0aefe1218d70d50",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/fluid",
+                "reference": "227f403cb89e8b537eb1eca75c0b70a98d1d4bab"
             },
             "require": {
                 "symfony/dependency-injection": "^5.3.0",
@@ -5928,7 +5344,6 @@
                     "TYPO3\\CMS\\Fluid\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -5947,21 +5362,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T17:42:23+00:00"
+            "time": "2021-09-22T06:47:14+00:00"
         },
         {
             "name": "typo3/cms-fluid-styled-content",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/fluid_styled_content.git",
-                "reference": "2f6d677126dda57a489ded6d3d6afd45c799c36b"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/fluid_styled_content/zipball/2f6d677126dda57a489ded6d3d6afd45c799c36b",
-                "reference": "2f6d677126dda57a489ded6d3d6afd45c799c36b",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/fluid_styled_content",
+                "reference": "d920a45268f06dcd4b3c224382a104a2480e9721"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev",
@@ -5989,7 +5398,6 @@
                     "TYPO3\\CMS\\FluidStyledContent\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6008,21 +5416,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T17:29:59+00:00"
+            "time": "2021-09-22T06:47:14+00:00"
         },
         {
             "name": "typo3/cms-form",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/form.git",
-                "reference": "25cd313f4e279307de529fd8075645fa75ed1adf"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/form/zipball/25cd313f4e279307de529fd8075645fa75ed1adf",
-                "reference": "25cd313f4e279307de529fd8075645fa75ed1adf",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/form",
+                "reference": "25cd313f4e279307de529fd8075645fa75ed1adf"
             },
             "require": {
                 "psr/http-message": "^1.0",
@@ -6055,7 +5457,6 @@
                     "TYPO3\\CMS\\Form\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6079,16 +5480,10 @@
         {
             "name": "typo3/cms-frontend",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/frontend.git",
-                "reference": "2612a96ca9af82307ca9ad58b0aad277bbfc44b3"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/frontend/zipball/2612a96ca9af82307ca9ad58b0aad277bbfc44b3",
-                "reference": "2612a96ca9af82307ca9ad58b0aad277bbfc44b3",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/frontend",
+                "reference": "8ca962dceaad73f2ec2fd583947827a771a408a5"
             },
             "require": {
                 "ext-libxml": "*",
@@ -6122,7 +5517,6 @@
                     "TYPO3\\CMS\\Frontend\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6141,21 +5535,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T19:46:52+00:00"
+            "time": "2021-09-22T06:47:14+00:00"
         },
         {
             "name": "typo3/cms-impexp",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/impexp.git",
-                "reference": "7935cadb531b15cb8342aab83ed1985c259e7f12"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/impexp/zipball/7935cadb531b15cb8342aab83ed1985c259e7f12",
-                "reference": "7935cadb531b15cb8342aab83ed1985c259e7f12",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/impexp",
+                "reference": "dc2cd2ecb60a8cfada3ddea2470d8f6df604924e"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6181,7 +5569,6 @@
                     "TYPO3\\CMS\\Impexp\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6200,21 +5587,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T15:43:20+00:00"
+            "time": "2021-09-22T06:47:14+00:00"
         },
         {
             "name": "typo3/cms-indexed-search",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/indexed_search.git",
-                "reference": "2cebd4faca26e82f1b60552018949a31f71ef9f2"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/indexed_search/zipball/2cebd4faca26e82f1b60552018949a31f71ef9f2",
-                "reference": "2cebd4faca26e82f1b60552018949a31f71ef9f2",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/indexed_search",
+                "reference": "a483c638602a15e6325131592714f1a1feb406f5"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6240,7 +5621,6 @@
                     "TYPO3\\CMS\\IndexedSearch\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6259,21 +5639,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T17:29:59+00:00"
+            "time": "2021-09-17T00:11:53+00:00"
         },
         {
             "name": "typo3/cms-info",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/info.git",
-                "reference": "27f4e70a5280a9c92ee722990cd817d2f5185080"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/info/zipball/27f4e70a5280a9c92ee722990cd817d2f5185080",
-                "reference": "27f4e70a5280a9c92ee722990cd817d2f5185080",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/info",
+                "reference": "27f4e70a5280a9c92ee722990cd817d2f5185080"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6302,7 +5676,6 @@
                     "TYPO3\\CMS\\Info\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6326,16 +5699,10 @@
         {
             "name": "typo3/cms-install",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/install.git",
-                "reference": "ef832fd06a4109f346b4126e76c9c180c736addc"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/install/zipball/ef832fd06a4109f346b4126e76c9c180c736addc",
-                "reference": "ef832fd06a4109f346b4126e76c9c180c736addc",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/install",
+                "reference": "828b6a78a85e03a82d62cca91f07371c94b2803b"
             },
             "require": {
                 "doctrine/dbal": "^2.13",
@@ -6370,7 +5737,6 @@
                     "TYPO3\\CMS\\Install\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6389,21 +5755,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T15:43:20+00:00"
+            "time": "2021-09-22T11:17:37+00:00"
         },
         {
             "name": "typo3/cms-linkvalidator",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/linkvalidator.git",
-                "reference": "518974e75cb206f03809a9932c64cea65b3974be"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/linkvalidator/zipball/518974e75cb206f03809a9932c64cea65b3974be",
-                "reference": "518974e75cb206f03809a9932c64cea65b3974be",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/linkvalidator",
+                "reference": "518974e75cb206f03809a9932c64cea65b3974be"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev",
@@ -6430,7 +5790,6 @@
                     "TYPO3\\CMS\\Linkvalidator\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6454,16 +5813,10 @@
         {
             "name": "typo3/cms-lowlevel",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/lowlevel.git",
-                "reference": "068137f3fbc02a9e6e57b2783d8582e00c914e4d"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/lowlevel/zipball/068137f3fbc02a9e6e57b2783d8582e00c914e4d",
-                "reference": "068137f3fbc02a9e6e57b2783d8582e00c914e4d",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/lowlevel",
+                "reference": "068137f3fbc02a9e6e57b2783d8582e00c914e4d"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6490,7 +5843,6 @@
                     "TYPO3\\CMS\\Lowlevel\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6514,16 +5866,10 @@
         {
             "name": "typo3/cms-opendocs",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/opendocs.git",
-                "reference": "2eb7aa1be04503f3e1090403594a86c93a2b97f7"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/opendocs/zipball/2eb7aa1be04503f3e1090403594a86c93a2b97f7",
-                "reference": "2eb7aa1be04503f3e1090403594a86c93a2b97f7",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/opendocs",
+                "reference": "2eb7aa1be04503f3e1090403594a86c93a2b97f7"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6546,7 +5892,6 @@
                     "TYPO3\\CMS\\Opendocs\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6570,16 +5915,10 @@
         {
             "name": "typo3/cms-recordlist",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/recordlist.git",
-                "reference": "80f5b483ce965acbf36f5e65672def73230144eb"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/recordlist/zipball/80f5b483ce965acbf36f5e65672def73230144eb",
-                "reference": "80f5b483ce965acbf36f5e65672def73230144eb",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/recordlist",
+                "reference": "e8cdbbdf54acc44e22eeea16602cf3d94bf51604"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6607,7 +5946,6 @@
                     "TYPO3\\CMS\\Recordlist\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6626,21 +5964,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T18:48:20+00:00"
+            "time": "2021-09-22T08:00:28+00:00"
         },
         {
             "name": "typo3/cms-recycler",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/recycler.git",
-                "reference": "6d4df36b252ecc0a7493880a4af9b3b076f437b9"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/recycler/zipball/6d4df36b252ecc0a7493880a4af9b3b076f437b9",
-                "reference": "6d4df36b252ecc0a7493880a4af9b3b076f437b9",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/recycler",
+                "reference": "6d4df36b252ecc0a7493880a4af9b3b076f437b9"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6666,7 +5998,6 @@
                     "TYPO3\\CMS\\Recycler\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6690,16 +6021,10 @@
         {
             "name": "typo3/cms-redirects",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/redirects.git",
-                "reference": "488f730b80ce69a794ab6b4d28d342c148c9dd34"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/redirects/zipball/488f730b80ce69a794ab6b4d28d342c148c9dd34",
-                "reference": "488f730b80ce69a794ab6b4d28d342c148c9dd34",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/redirects",
+                "reference": "488f730b80ce69a794ab6b4d28d342c148c9dd34"
             },
             "require": {
                 "doctrine/dbal": "^2.13",
@@ -6735,7 +6060,6 @@
                     "TYPO3\\CMS\\Redirects\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6759,16 +6083,10 @@
         {
             "name": "typo3/cms-reports",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/reports.git",
-                "reference": "5ed168f701110b44664f12b58000d2f68eec33f5"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/reports/zipball/5ed168f701110b44664f12b58000d2f68eec33f5",
-                "reference": "5ed168f701110b44664f12b58000d2f68eec33f5",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/reports",
+                "reference": "5ed168f701110b44664f12b58000d2f68eec33f5"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6797,7 +6115,6 @@
                     "TYPO3\\CMS\\Reports\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6821,16 +6138,10 @@
         {
             "name": "typo3/cms-rte-ckeditor",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/rte_ckeditor.git",
-                "reference": "2e332df1e75fb8c71a05368b930eba11a7a6ad11"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/rte_ckeditor/zipball/2e332df1e75fb8c71a05368b930eba11a7a6ad11",
-                "reference": "2e332df1e75fb8c71a05368b930eba11a7a6ad11",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/rte_ckeditor",
+                "reference": "2e332df1e75fb8c71a05368b930eba11a7a6ad11"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6859,7 +6170,6 @@
                     "TYPO3\\CMS\\RteCKEditor\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6883,16 +6193,10 @@
         {
             "name": "typo3/cms-scheduler",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/scheduler.git",
-                "reference": "b3201b6486a13159654f123e80f74ab8f940226a"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/scheduler/zipball/b3201b6486a13159654f123e80f74ab8f940226a",
-                "reference": "b3201b6486a13159654f123e80f74ab8f940226a",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/scheduler",
+                "reference": "b3201b6486a13159654f123e80f74ab8f940226a"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -6915,7 +6219,6 @@
                     "TYPO3\\CMS\\Scheduler\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6939,16 +6242,10 @@
         {
             "name": "typo3/cms-seo",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/seo.git",
-                "reference": "5a071265a3271b9b4a61a05226c3473deb07fcc6"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/seo/zipball/5a071265a3271b9b4a61a05226c3473deb07fcc6",
-                "reference": "5a071265a3271b9b4a61a05226c3473deb07fcc6",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/seo",
+                "reference": "188844988b3d241a07ee72c1bc719e5fb6362d07"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev",
@@ -6976,7 +6273,6 @@
                     "TYPO3\\CMS\\Seo\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -6995,21 +6291,15 @@
                 "issues": "https://forge.typo3.org",
                 "source": "https://github.com/typo3/typo3"
             },
-            "time": "2021-09-22T15:43:20+00:00"
+            "time": "2021-09-11T13:06:45+00:00"
         },
         {
             "name": "typo3/cms-setup",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/setup.git",
-                "reference": "91798c83285e6b194c6ac11eedf6dd37909e5705"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/setup/zipball/91798c83285e6b194c6ac11eedf6dd37909e5705",
-                "reference": "91798c83285e6b194c6ac11eedf6dd37909e5705",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/setup",
+                "reference": "91798c83285e6b194c6ac11eedf6dd37909e5705"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -7035,7 +6325,6 @@
                     "TYPO3\\CMS\\Setup\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -7059,16 +6348,10 @@
         {
             "name": "typo3/cms-sys-note",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/sys_note.git",
-                "reference": "40d3069d3a378e385491cfab33b74f4cc2171a24"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/sys_note/zipball/40d3069d3a378e385491cfab33b74f4cc2171a24",
-                "reference": "40d3069d3a378e385491cfab33b74f4cc2171a24",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/sys_note",
+                "reference": "40d3069d3a378e385491cfab33b74f4cc2171a24"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -7094,7 +6377,6 @@
                     "TYPO3\\CMS\\SysNote\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -7118,16 +6400,10 @@
         {
             "name": "typo3/cms-t3editor",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/t3editor.git",
-                "reference": "de787f1c9f0dd0bf15cf3ba57a22e60edd86cda5"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/t3editor/zipball/de787f1c9f0dd0bf15cf3ba57a22e60edd86cda5",
-                "reference": "de787f1c9f0dd0bf15cf3ba57a22e60edd86cda5",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/t3editor",
+                "reference": "de787f1c9f0dd0bf15cf3ba57a22e60edd86cda5"
             },
             "require": {
                 "ext-libxml": "*",
@@ -7154,7 +6430,6 @@
                     "TYPO3\\CMS\\T3editor\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -7178,16 +6453,10 @@
         {
             "name": "typo3/cms-tstemplate",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/tstemplate.git",
-                "reference": "18e53d0dd974cf1140a9877386ae9d2985b18504"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/tstemplate/zipball/18e53d0dd974cf1140a9877386ae9d2985b18504",
-                "reference": "18e53d0dd974cf1140a9877386ae9d2985b18504",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/tstemplate",
+                "reference": "18e53d0dd974cf1140a9877386ae9d2985b18504"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -7213,7 +6482,6 @@
                     "TYPO3\\CMS\\Tstemplate\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -7237,16 +6505,10 @@
         {
             "name": "typo3/cms-viewpage",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3-CMS/viewpage.git",
-                "reference": "8dbe8da4b4418717f107f507ebd222bc1dffc7b9"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-CMS/viewpage/zipball/8dbe8da4b4418717f107f507ebd222bc1dffc7b9",
-                "reference": "8dbe8da4b4418717f107f507ebd222bc1dffc7b9",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/public/typo3/sysext/viewpage",
+                "reference": "8dbe8da4b4418717f107f507ebd222bc1dffc7b9"
             },
             "require": {
                 "typo3/cms-core": "11.5.*@dev"
@@ -7272,7 +6534,6 @@
                     "TYPO3\\CMS\\Viewpage\\": "Classes/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -7296,16 +6557,10 @@
         {
             "name": "typo3/html-sanitizer",
             "version": "v2.0.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/html-sanitizer.git",
-                "reference": "2d6f51881a4a2f69541102cb5ff021ad8ea8fdd4"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/html-sanitizer/zipball/2d6f51881a4a2f69541102cb5ff021ad8ea8fdd4",
-                "reference": "2d6f51881a4a2f69541102cb5ff021ad8ea8fdd4",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/typo3/html-sanitizer",
+                "reference": "2d6f51881a4a2f69541102cb5ff021ad8ea8fdd4"
             },
             "require": {
                 "ext-dom": "*",
@@ -7327,7 +6582,6 @@
                     "TYPO3\\HtmlSanitizer\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7347,16 +6601,10 @@
         {
             "name": "typo3/phar-stream-wrapper",
             "version": "v3.1.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "5cc2f04a4e2f5c7e9cc02a3bdf80fae0f3e11a8c"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/5cc2f04a4e2f5c7e9cc02a3bdf80fae0f3e11a8c",
-                "reference": "5cc2f04a4e2f5c7e9cc02a3bdf80fae0f3e11a8c",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/typo3/phar-stream-wrapper",
+                "reference": "5cc2f04a4e2f5c7e9cc02a3bdf80fae0f3e11a8c"
             },
             "require": {
                 "ext-json": "*",
@@ -7381,7 +6629,6 @@
                     "TYPO3\\PharStreamWrapper\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7402,16 +6649,10 @@
         {
             "name": "typo3/symfony-psr-event-dispatcher-adapter",
             "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/symfony-psr-event-dispatcher-adapter.git",
-                "reference": "c93fd7cc9f215cfbbc6ce89089eadabedf65a21f"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/symfony-psr-event-dispatcher-adapter/zipball/c93fd7cc9f215cfbbc6ce89089eadabedf65a21f",
-                "reference": "c93fd7cc9f215cfbbc6ce89089eadabedf65a21f",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/typo3/symfony-psr-event-dispatcher-adapter",
+                "reference": "c93fd7cc9f215cfbbc6ce89089eadabedf65a21f"
             },
             "require": {
                 "php": "^7.2 || ^8.0",
@@ -7424,7 +6665,6 @@
                     "TYPO3\\SymfonyPsrEventDispatcherAdapter\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7445,16 +6685,10 @@
         {
             "name": "typo3fluid/fluid",
             "version": "2.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TYPO3/Fluid.git",
-                "reference": "3420f8cfd6afcfa98e077f40b8d34f9be12f079e"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/Fluid/zipball/3420f8cfd6afcfa98e077f40b8d34f9be12f079e",
-                "reference": "3420f8cfd6afcfa98e077f40b8d34f9be12f079e",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/typo3fluid/fluid",
+                "reference": "3420f8cfd6afcfa98e077f40b8d34f9be12f079e"
             },
             "require": {
                 "php": ">=5.5.0"
@@ -7474,7 +6708,6 @@
                     "TYPO3Fluid\\Fluid\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL-3.0-or-later"
             ],
@@ -7488,16 +6721,10 @@
         {
             "name": "webmozart/assert",
             "version": "1.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webmozarts/assert.git",
-                "reference": "6964c76c7804814a842473e0c8fd15bab0f18e25"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webmozarts/assert/zipball/6964c76c7804814a842473e0c8fd15bab0f18e25",
-                "reference": "6964c76c7804814a842473e0c8fd15bab0f18e25",
-                "shasum": ""
+                "type": "path",
+                "url": "/var/www/html/vendor/webmozart/assert",
+                "reference": "6964c76c7804814a842473e0c8fd15bab0f18e25"
             },
             "require": {
                 "php": "^7.2 || ^8.0",
@@ -7521,7 +6748,6 @@
                     "Webmozart\\Assert\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],

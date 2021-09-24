@@ -9,9 +9,10 @@
         "sort-packages": true
     },
     "repositories": {
-        "examples": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/examples"
+        "packagist": false,
+        "local": {
+            "type": "composer",
+            "url": "file:///var/www/html/suites/composer"
         }
     },
     "require": {
@@ -56,7 +57,7 @@
         "typo3/cms-viewpage": "dev-master as 11.4.0"
     },
     "require-dev": {
-        "t3docs/examples": "@dev"
+        "t3docs/examples": "dev-master"
     },
     "autoload-dev": {
         "psr-4": {

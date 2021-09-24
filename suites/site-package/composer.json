@@ -9,9 +9,10 @@
         "sort-packages": true
     },
     "repositories": {
-        "site-package": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/site_package"
+        "packagist": false,
+        "local": {
+            "type": "composer",
+            "url": "file:///var/www/html/suites/composer"
         }
     },
     "require": {
@@ -56,7 +57,7 @@
         "typo3/cms-viewpage": "dev-master as 11.4.0"
     },
     "require-dev": {
-        "typo3/site-package": "@dev"
+        "typo3/site-package": "dev-lwolf-v11"
     },
     "autoload-dev": {
         "psr-4": {

@@ -9,9 +9,10 @@
         "sort-packages": true
     },
     "repositories": {
-        "styleguide": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/styleguide"
+        "packagist": false,
+        "local": {
+            "type": "composer",
+            "url": "file:///var/www/html/suites/composer"
         }
     },
     "require": {
@@ -56,7 +57,7 @@
         "typo3/cms-viewpage": "dev-master as 11.4.0"
     },
     "require-dev": {
-        "typo3/cms-styleguide": "@dev"
+        "typo3/cms-styleguide": "dev-master"
     },
     "autoload-dev": {
         "psr-4": {

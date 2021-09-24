@@ -1,14 +1,8 @@
 {
     "name": "t3docs/screenshots-styleguide",
     "description": "TYPO3 Screenshots Styleguide",
-    "repositories": {
-        "styleguide": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/styleguide"
-        }
-    },
     "require-dev": {
-        "typo3/cms-styleguide": "@dev"
+        "typo3/cms-styleguide": "dev-master"
     },
     "scripts": {
         "setup-suite": [
@@ -16,5 +10,5 @@
             "typo3cms styleguide:generate --create"
         ]
     },
-    "extra": []
+    "extra": {}
 }

@@ -9,13 +9,10 @@
         "sort-packages": true
     },
     "repositories": {
-        "bootstrap-package": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/bootstrap_package"
-        },
-        "introduction": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/introduction"
+        "packagist": false,
+        "local": {
+            "type": "composer",
+            "url": "file:///var/www/html/suites/composer"
         }
     },
     "require": {
@@ -60,8 +57,8 @@
         "typo3/cms-viewpage": "dev-master as 11.4.0"
     },
     "require-dev": {
-        "bk2k/bootstrap-package": "dev-main as dev-BP_12-0",
-        "typo3/cms-introduction": "@dev"
+        "bk2k/bootstrap-package": "dev-BP_12-0",
+        "typo3/cms-introduction": "dev-master"
     },
     "autoload-dev": {
         "psr-4": {

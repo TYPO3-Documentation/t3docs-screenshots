@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace TYPO3\Documentation\ScreenshotsSuites;
 
 use Composer\Json\JsonFile;
+use Composer\Package\Dumper\ArrayDumper;
 use Composer\Script\Event;
+use Composer\Util\Filesystem;
 use TYPO3\CMS\Composer\Plugin\Config;
 
 class SuiteHelper
@@ -31,6 +33,13 @@ class SuiteHelper
                 }
                 $targetJsonConfig[$key] = $value;
             }
+            $targetJsonConfig['repositories'] = [];
+            $targetJsonConfig['repositories']['packagist'] = false;
+            $targetJsonConfig['repositories']['local'] = [
+                'type' => 'composer',
+                'url' => 'file://' . $config->getBaseDir() . '/suites/composer',
+            ];
+
             $targetDistJsonFile->write($targetJsonConfig);
             $distHostName = basename(dirname($distFile)) . '.t3docs-screenshots';
             $allDistributionHostNames[] = $distHostName;
@@ -48,5 +57,49 @@ class SuiteHelper
             $ddevConfigFileContent = sprintf("additional_hostnames:\n    - \"%s\"\n", implode("\"\n    - \"", $allDistributionHostNames));
             file_put_contents($ddevConfigFile, $ddevConfigFileContent);
         }
+
+        self::createComposerRepositoryFromInstalledPackages($event);
+    }
+
+    private static function createComposerRepositoryFromInstalledPackages(Event $event): void
+    {
+        $composer = $event->getComposer();
+        $config = Config::load($composer);
+        $rootPackage = $composer->getPackage();
+        $autoLoadGenerator = $composer->getAutoloadGenerator();
+        $localRepo = $composer->getRepositoryManager()->getLocalRepository();
+        $packagesAndPath = $autoLoadGenerator->buildPackageMap($composer->getInstallationManager(), $rootPackage, $localRepo->getCanonicalPackages());
+
+        $packages = [];
+        $arrayDumper = new ArrayDumper();
+        foreach ($packagesAndPath as [$package, $path]) {
+            if ($package === $rootPackage) {
+                continue;
+            }
+            $packageInfo = $arrayDumper->dump($package);
+            unset($packageInfo['dist'],
+                $packageInfo['source'],
+                $packageInfo['installation-source'],
+                $packageInfo['notification-url'],
+            );
+
+            $packageInfo['dist'] = [
+                'type' => 'path',
+                'url' => $composer->getInstallationManager()->getInstallPath($package),
+                'reference' => $package->getInstallationSource() === 'source' ? $package->getSourceReference() : $package->getDistReference(),
+            ];
+
+            $packages[$package->getName()][$package->getPrettyVersion()] = $packageInfo;
+
+        }
+
+        $packageJson = [
+            'packages' => $packages,
+        ];
+
+        $filesystem = new Filesystem();
+        $composerRepoFolder = $config->getBaseDir() . '/suites/composer';
+        $filesystem->ensureDirectoryExists($composerRepoFolder);
+        file_put_contents($composerRepoFolder . '/packages.json', json_encode($packageJson, JSON_PRETTY_PRINT));
     }
 }

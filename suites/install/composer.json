@@ -8,6 +8,13 @@
         },
         "sort-packages": true
     },
+    "repositories": {
+        "packagist": false,
+        "local": {
+            "type": "composer",
+            "url": "file:///var/www/html/suites/composer"
+        }
+    },
     "require": {
         "ext-dom": "*",
         "ext-imagick": "*",

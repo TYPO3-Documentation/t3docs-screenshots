@@ -1,24 +1,14 @@
 {
     "name": "t3docs/screenshots-introduction",
     "description": "TYPO3 Screenshots Introduction",
-    "repositories": {
-        "bootstrap-package": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/bootstrap_package"
-        },
-        "introduction": {
-            "type": "path",
-            "url": "../../public/typo3conf/ext/introduction"
-        }
-    },
     "require-dev": {
-        "bk2k/bootstrap-package": "dev-main as dev-BP_12-0",
-        "typo3/cms-introduction": "@dev"
+        "bk2k/bootstrap-package": "dev-BP_12-0",
+        "typo3/cms-introduction": "dev-master"
     },
     "scripts": {
         "setup-suite": [
             "typo3cms install:setup --no-interaction --database-user-name root --database-user-password root --database-host-name db --admin-user-name admin --admin-password password --site-setup-type no"
         ]
     },
-    "extra": []
+    "extra": {}
 }
