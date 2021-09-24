@@ -31,7 +31,7 @@
         "ext-imagick": "*",
         "ext-json": "*",
         "ext-libxml": "*",
-		"helhum/typo3-console": "dev-latest",
+        "helhum/typo3-console": "dev-latest",
         "typo3/cms-adminpanel": "dev-master as 11.4.0",
         "typo3/cms-backend": "dev-master as 11.4.0",
         "typo3/cms-belog": "dev-master as 11.4.0",
@@ -68,15 +68,15 @@
         "typo3/cms-viewpage": "dev-master as 11.4.0"
     },
     "require-dev": {
-		"bk2k/bootstrap-package": "dev-BP_12-0",
-		"codeception/codeception": "^4.1.12",
-		"codeception/module-webdriver": "^1.1.4",
-		"cweagans/composer-patches": "^1.7",
-		"sebastian/diff": "^4.0",
-		"sensiolabs/ansi-to-html": "^1.2",
+        "bk2k/bootstrap-package": "dev-BP_12-0",
+        "codeception/codeception": "^4.1.12",
+        "codeception/module-webdriver": "^1.1.4",
+        "cweagans/composer-patches": "^1.7",
+        "sebastian/diff": "^4.0",
+        "sensiolabs/ansi-to-html": "^1.2",
         "t3docs/examples": "dev-master",
-		"t3docs/screenshots": "dev-main",
-		"t3docs/screenshots-suites": "dev-main",
+        "t3docs/screenshots": "dev-main",
+        "t3docs/screenshots-suites": "dev-main",
         "typo3/cms-introduction": "dev-master",
         "typo3/cms-styleguide": "dev-master",
         "typo3/site-package": "dev-lwolf-v11",
@@ -91,9 +91,9 @@
         "typo3-cms-scripts": [
             "typo3cms install:fixfolderstructure"
         ],
-		"setup-project": [
-			"typo3cms install:setup --no-interaction --database-user-name root --database-user-password root --database-host-name db --admin-user-name admin --admin-password password --site-setup-type site --skip-extension-setup"
-		],
+        "setup-project": [
+            "typo3cms install:setup --no-interaction --database-user-name root --database-user-password root --database-host-name db --admin-user-name admin --admin-password password --site-setup-type site --skip-extension-setup"
+        ],
         "initialize-suites": [
             "TYPO3\\Documentation\\ScreenshotsSuites\\SuiteHelper::setupComposerJsonFiles"
         ],
