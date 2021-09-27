@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08a18e5c31b851f61616a9ab4bb2fcf5",
+    "content-hash": "8ee295dcacbf2edd4006c1cf2a74d488",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4945,6 +4945,31 @@
                 }
             ],
             "time": "2021-07-29T06:20:01+00:00"
+        },
+        {
+            "name": "t3docs/screenshots-suites",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "packages/screenshots-suites",
+                "reference": "5f264ba8052468a38e6ea1dce073e37046f58889"
+            },
+            "require": {
+                "composer-plugin-api": "^2.1.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "TYPO3\\Documentation\\ScreenshotsSuites\\ComposerPlugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\Documentation\\ScreenshotsSuites\\": "src"
+                }
+            },
+            "description": "Helper package to manage suites",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "typo3/class-alias-loader",
@@ -10098,31 +10123,6 @@
             }
         },
         {
-            "name": "t3docs/screenshots-suites",
-            "version": "dev-main",
-            "dist": {
-                "type": "path",
-                "url": "packages/screenshots-suites",
-                "reference": "5f264ba8052468a38e6ea1dce073e37046f58889"
-            },
-            "require": {
-                "composer-plugin-api": "^2.1.0"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "TYPO3\\Documentation\\ScreenshotsSuites\\ComposerPlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "TYPO3\\Documentation\\ScreenshotsSuites\\": "src"
-                }
-            },
-            "description": "Helper package to manage suites",
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
             "name": "theseer/tokenizer",
             "version": "1.2.1",
             "source": {
@@ -10607,6 +10607,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "helhum/typo3-console": 20,
+        "t3docs/screenshots-suites": 20,
         "typo3/cms-adminpanel": 20,
         "typo3/cms-backend": 20,
         "typo3/cms-belog": 20,
@@ -10644,7 +10645,6 @@
         "bk2k/bootstrap-package": 20,
         "t3docs/examples": 20,
         "t3docs/screenshots": 20,
-        "t3docs/screenshots-suites": 20,
         "typo3/cms-introduction": 20,
         "typo3/cms-styleguide": 20,
         "typo3/site-package": 20
