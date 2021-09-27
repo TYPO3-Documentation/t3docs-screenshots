@@ -1,6 +1,16 @@
 <?php
+
 declare(strict_types=1);
 namespace TYPO3\Documentation\ScreenshotsSuites;
+
+/*
+ * This file is part of the TYPO3 project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 use Composer\Json\JsonFile;
 use Composer\Package\Dumper\ArrayDumper;
@@ -51,6 +61,10 @@ class SuiteHelper
 
     public static function createComposerRepositoryFromInstalledPackages(Event $event): void
     {
+        if (empty($_ENV['DDEV_DOCROOT'])) {
+            throw new \RuntimeException('This script must be executed in ddev container. Please call it with "ddev composer initialize-suites"', 1632759839);
+        }
+
         $composer = $event->getComposer();
         $config = Config::load($composer);
         $rootPackage = $composer->getPackage();

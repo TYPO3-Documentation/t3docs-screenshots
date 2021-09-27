@@ -18,7 +18,7 @@ reset_suite () {
     local suitePath=$SUITES_PATH/$suiteId
     local dbName=db_${suiteId//-/_}
 
-    echo "Cleaning up '$suiteId'"
+    echo "Cleaning up suite '$suiteId'"
 
     rm -rf $suitePath/config
     rm -rf $suitePath/public
@@ -79,7 +79,7 @@ setup_suite () {
     local suitePath=$SUITES_PATH/$suiteId
     local dbName=db_${suiteId//-/_}
 
-    echo "Setting up '$suiteId'"
+    echo "Setting up suite '$suiteId'"
     ddev exec "TYPO3_INSTALL_DB_DBNAME=\"$dbName\" TYPO3_INSTALL_SITE_NAME=\"Screenshots suite $suiteId\" composer setup-suite -d $suitePath"
 }
 
