@@ -2,8 +2,6 @@
 .idea
 nbproject
 
-/suites/composer
-
 /var/*
 !/var/labels
 /vendor
@@ -11,6 +9,6 @@ nbproject
 
 /suites/*/*
 !/suites/*/dist.json
-/suites/local-*
+/suites/composer
 /suites/install/*
 !/suites/install/res
