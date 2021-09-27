@@ -16,11 +16,13 @@ class SuiteHelper
             throw new \RuntimeException('This script must be executed in ddev container. Please call it with "ddev composer initialize-suites"', 1631896871);
         }
 
+        $cliArguments = $event->getArguments();
+        $suitePath = $cliArguments[0] ?? 'suites/*';
+
         $config = Config::load($event->getComposer());
         $rootJsonFile = new JsonFile($config->getBaseDir() . '/composer.json');
         $rootJsonConfig = $rootJsonFile->read();
-        $allDistributionHostNames = $notLocalDistributionHostNames = [];
-        foreach (glob($config->getBaseDir() . '/suites/*/dist.json') as $distFile) {
+        foreach (glob($config->getBaseDir() . '/' . $suitePath . '/dist.json') as $distFile) {
             $distJsonFile = new JsonFile($distFile);
             $targetDistJsonFile = new JsonFile(dirname($distFile) . '/composer.json');
             $targetJsonConfig = $rootJsonConfig;
@@ -41,21 +43,6 @@ class SuiteHelper
             ];
 
             $targetDistJsonFile->write($targetJsonConfig);
-            $distHostName = basename(dirname($distFile)) . '.t3docs-screenshots';
-            $allDistributionHostNames[] = $distHostName;
-            if (strpos($distHostName, 'local-') !== 0) {
-                $notLocalDistributionHostNames[] = $distHostName;
-            }
-        }
-
-        $ddevConfigFile = $config->getBaseDir() . '/.ddev/config.suites.yaml';
-        $ddevConfigFileContent = sprintf("additional_hostnames:\n    - \"%s\"\n", implode("\"\n    - \"", $notLocalDistributionHostNames));
-        file_put_contents($ddevConfigFile, $ddevConfigFileContent);
-        @unlink($config->getBaseDir() . '/.ddev/config.zz-all-suites.yaml');
-        if ($allDistributionHostNames !== $notLocalDistributionHostNames) {
-            $ddevConfigFile = $config->getBaseDir() . '/.ddev/config.zz-all-suites.yaml';
-            $ddevConfigFileContent = sprintf("additional_hostnames:\n    - \"%s\"\n", implode("\"\n    - \"", $allDistributionHostNames));
-            file_put_contents($ddevConfigFile, $ddevConfigFileContent);
         }
 
         self::createComposerRepositoryFromInstalledPackages($event);
