@@ -19,10 +19,7 @@ reset_suite () {
 
     echo "Cleaning up '$suiteId'"
 
-    rm -rf $suitePath/config
-    rm -rf $suitePath/public
-    rm -rf $suitePath/var
-    rm -rf $suitePath/vendor
+    rm -rf $suitePath/composer.* $suitePath/config $suitePath/public $suitePath/var $suitePath/vendor
     echo "DROP DATABASE IF EXISTS $dbName;" | ddev mysql -uroot -proot
 }
 
@@ -37,10 +34,7 @@ reset_suites () {
 reset_project () {
     echo "Cleaning up project"
 
-    rm -rf config
-    rm -rf public
-    rm -rf var
-    rm -rf vendor
+    rm -rf config public var vendor
     ddev delete -Oy
 }
 
@@ -77,11 +71,11 @@ setup_suites () {
 }
 
 install_project () {
-    ddev composer initialize-suites
     reset_suites
     reset_project
     start_project
     setup_project
+    ddev composer initialize-suites
     setup_suites
 }
 
