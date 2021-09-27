@@ -2,13 +2,13 @@
 
 ## Description: (Re-)install the project or a single suite
 ## Usage: install [flags]
-## Example: ddev install\nddev install --force\nddev install --sync-only\nddev install --suite-id site-package
-## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"sync-only","Shorthand":"c","Usage":"Synchronize composer packages of root project with suite instances only instead of full (re-)installation."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install or synchronize this suite only (core, examples, install, introduction, site-package, styleguide). All suites if empty."}]
+## Example: ddev install\nddev install --force\nddev install --suite-id site-package\nddev install --initialize-suites-only\nddev install --initialize-suites-only --suite-id site-package
+## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"initialize-suites-only","Shorthand":"i","Usage":"Reflect updates of the project composer packages in the suites TYPO3 instances only instead of full (re-)installation."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install this suite only (core, examples, install, introduction, site-package, styleguide). All suites if empty."}]
 
 # Initialize local variables
 FORCE=""
 CHOICE=""
-SYNC_ONLY=""
+INITIALIZE_SUITES_ONLY=""
 SUITES_PATH="suites"
 SUITE_ID=""
 
@@ -49,20 +49,20 @@ start_project () {
     ddev start
 }
 
-sync_suite () {
+initialize_suite () {
     local suiteId=$1
     local suitePath=$SUITES_PATH/$suiteId
 
-    echo "Synchronizing suite '$suiteId' with the root project"
+    echo "Initializing suite '$suiteId'"
     ddev composer initialize-suites $suitePath
     ddev composer update -d $suitePath >/dev/null 2>&1
 }
 
-sync_suites () {
+initialize_suites () {
     for dist in $SUITES_PATH/*/dist.json
     do
         suiteId=$(basename $(dirname $dist));
-        sync_suite $suiteId
+        initialize_suite $suiteId
     done
 }
 
@@ -96,7 +96,7 @@ install_project () {
     reset_project
     start_project
     setup_project
-    sync_suites
+    initialize_suites
     setup_suites
 }
 
@@ -104,15 +104,15 @@ install_suite () {
     local suiteId=$1
 
     reset_suite $suiteId
-    sync_suite $suiteId
+    initialize_suite $suiteId
     setup_suite $suiteId
 }
 
 # Parse options and arguments
 while :; do
     case ${1:-} in
-        -c|--sync-only)
-            SYNC_ONLY=true
+        -i|--initialize-suites-only)
+            INITIALIZE_SUITES_ONLY=true
             ;;
         -s|--suite-id)
             SUITE_ID=$2
@@ -130,11 +130,11 @@ done
 
 # Set user confirmation if force option not set
 if [ ! "${FORCE}" = "true" ] ; then
-    if [ "${SYNC_ONLY}" = "true" ] ; then
+    if [ "${INITIALIZE_SUITES_ONLY}" = "true" ] ; then
         if [ -z "${SUITE_ID}" ] ; then
-            printf "Warning, this will synchronize the project composer packages with the suites instances. Continue [yes/no]? "
+            printf "Warning, this will re-initialize the composer packages of all suites based on the project packages. Continue [yes/no]? "
         else
-            printf "Warning, this will synchronize the project composer packages with the suite \"%s\". Continue [yes/no]? " "${SUITE_ID}"
+            printf "Warning, this will re-initialize the composer packages of suite \"%s\" based on the project packages. Continue [yes/no]? " "${SUITE_ID}"
         fi
     else
         if [ -z "${SUITE_ID}" ] ; then
@@ -147,11 +147,11 @@ if [ ! "${FORCE}" = "true" ] ; then
 fi
 
 if [ "${CHOICE}" = "yes" ] || [ "${FORCE}" = "true" ] ; then
-    if [ "${SYNC_ONLY}" = "true" ] ; then
+    if [ "${INITIALIZE_SUITES_ONLY}" = "true" ] ; then
         if [ -z "${SUITE_ID}" ] ; then
-            sync_suites
+            initialize_suites
         else
-            sync_suite $SUITE_ID
+            initialize_suite $SUITE_ID
         fi
     else
         if [ -z "${SUITE_ID}" ] ; then

@@ -10,7 +10,7 @@ use TYPO3\CMS\Composer\Plugin\Config;
 
 class SuiteHelper
 {
-    public static function setupComposerJsonFiles(Event $event): void
+    public static function createComposerJsonFiles(Event $event): void
     {
         if (empty($_ENV['DDEV_DOCROOT'])) {
             throw new \RuntimeException('This script must be executed in ddev container. Please call it with "ddev composer initialize-suites"', 1631896871);
@@ -47,11 +47,9 @@ class SuiteHelper
 
             $targetDistJsonFile->write($targetJsonConfig);
         }
-
-        self::createComposerRepositoryFromInstalledPackages($event);
     }
 
-    private static function createComposerRepositoryFromInstalledPackages(Event $event): void
+    public static function createComposerRepositoryFromInstalledPackages(Event $event): void
     {
         $composer = $event->getComposer();
         $config = Config::load($composer);

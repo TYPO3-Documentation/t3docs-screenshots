@@ -121,13 +121,13 @@ reflect updates of the project composer packages in your suites TYPO3 instances 
 
 .. code-block:: bash
 
-   ddev install --sync-only
+   ddev install --initialize-suites-only
 
-or by synchronizing a single suite TYPO3 instance with
+or by reflecting to a single suite TYPO3 instance with
 
 .. code-block:: bash
 
-   ddev install --sync-only -s [suite-id]
+   ddev install --initialize-suites-only -s [suite-id]
 
 Uninstallation
 --------------
