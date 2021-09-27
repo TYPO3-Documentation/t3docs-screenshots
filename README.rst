@@ -113,6 +113,22 @@ or by resetting a single suite TYPO3 instance with
 
 again. Available suite IDs are "core", "examples", "install", "introduction", "site-package" and "styleguide".
 
+Synchronizing
+-------------
+
+Instead of re-installing the project or suite TYPO3 instance and lose all database changes, you might want to only
+reflect updates of the project composer packages in your suites TYPO3 instances packages. Do this with
+
+.. code-block:: bash
+
+   ddev install --sync-only
+
+or by synchronizing a single suite TYPO3 instance with
+
+.. code-block:: bash
+
+   ddev install --sync-only -s [suite-id]
+
 Uninstallation
 --------------
 
