@@ -2,12 +2,13 @@
 
 ## Description: (Re-)install the project or a single suite
 ## Usage: install [flags]
-## Example: ddev install\nddev install --force\nddev install --suite-id site-package
-## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install this suite only (core, examples, install, introduction, site-package, styleguide). The full project if empty."}]
+## Example: ddev install\nddev install --force\nddev install --sync-only\nddev install --suite-id site-package
+## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"sync-only","Shorthand":"c","Usage":"Synchronize composer packages of root project with suite instances only instead of full (re-)installation."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install or synchronize this suite only (core, examples, install, introduction, site-package, styleguide). All suites if empty."}]
 
 # Initialize local variables
 FORCE=""
 CHOICE=""
+SYNC_ONLY=""
 SUITES_PATH="suites"
 SUITE_ID=""
 
@@ -19,7 +20,10 @@ reset_suite () {
 
     echo "Cleaning up '$suiteId'"
 
-    rm -rf $suitePath/composer.* $suitePath/config $suitePath/public $suitePath/var $suitePath/vendor
+    rm -rf $suitePath/config
+    rm -rf $suitePath/public
+    rm -rf $suitePath/var
+    rm -rf $suitePath/vendor
     echo "DROP DATABASE IF EXISTS $dbName;" | ddev mysql -uroot -proot
 }
 
@@ -34,12 +38,32 @@ reset_suites () {
 reset_project () {
     echo "Cleaning up project"
 
-    rm -rf config public var vendor
+    rm -rf config
+    rm -rf public
+    rm -rf var
+    rm -rf vendor
     ddev delete -Oy
 }
 
 start_project () {
     ddev start
+}
+
+sync_suite () {
+    local suiteId=$1
+    local suitePath=$SUITES_PATH/$suiteId
+
+    echo "Synchronizing suite '$suiteId' with the root project"
+    ddev composer initialize-suites $suitePath
+    ddev composer update -d $suitePath >/dev/null 2>&1
+}
+
+sync_suites () {
+    for dist in $SUITES_PATH/*/dist.json
+    do
+        suiteId=$(basename $(dirname $dist));
+        sync_suite $suiteId
+    done
 }
 
 setup_project () {
@@ -56,10 +80,6 @@ setup_suite () {
     local dbName=db_${suiteId//-/_}
 
     echo "Setting up '$suiteId'"
-    echo "Installing files with Composer. This may take a while."
-
-    ddev composer initialize-suites $suitePath
-    ddev composer update -d $suitePath >/dev/null 2>&1
     ddev exec "TYPO3_INSTALL_DB_DBNAME=\"$dbName\" TYPO3_INSTALL_SITE_NAME=\"Screenshots suite $suiteId\" composer setup-suite -d $suitePath"
 }
 
@@ -76,6 +96,7 @@ install_project () {
     reset_project
     start_project
     setup_project
+    sync_suites
     setup_suites
 }
 
@@ -83,12 +104,16 @@ install_suite () {
     local suiteId=$1
 
     reset_suite $suiteId
+    sync_suite $suiteId
     setup_suite $suiteId
 }
 
 # Parse options and arguments
 while :; do
     case ${1:-} in
+        -c|--sync-only)
+            SYNC_ONLY=true
+            ;;
         -s|--suite-id)
             SUITE_ID=$2
             shift 2
@@ -105,18 +130,34 @@ done
 
 # Set user confirmation if force option not set
 if [ ! "${FORCE}" = "true" ] ; then
-    if [ -z "${SUITE_ID}" ] ; then
-        printf "Warning, this will reset the project and remove all changes. Continue [yes/no]? "
+    if [ "${SYNC_ONLY}" = "true" ] ; then
+        if [ -z "${SUITE_ID}" ] ; then
+            printf "Warning, this will synchronize the project composer packages with the suites instances. Continue [yes/no]? "
+        else
+            printf "Warning, this will synchronize the project composer packages with the suite \"%s\". Continue [yes/no]? " "${SUITE_ID}"
+        fi
     else
-        printf "Warning, this will reset the suite \"%s\" and remove all changes. Continue [yes/no]? " "${SUITE_ID}"
+        if [ -z "${SUITE_ID}" ] ; then
+            printf "Warning, this will reset the project and remove all changes. Continue [yes/no]? "
+        else
+            printf "Warning, this will reset the suite \"%s\" and remove all changes. Continue [yes/no]? " "${SUITE_ID}"
+        fi
     fi
     read CHOICE
 fi
 
 if [ "${CHOICE}" = "yes" ] || [ "${FORCE}" = "true" ] ; then
-    if [ -z "${SUITE_ID}" ] ; then
-        install_project
+    if [ "${SYNC_ONLY}" = "true" ] ; then
+        if [ -z "${SUITE_ID}" ] ; then
+            sync_suites
+        else
+            sync_suite $SUITE_ID
+        fi
     else
-        install_suite $SUITE_ID
+        if [ -z "${SUITE_ID}" ] ; then
+            install_project
+        else
+            install_suite $SUITE_ID
+        fi
     fi
 fi

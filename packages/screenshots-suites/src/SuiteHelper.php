@@ -23,6 +23,9 @@ class SuiteHelper
         $rootJsonFile = new JsonFile($config->getBaseDir() . '/composer.json');
         $rootJsonConfig = $rootJsonFile->read();
         foreach (glob($config->getBaseDir() . '/' . $suitePath . '/dist.json') as $distFile) {
+            @unlink(dirname($distFile) . '/composer.json');
+            @unlink(dirname($distFile) . '/composer.lock');
+
             $distJsonFile = new JsonFile($distFile);
             $targetDistJsonFile = new JsonFile(dirname($distFile) . '/composer.json');
             $targetJsonConfig = $rootJsonConfig;
