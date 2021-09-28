@@ -150,7 +150,7 @@ Browsable TYPO3 instances
    -  Screenshots manager: https://t3docs-screenshots.ddev.site/typo3
    -  Suite "Core": https://core.t3docs-screenshots.ddev.site/typo3
    -  Suite "Examples": https://examples.t3docs-screenshots.ddev.site/typo3
-   -  Suite "Install": https://install.t3docs-screenshots.ddev.site/typo3
+   -  Suite "Install": https://install.t3docs-screenshots.ddev.site
    -  Suite "Introduction": https://introduction.t3docs-screenshots.ddev.site/typo3
    -  Suite "Site Package": https://site-package.t3docs-screenshots.ddev.site/typo3
    -  Suite "Styleguide": https://styleguide.t3docs-screenshots.ddev.site/typo3
