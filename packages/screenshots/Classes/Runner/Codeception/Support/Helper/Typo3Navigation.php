@@ -479,8 +479,8 @@ class Typo3Navigation extends Module
     {
         [$pid, $table] = $this->resolveTable($pid, $table);
         $this->getWebDriver()->amOnPage(sprintf(
-                '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
-                urlencode('/module/web/list'), $pid, $table)
+                '/typo3/module/web/list?id=%s&table=%s',
+                $pid, $table)
         );
     }
 
@@ -521,8 +521,8 @@ class Typo3Navigation extends Module
     {
         [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit',
-            urlencode('/record/edit'), $table, $uid
+            '/typo3/record/edit?edit[%s][%s]=edit',
+            $table, $uid
         ));
     }
 
@@ -564,8 +564,8 @@ class Typo3Navigation extends Module
     {
         [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
-            urlencode('/record/edit'), $table, $uid, $fields
+            '/typo3/record/edit?edit[%s][%s]=edit&columnsOnly=%s',
+            $table, $uid, $fields
         ));
     }
 
