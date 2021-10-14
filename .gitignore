@@ -9,6 +9,5 @@ nbproject
 
 /suites/*/*
 !/suites/*/dist.json
+!/suites/*/res
 /suites/composer
-/suites/install/*
-!/suites/install/res

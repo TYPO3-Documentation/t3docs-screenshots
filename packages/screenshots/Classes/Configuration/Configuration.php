@@ -347,7 +347,7 @@ class Configuration
                             ['action' => 'makeScreenshotOfElement', 'fileName' => "StyleguidePartiallyScrolledOutElement", 'selector' => "#t3-table-tx_styleguide_elements_rte"],
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "StyleguideListFullPage"],
-                            ['action' => 'scrollModuleBodyTo', 'toSelector' => '#clipboard_form'],
+                            ['action' => 'scrollModuleBodyTo', 'toSelector' => '.clipboard-panel'],
                             ['action' => 'scrollModuleBodyToBottom'],
                             ['action' => 'switchToMainFrame'],
                             ['action' => 'scrollModuleMenuTo', 'toSelector' => '#system_config'],
