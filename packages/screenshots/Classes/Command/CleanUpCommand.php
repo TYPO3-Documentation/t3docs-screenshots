@@ -45,7 +45,7 @@ class CleanUpCommand extends Command
         try {
             FileHelper::deleteRecursively($this->getExtensionConfiguration()->getAbsoluteActualPath());
             FileHelper::deleteRecursively($this->getExtensionConfiguration()->getAbsoluteDiffPath());
-            $io->success('The screenshots of the former run have been deleted successfully.');
+            $io->info('The screenshots of the previous run have been deleted.');
             return 0;
         } catch (\Exception $e) {
             $io->error(sprintf('%s: %s', $e->getCode(), $e->getMessage()));

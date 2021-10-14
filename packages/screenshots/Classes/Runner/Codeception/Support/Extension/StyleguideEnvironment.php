@@ -13,6 +13,7 @@ namespace TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension;
  */
 
 use Codeception\Event\SuiteEvent;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Core\ApplicationContext;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Core\Environment;
@@ -24,6 +25,8 @@ use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
  */
 class StyleguideEnvironment extends BackendEnvironment
 {
+    use ServerRequestTrait;
+
     /**
      * @var array
      */
@@ -99,7 +102,9 @@ class StyleguideEnvironment extends BackendEnvironment
 
         // The database initialization uses DataHandler for some parts. DataHandler needs an initialized BE user
         // with admin right and the live workspace.
-        Bootstrap::initializeBackendUser();
+        $request = $this->createServerRequest('http://web/typo3/');
+        Bootstrap::initializeBackendUser(BackendUserAuthentication::class, $request);
+        $GLOBALS['BE_USER']->user['username'] = 'screenshot runner';
         $GLOBALS['BE_USER']->user['admin'] = 1;
         $GLOBALS['BE_USER']->user['uid'] = 1;
         $GLOBALS['BE_USER']->workspace = 0;

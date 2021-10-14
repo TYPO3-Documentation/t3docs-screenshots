@@ -60,7 +60,7 @@ class Typo3Cli extends Module
 
     protected function fetchMappings(string $table, string $fromField, string $toField): array
     {
-        exec(sprintf('typo3/sysext/core/bin/typo3 screenshots:mappings --from=%s --to=%s %s 2>&1',
+        exec(sprintf('../../../../../vendor/bin/typo3 screenshots:mappings --from=%s --to=%s %s 2>&1',
             $fromField, $toField, $table
         ), $output, $resultCode);
 
