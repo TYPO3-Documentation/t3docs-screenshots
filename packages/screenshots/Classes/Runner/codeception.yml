@@ -70,7 +70,7 @@ namespace: TYPO3\Documentation\Screenshots\Runner\Codeception\Support
 
 paths:
   tests: Codeception
-  data: Codeception/Data
+  data: ../../../../public/typo3temp/var/tests/acceptance
   support: Codeception/Support
   envs: Codeception/Envs
   output: ../../../../public/typo3temp/var/tests/ScreenshotsReports
