@@ -459,29 +459,23 @@ class Typo3Navigation extends Module
     /**
      * Navigate directly to a TYPO3 backend records table form.
      *
-     * The target url is a content frame url, so the view does not contain any main frame elements like the TYPO3
-     * backend header or the module menu. To restore the default TYPO3 backend view with main and content frame
-     * afterwards, use
-     *
-     * ``` php
-     * <?php
-     * $I->reloadBackend();
-     * ?>
-     * ```
-     *
      * @param int $pid
      * @param string $table
      * @throws \Exception
-     *
-     * @see Typo3Navigation::reloadBackend()
      */
     public function goToTable(int $pid = -1, string $table = ''): void
     {
+        if (!$this->_isOnMainFrame() && $this->_hasMainFrame()) {
+            $this->switchToMainFrame();
+        }
         [$pid, $table] = $this->resolveTable($pid, $table);
         $this->getWebDriver()->amOnPage(sprintf(
-                '/typo3/index.php?route=%s&token=1&id=%s&table=%s&imagemode=1',
-                urlencode('/module/web/list'), $pid, $table)
+                '/typo3/module/web/list?id=%s&table=%s',
+                $pid, $table)
         );
+        $this->getWebDriver()->waitForElement('iframe[name="list_frame"]');
+        $this->switchToContentFrame();
+        $this->scrollModuleBodyToTop();
     }
 
     protected function resolveTable(int $pid, string $table): array
@@ -501,29 +495,23 @@ class Typo3Navigation extends Module
     /**
      * Navigate directly to a TYPO3 backend record form.
      *
-     * The target url is a content frame url, so the view does not contain any main frame elements like the TYPO3
-     * backend header or the module menu. To restore the default TYPO3 backend view with main and content frame
-     * afterwards, use
-     *
-     * ``` php
-     * <?php
-     * $I->reloadBackend();
-     * ?>
-     * ```
-     *
      * @param string $table
      * @param int $uid
      * @throws \Exception
-     *
-     * @see Typo3Navigation::reloadBackend()
      */
     public function goToRecord(string $table = '', int $uid = -1): void
     {
+        if (!$this->_isOnMainFrame() && $this->_hasMainFrame()) {
+            $this->switchToMainFrame();
+        }
         [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit',
-            urlencode('/record/edit'), $table, $uid
+            '/typo3/record/edit?edit[%s][%s]=edit',
+            $table, $uid
         ));
+        $this->getWebDriver()->waitForElement('iframe[name="list_frame"]');
+        $this->switchToContentFrame();
+        $this->scrollModuleBodyToTop();
     }
 
     protected function resolveRecord(string $table, int $uid): array
@@ -543,30 +531,24 @@ class Typo3Navigation extends Module
     /**
      * Navigate directly to a TYPO3 backend record form with specific fields only.
      *
-     * The target url is a content frame url, so the view does not contain any main frame elements like the TYPO3
-     * backend header or the module menu. To restore the default TYPO3 backend view with main and content frame
-     * afterwards, use
-     *
-     * ``` php
-     * <?php
-     * $I->reloadBackend();
-     * ?>
-     * ```
-     *
      * @param string $fields
      * @param string $table
      * @param int $uid
      * @throws \Exception
-     *
-     * @see Typo3Navigation::reloadBackend()
      */
     public function goToField(string $fields, string $table = '', int $uid = -1): void
     {
+        if (!$this->_isOnMainFrame() && $this->_hasMainFrame()) {
+            $this->switchToMainFrame();
+        }
         [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/index.php?route=%s&token=1&edit[%s][%s]=edit&columnsOnly=%s',
-            urlencode('/record/edit'), $table, $uid, $fields
+            '/typo3/record/edit?edit[%s][%s]=edit&columnsOnly=%s',
+            $table, $uid, $fields
         ));
+        $this->getWebDriver()->waitForElement('iframe[name="list_frame"]');
+        $this->switchToContentFrame();
+        $this->scrollModuleBodyToTop();
     }
 
     protected function getWebDriver(): WebDriver

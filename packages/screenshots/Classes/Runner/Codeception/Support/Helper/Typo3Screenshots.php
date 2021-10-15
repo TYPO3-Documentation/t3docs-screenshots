@@ -164,7 +164,11 @@ class Typo3Screenshots extends Module
     public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->getTypo3Navigation()->goToTable($pid, $table);
-        $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
+        if (!empty($selector)) {
+            $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
+        } else {
+            $this->makeScreenshotOfContentFrame($fileName, $altText, $captionText, $captionReference);
+        }
     }
 
     /**
@@ -194,7 +198,11 @@ class Typo3Screenshots extends Module
     public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->getTypo3Navigation()->goToRecord($table, $uid);
-        $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
+        if (!empty($selector)) {
+            $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
+        } else {
+            $this->makeScreenshotOfContentFrame($fileName, $altText, $captionText, $captionReference);
+        }
     }
 
     /**
@@ -225,7 +233,11 @@ class Typo3Screenshots extends Module
     public function makeScreenshotOfField(string $fileName, string $fields, string $table = '', int $uid = -1, string $selector = '.form-section', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->getTypo3Navigation()->goToField($fields, $table, $uid);
-        $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
+        if (!empty($selector)) {
+            $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
+        } else {
+            $this->makeScreenshotOfContentFrame($fileName, $altText, $captionText, $captionReference);
+        }
     }
 
     /**

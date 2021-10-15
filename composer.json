@@ -99,6 +99,9 @@
     },
     "extra": {
         "patches": {
+            "typo3/cms-backend": {
+                "Dirty: Allow deep linking to show a single field of a record": "patches/EnableEditFormColumnsOnlyParam.patch"
+            },
             "typo3/cms-core": {
                 "Dirty: Disable form protection for easy url hopping": "patches/DisableFormProtection.patch"
             }
