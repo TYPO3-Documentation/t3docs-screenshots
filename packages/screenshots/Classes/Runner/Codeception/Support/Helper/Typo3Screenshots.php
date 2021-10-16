@@ -161,7 +161,7 @@ class Typo3Screenshots extends Module
      * @param string $captionText
      * @param string $captionReference
      */
-    public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
+    public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '.module-body', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->getTypo3Navigation()->goToTable($pid, $table);
         if (!empty($selector)) {
@@ -195,7 +195,7 @@ class Typo3Screenshots extends Module
      * @param string $captionText
      * @param string $captionReference
      */
-    public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
+    public function makeScreenshotOfRecord(string $fileName, string $table = '', int $uid = -1, string $selector = '.module-body', string $altText = '', string $captionText = '', string $captionReference = ''): void
     {
         $this->getTypo3Navigation()->goToRecord($table, $uid);
         if (!empty($selector)) {
