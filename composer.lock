@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a109e2b3e3b7833b016fc368fcfc258",
+    "content-hash": "33f1836349015adc7a5a24bd86ff9f27",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5011,7 +5011,7 @@
         },
         {
             "name": "t3docs/screenshots-suites",
-            "version": "dev-task-update-packages",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots-suites",
@@ -10134,7 +10134,7 @@
         },
         {
             "name": "t3docs/screenshots",
-            "version": "dev-task-update-packages",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots",
@@ -10429,22 +10429,32 @@
         },
         {
             "name": "typo3/site-package",
-            "version": "dev-lwolf-v11",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code.git",
-                "reference": "1ba6d4dc86eff4d1bf8f5112f9bb0a31761a8d74"
+                "reference": "750871c13046c99bcc836129ef3069646470448c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/zipball/1ba6d4dc86eff4d1bf8f5112f9bb0a31761a8d74",
-                "reference": "1ba6d4dc86eff4d1bf8f5112f9bb0a31761a8d74",
+                "url": "https://api.github.com/repos/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/zipball/750871c13046c99bcc836129ef3069646470448c",
+                "reference": "750871c13046c99bcc836129ef3069646470448c",
                 "shasum": ""
             },
+            "require": {
+                "typo3/cms-core": "^11.4",
+                "typo3/cms-fluid-styled-content": "^11.4"
+            },
+            "default-branch": true,
             "type": "typo3-cms-extension",
             "extra": {
                 "typo3/cms": {
                     "extension-key": "site_package"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "T3docs\\SitePackage\\": "Classes/"
                 }
             },
             "license": [
@@ -10470,10 +10480,10 @@
                 "typo3"
             ],
             "support": {
-                "issues": "https://github.com/TYPO3-Documentation/t3docs-screenshots/issues",
-                "source": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/tree/lwolf-v11"
+                "issues": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/issues",
+                "source": "https://github.com/TYPO3-Documentation/TYPO3CMS-Tutorial-SitePackage-Code/tree/master"
             },
-            "time": "2021-09-14T14:47:05+00:00"
+            "time": "2021-09-22T06:58:45+00:00"
         },
         {
             "name": "typo3/testing-framework",
