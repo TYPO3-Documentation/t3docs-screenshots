@@ -583,16 +583,16 @@ Make all screenshots
 
    ddev make-screenshots
 
-Make screenshots of specific ``screenshots.json`` file
-------------------------------------------------------
+Make screenshots of specific folder only
+----------------------------------------
 
-A folder path can be specified to execute only the actions of this particular ``screenshots.json``. The folder path can
-be defined as an absolute path or relative to ``public/t3docs``, e.g. this command executes only
-``public/t3docs/My-Manual/screenshots.json``.
+A folder path can be specified to process only the ``screenshots.json`` of this particular folder and its subfolders.
+The folder path can be defined as an absolute path or relative to ``public/t3docs``, e.g. this command executes
+``public/t3docs/TYPO3CMS-Reference-TCA/Documentation/screenshots.json``.
 
 .. code-block:: bash
 
-   ddev make-screenshots -t My-Manual
+   ddev make-screenshots -t TYPO3CMS-Reference-TCA
 
 Make screenshots of TYPO3 installation process
 ----------------------------------------------

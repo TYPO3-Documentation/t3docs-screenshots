@@ -2,8 +2,8 @@
 
 ## Description: Make screenshots via codeception inside the web container
 ## Usage: make-screenshots
-## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots\nmake-screenshots -t TYPO3CMS-Reference-TCA/Documentation
-## Flags: [{"Name":"actions-id","Shorthand":"a","Type":"string","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Run actions of specific TYPO3 environment suite ID only (Core, Examples, Install, Introduction, SitePackage, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Type":"string","Usage":"Run actions of specific folder only (relative or absolute path). All folders if empty."}]
+## Example: make-screenshots\nmake-screenshots -s Styleguide\nmake-screenshots -s Styleguide -a actionsIdentifierScreenshots\nmake-screenshots -t TYPO3CMS-Reference-TCA
+## Flags: [{"Name":"actions-id","Shorthand":"a","Type":"string","Usage":"Run actions of specific ID only. Actions of all IDs if empty."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Run actions of specific TYPO3 environment suite ID only (Core, Examples, Install, Introduction, SitePackage, Styleguide). All suites if empty."},{"Name":"target-path","Shorthand":"t","Type":"string","Usage":"Run actions of specific folder and its subfolders only (relative or absolute path). All folders if empty."}]
 
 SUITE_ID=""
 TARGET_PATH=""
