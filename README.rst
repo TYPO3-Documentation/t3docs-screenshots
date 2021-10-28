@@ -297,7 +297,7 @@ e.g.
       }
    }
 
-The target folder of the screenshots is ``Documentation/Images/AutomaticScreenshots`` by default and is calculated
+The target folder of the screenshots is ``Images/AutomaticScreenshots`` by default and is calculated
 relative to the ``screenshots.json``. The path can be adapted by the actions ``setScreenshotsDocumentationPath`` and
 ``setScreenshotsImagePath`` respectively, e.g.
 
@@ -316,6 +316,8 @@ relative to the ``screenshots.json``. The path can be adapted by the actions ``s
          }
       }
    }
+
+which would result in a target folder ``IntroductionDocumentation/Images/IntroductionScreenshots``.
 
 To steer the runner through the TYPO3 backend, many TYPO3 specific actions have been added to the general browser
 navigation actions, e.g.
@@ -364,7 +366,7 @@ To guide the reader of the documentation over the screenshot, DOM elements can b
       }
    }
 
-Along with the screenshot a reStructuredText file gets created automatically in the folder ``Documentation/Images/Rst``
+Along with the screenshot a reStructuredText file gets created automatically in the folder ``Images/Rst``
 and can be used to include the screenshot comfortably into a documentation. The path can be changed by the actions
 ``setScreenshotsDocumentationPath`` and ``setScreenshotsRstPath`` and the automatic creation can be switched via action
 ``createScreenshotsRstFile``, e.g.
@@ -387,12 +389,15 @@ and can be used to include the screenshot comfortably into a documentation. The 
       }
    }
 
+which would result in a target folder ``IntroductionDocumentation/Images/IntroductionRst`` for reStructuredText files.
+
 Another redundant documentation job besides taking screenshots is to insert and update code snippets. With action
 ``createCodeSnippet`` a specific TYPO3 code source file gets transformed into a reStructuredText file for inclusion and
-gets saved to folder ``Documentation/CodeSnippets``. The folder can be changed by ``setCodeSnippetsTargetPath``.
+gets saved to folder ``CodeSnippets``. The folder can be changed by ``setScreenshotsDocumentationPath`` and
+``setCodeSnippetsTargetPath``.
 Furthermore there are dedicated actions like ``createJsonCodeSnippet``, ``createPhpArrayCodeSnippet``,
 ``createPhpClassCodeSnippet``, ``createXmlCodeSnippet`` or ``createYamlCodeSnippet`` to store only excerpts of code
-files.
+files, e.g.
 
 .. code-block:: json
 
@@ -401,6 +406,7 @@ files.
          "Styleguide": {
             "screenshots": [
                [
+                  {"action": "setScreenshotsDocumentationPath", "path": "StyleguideDocumentation"},
                   {"action": "setCodeSnippetsTargetPath", "path": "CodeSnippets/StyleguideCode"},
                   {"action": "createCodeSnippet", "sourceFile": "typo3/sysext/core/Configuration/TCA/be_groups.php", "targetFileName": "CoreBeGroups"},
                   {
@@ -423,6 +429,8 @@ files.
          }
       }
    }
+
+which would result in a target folder ``StyleguideDocumentation/CodeSnippets/StyleguideCode`` for code snippets.
 
 Actions can be nested to use the return value of the inner action by the outer, e.g.
 
