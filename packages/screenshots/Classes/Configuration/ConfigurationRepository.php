@@ -32,29 +32,21 @@ class ConfigurationRepository implements SingletonInterface
      */
     public function findAll(): array
     {
-        $configurations = [];
-
-        $paths = FileHelper::getSubFolders($this->basePath);
-        foreach ($paths as $path) {
-            $configuration = new Configuration($path);
-            if ($configuration->isExisting()) {
-                $configurations[] = $configuration;
-            }
-        }
-
-        return $configurations;
+        return $this->findByPath($this->basePath);
     }
 
     /**
-     * @param string $path
+     * @param string $folderPath
      * @return Configuration[]
      */
-    public function findByPath(string $path): array
+    public function findByPath(string $folderPath): array
     {
         $configurations = [];
 
-        $configuration = new Configuration($this->getAbsolutePath($path));
-        if ($configuration->isExisting()) {
+        $filePaths = FileHelper::getFilesByNameRecursively(Configuration::$fileName, $this->getAbsolutePath($folderPath));
+        foreach ($filePaths as $filePath) {
+            $folderPath = dirname($filePath);
+            $configuration = new Configuration($folderPath);
             $configurations[] = $configuration;
         }
 

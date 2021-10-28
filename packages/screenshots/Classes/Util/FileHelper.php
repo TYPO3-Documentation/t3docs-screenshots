@@ -20,12 +20,12 @@ class FileHelper
             $maxDepth--;
 
             if (is_dir($path)) {
-                $subFolders = scandir($path);
-                foreach ($subFolders as $subFolder) {
-                    $subPath = self::getRealPath($path . DIRECTORY_SEPARATOR . $subFolder);
-                    if (is_dir($subPath) && $subFolder != "." && $subFolder != "..") {
-                        $folders[] = $subPath;
-                        self::getFoldersRecursively($subPath, $maxDepth, $folders);
+                $folderNames = scandir($path);
+                foreach ($folderNames as $folderName) {
+                    $folderPath = self::getRealPath($path . DIRECTORY_SEPARATOR . $folderName);
+                    if (is_dir($folderPath) && $folderName != "." && $folderName != "..") {
+                        $folders[] = $folderPath;
+                        self::getFoldersRecursively($folderPath, $maxDepth, $folders);
                     }
                 }
             }
@@ -37,6 +37,31 @@ class FileHelper
     public static function getSubFolders(string $path): array
     {
         return self::getFoldersRecursively($path, 1);
+    }
+
+    public static function getFilesByNameRecursively(string $name, string $path, int $maxDepth = 999, array &$files = []): array
+    {
+        if ($maxDepth > 0) {
+            $maxDepth--;
+
+            if (is_dir($path)) {
+                $fileNames = scandir($path);
+                foreach ($fileNames as $fileName) {
+                    $filePath = self::getRealPath($path . DIRECTORY_SEPARATOR . $fileName);
+                    if (is_file($filePath)) {
+                        if ($fileName === $name) {
+                            $files[] = $filePath;
+                        }
+                    } else {
+                        if ($fileName != "." && $fileName != "..") {
+                            self::getFilesByNameRecursively($name, $filePath, $maxDepth, $files);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $files;
     }
 
     public static function deleteRecursively(string $path): void

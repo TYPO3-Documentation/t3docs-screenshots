@@ -61,7 +61,7 @@ abstract class AbstractBaseCest
 
         foreach ($configurations as &$configuration) {
             $originalDirectory = $configuration->getPath();
-            $actualDirectory = FileHelper::getPathBySegments($actualPath, basename($originalDirectory));
+            $actualDirectory = FileHelper::getPathBySegments($actualPath, substr($originalDirectory, strlen($originalPath)));
             $I->setScreenshotsBasePath($actualDirectory);
 
             $configuration->read();

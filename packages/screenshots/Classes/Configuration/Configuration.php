@@ -20,7 +20,7 @@ use TYPO3\Documentation\Screenshots\Util\JsonHelper;
  */
 class Configuration
 {
-    protected string $fileName = 'screenshots.json';
+    public static string $fileName = 'screenshots.json';
 
     protected string $path;
     protected array $config;
@@ -46,7 +46,7 @@ class Configuration
 
     public function getFilePath(): string
     {
-        return $this->path . '/' . $this->fileName;
+        return $this->path . '/' . self::$fileName;
     }
 
     public function read(): void

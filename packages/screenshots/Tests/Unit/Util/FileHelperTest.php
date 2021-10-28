@@ -77,6 +77,34 @@ class FileHelperTest extends UnitTestCase
     /**
      * @test
      */
+    public function getFilesByNameRecursively(): void
+    {
+        $folderTree = [
+            'FolderA' => [
+                'fileA.txt' => 'fileContentA'
+            ],
+            'FolderB' => [
+                'SubFolderA' => [
+                    'fileA.txt' => 'fileContentA'
+                ]
+            ],
+            'fileA.txt' => 'fileContentA',
+        ];
+        $expected = [
+            'vfs://t3docs/FolderA/fileA.txt',
+            'vfs://t3docs/FolderB/SubFolderA/fileA.txt',
+            'vfs://t3docs/fileA.txt',
+        ];
+
+        $root = vfsStream::setup('t3docs', null, $folderTree);
+        $actual = FileHelper::getFilesByNameRecursively('fileA.txt', $root->url());
+
+        self::assertEquals($expected, $actual);
+    }
+
+    /**
+     * @test
+     */
     public function deleteRecursively(): void
     {
         $folderTree = [
