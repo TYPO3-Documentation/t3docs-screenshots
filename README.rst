@@ -111,7 +111,8 @@ or by resetting a single suite TYPO3 instance with
 
    ddev install -s [suite-id]
 
-again. Available suite IDs are "core", "examples", "install", "introduction", "site-package" and "styleguide".
+again. Available suite IDs are "core", "examples", "extension-builder", "install", "introduction", "site-package" and
+"styleguide".
 
 Synchronizing
 -------------
@@ -150,6 +151,7 @@ Browsable TYPO3 instances
    -  Screenshots manager: https://t3docs-screenshots.ddev.site/typo3
    -  Suite "Core": https://core.t3docs-screenshots.ddev.site/typo3
    -  Suite "Examples": https://examples.t3docs-screenshots.ddev.site/typo3
+   -  Suite "Extension Builder": https://extension-builder.t3docs-screenshots.ddev.site/typo3
    -  Suite "Install": https://install.t3docs-screenshots.ddev.site
    -  Suite "Introduction": https://introduction.t3docs-screenshots.ddev.site/typo3
    -  Suite "Site Package": https://site-package.t3docs-screenshots.ddev.site/typo3
@@ -200,7 +202,8 @@ File ``screenshots.json``
 
 The runner configuration file ``screenshots.json`` must be placed in the root directory of the respective documentation
 folder, i.e. in ``public/t3docs/*/screenshots.json``. It defines in the first level the suite
-("Core", "Examples", "Install", "Introduction", "SitePackage" or "Styleguide") where the screenshots are taken,
+("Core", "Examples", "ExtensionBuilder", "Install", "Introduction", "SitePackage" or "Styleguide")
+where the screenshots are taken,
 and in the second level it lists blocks of browser actions. Each action is an object, where the key ``action`` marks
 the action name and the remaining keys represent the action parameters.
 Actions are mainly about navigating the suite TYPO3 instance and taking screenshots.
@@ -230,6 +233,15 @@ This is a small runner configuration which takes screenshots of all available su
             "screenshots": [
                [
                   {"action": "makeScreenshotOfFullPage", "fileName": "ExamplesDashboardFullPage"}
+               ]
+            ]
+         },
+         "ExtensionBuilder": {
+            "screenshots": [
+               [
+                  {"action": "see", "text": "Extension Builder"},
+                  {"action": "click", "link": "Extension Builder"},
+                  {"action": "makeScreenshotOfFullPage", "fileName": "ExtensionBuilderFullPage"}
                ]
             ]
          },
@@ -628,6 +640,13 @@ Make screenshots of TYPO3 backend + EXT:examples
 .. code-block:: bash
 
    ddev make-screenshots -s Examples
+
+Make screenshots of TYPO3 backend + EXT:extension_builder
+---------------------------------------------------------
+
+.. code-block:: bash
+
+   ddev make-screenshots -s ExtensionBuilder
 
 Make screenshots of TYPO3 backend + EXT:introduction
 ----------------------------------------------------

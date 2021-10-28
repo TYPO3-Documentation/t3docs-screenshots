@@ -1,6 +1,7 @@
 additional_hostnames:
     - "core.t3docs-screenshots"
     - "examples.t3docs-screenshots"
+    - "extension-builder.t3docs-screenshots"
     - "install.t3docs-screenshots"
     - "introduction.t3docs-screenshots"
     - "site-package.t3docs-screenshots"

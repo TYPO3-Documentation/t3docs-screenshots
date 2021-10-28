@@ -239,6 +239,19 @@ class Configuration
                         ]
                     ]
                 ],
+                'ExtensionBuilder' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierExtensionBuilder' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Extension Builder'],
+                            ['action' => 'click', 'link' => 'Extension Builder'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'ExtensionBuilderFullPage'],
+                        ]
+                    ]
+                ],
                 'Install' => [
                     'screenshots' => [
                         [

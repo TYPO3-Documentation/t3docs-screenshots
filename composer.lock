@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33f1836349015adc7a5a24bd86ff9f27",
+    "content-hash": "6c97f96343b14bffe8fe02de0ff244ac",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5011,7 +5011,7 @@
         },
         {
             "name": "t3docs/screenshots-suites",
-            "version": "dev-main",
+            "version": "dev-feature-add-extension-builder-suite",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots-suites",
@@ -8143,6 +8143,81 @@
             "time": "2021-06-08T15:12:46+00:00"
         },
         {
+            "name": "friendsoftypo3/extension-builder",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfTYPO3/extension_builder.git",
+                "reference": "542dd193f6c21857738843462ee9ea9ce8a4a676"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfTYPO3/extension_builder/zipball/542dd193f6c21857738843462ee9ea9ce8a4a676",
+                "reference": "542dd193f6c21857738843462ee9ea9ce8a4a676",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "nikic/php-parser": "^4.10.4",
+                "php": "^7.4 || ^8.0",
+                "typo3/cms-backend": "^11.4",
+                "typo3/cms-core": "^11.4"
+            },
+            "replace": {
+                "typo3-ter/extension-builder": "self.version"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.18",
+                "roave/security-advisories": "dev-latest",
+                "sebastian/diff": "^3.0",
+                "typo3/cms-frontend": "^11.4",
+                "typo3/cms-install": "^11.4",
+                "typo3/coding-standards": "^0.3.0",
+                "typo3/testing-framework": "^6.11"
+            },
+            "default-branch": true,
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "extension_builder",
+                    "cms-package-dir": "{$vendor-dir}/typo3/cms",
+                    "app-dir": ".Build",
+                    "web-dir": ".Build/public"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EBT\\ExtensionBuilder\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Nico de Haen",
+                    "role": "Developer"
+                },
+                {
+                    "name": "extension_builder Development Team",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Tool to kickstart and maintain TYPO3 extensions",
+            "homepage": "https://github.com/FriendsOfTYPO3/extension_builder",
+            "keywords": [
+                "extension",
+                "extension_builder",
+                "typo3"
+            ],
+            "support": {
+                "issues": "https://github.com/FriendsOfTYPO3/extension_builder/issues",
+                "source": "https://github.com/FriendsOfTYPO3/extension_builder/tree/v11.0.0"
+            },
+            "time": "2021-10-06T14:53:54+00:00"
+        },
+        {
             "name": "mikey179/vfsstream",
             "version": "v1.6.10",
             "source": {
@@ -10134,7 +10209,7 @@
         },
         {
             "name": "t3docs/screenshots",
-            "version": "dev-main",
+            "version": "dev-feature-add-extension-builder-suite",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots",
@@ -10798,6 +10873,7 @@
         "typo3/cms-t3editor": 20,
         "typo3/cms-tstemplate": 20,
         "typo3/cms-viewpage": 20,
+        "friendsoftypo3/extension-builder": 20,
         "t3docs/examples": 20,
         "t3docs/screenshots": 20,
         "typo3/cms-introduction": 20,
