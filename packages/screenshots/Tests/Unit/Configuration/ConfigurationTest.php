@@ -147,6 +147,7 @@ class ConfigurationTest extends UnitTestCase
         $expectedActionsIds = [
             'actionsIdentifierExamplesFrontend',
             'actionsIdentifierExamplesBackend',
+            'actionsIdentifierExtensionBuilder',
             'actionsIdentifierIntroductionFrontend',
             'actionsIdentifierIntroductionBackend',
             'actionsIdentifierIntroductionUserSwitch',
