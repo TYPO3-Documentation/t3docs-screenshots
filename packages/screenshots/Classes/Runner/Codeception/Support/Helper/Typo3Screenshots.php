@@ -31,7 +31,7 @@ class Typo3Screenshots extends Module
     protected $config = [
         'actionsIdFilter' => '',
         'basePath' => '',
-        'documentationPath' => 'Documentation',
+        'documentationPath' => '',
         'imagePath' => 'Images/AutomaticScreenshots',
         'rstPath' => 'Images/Rst',
         'createRstFile' => true,

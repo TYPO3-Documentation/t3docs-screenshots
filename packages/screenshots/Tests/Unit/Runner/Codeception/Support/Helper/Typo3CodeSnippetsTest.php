@@ -67,27 +67,27 @@ class Typo3CodeSnippetsTest extends UnitTestCase
     {
         return [
             [
-                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . '/code-snippet.json',
+                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'code-snippet.json',
                 'targetFileName' => 'code-snippet-json',
-                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-json.rst.txt',
+                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'CodeSnippets/code-snippet-json.rst.txt',
                 'expected' => 'code-block:: json'
             ],
             [
-                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . '/code-snippet.php',
+                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'code-snippet.php',
                 'targetFileName' => 'code-snippet-php',
-                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-php.rst.txt',
+                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'CodeSnippets/code-snippet-php.rst.txt',
                 'expected' => 'code-block:: php'
             ],
             [
-                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . '/code-snippet.xml',
+                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'code-snippet.xml',
                 'targetFileName' => 'code-snippet-xml',
-                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-xml.rst.txt',
+                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'CodeSnippets/code-snippet-xml.rst.txt',
                 'expected' => 'code-block:: xml'
             ],
             [
-                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . '/code-snippet.yaml',
+                'sourceFile' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'code-snippet.yaml',
                 'targetFileName' => 'code-snippet-yaml',
-                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'Documentation/CodeSnippets/code-snippet-yaml.rst.txt',
+                'targetFilePath' => $this->vfsPathPlaceholder . DIRECTORY_SEPARATOR . 'CodeSnippets/code-snippet-yaml.rst.txt',
                 'expected' => 'code-block:: yaml'
             ]
         ];
@@ -98,7 +98,7 @@ class Typo3CodeSnippetsTest extends UnitTestCase
      */
     public function createCodeSnippetFailsIfCodeLanguageCannotBeDetermined(): void
     {
-        $sourceFile = $this->vfsPath . DIRECTORY_SEPARATOR . '/code-snippet.unknown';
+        $sourceFile = $this->vfsPath . DIRECTORY_SEPARATOR . 'code-snippet.unknown';
         $targetFileName = 'code-snippet-unkown';
 
         $this->createDummyCodeSnippet($sourceFile);
