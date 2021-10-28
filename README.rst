@@ -173,13 +173,27 @@ Folders in ``public/t3docs``
 ----------------------------
 
 The folders in ``public/t3docs`` should contain the official TYPO3 Documentation manuals or other documentation that
-needs fresh screenshots of TYPO3. Get all official TYPO3 Documentation manuals in one bundle (requires access
-permission) by
+needs fresh screenshots of TYPO3. Get all official TYPO3 Documentation manuals and other officially supported TYPO3
+projects in one bundle (requires access permission) by
 
 .. code-block:: bash
 
    ddev auth ssh
    ddev fetch-manuals
+
+or limit it to either the official TYPO3 Documentation manuals with
+
+.. code-block:: bash
+
+   ddev auth ssh
+   ddev fetch-manuals -c documentation
+
+or the officially supported TYPO3 projects with
+
+.. code-block:: bash
+
+   ddev auth ssh
+   ddev fetch-manuals -c application
 
 File ``screenshots.json``
 -------------------------
