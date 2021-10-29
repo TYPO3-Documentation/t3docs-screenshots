@@ -465,11 +465,9 @@ class Typo3Navigation extends Module
         }
         [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/record/edit?edit[%s][%s]=edit',
+            '/typo3/record/edit?edit[%s][%s]=edit&token=x',
             $table, $uid
         ));
-        $this->getWebDriver()->waitForElement('iframe[name="list_frame"]');
-        $this->switchToContentFrame();
         $this->scrollModuleBodyToTop();
     }
 
@@ -502,11 +500,9 @@ class Typo3Navigation extends Module
         }
         [$table, $uid] = $this->resolveRecord($table, $uid);
         $this->getWebDriver()->amOnPage(sprintf(
-            '/typo3/record/edit?edit[%s][%s]=edit&columnsOnly=%s',
+            '/typo3/record/edit?edit[%s][%s]=edit&columnsOnly=%s&token=x',
             $table, $uid, $fields
         ));
-        $this->getWebDriver()->waitForElement('iframe[name="list_frame"]');
-        $this->switchToContentFrame();
         $this->scrollModuleBodyToTop();
     }
 
