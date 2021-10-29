@@ -167,7 +167,7 @@ class Typo3Screenshots extends Module
         if (!empty($selector)) {
             $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
         } else {
-            $this->makeScreenshotOfContentFrame($fileName, $altText, $captionText, $captionReference);
+            $this->makeScreenshotOfWindow($fileName, $altText, $captionText, $captionReference);
         }
     }
 
@@ -202,7 +202,7 @@ class Typo3Screenshots extends Module
         if (!empty($selector)) {
             $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
         } else {
-            $this->makeScreenshotOfContentFrame($fileName, $altText, $captionText, $captionReference);
+            $this->makeScreenshotOfWindow($fileName, $altText, $captionText, $captionReference);
         }
     }
 
