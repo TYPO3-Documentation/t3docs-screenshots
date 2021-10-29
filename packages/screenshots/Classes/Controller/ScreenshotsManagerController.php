@@ -44,7 +44,7 @@ class ScreenshotsManagerController extends ActionController
 
         $this->pageRenderer->addInlineLanguageLabelFile('EXT:screenshots/Resources/Private/Language/locallang_mod.xlf');
         $this->pageRenderer->addCssFile('EXT:screenshots/Resources/Public/Css/screenshots-manager.css');
-        $this->pageRenderer->loadRequireJsModule('TYPO3/Documentation/Screenshots/ScreenshotsManager');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Screenshots/ScreenshotsManager');
     }
 
     public function indexAction()
