@@ -10,5 +10,5 @@
             "cp res/AdditionalConfiguration.php public/typo3conf/"
         ]
     },
-    "extra": []
+    "extra": {}
 }

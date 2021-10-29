@@ -2,7 +2,7 @@
     "name": "t3docs/screenshots-site-package",
     "description" : "TYPO3 Screenshots Site Package",
     "require-dev": {
-        "typo3/site-package": "dev-lwolf-v11"
+        "typo3/site-package": "dev-master"
     },
     "scripts": {
         "setup-suite": [
@@ -10,5 +10,5 @@
             "cp res/AdditionalConfiguration.php public/typo3conf/"
         ]
     },
-    "extra": []
+    "extra": {}
 }
