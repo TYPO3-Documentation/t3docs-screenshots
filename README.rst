@@ -269,10 +269,10 @@ This is a small runner configuration which takes screenshots of all available su
          "Styleguide": {
             "screenshots": [
                [
-                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "StyleguideRootPage"}
+                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "StyleguideFirstPageRecord"}
                ],
                [
-                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "StyleguideFirstPageRecord"}
+                  {"action": "makeScreenshotOfField", "table": "pages", "uid": 1, "fields": "abstract", "fileName": "StyleguideFirstPageRecordWithAbstractFieldOnly"},
                ]
             ]
          }
@@ -468,10 +468,10 @@ Actions can be nested to use the return value of the inner action by the outer, 
             "screenshots": [
                [
                   {
-                     "action": "makeScreenshotOfTable",
-                     "pid": {"action": "getUidByField", "table": "pages", "field": "title", "value": "elements rte"},
+                     "action": "makeScreenshotOfRecord",
+                     "uid": {"action": "getUidByField", "table": "pages", "field": "title", "value": "elements group"},
                      "table": "pages",
-                     "fileName": "StyleguideRootPage"
+                     "fileName": "StyleguidePageRecordWithSpecificTitle"
                   }
                ]
             ]
@@ -479,8 +479,8 @@ Actions can be nested to use the return value of the inner action by the outer, 
       }
    }
 
-which executes the action ``getUidByField()`` and uses the return value for parameter ``pid`` of action
-``makeScreenshotOfTable()``.
+which executes the action ``getUidByField`` and uses the return value for parameter ``uid`` of action
+``makeScreenshotOfRecord``.
 
 Comments can be inserted to facilitate maintenance work, e.g.
 
@@ -492,9 +492,9 @@ Comments can be inserted to facilitate maintenance work, e.g.
             "screenshots": [
                [
                   {"comment": "************************************"},
-                  {"comment": "Take screenshots of TYPO3 TCA table."},
+                  {"comment": "Take screenshot of TYPO3 TCA record."},
                   {"comment": "************************************"},
-                  {"action": "makeScreenshotOfTable", "pid": 27, "table": "pages", "fileName": "StyleguideRootPage"}
+                  {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 3, "fileName": "StyleguidePageRecordWithUid3"},
                ]
             ]
          }
@@ -682,11 +682,11 @@ inclusion in other action blocks.
       "suites": {
          "Styleguide": {
             "screenshots": {
-               "root-page": [
-                  {"action": "makeScreenshotOfTable", "pid": 0, "table": "pages", "fileName": "StyleguideRootPage"}
-               ],
                "first-page": [
                   {"action": "makeScreenshotOfRecord", "table": "pages", "uid": 1, "fileName": "StyleguideFirstPageRecord"}
+               ],
+               "first-page-with-specific-field": [
+                  {"action": "makeScreenshotOfField", "table": "pages", "uid": 1, "fields": "abstract", "fileName": "StyleguideFirstPageRecordWithAbstractFieldOnly"},
                ]
             }
          }

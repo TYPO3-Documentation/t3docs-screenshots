@@ -138,40 +138,6 @@ class Typo3Screenshots extends Module
     }
 
     /**
-     * Take screenshot of a TYPO3 backend records table form.
-     *
-     * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
-     * Therefore, replace this action with:
-     * ``` php
-     * <?php
-     * $I->goToTable(..);
-     * $I->resizeToFullPage();
-     * $I->makeScreenshotOfElement(..);
-     * $I->resizeWindow(..);
-     * ?>
-     * ```
-     * This issue is due to a chrome driver bug with partially scrolled out DOM elements.
-     * See https://bugs.chromium.org/p/chromedriver/issues/detail?id=3629 for further details.
-     *
-     * @param string $fileName
-     * @param int $pid
-     * @param string $table
-     * @param string $selector
-     * @param string $altText
-     * @param string $captionText
-     * @param string $captionReference
-     */
-    public function makeScreenshotOfTable(string $fileName, int $pid = -1, string $table = '', string $selector = '', string $altText = '', string $captionText = '', string $captionReference = ''): void
-    {
-        $this->getTypo3Navigation()->goToTable($pid, $table);
-        if (!empty($selector)) {
-            $this->makeScreenshotOfElement($fileName, $selector, $altText, $captionText, $captionReference);
-        } else {
-            $this->makeScreenshotOfContentFrame($fileName, $altText, $captionText, $captionReference);
-        }
-    }
-
-    /**
      * Take screenshot of a TYPO3 backend record form.
      *
      * Attention: If the screenshot looks broken, resize the window to full page before taking the screenshot.
