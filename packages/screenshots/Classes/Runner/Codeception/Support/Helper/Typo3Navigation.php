@@ -38,11 +38,6 @@ class Typo3Navigation extends Module
         'defaults' => [],
     ];
 
-    public function setNavigationDefaultPid(int $pid): void
-    {
-        $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['pid' => $pid])]));
-    }
-
     public function setNavigationDefaultTable(string $table): void
     {
         $this->_reconfigure(array_merge($this->_getConfig(), ['defaults' => array_merge($this->_getConfig('defaults'), ['table' => $table])]));
@@ -454,42 +449,6 @@ class Typo3Navigation extends Module
     {
         $frameElement = $this->getWebDriver()->_findElements($frameSelector)[0];
         $this->getWebDriver()->executeJS("arguments[0].scrollTop = arguments[0].scrollHeight", [$frameElement]);
-    }
-
-    /**
-     * Navigate directly to a TYPO3 backend records table form.
-     *
-     * @param int $pid
-     * @param string $table
-     * @throws \Exception
-     */
-    public function goToTable(int $pid = -1, string $table = ''): void
-    {
-        if (!$this->_isOnMainFrame() && $this->_hasMainFrame()) {
-            $this->switchToMainFrame();
-        }
-        [$pid, $table] = $this->resolveTable($pid, $table);
-        $this->getWebDriver()->amOnPage(sprintf(
-                '/typo3/module/web/list?id=%s&table=%s',
-                $pid, $table)
-        );
-        $this->getWebDriver()->waitForElement('iframe[name="list_frame"]');
-        $this->switchToContentFrame();
-        $this->scrollModuleBodyToTop();
-    }
-
-    protected function resolveTable(int $pid, string $table): array
-    {
-        $pid = $pid !== -1 ? $pid : $this->_getConfig('defaults')['pid'];
-        $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];
-        if ($pid === null || $table === null) {
-            throw new \Exception(
-                'Table cannot be resolved: Set table name and PID explicitly or specify default values.',
-                4001
-            );
-        }
-        $this->debug(sprintf('Use table "%s" of PID "%s".', $table, $pid));
-        return [$pid, $table];
     }
 
     /**

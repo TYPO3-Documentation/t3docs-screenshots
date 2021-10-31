@@ -62,8 +62,8 @@ class ConfigurationTest extends UnitTestCase
                         'screenshots' => [
                             [
                                 [
-                                    'action' => 'makeScreenshotOfTable',
-                                    'pid' => ['action' => 'getUidByField', 'table' => 'pages', 'field' => 'title', 'value' => 'elements rte'],
+                                    'action' => 'makeScreenshotOfRecord',
+                                    'uid' => ['action' => 'getUidByField', 'table' => 'pages', 'field' => 'title', 'value' => 'elements rte'],
                                     'table' => "pages",
                                     'fileName' => "styleguide_root_page",
                                 ]
