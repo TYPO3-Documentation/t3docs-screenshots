@@ -248,6 +248,13 @@ class Configuration
                             ['include' => '_default'],
                             ['action' => 'see', 'text' => 'Extension Builder'],
                             ['action' => 'click', 'link' => 'Extension Builder'],
+                            ['action' => 'click', 'link' => '.t3js-topbar-button-modulemenu'],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'selectOption', 'select' => '.t3-js-jumpMenuBox', 'option' => 'Domain Modelling'],
+                            ['action' => 'seeElement', 'selector' => '#alertPanelButton'],
+                            ['action' => 'click', 'link' => '#alertPanelButton'],
+                            ['action' => 'dragAndDrop', 'source' => '#moduleBar', 'target' => '#modelingLayer'],
+                            ['action' => 'setCssOfElement', 'selector' => '//text()[contains(.,"click to edit")]/ancestor::div[contains(@class, "WireIt-Container")][1]', 'css' => ['left' => '10px', 'top' => '100px']],
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'ExtensionBuilderFullPage'],
                         ]
                     ]

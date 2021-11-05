@@ -452,6 +452,30 @@ class Typo3Navigation extends Module
     }
 
     /**
+     * Set specified CSS properties of a DOM element.
+     *
+     * Note: Use this action with caution, as it can interfere with the natural behavior of a website. This action was
+     * introduced to neatly position elements on a drawing pane, which are normally dragged and dropped by the user.
+     *
+     * ``` php
+     * <?php
+     * $I->setCssOfElement('#drag', ['left' => '10px', 'top' => '100px']);
+     * ?>
+     * ```
+     *
+     * @param string $selector
+     * @param array $css
+     * @return void
+     */
+    public function setCssOfElement(string $selector, array $css): void
+    {
+        $element = $this->getWebDriver()->_findElements($selector)[0];
+        foreach ($css as $propertyName => $value) {
+            $this->getWebDriver()->executeJS("arguments[0].style.$propertyName = \"$value\"", [$element]);
+        }
+    }
+
+    /**
      * Navigate directly to a TYPO3 backend record form.
      *
      * @param string $table
