@@ -62,7 +62,8 @@
         "typo3/cms-sys-note": "dev-master as 11.5.0",
         "typo3/cms-t3editor": "dev-master as 11.5.0",
         "typo3/cms-tstemplate": "dev-master as 11.5.0",
-        "typo3/cms-viewpage": "dev-master as 11.5.0"
+        "typo3/cms-viewpage": "dev-master as 11.5.0",
+        "typo3/cms-workspaces": "dev-master as 11.5.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.1.12",

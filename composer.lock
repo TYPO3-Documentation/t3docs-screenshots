@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c97f96343b14bffe8fe02de0ff244ac",
+    "content-hash": "558a82a3bd9caded7dd7957624ddbf8f",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5011,7 +5011,7 @@
         },
         {
             "name": "t3docs/screenshots-suites",
-            "version": "dev-feature-add-extension-builder-suite",
+            "version": "dev-lwolf-events-rst",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots-suites",
@@ -7381,6 +7381,65 @@
                 "source": "https://github.com/typo3/typo3"
             },
             "time": "2021-10-13T08:16:00+00:00"
+        },
+        {
+            "name": "typo3/cms-workspaces",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3-CMS/workspaces.git",
+                "reference": "b412928dacb0e9f7ed6edbd27a8f9a0567a1cd2a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3-CMS/workspaces/zipball/b412928dacb0e9f7ed6edbd27a8f9a0567a1cd2a",
+                "reference": "b412928dacb0e9f7ed6edbd27a8f9a0567a1cd2a",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "11.5.*@dev"
+            },
+            "conflict": {
+                "typo3/cms": "*"
+            },
+            "replace": {
+                "typo3/cms-version": "*"
+            },
+            "default-branch": true,
+            "type": "typo3-cms-framework",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "11.5.x-dev"
+                },
+                "typo3/cms": {
+                    "extension-key": "workspaces"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\CMS\\Workspaces\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "TYPO3 Core Team",
+                    "email": "typo3cms@typo3.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Adds workspaces functionality with custom stages to TYPO3.",
+            "homepage": "https://typo3.org",
+            "support": {
+                "chat": "https://typo3.org/help",
+                "docs": "https://docs.typo3.org/c/typo3/cms-workspaces/master/en-us",
+                "issues": "https://forge.typo3.org",
+                "source": "https://github.com/typo3/typo3"
+            },
+            "time": "2021-11-10T22:40:25+00:00"
         },
         {
             "name": "typo3/html-sanitizer",
@@ -10209,7 +10268,7 @@
         },
         {
             "name": "t3docs/screenshots",
-            "version": "dev-feature-add-extension-builder-suite",
+            "version": "dev-lwolf-events-rst",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots",
@@ -10833,6 +10892,12 @@
             "version": "9999999-dev",
             "alias": "11.5.0",
             "alias_normalized": "11.5.0.0"
+        },
+        {
+            "package": "typo3/cms-workspaces",
+            "version": "9999999-dev",
+            "alias": "11.5.0",
+            "alias_normalized": "11.5.0.0"
         }
     ],
     "minimum-stability": "stable",
@@ -10873,6 +10938,7 @@
         "typo3/cms-t3editor": 20,
         "typo3/cms-tstemplate": 20,
         "typo3/cms-viewpage": 20,
+        "typo3/cms-workspaces": 20,
         "friendsoftypo3/extension-builder": 20,
         "t3docs/examples": 20,
         "t3docs/screenshots": 20,
