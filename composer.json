@@ -70,6 +70,7 @@
         "codeception/module-webdriver": "^1.1.4",
         "cweagans/composer-patches": "^1.7",
         "friendsoftypo3/extension-builder": "dev-master",
+        "georgringer/news": "dev-master",
         "sebastian/diff": "^4.0",
         "sensiolabs/ansi-to-html": "^1.2",
         "t3docs/examples": "dev-master",
