@@ -333,6 +333,21 @@ class Configuration
                         ]
                     ]
                 ],
+
+                'News' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierExtensionBuilder' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'News'],
+                            ['action' => 'click', 'link' => 'News'],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'NewsModule'],
+                        ]
+                    ]
+                ],
                 'SitePackage' => [
                     'screenshots' => [
                         '_default'=> [
