@@ -252,6 +252,9 @@ class ClassDocsHelper
      * Extract signature of class, e.g.
      *
      * Input:
+     * /**
+     * * Some DocComment
+     *
      * class MyClass
      * {
      *      public function myMethod(): string
@@ -259,11 +262,10 @@ class ClassDocsHelper
      *          return 'I am the method code';
      *      }
      * }
-     * Output:
-     * class MyClass
-     * {
-     * %s
-     * }
+     *
+     *  .. php:class:: MyClass
+     *
+     *     Some DocComment
      *
      * @param string $class Class name, e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
      * @param bool $withCode Include code
@@ -276,6 +278,16 @@ class ClassDocsHelper
         $docBlockFactory = self::getDocBlockFactory();
         $splFileObject = new \SplFileObject($classReflection->getFileName());
 
+        $docComment = $classReflection->getDocComment();
+        $comment = '';
+        if ($docComment) {
+            $docBlock = $docBlockFactory->create($docComment);
+            $comment = $docBlock->getSummary();
+            if ($docBlock->getDescription()->render()) {
+                $comment .= "\n\n" . $docBlock->getDescription()->render();
+            }
+        }
+
         $namespace = $classReflection->getNamespaceName();
         $classShortName = $classReflection->getShortName();
 
@@ -284,6 +296,9 @@ class ClassDocsHelper
         $result[] = "\n\n";
         $result[] = sprintf('.. php:class:: %s', $classShortName);
         $result[] = "\n\n";
+        if ($comment) {
+            $result[] = StringHelper::indentMultilineText($comment, '   ') . "\n";
+        }
 
         // SplFileObject locks the file, so null it when no longer needed
         $splFileObject = null;
