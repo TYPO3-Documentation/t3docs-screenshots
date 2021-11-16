@@ -519,6 +519,27 @@ class Configuration
                             ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropRightBottom", 'position' => 'right-bottom', 'height' => 400, 'width' => 400],
                         ],
                     ]
+                ],
+
+                'Workspaces' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierWorkspaces' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Workspaces'],
+                            ['action' => 'click', 'link' => 'Workspaces'],
+                            ['action' => 'click', 'link' => '.t3js-topbar-button-modulemenu'],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'selectOption', 'select' => '.t3-js-jumpMenuBox', 'option' => 'Domain Modelling'],
+                            ['action' => 'seeElement', 'selector' => '#alertPanelButton'],
+                            ['action' => 'click', 'link' => '#alertPanelButton'],
+                            ['action' => 'dragAndDrop', 'source' => '#moduleBar', 'target' => '#modelingLayer'],
+                            ['action' => 'setCssOfElement', 'selector' => '//text()[contains(.,"click to edit")]/ancestor::div[contains(@class, "WireIt-Container")][1]', 'css' => ['left' => '10px', 'top' => '100px']],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'WorkspacesFullPage'],
+                        ]
+                    ]
                 ]
             ]
         ]);

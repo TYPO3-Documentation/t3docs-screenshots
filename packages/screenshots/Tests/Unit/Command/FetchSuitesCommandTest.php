@@ -46,6 +46,7 @@ class FetchSuitesCommandTest extends UnitTestCase
                 ['path' => $vfsPath, 'suiteId' => 'Introduction'],
                 ['path' => $vfsPath, 'suiteId' => 'SitePackage'],
                 ['path' => $vfsPath, 'suiteId' => 'Styleguide'],
+                ['path' => $vfsPath, 'suiteId' => 'Workspaces'],
             ],
             json_decode($tester->getDisplay(), true)
         );
