@@ -139,7 +139,9 @@ class Configuration
 
     public function write(): void
     {
-        GeneralUtility::mkdir_deep($this->path);
+        if (!@is_dir($this->path)) {
+            GeneralUtility::mkdir_deep($this->path);
+        }
         GeneralUtility::writeFile($this->getFilePath(), $this->printAsJson());
         $this->refresh();
     }
