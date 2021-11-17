@@ -28,7 +28,7 @@ use TYPO3\Documentation\Screenshots\Util\FileHelper;
 
 class ScreenshotsManagerController extends ActionController
 {
-    protected float $threshold = 0.0002;
+    protected float $threshold = 0.000002;
     protected array $imageExtensions = ['gif', 'jpg', 'jpeg', 'png', 'bmp'];
 
     protected PageRenderer $pageRenderer;
