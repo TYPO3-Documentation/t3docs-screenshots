@@ -1,0 +1,6 @@
+version: '3.6'
+
+services:
+  web:
+    volumes:
+      - "/home/alex/Development/dev/forks/extension_builder/dev:/var/www/html/public/t3docs/extension_builder:rw"
