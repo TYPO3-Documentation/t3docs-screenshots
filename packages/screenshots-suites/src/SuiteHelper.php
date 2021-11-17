@@ -39,6 +39,12 @@ class SuiteHelper
             $distJsonFile = new JsonFile($distFile);
             $targetDistJsonFile = new JsonFile(dirname($distFile) . '/composer.json');
             $targetJsonConfig = $rootJsonConfig;
+            $targetJsonConfig['repositories'] = [];
+            $targetJsonConfig['repositories']['packagist'] = false;
+            $targetJsonConfig['repositories']['local'] = [
+                'type' => 'composer',
+                'url' => 'file://' . $config->getBaseDir() . '/suites/composer',
+            ];
             foreach ($distJsonFile->read() as $key => $value) {
                 // Composer fails if parameter requires object but array is passed
                 // - remove parameter instead
@@ -48,12 +54,6 @@ class SuiteHelper
                 }
                 $targetJsonConfig[$key] = $value;
             }
-            $targetJsonConfig['repositories'] = [];
-            $targetJsonConfig['repositories']['packagist'] = false;
-            $targetJsonConfig['repositories']['local'] = [
-                'type' => 'composer',
-                'url' => 'file://' . $config->getBaseDir() . '/suites/composer',
-            ];
 
             $targetDistJsonFile->write($targetJsonConfig);
         }
