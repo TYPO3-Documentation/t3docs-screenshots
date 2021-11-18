@@ -6,3 +6,4 @@ additional_hostnames:
     - "introduction.t3docs-screenshots"
     - "site-package.t3docs-screenshots"
     - "styleguide.t3docs-screenshots"
+    - "workspaces.t3docs-screenshots"
