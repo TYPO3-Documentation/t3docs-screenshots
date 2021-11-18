@@ -495,6 +495,34 @@ class Typo3Navigation extends Module
         $this->scrollModuleBodyToTop();
     }
 
+    /**
+     * Navigate directly to a TYPO3 backend module
+     *
+     * @param string $module
+     * @param array $pageTree
+     * @param string $subModule
+     * @throws \Exception
+     */
+    public function goToModule(string $module = 'List', array $path = [], string $subModule = ''): void
+    {
+        if (!$this->_hasMainFrame()) {
+            $this->reloadBackend();
+        }
+        if (!$this->_isOnMainFrame() && $this->_hasMainFrame()) {
+            $this->switchToMainFrame();
+        }
+        $this->getWebDriver()->see($module);
+        $this->getWebDriver()->click($module);
+        if ($path !== []) {
+            $this->getTypo3PageTree()->openPageTreePath($path);
+        }
+        $this->switchToContentFrame();
+        if ($subModule !== '') {
+            $this->getWebDriver()->selectOption('select.t3-js-jumpMenuBox', $subModule);
+        }
+        $this->scrollModuleBodyToTop();
+    }
+
     protected function resolveRecord(string $table, int $uid): array
     {
         $table = $table !== '' ? $table : $this->_getConfig('defaults')['table'];

@@ -351,6 +351,23 @@ class Configuration
                         '_default' => [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                         ],
+                        'actionsIdentifierStyleguideNavigation' => [
+                            ['include' => '_default'],
+                            ['action' => 'setScreenshotsDocumentationPath', 'path' => "StyleguideDocumentation"],
+                            ['action' => 'setScreenshotsImagePath', 'path' => "Images/StyleguideScreenshots"],
+                            ['action' => 'goToModule', 'module' => 'List', 'path' => ['styleguide TCA demo', 'elements rte']],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguideModuleList"],
+                            ['action' => 'goToModule', 'module' => 'Page'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguideModulePage"],
+                            ['action' => 'goToRecord', "table" => "tx_styleguide_elements_basic", "uid" => 5],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguideModuleSomeRecord"],
+                            ['action' => 'goToModule', 'module' => 'Extensions'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguideModuleExtensions"],
+                            ['action' => 'goToModule', 'module' => 'Reports', 'subModule' => 'Installed Services'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => 'StyleguideModuleReportsInstalledServices'],
+                            ['action' => 'goToModule', 'module' => 'Template', 'path' => ['styleguide TCA demo'], 'subModule' => 'Template Analyzer'],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => 'StyleguideModuleTemplateAnalyzer'],
+                        ],
                         'actionsIdentifierStyleguideScreenshots' => [
                             ['comment' => '********************************************************'],
                             ['comment' => 'Take screenshots configured in a dummy screenshots.json.'],
