@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dcba633d60712a165f4857b4a46d0414",
+    "content-hash": "9e9c15fc15d521e4323960a8103ae317",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5011,7 +5011,7 @@
         },
         {
             "name": "t3docs/screenshots-suites",
-            "version": "dev-main",
+            "version": "dev-development",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots-suites",
@@ -8218,6 +8218,84 @@
             "time": "2021-10-06T14:53:54+00:00"
         },
         {
+            "name": "georgringer/news",
+            "version": "9.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/georgringer/news.git",
+                "reference": "3123d005731be78a850742472bdcb93585f531e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/georgringer/news/zipball/3123d005731be78a850742472bdcb93585f531e1",
+                "reference": "3123d005731be78a850742472bdcb93585f531e1",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "^10.4 || ^11"
+            },
+            "conflict": {
+                "symfony/finder": "2.7.44 || 2.8.37 || 3.4.7 || 4.0.7"
+            },
+            "replace": {
+                "typo3-ter/news": "self.version"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.1",
+                "typo3/cms-install": "^10.4 || ^11"
+            },
+            "suggest": {
+                "georgringer/numbered-pagination": "Improved pagination API",
+                "reelworx/rx-shariff": "GDPR compliant social sharing"
+            },
+            "type": "typo3-cms-extension",
+            "extra": {
+                "typo3/cms": {
+                    "extension-key": "news",
+                    "app-dir": ".Build",
+                    "web-dir": ".Build/public"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GeorgRinger\\News\\": "Classes"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Georg Ringer",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Versatile news extension, based on extbase & fluid for TYPO3 CMS",
+            "homepage": "https://ringer.it",
+            "keywords": [
+                "article",
+                "extension",
+                "news",
+                "typo3"
+            ],
+            "support": {
+                "issues": "https://github.com/georgringer/news/issues",
+                "source": "https://github.com/georgringer/news/tree/9.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/GeorgRinger/10",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/georgringer",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-11-11T18:04:01+00:00"
+        },
+        {
             "name": "mikey179/vfsstream",
             "version": "v1.6.10",
             "source": {
@@ -10209,7 +10287,7 @@
         },
         {
             "name": "t3docs/screenshots",
-            "version": "dev-main",
+            "version": "dev-development",
             "dist": {
                 "type": "path",
                 "url": "packages/screenshots",
