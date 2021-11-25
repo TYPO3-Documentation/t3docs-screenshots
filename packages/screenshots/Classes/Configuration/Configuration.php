@@ -333,12 +333,25 @@ class Configuration
                         ]
                     ]
                 ],
-                'SitePackage' => [
+                'News' => [
                     'screenshots' => [
                         '_default'=> [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                         ],
                         'actionsIdentifierSitePackageBackend' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Page'],
+                            ['action' => 'click', 'link' => 'Page'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'NewsBackendFullPage'],
+                        ]
+                    ]
+                ],
+                'SitePackage' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierNewsBackend' => [
                             ['include' => '_default'],
                             ['action' => 'see', 'text' => 'Page'],
                             ['action' => 'click', 'link' => 'Page'],

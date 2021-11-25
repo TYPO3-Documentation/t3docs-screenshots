@@ -14,6 +14,7 @@
             <directory>../Classes/Runner/Codeception/ExtensionBuilder</directory>
             <directory>../Classes/Runner/Codeception/Install</directory>
             <directory>../Classes/Runner/Codeception/Introduction</directory>
+            <directory>../Classes/Runner/Codeception/News</directory>
             <directory>../Classes/Runner/Codeception/SitePackage</directory>
             <directory>../Classes/Runner/Codeception/Styleguide</directory>
             <directory>../Classes/Runner/Codeception/Workspaces</directory>
