@@ -18,6 +18,7 @@ use TYPO3\CMS\Core\Core\ApplicationContext;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Styleguide\TcaDataGenerator\Generator;
+use TYPO3\CMS\Styleguide\TcaDataGenerator\GeneratorFrontend;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 
 /**
@@ -112,5 +113,7 @@ class StyleguideEnvironment extends BackendEnvironment
 
         $styleguideGenerator = new Generator();
         $styleguideGenerator->create();
+        $styleguideGeneratorFrontend = new GeneratorFrontend();
+        $styleguideGeneratorFrontend->create();
     }
 }
