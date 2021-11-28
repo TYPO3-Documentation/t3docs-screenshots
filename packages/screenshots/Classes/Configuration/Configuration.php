@@ -396,6 +396,8 @@ class Configuration
                             ['action' => 'waitForText', 'text' => 'Edit Page "elements rte - language 4"', 'timeout' => 5],
                             ['action' => 'click', 'link' => "select[name*=doktype]"],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguidePageSelectboxOpen"],
+                            ['action' => 'click', 'link' => "SEO"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguidePageSeoTab"],
                             ['action' => 'switchToMainFrame'],
                             ['action' => 'see', 'text' => "Maintenance"],
                             ['action' => 'click', 'link' => "Maintenance"],
