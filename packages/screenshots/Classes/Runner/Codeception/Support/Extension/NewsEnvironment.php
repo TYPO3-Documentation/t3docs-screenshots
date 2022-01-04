@@ -22,7 +22,7 @@ use TYPO3\CMS\Extensionmanager\Utility\InstallUtility;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 
 /**
- * Load all core extensions and EXT:site_package and EXT:screenshots
+ * Load all core extensions and EXT:news and EXT:screenshots
  */
 class NewsEnvironment extends BackendEnvironment
 {

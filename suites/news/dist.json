@@ -2,7 +2,7 @@
     "name": "t3docs/screenshots-news",
     "description" : "TYPO3 Screenshots News",
     "require-dev": {
-        "typo3/site-package": "dev-master"
+        "georgringer/news": "^9.1"
     },
     "scripts": {
         "setup-suite": [
