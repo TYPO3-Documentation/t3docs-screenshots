@@ -152,6 +152,7 @@ class ConfigurationTest extends UnitTestCase
             'actionsIdentifierIntroductionBackend',
             'actionsIdentifierIntroductionUserSwitch',
             'actionsIdentifierSitePackageBackend',
+            'actionsIdentifierNewsBackend',
             'actionsIdentifierStyleguideScreenshots',
             'actionsIdentifierStyleguideScreenshotsOfContentFrameOnly',
             'actionsIdentifierStyleguideCodeSnippets',

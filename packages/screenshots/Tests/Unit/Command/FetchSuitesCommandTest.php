@@ -44,6 +44,7 @@ class FetchSuitesCommandTest extends UnitTestCase
                 ['path' => $vfsPath, 'suiteId' => 'ExtensionBuilder'],
                 ['path' => $vfsPath, 'suiteId' => 'Install'],
                 ['path' => $vfsPath, 'suiteId' => 'Introduction'],
+                ['path' => $vfsPath, 'suiteId' => 'News'],
                 ['path' => $vfsPath, 'suiteId' => 'SitePackage'],
                 ['path' => $vfsPath, 'suiteId' => 'Styleguide'],
             ],
