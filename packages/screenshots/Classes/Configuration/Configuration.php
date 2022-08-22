@@ -216,6 +216,7 @@ class Configuration
                             ['action' => 'makeScreenshotOfContentFrame', 'fileName' => "Typo3ContentFrameInMainFrame"],
                             ['action' => 'switchToContentFrame'],
                             ['action' => 'makeScreenshotOfContentFrame', 'fileName' => "Typo3ContentFrameInContentFrame"],
+                            ["action" => "createPhpClassDocs", "class" => "TYPO3\\CMS\\Recordlist\\Event\\ModifyRecordListHeaderColumnsEvent", "targetFileName" => "ModifyRecordListHeaderColumnsEvent", "withCode" => false],
                         ]
                     ]
                 ],
