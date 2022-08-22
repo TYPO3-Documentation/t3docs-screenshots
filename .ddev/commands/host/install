@@ -3,7 +3,8 @@
 ## Description: (Re-)install the project or a single suite
 ## Usage: install [flags]
 ## Example: ddev install\nddev install --force\nddev install --suite-id site-package\nddev install --initialize-suites-only\nddev install --initialize-suites-only --suite-id site-package
-## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"initialize-suites-only","Shorthand":"i","Usage":"Reflect updates of the project composer packages in the suites TYPO3 instances only instead of full (re-)installation."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install this suite only (core, examples, extension-builder, install, introduction, news, site-package, styleguide). All suites if empty."}]
+## Flags: [{"Name":"force","Shorthand":"f","Usage":"Do not ask any interactive question"},{"Name":"initialize-suites-only","Shorthand":"i","Usage":"Reflect updates of the project composer packages in the suites TYPO3 instances only instead of full (re-)installation."},{"Name":"suite-id","Shorthand":"s","Type":"string","Usage":"Re-install this suite only (core, examples, extension-builder, install, introduction, site-package, styleguide, workspaces). All suites if empty."}]
+
 
 # Initialize local variables
 FORCE=""

@@ -76,6 +76,7 @@
         "t3docs/screenshots": "@dev",
         "typo3/cms-introduction": "dev-master",
         "typo3/cms-styleguide": "dev-master",
+        "typo3/cms-workspaces": "dev-master as 11.5.0",
         "typo3/site-package": "dev-master",
         "typo3/testing-framework": "^6.9.0"
     },

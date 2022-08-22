@@ -17,6 +17,7 @@
             <directory>../Classes/Runner/Codeception/News</directory>
             <directory>../Classes/Runner/Codeception/SitePackage</directory>
             <directory>../Classes/Runner/Codeception/Styleguide</directory>
+            <directory>../Classes/Runner/Codeception/Workspaces</directory>
             <directory>../Classes/Runner/Codeception/Support/_generated</directory>
             <directory>../Classes/Runner/Codeception/Support/Extension</directory>
             <file>../Classes/Runner/Codeception/Support/Photographer.php</file>

@@ -45,7 +45,7 @@ class FetchSuitesCommand extends Command
                 'suite-id',
                 's',
                 InputOption::VALUE_OPTIONAL,
-                'Filter for specific suite ID (Core, Examples, ExtensionBuilder, Install, Introduction, News, SitePackage, Styleguide). ' .
+                'Filter for specific suite ID (Core, Examples, ExtensionBuilder, Install, Introduction, SitePackage, Styleguide, Workspaces). ' .
                 'All suite IDs if empty.'
             )
             ->addOption(

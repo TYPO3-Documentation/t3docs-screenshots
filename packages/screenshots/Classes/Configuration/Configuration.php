@@ -534,6 +534,22 @@ class Configuration
                             ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropRightBottom", 'position' => 'right-bottom', 'height' => 400, 'width' => 400],
                         ],
                     ]
+                ],
+
+                'Workspaces' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierWorkspaces' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Workspaces'],
+                            ['action' => 'click', 'link' => 'Workspaces'],
+                            ['action' => 'click', 'link' => '.t3js-topbar-button-modulemenu'],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'WorkspacesFullPage'],
+                        ]
+                    ]
                 ]
             ]
         ]);

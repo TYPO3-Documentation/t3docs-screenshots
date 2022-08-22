@@ -158,6 +158,7 @@ class ConfigurationTest extends UnitTestCase
             'actionsIdentifierStyleguideCodeSnippets',
             'actionsIdentifierStyleguideDraw',
             'actionsIdentifierStyleguideCrop',
+            'actionsIdentifierWorkspaces',
         ];
         self::assertEquals($expectedActionsIds, $actualActionsIds);
     }

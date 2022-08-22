@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3272e20cad2dbd0b92038352621848ef",
+    "content-hash": "dcba633d60712a165f4857b4a46d0414",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -10529,6 +10529,65 @@
             "time": "2021-10-14T21:21:44+00:00"
         },
         {
+            "name": "typo3/cms-workspaces",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3-CMS/workspaces.git",
+                "reference": "ffb7aaef75a4479784789424c1f18c29d96075bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3-CMS/workspaces/zipball/ffb7aaef75a4479784789424c1f18c29d96075bd",
+                "reference": "ffb7aaef75a4479784789424c1f18c29d96075bd",
+                "shasum": ""
+            },
+            "require": {
+                "typo3/cms-core": "11.5.*@dev"
+            },
+            "conflict": {
+                "typo3/cms": "*"
+            },
+            "replace": {
+                "typo3/cms-version": "*"
+            },
+            "default-branch": true,
+            "type": "typo3-cms-framework",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "11.5.x-dev"
+                },
+                "typo3/cms": {
+                    "extension-key": "workspaces"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\CMS\\Workspaces\\": "Classes/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "TYPO3 Core Team",
+                    "email": "typo3cms@typo3.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Adds workspaces functionality with custom stages to TYPO3.",
+            "homepage": "https://typo3.org",
+            "support": {
+                "chat": "https://typo3.org/help",
+                "docs": "https://docs.typo3.org/c/typo3/cms-workspaces/master/en-us",
+                "issues": "https://forge.typo3.org",
+                "source": "https://github.com/typo3/typo3"
+            },
+            "time": "2021-11-16T10:54:44+00:00"
+        },
+        {
             "name": "typo3/minimal",
             "version": "v11.5.0",
             "source": {
@@ -10911,6 +10970,12 @@
             "version": "9999999-dev",
             "alias": "11.5.0",
             "alias_normalized": "11.5.0.0"
+        },
+        {
+            "package": "typo3/cms-workspaces",
+            "version": "9999999-dev",
+            "alias": "11.5.0",
+            "alias_normalized": "11.5.0.0"
         }
     ],
     "minimum-stability": "stable",
@@ -10956,6 +11021,7 @@
         "t3docs/screenshots": 20,
         "typo3/cms-introduction": 20,
         "typo3/cms-styleguide": 20,
+        "typo3/cms-workspaces": 20,
         "typo3/site-package": 20
     },
     "prefer-stable": false,
