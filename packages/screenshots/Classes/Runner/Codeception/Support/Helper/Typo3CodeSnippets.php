@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\Documentation\Screenshots\Util\ArrayHelper;
 use TYPO3\Documentation\Screenshots\Util\ClassHelper;
+use TYPO3\Documentation\Screenshots\Util\ClassDocsHelper;
 use TYPO3\Documentation\Screenshots\Util\FileHelper;
 use TYPO3\Documentation\Screenshots\Util\JsonHelper;
 use TYPO3\Documentation\Screenshots\Util\StringHelper;
@@ -77,11 +78,13 @@ class Typo3CodeSnippets extends Module
         $language = $language !== '' ? $language : $this->getCodeLanguageByFileExtension($sourceFile);
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
-        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+        $relativeSourcePath = $this->getRelativeSourcePath($sourceFile);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($relativeSourcePath);
 
         $code = $this->read($absoluteSourcePath);
-        $this->write(
+        $this->writeCodeBlock(
             $absoluteTargetPath,
+            $relativeSourcePath,
             $code,
             $language,
             $caption,
@@ -123,11 +126,13 @@ class Typo3CodeSnippets extends Module
     ): void {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
-        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+        $relativeSourcePath = $this->getRelativeSourcePath($sourceFile);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($relativeSourcePath);
 
         $code = $this->readJson($absoluteSourcePath, $fields, $inlineLevel);
-        $this->write(
+        $this->writeCodeBlock(
             $absoluteTargetPath,
+            $relativeSourcePath,
             $code,
             'json',
             $caption,
@@ -167,11 +172,13 @@ class Typo3CodeSnippets extends Module
     ): void {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
-        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+        $relativeSourcePath = $this->getRelativeSourcePath($sourceFile);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($relativeSourcePath);
 
         $code = $this->readPhpArray($absoluteSourcePath, $fields);
-        $this->write(
+        $this->writeCodeBlock(
             $absoluteTargetPath,
+            $relativeSourcePath,
             $code,
             'php',
             $caption,
@@ -214,8 +221,9 @@ class Typo3CodeSnippets extends Module
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
 
         $code = $this->readPhpClass($class, $members, $withComment);
-        $this->write(
+        $this->writeCodeBlock(
             $absoluteTargetPath,
+            $class,
             $code,
             'php',
             $caption,
@@ -223,6 +231,43 @@ class Typo3CodeSnippets extends Module
             $showLineNumbers,
             $lineStartNumber,
             $emphasizeLines
+        );
+    }
+
+
+    /**
+     * Reads a TYPO3 PHP class file and generates a reST file from it for inclusion.
+     *
+     * @param string $class Name of PHP class,
+     *                      e.g. "TYPO3\CMS\Core\Cache\Backend\FileBackend"
+     * @param string $targetFileName File path without file extension of reST file relative to code snippets target folder,
+     *                              e.g. "FileBackendFreeze"
+     * @param array $members Extract these members (constants, properties and methods) from the PHP class,
+     *                              e.g. ["frozen", "freeze"]
+     * @param bool $withCode Include the complete method as code example?
+     * @param array $allowedModifiers Members must have this modifier to be allowed
+     *                              e.g. ["public", "protected"]
+     * @param bool $allowInternal Include Internal methods?
+     * @param bool $allowDeprecated Include Deprecated methods?
+     */
+    public function createPhpClassDocs(
+        string $class,
+        string $targetFileName,
+        array $members = [],
+        bool $withCode = false,
+        array $allowedModifiers = ['public'],
+        bool $allowInternal = false,
+        bool $allowDeprecated = false,
+        bool $includeConstructor = false
+    ): void {
+        $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
+        $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
+
+        $code = $this->transformPhpToDocs($class, $members, $withCode, $allowedModifiers, $allowInternal, $allowDeprecated, $includeConstructor);
+        $this->writeRst(
+            $absoluteTargetPath,
+            $class,
+            $code
         );
     }
 
@@ -255,11 +300,13 @@ class Typo3CodeSnippets extends Module
     ): void {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
-        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+        $relativeSourcePath = $this->getRelativeSourcePath($sourceFile);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($relativeSourcePath);
 
         $code = $this->readXml($absoluteSourcePath, $nodes);
-        $this->write(
+        $this->writeCodeBlock(
             $absoluteTargetPath,
+            $relativeSourcePath,
             $code,
             'xml',
             $caption,
@@ -301,11 +348,13 @@ class Typo3CodeSnippets extends Module
     ): void {
         $relativeTargetPath = $this->getRelativeTargetPath($targetFileName);
         $absoluteTargetPath = $this->getAbsoluteDocumentationPath($relativeTargetPath);
-        $absoluteSourcePath = $this->getAbsoluteTypo3Path($this->getRelativeSourcePath($sourceFile));
+        $relativeSourcePath = $this->getRelativeSourcePath($sourceFile);
+        $absoluteSourcePath = $this->getAbsoluteTypo3Path($relativeSourcePath);
 
         $code = $this->readYaml($absoluteSourcePath, $fields, $inlineLevel);
-        $this->write(
+        $this->writeCodeBlock(
             $absoluteTargetPath,
+            $relativeSourcePath,
             $code,
             'yaml',
             $caption,
@@ -411,6 +460,14 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
+    protected function transformPhpToDocs(string $class, array $members, bool $withCode,
+        array $allowedModifiers, bool $allowInternal, bool $allowDeprecated,
+        bool $includeConstructor
+): string
+    {
+        return ClassDocsHelper::extractDocsFromClass($class, $members, $withCode, $allowedModifiers, $allowInternal, $allowDeprecated, $includeConstructor);
+    }
+
     protected function readPhpClass(string $class, array $members, bool $withComment): string
     {
         return ClassHelper::extractMembersFromClass($class, $members, $withComment);
@@ -430,8 +487,33 @@ class Typo3CodeSnippets extends Module
         return $code;
     }
 
-    protected function write(
-        string $path,
+
+    protected function writeRst(
+        string $targetPath,
+        string $sourceHint,
+        string $content
+    ): void {
+
+        $rst = <<<'NOWDOC'
+.. =========================================================
+.. Automatically generated by the TYPO3 Screenshots project.
+.. https://github.com/TYPO3-Documentation/t3docs-screenshots
+.. =========================================================
+..
+.. Extracted from %s
+
+%s
+NOWDOC;
+
+        $rst = sprintf($rst, $sourceHint, $content);
+
+        @mkdir(dirname($targetPath), 0777, true);
+        file_put_contents($targetPath, $rst);
+    }
+
+    protected function writeCodeBlock(
+        string $targetPath,
+        string $sourceHint,
         string $code,
         string $language,
         string $caption,
@@ -464,17 +546,22 @@ class Typo3CodeSnippets extends Module
         $code = StringHelper::indentMultilineText($code, '   ');
 
         $rst = <<<'NOWDOC'
-.. Automatic screenshot: Remove this line if you want to manually change this file
+.. =========================================================
+.. Automatically generated by the TYPO3 Screenshots project.
+.. https://github.com/TYPO3-Documentation/t3docs-screenshots
+.. =========================================================
+..
+.. Extracted from %s
 
 .. code-block:: %s
 %s
 %s
 NOWDOC;
 
-        $rst = sprintf($rst, $language, $options, $code);
+        $rst = sprintf($rst, $sourceHint, $language, $options, $code);
 
-        @mkdir(dirname($path), 0777, true);
-        file_put_contents($path, $rst);
+        @mkdir(dirname($targetPath), 0777, true);
+        file_put_contents($targetPath, $rst);
     }
 
     public function getTypo3Screenshots(): Typo3Screenshots

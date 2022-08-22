@@ -153,11 +153,13 @@ class ConfigurationTest extends UnitTestCase
             'actionsIdentifierIntroductionUserSwitch',
             'actionsIdentifierSitePackageBackend',
             'actionsIdentifierStyleguideNavigation',
+            'actionsIdentifierNewsBackend',
             'actionsIdentifierStyleguideScreenshots',
             'actionsIdentifierStyleguideScreenshotsOfContentFrameOnly',
             'actionsIdentifierStyleguideCodeSnippets',
             'actionsIdentifierStyleguideDraw',
             'actionsIdentifierStyleguideCrop',
+            'actionsIdentifierWorkspaces',
         ];
         self::assertEquals($expectedActionsIds, $actualActionsIds);
     }

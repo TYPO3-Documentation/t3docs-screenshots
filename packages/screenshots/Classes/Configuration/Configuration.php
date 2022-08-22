@@ -216,6 +216,7 @@ class Configuration
                             ['action' => 'makeScreenshotOfContentFrame', 'fileName' => "Typo3ContentFrameInMainFrame"],
                             ['action' => 'switchToContentFrame'],
                             ['action' => 'makeScreenshotOfContentFrame', 'fileName' => "Typo3ContentFrameInContentFrame"],
+                            ["action" => "createPhpClassDocs", "class" => "TYPO3\\CMS\\Recordlist\\Event\\ModifyRecordListHeaderColumnsEvent", "targetFileName" => "ModifyRecordListHeaderColumnsEvent", "withCode" => false],
                         ]
                     ]
                 ],
@@ -332,12 +333,25 @@ class Configuration
                         ]
                     ]
                 ],
-                'SitePackage' => [
+                'News' => [
                     'screenshots' => [
                         '_default'=> [
                             ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
                         ],
                         'actionsIdentifierSitePackageBackend' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Page'],
+                            ['action' => 'click', 'link' => 'Page'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'NewsBackendFullPage'],
+                        ]
+                    ]
+                ],
+                'SitePackage' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierNewsBackend' => [
                             ['include' => '_default'],
                             ['action' => 'see', 'text' => 'Page'],
                             ['action' => 'click', 'link' => 'Page'],
@@ -413,6 +427,8 @@ class Configuration
                             ['action' => 'waitForText', 'text' => 'Edit Page "elements rte - language 4"', 'timeout' => 5],
                             ['action' => 'click', 'link' => "select[name*=doktype]"],
                             ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguidePageSelectboxOpen"],
+                            ['action' => 'click', 'link' => "SEO"],
+                            ['action' => 'makeScreenshotOfWindow', 'fileName' => "StyleguidePageSeoTab"],
                             ['action' => 'switchToMainFrame'],
                             ['action' => 'see', 'text' => "Maintenance"],
                             ['action' => 'click', 'link' => "Maintenance"],
@@ -535,6 +551,22 @@ class Configuration
                             ['action' => 'makeScreenshotOfFullPage', 'fileName' => "StyleguideDashboardCropRightBottom"],
                             ['action' => 'cropScreenshot', 'fileName' => "StyleguideDashboardCropRightBottom", 'position' => 'right-bottom', 'height' => 400, 'width' => 400],
                         ],
+                    ]
+                ],
+
+                'Workspaces' => [
+                    'screenshots' => [
+                        '_default'=> [
+                            ['action' => 'resizeWindow', 'width' => 1024, 'height' => 768],
+                        ],
+                        'actionsIdentifierWorkspaces' => [
+                            ['include' => '_default'],
+                            ['action' => 'see', 'text' => 'Workspaces'],
+                            ['action' => 'click', 'link' => 'Workspaces'],
+                            ['action' => 'click', 'link' => '.t3js-topbar-button-modulemenu'],
+                            ['action' => 'switchToContentFrame'],
+                            ['action' => 'makeScreenshotOfFullPage', 'fileName' => 'WorkspacesFullPage'],
+                        ]
                     ]
                 ]
             ]

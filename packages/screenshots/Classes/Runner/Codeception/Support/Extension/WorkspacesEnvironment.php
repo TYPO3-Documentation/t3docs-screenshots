@@ -13,21 +13,19 @@ namespace TYPO3\Documentation\Screenshots\Runner\Codeception\Support\Extension;
  */
 
 use Codeception\Event\SuiteEvent;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Core\ApplicationContext;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Styleguide\TcaDataGenerator\Generator;
-use TYPO3\CMS\Styleguide\TcaDataGenerator\GeneratorFrontend;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extensionmanager\Utility\InstallUtility;
 use TYPO3\TestingFramework\Core\Acceptance\Extension\BackendEnvironment;
 
 /**
- * Load all core extensions and EXT:styleguide and EXT:screenshots
+ * Load all core extensions and EXT:extension_builder and EXT:screenshots
  */
-class StyleguideEnvironment extends BackendEnvironment
+class WorkspacesEnvironment extends BackendEnvironment
 {
-    use ServerRequestTrait;
-
     /**
      * @var array
      */
@@ -68,9 +66,9 @@ class StyleguideEnvironment extends BackendEnvironment
             't3editor',
             'tstemplate',
             'viewpage',
+            'workspaces'
         ],
         'testExtensionsToLoad' => [
-            'typo3conf/ext/styleguide',
             'typo3conf/ext/screenshots',
         ],
         'xmlDatabaseFixtures' => [
@@ -100,20 +98,5 @@ class StyleguideEnvironment extends BackendEnvironment
             Environment::getBackendPath() . '/index.php',
             Environment::isWindows() ? 'WINDOWS' : 'UNIX'
         );
-
-        // The database initialization uses DataHandler for some parts. DataHandler needs an initialized BE user
-        // with admin right and the live workspace.
-        $request = $this->createServerRequest('http://web/typo3/');
-        Bootstrap::initializeBackendUser(BackendUserAuthentication::class, $request);
-        $GLOBALS['BE_USER']->user['username'] = 'screenshot runner';
-        $GLOBALS['BE_USER']->user['admin'] = 1;
-        $GLOBALS['BE_USER']->user['uid'] = 1;
-        $GLOBALS['BE_USER']->workspace = 0;
-        Bootstrap::initializeLanguageObject();
-
-        $styleguideGenerator = new Generator();
-        $styleguideGenerator->create();
-        $styleguideGeneratorFrontend = new GeneratorFrontend();
-        $styleguideGeneratorFrontend->create();
     }
 }
